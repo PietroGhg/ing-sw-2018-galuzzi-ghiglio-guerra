@@ -7,4 +7,12 @@ public class Cell {
     private Die die;
     private Colour colourRestriction;
     private int valueRestriction;
+
+    public void setColourR(Colour c){
+        colourRestriction = c;
+    }
+
+    public void setValueR (int v) {
+        valueRestriction = v;
+    }
 }
