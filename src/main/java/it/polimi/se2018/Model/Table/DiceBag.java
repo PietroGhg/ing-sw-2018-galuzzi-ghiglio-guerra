@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class DiceBag {
     private int diceTotal;
-    private Map<Colour, int> diceColour = new HashMap<>();
+    private Map<Colour, Integer> diceColour = new HashMap<>();
     public ArrayList<Die> extractDice(){
     }
 }

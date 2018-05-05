@@ -1,6 +1,8 @@
 package it.polimi.se2018.Model.WPC;
 
 public class WPC { //WindowPatternCard
+    public final static int NUMROW = 4;
+    public final static int NUMCOL = 5;
     private Cell[][] board;
     private int favorTokens;
     private String name;
