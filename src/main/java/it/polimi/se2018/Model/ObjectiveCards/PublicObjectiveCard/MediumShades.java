@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 
 import it.polimi.se2018.Model.WPC.WPC;
+import it.polimi.se2018.Model.WPC.WpcGenerator;
 
 public class MediumShades extends PublicObjectiveCard { //Sfumature medie
     /* Sets of 3 and 4 values anywhere */
@@ -15,8 +16,8 @@ public class MediumShades extends PublicObjectiveCard { //Sfumature medie
         */
         for (int val=3; val<=4; val++){
             allValues = false;
-            for (int i=0; i<WPC.NUMCOL; i++) {
-                for (int j = 0; j < WPC.NUMROW; j++) {
+            for (int i=0; i<WPC.NUMROW; i++) {
+                for (int j = 0; j < WPC.NUMCOL; j++) {
                     if (wpc.getCell(i,j).getDie().getDieValue()==val) allValues = true;
                 }
             }
@@ -24,5 +25,12 @@ public class MediumShades extends PublicObjectiveCard { //Sfumature medie
         }
         if(allValues==true) score=2;
         return score;
+    }
+
+    public static void main (String[] args) {
+        WpcGenerator gen = new WpcGenerator();
+        WPC wpc = gen.getWPC(1);
+        MediumShades ms = new MediumShades();
+        System.out.println(ms.getScore(wpc));
     }
 }

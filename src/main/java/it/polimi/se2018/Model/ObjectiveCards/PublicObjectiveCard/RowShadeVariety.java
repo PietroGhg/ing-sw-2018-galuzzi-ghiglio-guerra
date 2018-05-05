@@ -6,6 +6,6 @@ public class RowShadeVariety extends PublicObjectiveCard {  //Sfumature diverse 
     /* Rows with no repeated values */
     @Override
     public int getScore(WPC wpc){
-
+        return 0;
     }
 }

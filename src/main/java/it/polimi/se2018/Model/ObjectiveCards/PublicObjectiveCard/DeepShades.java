@@ -15,8 +15,8 @@ public class DeepShades extends PublicObjectiveCard {   //Sfumature scure
         */
         for (int val=5; val<=6; val++){
             allValues = false;
-            for (int i=0; i<WPC.NUMCOL; i++) {
-                for (int j = 0; j < WPC.NUMROW; j++) {
+            for (int i=0; i<WPC.NUMROW; i++) {
+                for (int j = 0; j < WPC.NUMCOL; j++) {
                     if (wpc.getCell(i,j).getDie().getDieValue()==val) allValues = true;
                 }
             }

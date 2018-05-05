@@ -8,6 +8,10 @@ public class Cell {
     private Colour colourRestriction;
     private int valueRestriction;
 
+    public Cell() {
+        die = new Die();
+    }
+
     public void setDie(Die d) { this.die = d;}
     public Die getDie() { return die; }
 

@@ -7,7 +7,7 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
     @Override
     public int getScore (WPC wpc){
         int score=0;
-
+        return score;
     }
 
 }

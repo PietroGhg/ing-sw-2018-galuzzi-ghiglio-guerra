@@ -6,6 +6,6 @@ public class RowColourVariety extends PublicObjectiveCard { //Colori diversi - R
     /* Rows with no repeated colours */
     @Override
     public int getScore(WPC wpc){
-
+        return 0;
     }
 }

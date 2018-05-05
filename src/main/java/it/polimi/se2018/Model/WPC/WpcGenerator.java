@@ -62,7 +62,7 @@ public class WpcGenerator {
         try {
             //Opens the right file
             String workingDir = System.getProperty("user.dir");
-            File in = new File(workingDir + "/src/main/java/it.polimi.se2018/Model/WPC/wpcs/" + wpcID +".xml");
+            File in = new File(workingDir + "/src/main/java/it/polimi/se2018/Model/WPC/wpcs/" + wpcID +".xml");
 
             //Standard instantation and use of a sax parser
             SAXParserFactory factory = SAXParserFactory.newInstance();

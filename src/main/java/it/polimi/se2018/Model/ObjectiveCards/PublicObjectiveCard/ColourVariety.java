@@ -16,8 +16,8 @@ public class ColourVariety extends PublicObjectiveCard { //Colori diversi
         */
         for (Colour c : Colour.values()){
             allColours = false;
-            for (int i=0; i<WPC.NUMCOL; i++) {
-                for (int j = 0; j < WPC.NUMROW; j++) {
+            for (int i=0; i<WPC.NUMROW; i++) {
+                for (int j = 0; j < WPC.NUMCOL; j++) {
                     if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) allColours = true;
                 }
             }

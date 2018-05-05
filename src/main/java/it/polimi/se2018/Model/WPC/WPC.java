@@ -6,6 +6,15 @@ public class WPC { //WindowPatternCard
     private Cell[][] board;
     private int favorTokens;
     private String name;
+
+    public WPC() {
+        board = new Cell[NUMROW][NUMCOL];
+        for(int i = 0; i < NUMROW; i++){
+            for(int j = 0; j < NUMCOL; j++){
+                board[i][j] = new Cell();
+            }
+        }
+    }
     public Cell getCell (int row, int col){
         return board[row][col];
     }

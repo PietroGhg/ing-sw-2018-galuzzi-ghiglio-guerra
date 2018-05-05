@@ -6,7 +6,7 @@ import it.polimi.se2018.Model.Turn;
 
 import java.util.ArrayList;
 
-public class Model implements Observable { //Singleton?
+public class Model /*implements Observable*/ { //Singleton?
     private ArrayList<Die> draftPool;
     private ArrayList<Player> players;
     private int roundMatrix[][];

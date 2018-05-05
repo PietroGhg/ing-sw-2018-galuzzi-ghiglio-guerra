@@ -7,5 +7,5 @@ public abstract class ToolCard {
     private int cardNumber;
     private String description;
     private int cardCost;
-    public abstract void cardAction(WPC wpc);
+    //public abstract void cardAction(WPC wpc);
 }

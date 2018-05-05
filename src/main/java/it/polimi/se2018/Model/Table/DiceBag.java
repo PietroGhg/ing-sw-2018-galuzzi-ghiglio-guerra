@@ -10,6 +10,6 @@ import java.util.Map;
 public class DiceBag {
     private int diceTotal;
     private Map<Colour, Integer> diceColour = new HashMap<>();
-    public ArrayList<Die> extractDice(){
-    }
+    /*public ArrayList<Die> extractDice(){
+    }*/
 }

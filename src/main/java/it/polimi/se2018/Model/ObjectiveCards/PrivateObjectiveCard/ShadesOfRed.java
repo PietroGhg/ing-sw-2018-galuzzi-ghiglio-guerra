@@ -8,8 +8,8 @@ public class ShadesOfRed extends PrivateObjectiveCard {
     public int getScore (WPC wpc) {
         int score=0;
         Colour c = Colour.RED;
-        for (int i=0; i<WPC.NUMCOL; i++) {
-            for (int j = 0; j<WPC.NUMROW; j++) {
+        for (int i=0; i<WPC.NUMROW; i++) {
+            for (int j = 0; j<WPC.NUMCOL; j++) {
                 if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) {
                     score = score + wpc.getCell(i, j).getDie().getDieValue();
                 }
