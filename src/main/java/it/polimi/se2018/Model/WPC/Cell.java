@@ -8,11 +8,16 @@ public class Cell {
     private Colour colourRestriction;
     private int valueRestriction;
 
-    public void setColourR(Colour c){
-        colourRestriction = c;
-    }
+    public void setDie(Die d) { this.die = d;}
+    public Die getDie() { return die; }
 
-    public void setValueR (int v) {
-        valueRestriction = v;
+    public void setColourR(Colour c){
+        this.colourRestriction = c;
     }
+    public Colour getColourR() { return colourRestriction; }
+
+    public void setValueR(int v) {
+        this.valueRestriction = v;
+    }
+    public int  getValueR() { return valueRestriction; }
 }

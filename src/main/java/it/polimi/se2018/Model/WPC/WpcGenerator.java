@@ -7,7 +7,7 @@ import org.xml.sax.helpers.*;
 import java.io.*;
 
 /*
- WPCGenerator generates a WPC given it's numberID.
+ WPCGenerator generates a WPC given its numberID.
  WPCs are stored as xml files in the directory /src/main/java/it.polimi.se2018/Model/WPC/cards
  xml format is
  <wpc>
