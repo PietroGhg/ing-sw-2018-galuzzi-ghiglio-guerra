@@ -18,7 +18,7 @@ public class MediumShades extends PublicObjectiveCard { //Sfumature medie
             allValues = false;
             for (int i=0; i<WPC.NUMROW; i++) {
                 for (int j = 0; j < WPC.NUMCOL; j++) {
-                    if (wpc.getCell(i,j).getDie().getDieValue()==val) allValues = true;
+                    if (wpc.getCell(i,j).getDie().getDieValue().equals(Integer.valueOf(val))) allValues = true;
                 }
             }
             if(allValues==false) return score;

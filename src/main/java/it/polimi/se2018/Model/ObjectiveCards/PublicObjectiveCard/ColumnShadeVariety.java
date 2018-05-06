@@ -18,7 +18,7 @@ public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature dive
             for(int j=0; j<(WPC.NUMROW)-1; i++){
                 /* fino a NUMROW-1 perchè il confronto va fatto fino al penultimo elemento con l'ultimo */
                 for(int z=j+1; z<WPC.NUMROW; z++){
-                    if(wpc.getCell(i,j).getDie().getDieValue()==wpc.getCell(i,z).getDie().getDieValue())
+                    if(wpc.getCell(i,j).getDie().getDieValue().equals(wpc.getCell(i,z).getDie().getDieValue()))
                         allDifferent=false;
                 }
             }

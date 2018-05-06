@@ -24,4 +24,8 @@ public class Cell {
         this.valueRestriction = v;
     }
     public int  getValueR() { return valueRestriction; }
+
+    public boolean isEmpty() {
+        return die.getDieValue() == null && die.getDieColour() == null;
+    }
 }
