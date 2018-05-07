@@ -18,7 +18,7 @@ public class RowShadeVariety extends PublicObjectiveCard {  //Sfumature diverse 
             for(int i=0; i<(WPC.NUMCOL)-1; i++){
                 /* fino a NUMCOL-1 perchè il confronto va fatto fino al penultimo elemento con l'ultimo */
                 for(int z=i+1; z<WPC.NUMROW; z++){
-                    if(wpc.getCell(i,j).getDie().getDieValue()==wpc.getCell(i,z).getDie().getDieValue())
+                    if(wpc.getCell(i,j).getDie().getDieValue().equals(wpc.getCell(i,z).getDie().getDieValue()))
                         allDifferent=false;
                 }
             }
