@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model.WPC;
 
+import it.polimi.se2018.Model.Die;
+
 public class WPC { //WindowPatternCard
     public final static int NUMROW = 4;
     public final static int NUMCOL = 5;
@@ -21,6 +23,10 @@ public class WPC { //WindowPatternCard
 
     public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
+    }
+
+    public void setDie(int row, int col, Die d){
+        board[row][col].setDie(d);
     }
 
     public void setName(String name) {

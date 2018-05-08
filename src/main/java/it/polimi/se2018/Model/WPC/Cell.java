@@ -20,9 +20,8 @@ public class Cell {
     }
     public Colour getColourR() { return colourRestriction; }
 
-    public void setValueR(int v) {
-        this.valueRestriction = v;
-    }
+    public void setValueR(int v) { this.valueRestriction = v; }
+
     public int  getValueR() { return valueRestriction; }
 
     public boolean isEmpty() {

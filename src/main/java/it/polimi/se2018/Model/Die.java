@@ -11,6 +11,11 @@ public class Die {
         colour = Colour.valueOf(c);
     }
 
+    public Die(){
+        value = null;
+        colour = null;
+    }
+
     public Die(int v, Colour c){
         value = Integer.valueOf(v);
         colour = c;
