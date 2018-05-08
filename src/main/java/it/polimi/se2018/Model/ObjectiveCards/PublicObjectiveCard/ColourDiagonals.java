@@ -56,10 +56,23 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
     public static void main (String[] args) {
         WpcGenerator gen = new WpcGenerator();
         WPC wpc = gen.getWPC(1);
-        wpc.setDie(1, 4, new Die(1, Colour.BLUE));
-        wpc.setDie(3, 2, new Die(1, Colour.BLUE));
-        wpc.setDie(2, 3, new Die(2, Colour.BLUE));
-        wpc.setDie(0,1, new Die(6, Colour.RED));
+        wpc.setDie(0, 1, new Die(4, Colour.GREEN));
+        wpc.setDie(0, 2, new Die(2, Colour.RED));
+        wpc.setDie(0, 3, new Die(5, Colour.YELLOW));
+        wpc.setDie(0, 4, new Die(6, Colour.PURPLE));
+        wpc.setDie(1, 0, new Die(3, Colour.RED));
+        wpc.setDie(1, 1, new Die(1, Colour.BLUE));
+        wpc.setDie(1, 3, new Die(1, Colour.GREEN));
+        wpc.setDie(1, 4, new Die(2, Colour.YELLOW));
+        wpc.setDie(2, 0, new Die(5, Colour.PURPLE));
+        wpc.setDie(2, 1, new Die(6, Colour.GREEN));
+        wpc.setDie(2, 3, new Die(6, Colour.PURPLE));
+        wpc.setDie(2, 4, new Die(3, Colour.RED));
+        wpc.setDie(3, 0, new Die(4, Colour.BLUE));
+        wpc.setDie(3, 1, new Die(3, Colour.YELLOW));
+        wpc.setDie(3, 2, new Die(4, Colour.GREEN));
+        wpc.setDie(3, 3, new Die(2, Colour.BLUE));
+        wpc.setDie(3, 4, new Die(4, Colour.GREEN));
         ColourDiagonals cd = new ColourDiagonals();
         System.out.println(cd.getScore(wpc));
     }
