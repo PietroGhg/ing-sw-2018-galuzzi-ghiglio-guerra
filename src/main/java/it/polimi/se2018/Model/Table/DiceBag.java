@@ -4,8 +4,6 @@ import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.Die;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class DiceBag {
@@ -28,7 +26,7 @@ public class DiceBag {
         for(int i = 0; i < nPlayers + 1; i++){
             int index = rand.nextInt(bag.size());
             Die die = bag.get(index);
-            die.extract();
+            die.roll();
             result.add(die);
             bag.remove(index);
         }

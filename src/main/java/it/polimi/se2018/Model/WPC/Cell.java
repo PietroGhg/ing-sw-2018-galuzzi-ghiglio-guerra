@@ -3,10 +3,12 @@ package it.polimi.se2018.Model.WPC;
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.Die;
 
+import java.util.Objects;
+
 public class Cell {
     private Die die;
     private Colour colourRestriction;
-    private int valueRestriction;
+    private Integer valueRestriction;
 
     public Cell() {
         die = new Die();
@@ -20,11 +22,27 @@ public class Cell {
     }
     public Colour getColourR() { return colourRestriction; }
 
-    public void setValueR(int v) { this.valueRestriction = v; }
+    public void setValueR(Integer v) { this.valueRestriction = v; }
 
-    public int  getValueR() { return valueRestriction; }
+    public Integer  getValueR() { return valueRestriction; }
 
     public boolean isEmpty() {
         return die.getDieValue() == null && die.getDieColour() == null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell cell = (Cell) o;
+        return Objects.equals(getDie(), cell.getDie()) &&
+                colourRestriction == cell.colourRestriction &&
+                Objects.equals(valueRestriction, cell.valueRestriction);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getDie(), colourRestriction, valueRestriction);
     }
 }
