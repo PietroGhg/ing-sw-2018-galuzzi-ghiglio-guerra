@@ -12,7 +12,7 @@ public class ColumnColourVariety extends PublicObjectiveCard {  //Colori diversi
         /*
         For each column, check if there are at least two dice with the same
         colour: if the column is complete and has all the dice with a different colour
-        the resultant score of that column is 4, otherwise that score is 0
+        the resultant score of that column is 5, otherwise that score is 0
         */
         for(int j=0; j<WPC.NUMCOL; j++){
             fullCol=true;

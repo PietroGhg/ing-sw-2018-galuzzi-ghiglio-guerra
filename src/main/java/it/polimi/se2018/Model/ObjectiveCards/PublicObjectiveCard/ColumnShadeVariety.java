@@ -8,7 +8,7 @@ public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature dive
     public int getScore(WPC wpc){
         int score=0;
         boolean fullCol;
-        boolean allDifferent=true;
+        boolean allDifferent;
         /*
         For each column, check if there are at least two dice with the same
         value: if the column is complete and has all the dice with a different value
@@ -30,7 +30,7 @@ public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature dive
                             allDifferent = false;
                         }
                     }
-                if(allDifferent==true) score = score + 4;
+                    if(allDifferent==true) score = score + 4;
                 }
             }
         return score;
