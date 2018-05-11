@@ -7,22 +7,23 @@ public class ShadeVariety extends PublicObjectiveCard { //Sfumature diverse
     @Override
     public int getScore(WPC wpc){
         int score=0;
-        boolean allValues=false;
+        int sets=20; //random value, chosen to be sure it is big enough to avoid errors
         /*
-        Check, for each value, that there's at least one element
-        in the whole board with that value: if one of the values has false check,
-        the resulting score is 0. Otherwise, the score is 4.
+        Check, for each colour, how many complete sets of colours are
+        in the whole board. For every set the score is increased by 4
         */
         for (int val=1; val<=6; val++){
-            allValues = false;
+            int count=0;
             for (int i=0; i<WPC.NUMROW; i++) {
                 for (int j = 0; j < WPC.NUMCOL; j++) {
-                    if (wpc.getCell(i,j).getDie().getDieValue().equals(Integer.valueOf(val))) allValues = true;
+                    if(!(wpc.getCell(i,j).isEmpty())) {
+                        if(wpc.getCell(i, j).getDie().getDieValue().equals(val)) count++;
+                    }
                 }
             }
-            if(allValues==false) return score;
+            if(count<sets) sets=count;
         }
-        if(allValues==true) score=4;
+        score = sets * 4;
         return score;
     }
 }

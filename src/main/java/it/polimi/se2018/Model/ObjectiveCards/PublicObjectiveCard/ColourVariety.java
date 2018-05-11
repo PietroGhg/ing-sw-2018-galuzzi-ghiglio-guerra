@@ -8,22 +8,23 @@ public class ColourVariety extends PublicObjectiveCard { //Colori diversi
     @Override
     public int getScore(WPC wpc){
         int score=0;
-        boolean allColours=false;
+        int sets=20; //random value, chosen to be sure it is big enough to avoid errors
         /*
-        Check, for each colour, if there's at least one element
-        in the whole board with that colour: if one of the colours has
-        false check, the resulting score is 0. Else, the score is 4.
+        Check, for each colour, how many complete sets of colours are
+        in the whole board. For every set the score is increased by 4
         */
         for (Colour c : Colour.values()){
-            allColours = false;
+            int count=0;
             for (int i=0; i<WPC.NUMROW; i++) {
                 for (int j = 0; j < WPC.NUMCOL; j++) {
-                    if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) allColours = true;
+                    if(!(wpc.getCell(i,j).isEmpty())) {
+                        if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) count++;
+                    }
                 }
             }
-            if(allColours==false) return score;
+        if(count<sets) sets=count;
         }
-        if(allColours==true) score=4;
+        score = sets * 4;
         return score;
     }
 }

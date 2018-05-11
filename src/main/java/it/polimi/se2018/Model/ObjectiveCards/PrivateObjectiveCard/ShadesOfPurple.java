@@ -10,8 +10,10 @@ public class ShadesOfPurple extends PrivateObjectiveCard {
         Colour c = Colour.PURPLE;
         for (int i=0; i<WPC.NUMROW; i++) {
             for (int j = 0; j<WPC.NUMCOL; j++) {
-                if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) {
-                    score = score + wpc.getCell(i, j).getDie().getDieValue();
+                if(!(wpc.getCell(i,j).isEmpty())) {
+                    if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) {
+                        score = score + wpc.getCell(i, j).getDie().getDieValue();
+                    }
                 }
             }
         }
