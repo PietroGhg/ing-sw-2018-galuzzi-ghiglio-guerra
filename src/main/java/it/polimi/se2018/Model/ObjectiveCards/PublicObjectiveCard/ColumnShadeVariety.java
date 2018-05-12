@@ -2,9 +2,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PublicObjectiveCard ColumnShadeVariety
+ * @author Leonardo Guerra
+ */
+
 public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature diverse - Colonna
-    /* Columns with no repeated values */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * Columns with no repeated values
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore(WPC wpc){
         int score=0;
         boolean fullCol;

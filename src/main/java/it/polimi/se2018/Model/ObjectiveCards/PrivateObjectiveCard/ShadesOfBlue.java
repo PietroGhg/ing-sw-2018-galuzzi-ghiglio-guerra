@@ -6,8 +6,18 @@ import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.ColumnColourVar
 import it.polimi.se2018.Model.WPC.WPC;
 import it.polimi.se2018.Model.WPC.WpcGenerator;
 
+/**
+ * Class for PrivateObjectiveCard ShadesOfBlue
+ * @author Leonardo Guerra
+ */
+
 public class ShadesOfBlue extends PrivateObjectiveCard {
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * sum of the value of the blue dice
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore (WPC wpc) {
         int score=0;
         Colour c = Colour.BLUE;
@@ -23,6 +33,7 @@ public class ShadesOfBlue extends PrivateObjectiveCard {
         return score;
     }
 
+    /*
     public static void main (String[] args) {
         WpcGenerator gen = new WpcGenerator();
         WPC wpc = gen.getWPC(1);
@@ -46,4 +57,5 @@ public class ShadesOfBlue extends PrivateObjectiveCard {
         ShadesOfBlue sb = new ShadesOfBlue();
         System.out.println(sb.getScore(wpc));
     }
+    */
 }

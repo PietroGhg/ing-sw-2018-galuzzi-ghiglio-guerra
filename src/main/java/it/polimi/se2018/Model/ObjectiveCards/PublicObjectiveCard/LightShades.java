@@ -2,9 +2,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PublicObjectiveCard LightShades
+ * @author Leonardo Guerra
+ */
+
 public class LightShades extends PublicObjectiveCard {  //Sfumature chiare
-    /* Sets of 1 and 2 values anywhere */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * sets of 1 and 2 values anywhere
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore(WPC wpc){
         int score=0;
         int sets=20; //random value, chosen to be sure it is big enough to avoid errors

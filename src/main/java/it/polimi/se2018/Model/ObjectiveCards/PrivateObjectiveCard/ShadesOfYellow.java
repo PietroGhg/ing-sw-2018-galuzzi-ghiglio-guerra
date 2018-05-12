@@ -3,8 +3,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PrivateObjectiveCard;
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PrivateObjectiveCard ShadesOfYellow
+ * @author Leonardo Guerra
+ */
+
 public class ShadesOfYellow extends PrivateObjectiveCard {
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * sum of the value of the yellow dice
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore (WPC wpc) {
         int score=0;
         Colour c = Colour.YELLOW;

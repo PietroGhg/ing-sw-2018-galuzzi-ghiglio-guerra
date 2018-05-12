@@ -2,9 +2,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PublicObjectiveCard RowColourVariety
+ * @author Leonardo Guerra
+ */
+
 public class RowColourVariety extends PublicObjectiveCard { //Colori diversi - Riga
-    /* Rows with no repeated colours */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * rows with no repeated colours
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore(WPC wpc){
         int score=0;
         boolean fullRow;

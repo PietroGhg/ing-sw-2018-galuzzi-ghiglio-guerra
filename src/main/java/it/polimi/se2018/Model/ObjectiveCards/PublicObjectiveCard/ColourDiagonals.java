@@ -5,9 +5,18 @@ import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.WPC.WPC;
 import it.polimi.se2018.Model.WPC.WpcGenerator;
 
+/**
+ * Class for PublicObjectiveCard ColourDiagonals
+ * @author Leonardo Guerra
+ */
+
 public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
-    /* Count of diagonally adjacent same-colour dice */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * count of diagonally adjacent same-colour dice
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore (WPC wpc){
         int score=0;
         int [][] diagMatrix = new int[WPC.NUMROW][WPC.NUMCOL];
@@ -53,6 +62,7 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
         return score;
     }
 
+    /*
     public static void main (String[] args) {
         WpcGenerator gen = new WpcGenerator();
         WPC wpc = gen.getWPC(1);
@@ -76,4 +86,5 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
         ColourDiagonals cd = new ColourDiagonals();
         System.out.println(cd.getScore(wpc));
     }
+    */
 }
