@@ -89,9 +89,11 @@ public class RestrictionChecker {
         }
 
         for(int i = 0; i< 4; i++){
-            if (temp[i] != null && temp[i].getDieValue().equals(die.getDieValue()) &&
-                    temp[i].getDieColour().equals(die.getDieColour()))
-                throw new MoveNotAllowedException("Same die orthogonally adjacent.");
+            if(temp[i] != null) {
+                if (temp[i].getDieValue() == die.getDieValue() &&
+                        temp[i].getDieColour().equals(die.getDieColour()))
+                    throw new MoveNotAllowedException("Same die orthogonally adjacent.");
+            }
             }
 
     }

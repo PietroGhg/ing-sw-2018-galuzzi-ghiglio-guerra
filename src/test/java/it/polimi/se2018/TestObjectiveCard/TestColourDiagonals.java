@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.TestObjectiveCard;
 
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.Die;

@@ -1,14 +1,14 @@
-package it.polimi.se2018;
+package it.polimi.se2018.TestObjectiveCard;
 
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.MediumShades;
+import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.DeepShades;
 import it.polimi.se2018.Model.WPC.WPC;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestMediumShades {
+public class TestDeepShades {
     private WPC wpc;
     private WPC wpc2;
     private WPC wpc3;
@@ -37,7 +37,7 @@ public class TestMediumShades {
         wpc2 = new WPC();
         wpc2.setDie(0, 0, new Die(5, Colour.YELLOW));
         wpc2.setDie(0, 1, new Die(4, Colour.GREEN));
-        wpc2.setDie(0, 2, new Die(1, Colour.YELLOW));
+        wpc2.setDie(0, 2, new Die(2, Colour.YELLOW));
         wpc2.setDie(0, 3, new Die(4, Colour.BLUE));
         wpc2.setDie(0, 4, new Die(6, Colour.PURPLE));
         wpc2.setDie(1, 0, new Die(3, Colour.RED));
@@ -62,13 +62,13 @@ public class TestMediumShades {
 
     @Test
     public void testWpc() {
-        MediumShades m = new MediumShades();
-        MediumShades m2 = new MediumShades();
-        MediumShades m3 = new MediumShades();
-        int result = m.getScore(wpc);
-        int result2 = m2.getScore(wpc2);
-        int result3 = m3.getScore(wpc3);
-        assertEquals(result, 3*2);
+        DeepShades d = new DeepShades();
+        DeepShades d2 = new DeepShades();
+        DeepShades d3 = new DeepShades();
+        int result = d.getScore(wpc);
+        int result2 = d2.getScore(wpc2);
+        int result3 = d3.getScore(wpc3);
+        assertEquals(result, 2*2);
         assertEquals(result2, 2*2);
         assertEquals(result3, 0);
     }
