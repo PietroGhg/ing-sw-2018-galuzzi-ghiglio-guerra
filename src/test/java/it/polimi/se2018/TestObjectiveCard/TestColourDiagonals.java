@@ -8,6 +8,11 @@ import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for PublicObjectiveCard ColourDiagonals
+ * @author Leonardo Guerra
+ */
+
 public class TestColourDiagonals {
     private WPC wpc;
     private WPC wpc2;
@@ -45,11 +50,11 @@ public class TestColourDiagonals {
         wpc2.setDie(2, 1, new Die(3, Colour.RED));
         wpc2.setDie(2, 2, new Die(1, Colour.BLUE));
         wpc2.setDie(2, 3, new Die(3, Colour.RED));
+        wpc2.setDie(2, 4, new Die(3, Colour.GREEN));
         wpc2.setDie(3, 0, new Die(3, Colour.RED));
+        wpc2.setDie(3, 1, new Die(3, Colour.YELLOW));
         wpc2.setDie(3, 2, new Die(3, Colour.RED));
         wpc2.setDie(3, 4, new Die(3, Colour.RED));
-        wpc2.setDie(2, 4, new Die(3, Colour.GREEN));
-        wpc2.setDie(3, 1, new Die(3, Colour.YELLOW));
 
         wpc3 = new WPC();
 

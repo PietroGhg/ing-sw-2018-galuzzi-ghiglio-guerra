@@ -24,7 +24,7 @@ public class RowColourVariety extends PublicObjectiveCard { //Colori diversi - R
                 allDifferent=true;
                 for(int j=0; j<(WPC.NUMCOL)-1; j++){
                     /* till NUMROW-1: the check is done till the last with the second-last */
-                    for(int z=j+1; j<WPC.NUMROW; j++){
+                    for(int z=j+1; z<WPC.NUMCOL; z++){
                         /* check starts from the next element  */
                         if (wpc.getCell(i, j).getDie().getDieColour().equals(wpc.getCell(i, z).getDie().getDieColour()))
                             allDifferent = false;

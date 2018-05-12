@@ -8,6 +8,11 @@ import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for PublicObjectiveCard LightShades
+ * @author Leonardo Guerra
+ */
+
 public class TestLightShades {
     private WPC wpc;
     private WPC wpc2;

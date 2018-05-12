@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for colour, value and first move restrictions (in case of an empthy board)
+ * Tests for colour, value and first move restrictions (in case of an empty board)
  * @author Pietro Ghiglio
  */
 
