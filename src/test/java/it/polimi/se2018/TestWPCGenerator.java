@@ -7,6 +7,9 @@ import org.junit.Assert.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for WpcGenerator, wpc.equals() and consequently cell.equals() and die.equals()
+ */
 public class TestWPCGenerator {
     private WPC testWPC;
     private  WPC testWPC2;

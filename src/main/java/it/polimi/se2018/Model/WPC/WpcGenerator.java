@@ -6,14 +6,15 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import java.io.*;
 
-/*
- WPCGenerator generates a WPC given its numberID.
- WPCs are stored as xml files in the directory /src/main/java/it.polimi.se2018/Model/WPC/cards
- xml format is
- <wpc>
-    <restriction type = "colour" or "value" row = "0,..,3" col = "0,..,4" value = "colour or number"></restriction>
-    ... tags for name and favor token
- </wpc>
+/**
+ * @author Pietro Ghiglio
+ *WPCGenerator generates a WPC given its numberID.
+ *WPCs are stored as xml files in the directory /src/main/java/it.polimi.se2018/Model/WPC/wpcs
+ *xml format is
+ *<wpc>
+ *   <restriction type = "colour" or "value" row = "0,..,3" col = "0,..,4" value = "colour or number"></restriction>
+ *  ... tags for name and favor token
+ *</wpc>
  */
 public class WpcGenerator {
     private  WPC temp;

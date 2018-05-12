@@ -1,25 +1,36 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Controller;
 
+import it.polimi.se2018.Controller.Exceptions.MoveNotAllowedException;
+import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.WPC.Cell;
 import it.polimi.se2018.Model.WPC.WPC;
 
 public class RestrictionChecker {
 
-    //return true if there's at least one adjacent die
-    public boolean checkAdjacent (WPC wpc, int row, int col){
+    /**return true if there's at least one adjacent die
+     *
+     * @param wpc
+     * @param row
+     * @param col
+     * @throws MoveNotAllowedException
+     * @author Pietro Ghiglio
+     */
+    public void checkAdjacent (WPC wpc, int row, int col) throws MoveNotAllowedException{
 
-            return  !checkCell(wpc,row-1, col) ||
+            if( !( !checkCell(wpc,row-1, col) ||
                     !checkCell(wpc,row+1, col) ||
                     !checkCell(wpc, row, col-1) ||
                     !checkCell(wpc, row, col+1) ||
                     !checkCell(wpc, row-1,col-1) ||
                     !checkCell(wpc, row-1,col+1) ||
                     !checkCell(wpc, row+1,col-1) ||
-                    !checkCell(wpc, row+1,col+1) ;
+                    !checkCell(wpc, row+1,col+1) ) )
+                throw new MoveNotAllowedException("Die must be adjacent to another die.");
 
     }
 
     //method that handles cells on the border of the matrix
+    //returns false if the cell contains a die
     private boolean checkCell(WPC wpc, int row, int col){
         try {
             return wpc.getCell(row, col).isEmpty();
@@ -30,24 +41,27 @@ public class RestrictionChecker {
     }
 
     //checks that the first die is placed on the border of the window
-    public boolean checkFirstMove (WPC wpc, int row, int col){
-        return(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 );
+    public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
+        if (!(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 ))
+            throw new MoveNotAllowedException("First move: die must be on the border.");
     }
 
     //checks colour restriction
-    public boolean checkColourRestrictions (WPC wpc, int row, int col, Die die){
+    public void checkColourRestrictions (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
-        return temp.getColourR() == die.getDieColour();
+        if (temp.getColourR() != die.getDieColour())
+            throw new MoveNotAllowedException("Color restriction violated.");
     }
 
     //checks value restriction
-    public boolean checkValueRestriction (WPC wpc, int row, int col, Die die){
+    public void checkValueRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
-        return temp.getValueR() == die.getDieValue();
+        if(! (die.getDieValue().equals(temp.getValueR())))
+            throw new MoveNotAllowedException("Value restriction violated.");
     }
 
     //returns false if there's a die with same value and colour orthogonally adjacent
-    public boolean sameDie (WPC wpc, int row, int col, Die die){
+    public void sameDie (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Die[] temp = new Die[4];
         try {
             temp[0] = wpc.getCell(row - 1, col).getDie();
@@ -76,14 +90,14 @@ public class RestrictionChecker {
 
         for(int i = 0; i< 4; i++){
             if (temp[i] != null && temp[i].getDieValue().equals(die.getDieValue()) &&
-                    temp[i].getDieColour().equals(die.getDieColour())) return false;
+                    temp[i].getDieColour().equals(die.getDieColour()))
+                throw new MoveNotAllowedException("Same die orthogonally adjacent.");
             }
-            return true;
 
     }
 
     //returns true if the cell is empty (contains no die)
-    public boolean checkEmptiness (WPC wpc, int row, int col){
+    private boolean checkEmptiness (WPC wpc, int row, int col){
         return wpc.getCell(row, col).isEmpty();
     }
 
