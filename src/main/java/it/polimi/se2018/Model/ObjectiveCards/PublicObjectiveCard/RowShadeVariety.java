@@ -2,9 +2,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PublicObjectiveCard RowShadeVariety
+ * @author Leonardo Guerra
+ */
+
 public class RowShadeVariety extends PublicObjectiveCard {  //Sfumature diverse - Riga
-    /* Rows with no repeated values */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * rows with no repeated values
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore(WPC wpc){
         int score=0;
         boolean fullRow;
@@ -24,9 +33,9 @@ public class RowShadeVariety extends PublicObjectiveCard {  //Sfumature diverse 
                 allDifferent=true;
                 for(int j=0; j<(WPC.NUMCOL)-1; j++){
                     /* till NUMROW-1: the check is done till the last with the second-last */
-                    for(int z=j+1; j<WPC.NUMROW; j++){
+                    for(int z=j+1; z<WPC.NUMCOL; z++){
                         /* check starts from the next element  */
-                        if (wpc.getCell(i, j).getDie().getDieColour().equals(wpc.getCell(i, z).getDie().getDieColour()))
+                        if (wpc.getCell(i, j).getDie().getDieValue().equals(wpc.getCell(i, z).getDie().getDieValue()))
                             allDifferent = false;
                     }
                 }

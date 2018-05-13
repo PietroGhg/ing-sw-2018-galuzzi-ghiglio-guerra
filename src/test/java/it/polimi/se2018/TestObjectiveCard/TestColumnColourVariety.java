@@ -8,6 +8,11 @@ import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test for PublicObjectiveCard ColumnColourVariety
+ * @author Leonardo Guerra
+ */
+
 public class TestColumnColourVariety {
     private WPC wpc;
     private WPC wpc2;

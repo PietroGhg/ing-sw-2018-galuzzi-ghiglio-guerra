@@ -3,9 +3,18 @@ package it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard;
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.WPC.WPC;
 
+/**
+ * Class for PublicObjectiveCard ColourVariety
+ * @author Leonardo Guerra
+ */
+
 public class ColourVariety extends PublicObjectiveCard { //Colori diversi
-    /* Sets of one of each colour anywhere */
     @Override
+    /**
+     * Method for the computation of a partial score:
+     * sets of one of each colour anywhere
+     * @param wpc player board, on which the score is calculated
+     */
     public int getScore(WPC wpc){
         int score=0;
         int sets=20; //random value, chosen to be sure it is big enough to avoid errors
