@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * value with the corresponding user input.
  */
 
-public class ToolCardParameters {
+public class PlayerMoveParameters {
     private WPC wpc;
     private ArrayList<Integer> parameters;
 
-    public ToolCardParameters(WPC wpc){
+    public PlayerMoveParameters(WPC wpc){
         this.wpc = wpc;
         parameters = new ArrayList<>();
     }

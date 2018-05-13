@@ -1,6 +1,6 @@
 package it.polimi.se2018.Controller.ToolCard;
 
-import it.polimi.se2018.Controller.Exceptions.InputNotValidException;
+import it.polimi.se2018.Exceptions.InputNotValidException;
 
 public class ToolCardFactory {
     public ToolCard get(int id) throws InputNotValidException{

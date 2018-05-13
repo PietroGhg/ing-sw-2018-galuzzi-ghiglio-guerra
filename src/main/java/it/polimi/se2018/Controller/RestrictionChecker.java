@@ -1,6 +1,6 @@
 package it.polimi.se2018.Controller;
 
-import it.polimi.se2018.Controller.Exceptions.MoveNotAllowedException;
+import it.polimi.se2018.Exceptions.MoveNotAllowedException;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.WPC.Cell;
 import it.polimi.se2018.Model.WPC.WPC;

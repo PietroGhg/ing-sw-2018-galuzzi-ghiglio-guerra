@@ -1,6 +1,6 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Controller.Exceptions.MoveNotAllowedException;
+import it.polimi.se2018.Exceptions.MoveNotAllowedException;
 import it.polimi.se2018.Controller.RestrictionChecker;
 import it.polimi.se2018.Model.Colour;
 import it.polimi.se2018.Model.Die;

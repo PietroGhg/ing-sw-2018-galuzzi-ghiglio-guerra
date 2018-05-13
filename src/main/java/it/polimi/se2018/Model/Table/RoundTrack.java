@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.Table;
 
 import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.GameEndedException;
 
 import java.util.ArrayList;
 
@@ -55,16 +56,15 @@ public class RoundTrack {
     }
 
     //returns false if game is finished
-    public boolean nextTurn() {
+    public void nextTurn() throws GameEndedException{
         if(turnCounter == 2*nPlayers - 1){
             turnCounter = 0;
-            if(roundCounter == NUM_ROUND - 1) return false;
+            if(roundCounter == NUM_ROUND - 1) throw new GameEndedException();
             else roundCounter++;
         }
         else {
             turnCounter++;
         }
-        return true;
     }
 
     //just for testing purposes
@@ -73,13 +73,19 @@ public class RoundTrack {
     }
 
     public static void main(String[] args) {
-        RoundTrack r = new RoundTrack(4);
+        RoundTrack r = new RoundTrack(2);
         int[][] temp = r.getRoundMatrix();
         for(int i = 0; i < NUM_ROUND; i++){
-            for(int j = 0; j < 8; j++){
+            for(int j = 0; j < 4; j++){
                 System.out.print(temp[i][j] + " ");
             }
             System.out.print("\n");
         }
+    }
+
+    public int[] getLastRound() {
+        int[] ris = new int[2*nPlayers];
+        for(int i = 0; i < 2*nPlayers; i++) ris[i] = roundMatrix[NUM_ROUND - 1][i];
+        return ris;
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.se2018.Controller.Exceptions;
+package it.polimi.se2018.Exceptions;
 
 public class MoveNotAllowedException extends Exception {
     String message;
