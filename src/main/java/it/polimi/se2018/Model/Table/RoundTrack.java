@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.Table;
 
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.GameEndedException;
+import it.polimi.se2018.Exceptions.GameEndedException;
 
 import java.util.ArrayList;
 
@@ -73,10 +73,10 @@ public class RoundTrack {
     }
 
     public static void main(String[] args) {
-        RoundTrack r = new RoundTrack(2);
+        RoundTrack r = new RoundTrack(4);
         int[][] temp = r.getRoundMatrix();
         for(int i = 0; i < NUM_ROUND; i++){
-            for(int j = 0; j < 4; j++){
+            for(int j = 0; j < 8; j++){
                 System.out.print(temp[i][j] + " ");
             }
             System.out.print("\n");

@@ -1,8 +1,8 @@
 package it.polimi.se2018.Model.Table;
 
+import it.polimi.se2018.Exceptions.GameEndedException;
 import it.polimi.se2018.Exceptions.NoWinnerException;
 import it.polimi.se2018.Model.*;
-import it.polimi.se2018.Model.ObjectiveCards.PrivateObjectiveCard.PrivateObjectiveCard;
 import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.PublicObjectiveCard;
 
 import java.util.ArrayList;
