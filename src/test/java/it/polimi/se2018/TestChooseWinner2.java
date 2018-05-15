@@ -1,18 +1,18 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Exceptions.NoWinnerException;
-import it.polimi.se2018.Model.ChooseWinner;
-import it.polimi.se2018.Model.Colour;
-import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.ObjectiveCards.PrivateObjectiveCard.ShadesOfBlue;
-import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.ColourDiagonals;
-import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.DeepShades;
-import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.PublicObjectiveCard;
-import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.RowColourVariety;
-import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.Model.Table.RoundTrack;
-import it.polimi.se2018.Model.WPC.WPC;
-import it.polimi.se2018.Model.WPC.WpcGenerator;
+import it.polimi.se2018.exceptions.NoWinnerException;
+import it.polimi.se2018.model.ChooseWinner;
+import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.objectivecards.privateobjectivecard.ShadesOfBlue;
+import it.polimi.se2018.model.objectivecards.publicobjectivecard.ColourDiagonals;
+import it.polimi.se2018.model.objectivecards.publicobjectivecard.DeepShades;
+import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
+import it.polimi.se2018.model.objectivecards.publicobjectivecard.RowColourVariety;
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.table.RoundTrack;
+import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.model.wpc.WpcGenerator;
 import org.junit.*;
 
 import java.util.ArrayList;

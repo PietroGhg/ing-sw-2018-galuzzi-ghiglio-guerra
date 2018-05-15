@@ -1,11 +1,11 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Exceptions.MoveNotAllowedException;
-import it.polimi.se2018.Controller.RestrictionChecker;
-import it.polimi.se2018.Model.Colour;
-import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.WPC.WPC;
-import it.polimi.se2018.Model.WPC.WpcGenerator;
+import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.controller.RestrictionChecker;
+import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.model.wpc.WpcGenerator;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,9 +1,8 @@
 package it.polimi.se2018;
-import it.polimi.se2018.Model.Colour;
-import it.polimi.se2018.Model.WPC.WPC;
-import it.polimi.se2018.Model.WPC.WpcGenerator;
+import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.model.wpc.WpcGenerator;
 import org.junit.*;
-import org.junit.Assert.*;
 
 import static org.junit.Assert.assertEquals;
 
