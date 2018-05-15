@@ -16,7 +16,7 @@ public interface ToolCard {
     8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col
     9: CorkBackedStraightedge -> 0: DraftPool index, 1: cell row, 2: cell col
     10: GrindingStone -> 0: die row, 1: die col
-    11: FluxRemover -> 0: DraftPool index, 1: cell row, 2: cell col; {die value}
+    11: FluxRemover -> 0: DraftPool index, 1: cell row, 2: cell col; die value?
     12: TapWheel -> 0: RoundTrack number, 1: RoundTrackindex,
                     2: die1 row, 3: die1 col, 4: cell1 row, 5: cell1 col,
                     6: die2 row, 7: die2 col, 8: cell2 row, 9: cell2 col
