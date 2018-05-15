@@ -1,7 +1,7 @@
 package it.polimi.se2018.Exceptions;
 
 public class MoveNotAllowedException extends Exception {
-    String message;
+    private String message;
     public MoveNotAllowedException(String message){
         this.message = message;
     }

@@ -13,21 +13,23 @@ import java.util.ArrayList;
  */
 
 public class PlayerMoveParameters {
-    private WPC wpc;
+    private Player player;
     private ArrayList<Integer> parameters;
 
-    public PlayerMoveParameters(WPC wpc){
-        this.wpc = wpc;
+    public PlayerMoveParameters(Player player){
+        this.player = player;
         parameters = new ArrayList<>();
     }
 
     public void setWPC(WPC wpc){
-        this.wpc = wpc;
+        player.setWpc(wpc);
     }
 
     public void addParameter(int i){
         parameters.add(i);
     }
+
+    public Player getPlayer() { return player; }
 
     public int getParameter(int i){
         return parameters.get(i);

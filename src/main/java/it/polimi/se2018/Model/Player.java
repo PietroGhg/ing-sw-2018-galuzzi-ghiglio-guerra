@@ -25,6 +25,8 @@ public class Player {
         this.wpc = wpc;
     }
 
+    public WPC getWpc() { return wpc; }
+
     public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }

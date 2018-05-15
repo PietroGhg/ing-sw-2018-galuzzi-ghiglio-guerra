@@ -13,6 +13,11 @@ public class Cell {
     public Cell() {
         die = new Die();
     }
+    public Cell(Cell c){
+        die = new Die(c.getDie());
+        colourRestriction = c.getColourR();
+        valueRestriction = new Integer(c.getValueR());
+    }
 
     public void setDie(Die d) { this.die = d;}
     public Die getDie() { return die; }

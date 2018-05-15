@@ -7,7 +7,7 @@ import it.polimi.se2018.Model.ObjectiveCards.PublicObjectiveCard.PublicObjective
 
 import java.util.ArrayList;
 
-public class Model /*implements Observable*/ { //Singleton?
+public class Model /*implements Observable*/ {
     private ArrayList<Die> draftPool;
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
@@ -20,6 +20,7 @@ public class Model /*implements Observable*/ { //Singleton?
     public void nextTurn(){
         try {
             roundTrack.nextTurn();
+            turn = new Turn();
         }
         catch (GameEndedException e){
             chooseWinner();

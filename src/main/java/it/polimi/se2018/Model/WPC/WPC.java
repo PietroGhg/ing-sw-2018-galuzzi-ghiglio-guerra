@@ -20,6 +20,19 @@ public class WPC { //WindowPatternCard
             }
         }
     }
+
+    /**
+     * Copy constructor for WPC
+     * @param wpc
+     */
+    public WPC(WPC wpc){
+        for(int i = 0; i < WPC.NUMROW; i++){
+            for(int j = 0; j < WPC.NUMCOL; j++){
+                board[i][j] = new Cell(wpc.getCell(i, j));
+            }
+        }
+    }
+
     public Cell getCell (int row, int col){
         return board[row][col];
     }

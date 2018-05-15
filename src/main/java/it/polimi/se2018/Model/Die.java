@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.MoveNotAllowedException;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,6 +17,11 @@ public class Die {
     public Die(){
         value = null;
         colour = null;
+    }
+
+    public Die(Die d) {
+        value = new Integer(d.getDieValue());
+        colour = d.getDieColour();
     }
 
     public Die(int v, Colour c){
@@ -41,6 +48,16 @@ public class Die {
         Die die = (Die) o;
         return Objects.equals(value, die.value) &&
                 colour == die.colour;
+    }
+
+    public void increase() throws MoveNotAllowedException {
+        if (value < 6) value++;
+        else throw new MoveNotAllowedException("Error: cannot increase value 6.");
+    }
+
+    public void decrease() throws MoveNotAllowedException {
+        if(value > 1) value--;
+        else throw new MoveNotAllowedException("Error: cannot decrease value 1.");
     }
 
     @Override
