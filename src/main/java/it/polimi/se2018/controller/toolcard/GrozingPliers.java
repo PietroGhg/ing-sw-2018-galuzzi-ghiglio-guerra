@@ -7,7 +7,7 @@ import it.polimi.se2018.model.wpc.WPC;
 public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
 
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
-        WPC temp = new WPC( param.getPlayer().getWpc() );
+        WPC temp = new WPC( param.getWpc() );
         int row = param.getParameter(0);
         int col = param.getParameter(1);
         int increment = param.getParameter(2);

@@ -7,12 +7,12 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class RestrictionChecker {
 
-    /**return true if there's at least one adjacent die
+    /**
      *
-     * @param wpc
-     * @param row
-     * @param col
-     * @throws MoveNotAllowedException
+     * @param wpc the board
+     * @param row coordinate of the cell
+     * @param col coordinate of the cell
+     * @throws MoveNotAllowedException if the restriction is violated
      * @author Pietro Ghiglio
      */
     public void checkAdjacent (WPC wpc, int row, int col) throws MoveNotAllowedException{
@@ -40,27 +40,55 @@ public class RestrictionChecker {
         }
     }
 
-    //checks that the first die is placed on the border of the window
+    /**
+     * Checks the first move restriction: if the board is empty, the die must be placed on the border
+     * @param wpc the board
+     * @param row coordinate of the cell
+     * @param col coordinate of the cell
+     * @throws MoveNotAllowedException if the restriction is violated
+     */
     public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
         if (!(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 ))
             throw new MoveNotAllowedException("First move: die must be on the border.");
     }
 
-    //checks colour restriction
+    /**
+     * Checks colour restriction
+     * @param wpc the board
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
+     * @param die die that needs to be placed
+     * @throws MoveNotAllowedException
+     */
     public void checkColourRestrictions (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if (temp.getColourR() != die.getDieColour())
             throw new MoveNotAllowedException("Color restriction violated.");
     }
 
-    //checks value restriction
+    /**
+     * Checks value restriction
+     * @param wpc the board
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
+     * @param die die that needs to be placed
+     * @throws MoveNotAllowedException if the restriction is violated
+     */
     public void checkValueRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if(! (die.getDieValue().equals(temp.getValueR())))
             throw new MoveNotAllowedException("Value restriction violated.");
     }
 
-    //returns false if there's a die with same value and colour orthogonally adjacent
+    /**
+     * Checks that there's no die with the same value and colour orthogonally adjacent to the one that
+     * needs to be placed
+     * @param wpc the board
+     * @param row coordinate
+     * @param col coordinate
+     * @param die die that needs to be placed
+     * @throws MoveNotAllowedException if the restriction is violated
+     */
     public void sameDie (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Die[] temp = new Die[4];
         try {
