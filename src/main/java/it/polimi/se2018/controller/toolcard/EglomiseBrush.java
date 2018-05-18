@@ -20,17 +20,19 @@ public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
 
         RestrictionChecker rc = new RestrictionChecker();
 
+        rc.checkNotEmpty(temp,row1,col1);
         Integer v1 = temp.getCell(row1,col1).getDie().getDieValue();
         Colour c1 = temp.getCell(row1,col1).getDie().getDieColour();
         Die d1 = new Die(v1,c1);
 
-        // Restriction check
+        // Restrictions check
         rc.checkEmptiness(temp,row2,col2);
         rc.checkValueRestriction(temp, row2, col2, d1);
         rc.checkAdjacent(temp, row2, col2);
+        rc.checkSameDie(temp,row2,col2,d1);
 
         temp.setDie(row2, col2, d1);
-        temp.setDie(row1, col1, null);
+        temp.removeDie(row1,col1);
 
         param.getPlayer().setWpc(temp);
     }

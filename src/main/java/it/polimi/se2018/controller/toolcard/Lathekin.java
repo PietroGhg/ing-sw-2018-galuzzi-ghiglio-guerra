@@ -25,14 +25,18 @@ public class Lathekin implements ToolCard{
 
         RestrictionChecker rc = new RestrictionChecker();
 
+        rc.checkNotEmpty(temp,row1,col1);
         Integer v1 = temp.getCell(row1, col1).getDie().getDieValue();
         Colour c1 = temp.getCell(row1, col1).getDie().getDieColour();
+
+        rc.checkNotEmpty(temp,row2,col2);
         Integer v2 = temp.getCell(row3, col3).getDie().getDieValue();
         Colour c2 = temp.getCell(row3, col3).getDie().getDieColour();
+
         Die d1 = new Die(v1, c1);
         Die d2 = new Die(v2, c2);
 
-        // Restriction check for the first die
+        // Restrictions check for the first die
         rc.checkEmptiness(temp, row2, col2);
         rc.checkColourRestriction(temp, row2, col2, d1);
         rc.checkValueRestriction(temp, row2, col2, d1);
@@ -42,7 +46,7 @@ public class Lathekin implements ToolCard{
         temp.setDie(row2, col2, d1);
         temp.removeDie(row1, col1);
 
-        // Restriction check for the second die
+        // Restrictions check for the second die
         rc.checkEmptiness(temp, row4, col4);
         rc.checkColourRestriction(temp, row4, col4, d2);
         rc.checkValueRestriction(temp, row4, col4, d2);
