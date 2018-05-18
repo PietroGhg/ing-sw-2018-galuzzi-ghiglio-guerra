@@ -5,6 +5,11 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
+/**
+ * Class for toolcard GrozingPliers
+ * @author Leonardo Guerra
+ */
+
 public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
 
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
