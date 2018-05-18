@@ -45,6 +45,8 @@ public class WPC { //WindowPatternCard
         board[row][col].setDie(d);
     }
 
+    public void removeDie(int row, int col) { board[row][col].getDie().remove(); }
+
     public void setName(String name) {
         this.name = name;
     }

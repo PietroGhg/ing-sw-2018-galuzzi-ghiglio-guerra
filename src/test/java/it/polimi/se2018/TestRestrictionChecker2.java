@@ -68,7 +68,7 @@ public class TestRestrictionChecker2 {
     public void testSame1(){
         RestrictionChecker restr = new RestrictionChecker();
         try {
-            restr.sameDie(wpc, 1, 0, new Die(4, Colour.GREEN));
+            restr.checkSameDie(wpc, 1, 0, new Die(4, Colour.GREEN));
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
@@ -82,7 +82,7 @@ public class TestRestrictionChecker2 {
         RestrictionChecker restr = new RestrictionChecker();
         try{
             //adjacent die, different value
-            restr.sameDie(wpc, 0, 1, new Die(2, Colour.GREEN));
+            restr.checkSameDie(wpc, 0, 1, new Die(2, Colour.GREEN));
         }
         catch (MoveNotAllowedException e) {
             fail();
@@ -90,7 +90,7 @@ public class TestRestrictionChecker2 {
 
         try {
             //adjacent die, different colour
-            restr.sameDie(wpc, 0, 1, new Die(4, Colour.RED));
+            restr.checkSameDie(wpc, 0, 1, new Die(4, Colour.RED));
         }
         catch (MoveNotAllowedException e){
             fail();
@@ -98,7 +98,7 @@ public class TestRestrictionChecker2 {
 
         try {
             //same die, not adjacent
-            restr.sameDie(wpc, 0, 2, new Die (4, Colour.GREEN));
+            restr.checkSameDie(wpc, 0, 2, new Die (4, Colour.GREEN));
         }
         catch (MoveNotAllowedException e) {
             fail();

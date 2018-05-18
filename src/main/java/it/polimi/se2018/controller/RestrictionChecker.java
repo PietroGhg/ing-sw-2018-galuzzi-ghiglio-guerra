@@ -60,7 +60,7 @@ public class RestrictionChecker {
      * @param die die that needs to be placed
      * @throws MoveNotAllowedException
      */
-    public void checkColourRestrictions (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
+    public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if (temp.getColourR() != die.getDieColour())
             throw new MoveNotAllowedException("Color restriction violated.");
@@ -89,7 +89,7 @@ public class RestrictionChecker {
      * @param die die that needs to be placed
      * @throws MoveNotAllowedException if the restriction is violated
      */
-    public void sameDie (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
+    public void checkSameDie(WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Die[] temp = new Die[4];
         try {
             temp[0] = wpc.getCell(row - 1, col).getDie();
@@ -127,15 +127,15 @@ public class RestrictionChecker {
     }
 
     //returns true if the cell is empty (contains no die)
-    private boolean checkEmptiness (WPC wpc, int row, int col){
-        return wpc.getCell(row, col).isEmpty();
+    public void checkEmptiness (WPC wpc, int row, int col) throws MoveNotAllowedException {
+        if (!(wpc.getCell(row, col).isEmpty())) throw new MoveNotAllowedException("Error: cell not empty.");
     }
 
     //returns true if the board doesn't contain a die
     private boolean isEmpty(WPC wpc) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 4; j++){
-                if(!checkEmptiness(wpc, i, j)) return false;
+                if(!wpc.getCell(i,j).isEmpty()) return false;
             }
         }
         return true;

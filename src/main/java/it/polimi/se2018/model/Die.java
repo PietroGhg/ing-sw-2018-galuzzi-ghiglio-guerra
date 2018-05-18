@@ -36,6 +36,11 @@ public class Die {
     public Integer getDieValue() { return value; }
     public Colour getDieColour() { return colour; }
 
+    public void remove(){
+        value = null;
+        colour = null;
+    }
+
     public void roll(){
         Random rand = new Random();
         value = rand.nextInt(6) + 1; //generates a number between 0 and 5 and adds 1 [1;6]
