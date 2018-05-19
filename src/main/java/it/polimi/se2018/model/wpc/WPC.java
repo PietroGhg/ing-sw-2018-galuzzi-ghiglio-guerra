@@ -26,6 +26,9 @@ public class WPC { //WindowPatternCard
      * @param wpc
      */
     public WPC(WPC wpc){
+        board = new Cell[NUMROW][NUMCOL];
+        favorTokens = wpc.getFavorTokens();
+        name = wpc.getName();
         for(int i = 0; i < WPC.NUMROW; i++){
             for(int j = 0; j < WPC.NUMCOL; j++){
                 board[i][j] = new Cell(wpc.getCell(i, j));
@@ -74,6 +77,33 @@ public class WPC { //WindowPatternCard
         return getFavorTokens() == wpc.getFavorTokens() &&
                 restr &&
                 Objects.equals(getName(), wpc.getName());
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < NUMROW; i++){
+            for(int j = 0; j < NUMCOL; j++){
+                builder.append(i + ", " + j +": " + board[i][j].getDie().getDieValue() + " "
+                        + board[i][j].getDie().getDieColour() + "\t");
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    public String restrictionsToString(){
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < NUMROW; i++){
+            for(int j = 0; j < NUMCOL; j++){
+                builder.append(i + ", " + j +": " + board[i][j].getValueR() + " "
+                        + board[i][j].getColourR() + "\t");
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
     }
 
     @Override

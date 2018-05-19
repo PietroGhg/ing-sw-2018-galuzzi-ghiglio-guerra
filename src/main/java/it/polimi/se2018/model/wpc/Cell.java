@@ -15,8 +15,18 @@ public class Cell {
     }
     public Cell(Cell c){
         die = new Die(c.getDie());
-        colourRestriction = c.getColourR();
-        valueRestriction = new Integer(c.getValueR());
+        try {
+            colourRestriction = c.getColourR();
+        }
+        catch (NullPointerException e){
+            colourRestriction = null;
+        }
+        try {
+            valueRestriction = new Integer(c.getValueR());
+        }
+        catch (NullPointerException e){
+            valueRestriction = null;
+        }
     }
 
     public void setDie(Die d) { this.die = d;}
@@ -40,7 +50,7 @@ public class Cell {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cell cell = (Cell) o;
-        return Objects.equals(getDie(), cell.getDie()) &&
+        return  getDie().equals(cell.getDie()) &&
                 colourRestriction == cell.colourRestriction &&
                 Objects.equals(valueRestriction, cell.valueRestriction);
     }

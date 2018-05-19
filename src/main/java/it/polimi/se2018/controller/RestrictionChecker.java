@@ -126,11 +126,24 @@ public class RestrictionChecker {
 
     }
 
+    /**
+     * Checks that a cell contains a die
+     * @param wpc the boards
+     * @param row coordinates
+     * @param col coordinates
+     * @throws MoveNotAllowedException if the cell does not contain a die
+     */
     public void checkNotEmpty (WPC wpc, int row, int col) throws MoveNotAllowedException{
         if(wpc.getCell(row,col).isEmpty()) throw new MoveNotAllowedException("Error: cell is empty.");
     }
 
-    //returns true if the cell is empty (contains no die)
+    /**
+     * Checks that a cell is empty
+     * @param wpc the board
+     * @param row coordinates
+     * @param col coordinates
+     * @throws MoveNotAllowedException if the cell is not empty
+     */
     public void checkEmptiness (WPC wpc, int row, int col) throws MoveNotAllowedException {
         if (!(wpc.getCell(row, col).isEmpty())) throw new MoveNotAllowedException("Error: cell not empty.");
     }

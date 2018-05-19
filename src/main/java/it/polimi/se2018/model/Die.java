@@ -20,8 +20,18 @@ public class Die {
     }
 
     public Die(Die d) {
-        value = new Integer(d.getDieValue());
-        colour = d.getDieColour();
+        try {
+            value = new Integer(d.getDieValue());
+        }
+        catch(NullPointerException e){
+            value = null;
+        }
+        try {
+            colour = d.getDieColour();
+        }
+        catch(NullPointerException e){
+            colour = null;
+        }
     }
 
     public Die(int v, Colour c){

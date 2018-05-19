@@ -32,7 +32,7 @@ public class TestRestrictionChecker {
     public void testColor1(){
         RestrictionChecker restr = new RestrictionChecker();
         try{
-            restr.checkColourRestrictions(wpc, 0, 4, new Die(4, Colour.GREEN));
+            restr.checkColourRestriction(wpc, 0, 4, new Die(4, Colour.GREEN));
         }
         catch (MoveNotAllowedException e){
             fail();
@@ -44,7 +44,7 @@ public class TestRestrictionChecker {
     public void testColor2(){
         RestrictionChecker restr = new RestrictionChecker();
         try{
-            restr.checkColourRestrictions(wpc, 0, 4, new Die(4, Colour.RED));
+            restr.checkColourRestriction(wpc, 0, 4, new Die(4, Colour.RED));
             fail("Expected exception");
         }
         catch (MoveNotAllowedException e){

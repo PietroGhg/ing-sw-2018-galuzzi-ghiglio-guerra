@@ -14,7 +14,6 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
 
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         WPC temp = new WPC( param.getWpc() );
-
         RestrictionChecker rc = new RestrictionChecker();
 
         int row = param.getParameter(0);
