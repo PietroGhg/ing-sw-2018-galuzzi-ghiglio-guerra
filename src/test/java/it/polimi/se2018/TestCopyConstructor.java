@@ -42,6 +42,7 @@ public class TestCopyConstructor {
     @Test
     public void test(){
         wpc2 = new WPC(wpc);
+        System.out.println(wpc.toString());
         assertEquals(wpc, wpc2);
     }
 

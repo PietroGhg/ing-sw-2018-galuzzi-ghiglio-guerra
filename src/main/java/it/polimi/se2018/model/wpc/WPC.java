@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.wpc;
 
+import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
 import java.util.Arrays;
@@ -85,26 +86,21 @@ public class WPC { //WindowPatternCard
 
         for(int i = 0; i < NUMROW; i++){
             for(int j = 0; j < NUMCOL; j++){
-                builder.append(i + ", " + j +": " + board[i][j].getDie().getDieValue() + " "
-                        + board[i][j].getDie().getDieColour() + "\t");
+                builder.append(i + ", " + j +": " );
+                if(board[i][j].isEmpty()) {
+                    if(board[i][j].getColourR() != null) builder.append(board[i][j].getColourR().letter() + " ");
+                    if(board[i][j].getValueR() != null) builder.append(board[i][j].getValueR() + " ");
+                }
+                else {
+                    builder.append(Colour.RESET + board[i][j].getDie().getDieColour().escape() +
+                                    board[i][j].getDie().getDieValue() + "\t" + Colour.RESET);
+                }
             }
             builder.append("\n");
         }
         return builder.toString();
     }
 
-    public String restrictionsToString(){
-        StringBuilder builder = new StringBuilder();
-
-        for(int i = 0; i < NUMROW; i++){
-            for(int j = 0; j < NUMCOL; j++){
-                builder.append(i + ", " + j +": " + board[i][j].getValueR() + " "
-                        + board[i][j].getColourR() + "\t");
-            }
-            builder.append("\n");
-        }
-        return builder.toString();
-    }
 
     @Override
     public int hashCode() {

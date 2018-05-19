@@ -21,6 +21,11 @@ public class PlayerMoveParameters {
         parameters = new ArrayList<>();
     }
 
+    public PlayerMoveParameters(Player player, ArrayList<Integer> p){
+        this.player = player;
+        parameters = p;
+    }
+
     public void setPlayer(Player player){
         this.player = player;
     }
