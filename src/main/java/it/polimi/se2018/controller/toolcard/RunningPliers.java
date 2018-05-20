@@ -5,6 +5,16 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 
 public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
 
+    private static RunningPliers instance;
+    private RunningPliers(){};
+    public static RunningPliers getInstance(){
+        if (instance==null) instance = new RunningPliers();
+        return instance;
+    }
+
+    private int favorTokensNeeded=1;
+    public int getFavorTokensNeeded(){ return favorTokensNeeded; }
+
     @Override
     public void cardAction(PlayerMoveParameters param) {
 

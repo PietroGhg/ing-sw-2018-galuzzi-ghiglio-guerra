@@ -5,6 +5,16 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 
 public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
 
+    private static FluxRemover instance;
+    private FluxRemover(){};
+    public static FluxRemover getInstance(){
+        if (instance==null) instance = new FluxRemover();
+        return instance;
+    }
+
+    private int favorTokensNeeded=1;
+    public int getFavorTokensNeeded(){ return favorTokensNeeded; }
+
     @Override
     public void cardAction(PlayerMoveParameters param) {
 

@@ -4,7 +4,8 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.PlayerMoveParameters;
 
 public interface ToolCard {
-    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException;
+    int getFavorTokensNeeded();
+    void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException;
 }
 
 /*

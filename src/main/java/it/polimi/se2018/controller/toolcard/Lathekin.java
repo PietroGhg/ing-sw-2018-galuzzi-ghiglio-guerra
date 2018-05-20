@@ -8,7 +8,21 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
 public class Lathekin implements ToolCard{
+
+    private static Lathekin instance;
+    private Lathekin(){};
+    public static Lathekin getInstance(){
+        if (instance==null) instance = new Lathekin();
+        return instance;
+    }
+
+    private int favorTokensNeeded=1;
+    public int getFavorTokensNeeded(){ return favorTokensNeeded; }
+
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException {
+        RestrictionChecker rc = new RestrictionChecker();
+        rc.checkEnoughFavorTokens(param.getPlayer(),instance);
+
         WPC temp = new WPC(param.getPlayer().getWpc());
         //First die to move
         int row1 = param.getParameter(0);
@@ -23,7 +37,7 @@ public class Lathekin implements ToolCard{
         int row4 = param.getParameter(6);
         int col4 = param.getParameter(7);
 
-        RestrictionChecker rc = new RestrictionChecker();
+
 
         rc.checkNotEmpty(temp,row1,col1);
         Integer v1 = temp.getCell(row1, col1).getDie().getDieValue();
@@ -57,5 +71,12 @@ public class Lathekin implements ToolCard{
         temp.removeDie(row3,col3);
 
         param.getPlayer().setWpc(temp);
+
+        int currentFT = param.getPlayer().getFavorTokens() - favorTokensNeeded;
+        param.getPlayer().setFavorTokens(currentFT);
+
+        if (favorTokensNeeded == 1){
+            favorTokensNeeded = 2;
+        }
     }
 }

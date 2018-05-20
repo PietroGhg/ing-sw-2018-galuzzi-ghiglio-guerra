@@ -5,36 +5,36 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 public class ToolCardFactory {
     public ToolCard get(int id) throws InputNotValidException{
         switch(id) {
-            case(1): return new GrozingPliers();
-            case(2): return new EglomiseBrush();
-            case(3): return new CopperFoilBurnisher();
-            case(4): return new Lathekin();
-            case(5): return new LensCutter();
-            case(6): return new FluxBrush();
-            case(7): return new GlazingHammer();
-            case(8): return new RunningPliers();
-            case(9): return new CorkBackedStraightedge();
-            case(10): return new GrindingStone();
-            case(11): return new FluxRemover();
-            case(12): return new TapWheel();
+            case(1): return GrozingPliers.getInstance();
+            case(2): return EglomiseBrush.getInstance();
+            case(3): return CopperFoilBurnisher.getInstance();
+            case(4): return Lathekin.getInstance();
+            case(5): return LensCutter.getInstance();
+            case(6): return FluxBrush.getInstance();
+            case(7): return GlazingHammer.getInstance();
+            case(8): return RunningPliers.getInstance();
+            case(9): return CorkBackedStraightedge.getInstance();
+            case(10): return GrindingStone.getInstance();
+            case(11): return FluxRemover.getInstance();
+            case(12): return TapWheel.getInstance();
             default: throw new InputNotValidException();
         }
     }
 
     public ToolCard get(String s) throws InputNotValidException{
         switch(s){
-            case("Grozing PLiers"): return new GrozingPliers();
-            case("Eglomise Brush"): return new EglomiseBrush();
-            case("Copper Foil Burnisher"): return new CopperFoilBurnisher();
-            case("Lthekin"): return new Lathekin();
-            case("Lens Cutter"): return new LensCutter();
-            case("Flux Brush"): return new FluxBrush();
-            case("Glazing Hammer"): return new GlazingHammer();
-            case("Running Pliers"): return new RunningPliers();
-            case("Cork Backed Straightedge"): return new CorkBackedStraightedge();
-            case("Grinding Stone"): return new GrindingStone();
-            case("Flux Remover"): return new FluxRemover();
-            case("Tap Wheel"): return new TapWheel();
+            case("Grozing PLiers"): return GrozingPliers.getInstance();
+            case("Eglomise Brush"): return EglomiseBrush.getInstance();
+            case("Copper Foil Burnisher"): return CopperFoilBurnisher.getInstance();
+            case("Lthekin"): return Lathekin.getInstance();
+            case("Lens Cutter"): return LensCutter.getInstance();
+            case("Flux Brush"): return FluxBrush.getInstance();
+            case("Glazing Hammer"): return GlazingHammer.getInstance();
+            case("Running Pliers"): return RunningPliers.getInstance();
+            case("Cork Backed Straightedge"): return CorkBackedStraightedge.getInstance();
+            case("Grinding Stone"): return GrindingStone.getInstance();
+            case("Flux Remover"): return FluxRemover.getInstance();
+            case("Tap Wheel"): return TapWheel.getInstance();
             default: throw new InputNotValidException();
         }
     }

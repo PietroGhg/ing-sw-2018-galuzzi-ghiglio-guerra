@@ -41,7 +41,7 @@ public class TestGrozingPliers {
         wpc6 = gen.getWPC(1);
         fillerWith6(wpc6);
 
-        gp = new GrozingPliers();
+        gp = GrozingPliers.getInstance();
     }
 
     private void filler(WPC wpc){

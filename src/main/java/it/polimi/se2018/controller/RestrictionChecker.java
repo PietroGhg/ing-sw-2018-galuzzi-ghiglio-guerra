@@ -1,11 +1,26 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 
 public class RestrictionChecker {
+
+    /**
+     *
+     * @param p player
+     * @param tc Tool Card
+     * @throws MoveNotAllowedException if the player has not enough Favor Tokens to use the Tool Card
+     * @author Leonardo Guerra
+     */
+    public void checkEnoughFavorTokens(Player p, ToolCard tc) throws MoveNotAllowedException{
+        int t = p.getFavorTokens();
+        int needed = tc.getFavorTokensNeeded();
+        if(t < needed) throw new MoveNotAllowedException("Error: not enough favor tokens");
+    }
 
     /**
      *
@@ -25,7 +40,7 @@ public class RestrictionChecker {
                     !checkCell(wpc, row-1,col+1) ||
                     !checkCell(wpc, row+1,col-1) ||
                     !checkCell(wpc, row+1,col+1) ) )
-                throw new MoveNotAllowedException("Die must be adjacent to another die.");
+                throw new MoveNotAllowedException("Error: die must be adjacent to another die.");
 
     }
 
@@ -49,7 +64,7 @@ public class RestrictionChecker {
      */
     public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
         if (!(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 ))
-            throw new MoveNotAllowedException("First move: die must be on the border.");
+            throw new MoveNotAllowedException("Error: first move, die must be on the border.");
     }
 
     /**
@@ -63,7 +78,7 @@ public class RestrictionChecker {
     public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if (temp.getColourR() != die.getDieColour())
-            throw new MoveNotAllowedException("Color restriction violated.");
+            throw new MoveNotAllowedException("Error: colour restriction violated.");
     }
 
     /**
@@ -77,7 +92,7 @@ public class RestrictionChecker {
     public void checkValueRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if(! (die.getDieValue().equals(temp.getValueR())))
-            throw new MoveNotAllowedException("Value restriction violated.");
+            throw new MoveNotAllowedException("Error: value restriction violated.");
     }
 
     /**
@@ -120,7 +135,7 @@ public class RestrictionChecker {
             if(temp[i] != null) {
                 if (temp[i].getDieValue() == die.getDieValue() &&
                         temp[i].getDieColour().equals(die.getDieColour()))
-                    throw new MoveNotAllowedException("Same die orthogonally adjacent.");
+                    throw new MoveNotAllowedException("Error: same die orthogonally adjacent.");
             }
             }
 

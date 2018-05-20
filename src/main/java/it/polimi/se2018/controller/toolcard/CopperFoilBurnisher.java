@@ -8,7 +8,21 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
 public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di Rame
+
+    private static CopperFoilBurnisher instance;
+    private CopperFoilBurnisher(){};
+    public static CopperFoilBurnisher getInstance(){
+        if (instance==null) instance = new CopperFoilBurnisher();
+        return instance;
+    }
+
+    private int favorTokensNeeded=1;
+    public int getFavorTokensNeeded(){ return favorTokensNeeded; }
+
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
+        RestrictionChecker rc = new RestrictionChecker();
+        rc.checkEnoughFavorTokens(param.getPlayer(),instance);
+
         WPC temp = new WPC( param.getPlayer().getWpc() );
 
         //Die to move
@@ -17,8 +31,6 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         //Recipient cell
         int row2 = param.getParameter(2);
         int col2 = param.getParameter(3);
-
-        RestrictionChecker rc = new RestrictionChecker();
 
         rc.checkNotEmpty(temp,row1,col1);
         Integer v1 = temp.getCell(row1,col1).getDie().getDieValue();
@@ -35,5 +47,12 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         temp.removeDie(row1,col1);
 
         param.getPlayer().setWpc(temp);
+
+        int currentFT = param.getPlayer().getFavorTokens() - favorTokensNeeded;
+        param.getPlayer().setFavorTokens(currentFT);
+
+        if (favorTokensNeeded == 1){
+            favorTokensNeeded = 2;
+        }
     }
 }

@@ -4,6 +4,6 @@ import it.polimi.se2018.model.objectivecards.privateobjectivecard.PrivateObjecti
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 
 public interface ObjectiveCardFactory {
-    public PrivateObjectiveCard getPrivateCard();
-    public PublicObjectiveCard getPublicCard();
+    PrivateObjectiveCard getPrivateCard();
+    PublicObjectiveCard getPublicCard();
 }

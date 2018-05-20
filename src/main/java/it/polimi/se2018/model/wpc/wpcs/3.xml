@@ -1,0 +1,15 @@
+<wpc>
+    <name value = "Bellesguard"></name>
+    <favorTokens value = "3"></favorTokens>
+    <restriction type = "colour" row="0" col="0" value = "BLUE"></restriction>
+    <restriction type = "value" row="0" col="1" value="6"></restriction>
+    <restriction type = "colour" row="0" col="4" value = "YELLOW"></restriction>
+    <restriction type="value" row="1" col="0" value="3"></restriction>
+    <restriction type="colour" row="1" col="1" value="BLUE"></restriction>
+    <restriction type="value" row="2" col="1" value="5"></restriction>
+    <restriction type="value" row="2" col="2" value="6"></restriction>
+    <restriction type="value" row="2" col="3" value="2"></restriction>
+    <restriction type="value" row="3" col="1" value="4"></restriction>
+    <restriction type="value" row="3" col="3" value="1"></restriction>
+    <restriction type="colour" row="3" col="4" value="GREEN"></restriction>
+</wpc>
