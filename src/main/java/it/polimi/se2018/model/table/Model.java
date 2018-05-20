@@ -10,15 +10,23 @@ import it.polimi.se2018.utils.messages.MVMessage;
 import it.polimi.se2018.utils.messages.VCGameMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Model extends Observable<MVGameMessage> {
+
+    //da ricontrollare
     private ArrayList<Die> draftPool;
+    public List<Die> getDraftPool() { return draftPool; }
+    public void setDraftPool(List<Die> draftPool) { this.draftPool = (ArrayList<Die>)draftPool;}
+
+    private RoundTrack roundTrack;
+    //getter e setter?
+    
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
     private ChooseWinner chooseWinner;
     private Turn turn;
-    private RoundTrack roundTrack;
     private PlayerMoveParameters playerMoveParameters;
 
 
