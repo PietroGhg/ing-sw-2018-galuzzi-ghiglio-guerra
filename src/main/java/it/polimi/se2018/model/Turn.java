@@ -12,12 +12,17 @@ public class Turn {
         playedDie = true;
     }
 
-    public boolean isPlayedCard() {
+    public boolean cardHasBeenPlayed() {
         return playedCard;
     }
 
-    public boolean isPlayedDie() {
+    public boolean dieHasBeenPlayed() {
         return playedDie;
+    }
+
+    public void clear(){
+        playedCard = false;
+        playedDie = false;
     }
 
     public Turn(){

@@ -30,27 +30,34 @@ public class Controller implements Observer<VCGameMessage> {
     public void update(VCGameMessage message){
         //Checks that it's the right turn
         if(model.whoIsPlaying() != message.getPlayerID()){
-            model.setMessage("Error: not your turn");
+            model.setMessage("Error: not your turn", message.getPlayerID());
             return;
         }
+        //Sets up parameters
         model.setParameters(message);
+
         if(message.isToolCardMove()) {
             int toolcardID = message.getToolcardID();
             try {
+                if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
                 toolCardFactory.get(toolcardID).cardAction(model.getParameters());
-                model.setMessage("Success.");
+                model.setMessage("Success.", message.getPlayerID());
             } catch (MoveNotAllowedException|InputNotValidException e) {
-                model.setMessage(e.getMessage());
+                model.setMessage(e.getMessage(), message.getPlayerID());
             }
         }
+
         if(message.isDiceMove()) {
             try {
+                if(model.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die has already been placed in the turn.");
                 diceMove(model.getParameters());
+                model.setMessage("Success.", message.getPlayerID());
             }
             catch (MoveNotAllowedException e) {
-                model.setMessage(e.getMessage());
+                model.setMessage(e.getMessage(), message.getPlayerID());
             }
         }
+
         if(message.isEndTurn()){
             model.nextTurn();
         }

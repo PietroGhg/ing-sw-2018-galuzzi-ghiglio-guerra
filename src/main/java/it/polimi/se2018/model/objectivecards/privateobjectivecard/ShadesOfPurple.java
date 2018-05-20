@@ -9,6 +9,9 @@ import it.polimi.se2018.model.wpc.WPC;
  */
 
 public class ShadesOfPurple extends PrivateObjectiveCard {
+    public ShadesOfPurple(){
+        super("Shades of Purple");
+    }
     @Override
     /**
      * Method for the computation of a partial score:

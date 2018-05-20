@@ -1,10 +1,16 @@
 package it.polimi.se2018.model.table;
 
+import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.exceptions.GameEndedException;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the round track, keeps track of the current turn
+ * The turns are represented in a 10x2*nPlayers matrix containig the IDs of the players in the correct order
+ * @author Pietro Ghiglio
+ */
 public class RoundTrack {
     private static final int NUM_ROUND = 10;
     private ArrayList<ArrayList<Die>> roundTrack;
@@ -13,9 +19,11 @@ public class RoundTrack {
     private int roundCounter;
     private int[][] roundMatrix;
 
-    /*rounds and turns are determined just by the number of players
-    * each player has an unique identifier, roundMatrix contains in each row
-    * the order of the players for each round*/
+    /**
+     * Method that fills the round matrix at the beginning of the game
+     * @param nPlayers the number of players
+     * @return a matrix filled with the IDs in the correct order
+     */
     private int[][] matrixFiller(int nPlayers){
         int temp[][] = new int[NUM_ROUND][2*nPlayers];
 
@@ -42,7 +50,10 @@ public class RoundTrack {
         roundMatrix = matrixFiller(nPlayers);
     }
 
-    //returns the id of the current player
+    /**
+     *
+     * @return the ID of the current player
+     */
     public int whoIsPlaying(){
         return roundMatrix[roundCounter][turnCounter];
     }
@@ -55,7 +66,10 @@ public class RoundTrack {
         return roundCounter;
     }
 
-    //returns false if game is finished
+    /**
+     * Method called by the model when a player finishes his turn
+     * @throws GameEndedException if the 10th round is complete
+     */
     public void nextTurn() throws GameEndedException{
         if(turnCounter == 2*nPlayers - 1){
             turnCounter = 0;
@@ -65,6 +79,20 @@ public class RoundTrack {
         else {
             turnCounter++;
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        Die temp;
+        for(int i = 0; i < roundTrack.size(); i++){
+            for(int j = 0; j < roundTrack.get(i).size(); j++){
+                temp = roundTrack.get(i).get(j);
+                builder.append(Colour.RESET + temp.getDieColour().escape() + temp.getDieValue() + "\t" + Colour.RESET);
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
     }
 
     //just for testing purposes
@@ -83,6 +111,10 @@ public class RoundTrack {
         }
     }
 
+    /**
+     * Method used to calculate the winner
+     * @return the last row of the matrix (the order of the players in the last round)
+     */
     public int[] getLastRound() {
         int[] ris = new int[2*nPlayers];
         for(int i = 0; i < 2*nPlayers; i++) ris[i] = roundMatrix[NUM_ROUND - 1][i];

@@ -25,7 +25,7 @@ public class Model extends Observable<MVGameMessage> {
     public void nextTurn(){
         try {
             roundTrack.nextTurn();
-            turn = new Turn();
+            turn.clear();
             //TO DO: notify the players
         }
         catch (GameEndedException e){
@@ -46,12 +46,21 @@ public class Model extends Observable<MVGameMessage> {
     }
 
     /**
-     * sets up a MVMessage contaning all the useful datas and notifies it to the view
+     * sets up a MVMessage containing all the useful datas and notifies it to the view
      * @param m the message that has to be notified to the view
      */
-    public void setMessage(String m){
-        MVGameMessage message = new MVGameMessage(m);
-        //chiamate ai vari metodi toString e creazione messaggio
+    public void setMessage(String m, int playerID){
+        MVGameMessage message = new MVGameMessage(m, playerID);
+
+        //set up wpcs
+        for(Player p: players){
+            message.setWpc(p.getPlayerID(), p.getWpc().toString());
+        }
+        //set up draftpool
+        message.setDraftPool(getDraftPoolToString());
+        //set up roundtrack
+        message.setRoundTrack(roundTrack.toString());
+
         notify(message);
     }
 
@@ -64,7 +73,34 @@ public class Model extends Observable<MVGameMessage> {
         return playerMoveParameters;
     }
 
+    /**
+     * @return The ID of the current player
+     */
     public int whoIsPlaying(){
         return roundTrack.whoIsPlaying();
+    }
+
+    private String getDraftPoolToString(){
+        StringBuilder builder = new StringBuilder();
+        Die temp;
+        for(int i = 0; i< draftPool.size(); i++){
+            temp = draftPool.get(i);
+            builder.append(Colour.RESET + temp.getDieColour().escape() + temp.getDieValue() +"\t" +Colour.RESET);
+        }
+        return builder.toString();
+    }
+
+    /**
+     * @return true if a card has already been played in the turn
+     */
+    public boolean cardHasBeenPlayed(){
+        return turn.cardHasBeenPlayed();
+    }
+
+    /**
+     * @return true if a die has already been played in a turn
+     */
+    public boolean dieHasBeenPlayed(){
+        return turn.dieHasBeenPlayed();
     }
 }

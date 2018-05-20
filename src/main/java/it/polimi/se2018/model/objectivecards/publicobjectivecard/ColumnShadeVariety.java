@@ -8,6 +8,9 @@ import it.polimi.se2018.model.wpc.WPC;
  */
 
 public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature diverse - Colonna
+    public ColumnShadeVariety(){
+        super("Column Shade Variety");
+    }
     @Override
     /**
      * Method for the computation of a partial score:

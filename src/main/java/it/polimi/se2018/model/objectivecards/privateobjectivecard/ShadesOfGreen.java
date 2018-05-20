@@ -9,6 +9,9 @@ import it.polimi.se2018.model.wpc.WPC;
  */
 
 public class ShadesOfGreen extends PrivateObjectiveCard {
+    public ShadesOfGreen(){
+        super("Shades of Green");
+    }
     @Override
     /**
      * Method for the computation of a partial score:

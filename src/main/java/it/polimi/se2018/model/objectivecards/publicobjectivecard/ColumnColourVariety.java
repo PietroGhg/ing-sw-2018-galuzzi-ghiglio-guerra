@@ -8,6 +8,9 @@ import it.polimi.se2018.model.wpc.WPC;
  */
 
 public class ColumnColourVariety extends PublicObjectiveCard {  //Colori diversi - Colonna
+    public ColumnColourVariety(){
+        super("Column Colour Variety");
+    }
     @Override
     /**
      * Method for the computation of a partial score:
