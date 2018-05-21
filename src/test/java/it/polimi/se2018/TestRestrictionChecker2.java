@@ -47,7 +47,7 @@ public class TestRestrictionChecker2 {
             restr.checkAdjacent(wpc, 0, 2);
         }
         catch (MoveNotAllowedException e){
-            assertEquals("Die must be adjacent to another die.", e.getMessage());
+            assertEquals(RestrictionChecker.ADJACENT_ERROR, e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class TestRestrictionChecker2 {
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals("Same die orthogonally adjacent.", e.getMessage());
+            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
         }
     }
 

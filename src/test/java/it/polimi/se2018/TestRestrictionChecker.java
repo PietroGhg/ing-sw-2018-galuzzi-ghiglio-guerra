@@ -48,7 +48,7 @@ public class TestRestrictionChecker {
             fail("Expected exception");
         }
         catch (MoveNotAllowedException e){
-            assertEquals( "Color restriction violated.", e.getMessage());
+            assertEquals( RestrictionChecker.COLOURRESTRICTION_ERROR, e.getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ public class TestRestrictionChecker {
             fail("Expectd exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals("Value restriction violated.", e.getMessage());
+            assertEquals(RestrictionChecker.VALUERESTRICTION_ERROR, e.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class TestRestrictionChecker {
             fail("Expected exception");
         }
         catch (MoveNotAllowedException e){
-            assertEquals("First move: die must be on the border.", e.getMessage());
+            assertEquals(RestrictionChecker.FIRSTMOVE_ERROR, e.getMessage());
         }
     }
 

@@ -8,7 +8,14 @@ import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 
 public class RestrictionChecker {
-
+    public static final String ADJACENT_ERROR = "Error: die must be adjacent to another die.";
+    public static final String FIRSTMOVE_ERROR = "Error: first move, die must be on the border.";
+    public static final String ENOUGHFAVORTOKENS_ERROR = "Error: not enough favor tokens.";
+    public static final String COLOURRESTRICTION_ERROR = "Error: colour restriction violated.";
+    public static final String VALUERESTRICTION_ERROR = "Error: colour restriction violated.";
+    public static final String SAMEDIE_ERROR = "Error: same die orthogonally adjacent.";
+    public static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
+    public static final String EMPTY_ERROR = "Error: cell not empty.";
     /**
      *
      * @param p player
@@ -19,7 +26,7 @@ public class RestrictionChecker {
     public void checkEnoughFavorTokens(Player p, ToolCard tc) throws MoveNotAllowedException{
         int t = p.getFavorTokens();
         int needed = tc.getFavorTokensNeeded();
-        if(t < needed) throw new MoveNotAllowedException("Error: not enough favor tokens.");
+        if(t < needed) throw new MoveNotAllowedException(ENOUGHFAVORTOKENS_ERROR);
     }
 
     /**
@@ -40,7 +47,7 @@ public class RestrictionChecker {
                     !checkCell(wpc, row-1,col+1) ||
                     !checkCell(wpc, row+1,col-1) ||
                     !checkCell(wpc, row+1,col+1) ) )
-                throw new MoveNotAllowedException("Error: die must be adjacent to another die.");
+                throw new MoveNotAllowedException(ADJACENT_ERROR);
 
     }
 
@@ -64,7 +71,7 @@ public class RestrictionChecker {
      */
     public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
         if (!(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 ))
-            throw new MoveNotAllowedException("Error: first move, die must be on the border.");
+            throw new MoveNotAllowedException(FIRSTMOVE_ERROR);
     }
 
     /**
@@ -78,7 +85,7 @@ public class RestrictionChecker {
     public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if (temp.getColourR() != die.getDieColour())
-            throw new MoveNotAllowedException("Error: colour restriction violated.");
+            throw new MoveNotAllowedException(COLOURRESTRICTION_ERROR);
     }
 
     /**
@@ -92,7 +99,7 @@ public class RestrictionChecker {
     public void checkValueRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if(! (die.getDieValue().equals(temp.getValueR())))
-            throw new MoveNotAllowedException("Error: value restriction violated.");
+            throw new MoveNotAllowedException(VALUERESTRICTION_ERROR);
     }
 
     /**
@@ -135,7 +142,7 @@ public class RestrictionChecker {
             if(temp[i] != null) {
                 if (temp[i].getDieValue() == die.getDieValue() &&
                         temp[i].getDieColour().equals(die.getDieColour()))
-                    throw new MoveNotAllowedException("Error: same die orthogonally adjacent.");
+                    throw new MoveNotAllowedException(SAMEDIE_ERROR);
             }
             }
 
@@ -149,7 +156,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the cell does not contain a die
      */
     public void checkNotEmpty (WPC wpc, int row, int col) throws MoveNotAllowedException{
-        if(wpc.getCell(row,col).isEmpty()) throw new MoveNotAllowedException("Error: cell is empty.");
+        if(wpc.getCell(row,col).isEmpty()) throw new MoveNotAllowedException(CELLNOTEMPTY_ERROR);
     }
 
     /**
@@ -160,7 +167,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the cell is not empty
      */
     public void checkEmptiness (WPC wpc, int row, int col) throws MoveNotAllowedException {
-        if (!(wpc.getCell(row, col).isEmpty())) throw new MoveNotAllowedException("Error: cell not empty.");
+        if (!(wpc.getCell(row, col).isEmpty())) throw new MoveNotAllowedException(EMPTY_ERROR);
     }
 
     //returns true if the board doesn't contain a die
