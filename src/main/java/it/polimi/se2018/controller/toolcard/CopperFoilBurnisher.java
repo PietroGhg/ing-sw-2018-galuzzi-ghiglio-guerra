@@ -4,7 +4,9 @@ import it.polimi.se2018.controller.RestrictionChecker;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di Rame
@@ -19,11 +21,14 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
     private int favorTokensNeeded=1;
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
-    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
+    public void cardAction(Model model) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        rc.checkEnoughFavorTokens(param.getPlayer(),instance);
+        PlayerMoveParameters param = model.getParameters();
+        int playerID = param.getPlayerID();
+        Player player = model.getPlayer(playerID);
+        rc.checkEnoughFavorTokens(player,instance);
 
-        WPC temp = new WPC( param.getPlayer().getWpc() );
+        WPC temp = player.getWpc();
 
         //Die to move
         int row1 = param.getParameter(0);
@@ -37,7 +42,7 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         Colour c1 = temp.getCell(row1,col1).getDie().getDieColour();
         Die d1 = new Die(v1,c1);
 
-        // Restrictions check
+        // Restrictions check, value restriction not checked
         rc.checkEmptiness(temp,row2,col2);
         rc.checkColourRestriction(temp, row2, col2, d1);
         rc.checkAdjacent(temp, row2, col2);
@@ -46,10 +51,8 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         temp.setDie(row2, col2, d1);
         temp.removeDie(row1,col1);
 
-        param.getPlayer().setWpc(temp);
-
-        int currentFT = param.getPlayer().getFavorTokens() - favorTokensNeeded;
-        param.getPlayer().setFavorTokens(currentFT);
+        int currentFT = player.getFavorTokens() - favorTokensNeeded;
+        player.setFavorTokens(currentFT);
 
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;

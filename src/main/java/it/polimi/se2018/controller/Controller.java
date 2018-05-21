@@ -4,8 +4,11 @@ package it.polimi.se2018.controller;
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
 import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
+import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.messages.*;
 
@@ -40,7 +43,7 @@ public class Controller implements Observer<VCGameMessage> {
             int toolcardID = message.getToolcardID();
             try {
                 if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
-                toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+                toolCardFactory.get(toolcardID).cardAction(model);
                 model.setMessage("Success.", message.getPlayerID());
             } catch (MoveNotAllowedException|InputNotValidException e) {
                 model.setMessage(e.getMessage(), message.getPlayerID());
@@ -64,10 +67,21 @@ public class Controller implements Observer<VCGameMessage> {
     }
 
     /*
-        0: die row
-        1: die col
-        2: cell row
-        3: cell col
+        0: draftpool index
+        1: die row
+        2: die col
+        3: cell row
+        4: cell col
     */
-    private void diceMove(PlayerMoveParameters parameters)throws MoveNotAllowedException{}
+    private void diceMove(PlayerMoveParameters parameters)throws MoveNotAllowedException{
+        Player p = model.getPlayer(parameters.getPlayerID());
+        WPC temp = new WPC(p.getWpc());
+        int dieIndex = parameters.getParameter(0);
+
+
+        //checks restrizioni
+
+        //Die d = model.chooseDieFromDraft(dieIndex);
+
+    }
 }

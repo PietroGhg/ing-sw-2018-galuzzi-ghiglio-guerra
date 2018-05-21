@@ -29,6 +29,10 @@ public class Model extends Observable<MVGameMessage> {
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
 
+    public Model(){
+        players = new ArrayList<Player>();
+        //aggiungere altre inizializzazioni
+    }
 
     public void nextTurn(){
         try {
@@ -73,8 +77,12 @@ public class Model extends Observable<MVGameMessage> {
     }
 
     public void setParameters(VCGameMessage m){
-        playerMoveParameters = new PlayerMoveParameters(players.get(m.getPlayerID()),
+        playerMoveParameters = new PlayerMoveParameters(m.getPlayerID(),
                                                             m.getParameters());
+    }
+
+    public void setParameters(PlayerMoveParameters param){
+        playerMoveParameters = param;
     }
 
     public PlayerMoveParameters getParameters() {
@@ -86,6 +94,10 @@ public class Model extends Observable<MVGameMessage> {
      */
     public int whoIsPlaying(){
         return roundTrack.whoIsPlaying();
+    }
+
+    public Player getPlayer(int playerID){
+        return players.get(playerID - 1);
     }
 
     private String getDraftPoolToString(){
@@ -110,5 +122,14 @@ public class Model extends Observable<MVGameMessage> {
      */
     public boolean dieHasBeenPlayed(){
         return turn.dieHasBeenPlayed();
+    }
+
+    public void addPlayer(int playerID){
+        Player p = new Player(playerID);
+        players.add(p);
+    }
+
+    public void addPlayer(Player p){
+        players.add(p);
     }
 }

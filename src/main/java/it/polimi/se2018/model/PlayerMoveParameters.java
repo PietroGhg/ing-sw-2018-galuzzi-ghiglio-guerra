@@ -13,32 +13,26 @@ import java.util.ArrayList;
  */
 
 public class PlayerMoveParameters {
-    private Player player;
+    private int playerID;
     private ArrayList<Integer> parameters;
 
-    public PlayerMoveParameters(Player player){
-        this.player = player;
+    public PlayerMoveParameters(int playerID){
+        this.playerID = playerID;
         parameters = new ArrayList<>();
     }
 
-    public PlayerMoveParameters(Player player, ArrayList<Integer> p){
-        this.player = player;
+    public PlayerMoveParameters(int playerID, ArrayList<Integer> p){
+        this.playerID = playerID;
         parameters = p;
     }
 
-    public void setPlayer(Player player){
-        this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
+    public int getPlayerID() {
+        return playerID;
     }
 
     public void addParameter(int i){
         parameters.add(i);
     }
-
-    public WPC getWpc() { return player.getWpc(); }
 
     public int getParameter(int i){
         return parameters.get(i);

@@ -2,6 +2,7 @@ package it.polimi.se2018.controller.toolcard;
 
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.table.Model;
 
 public class GrindingStone implements ToolCard{   //Tampone Diamantato
 
@@ -16,7 +17,7 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException {
+    public void cardAction(Model model) throws MoveNotAllowedException {
 
     }
 }

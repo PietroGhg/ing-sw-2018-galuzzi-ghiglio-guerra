@@ -19,7 +19,7 @@ public class RestrictionChecker {
     public void checkEnoughFavorTokens(Player p, ToolCard tc) throws MoveNotAllowedException{
         int t = p.getFavorTokens();
         int needed = tc.getFavorTokensNeeded();
-        if(t < needed) throw new MoveNotAllowedException("Error: not enough favor tokens");
+        if(t < needed) throw new MoveNotAllowedException("Error: not enough favor tokens.");
     }
 
     /**

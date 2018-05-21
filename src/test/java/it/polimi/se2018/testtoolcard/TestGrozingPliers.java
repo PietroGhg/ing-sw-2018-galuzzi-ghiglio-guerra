@@ -6,6 +6,7 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import org.junit.*;
@@ -19,7 +20,8 @@ import static org.junit.Assert.fail;
  */
 public class TestGrozingPliers {
     private PlayerMoveParameters param;
-    private GrozingPliers gp;
+    private GrozingPliers card;
+    private Model model;
     private Player player;
     private WPC before;
     private WPC wpc1;
@@ -41,7 +43,7 @@ public class TestGrozingPliers {
         wpc6 = gen.getWPC(1);
         fillerWith6(wpc6);
 
-        gp = GrozingPliers.getInstance();
+        card = GrozingPliers.getInstance();
     }
 
     private void filler(WPC wpc){
@@ -132,16 +134,20 @@ public class TestGrozingPliers {
      */
     @Test
     public void test1(){
+        model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        param = new PlayerMoveParameters(player);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID());
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(1);
+        model.setParameters(param);
 
 
         try {
-            gp.cardAction(param);
+            card.cardAction(model);
             assertEquals(player.getWpc(), expected);
         }
         catch (MoveNotAllowedException e){
@@ -155,15 +161,19 @@ public class TestGrozingPliers {
      */
     @Test
     public void test2(){
+        model = new Model();
         player = new Player(1);
         player.setWpc(wpc1);
-        param = new PlayerMoveParameters(player);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID());
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(-1);
+        model.setParameters(param);
 
         try{
-            gp.cardAction(param);
+            card.cardAction(model);
             fail();
         }
         catch (MoveNotAllowedException e){
@@ -176,19 +186,66 @@ public class TestGrozingPliers {
      */
     @Test
     public void test3() {
+        model = new Model();
         player = new Player(1);
         player.setWpc(wpc6);
-        param = new PlayerMoveParameters(player);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID());
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(1);
+        model.setParameters(param);
 
         try{
-            gp.cardAction(param);
+            card.cardAction(model);
             fail();
         }
         catch (MoveNotAllowedException e){
             assertEquals("Error: cannot increase value 6.", e.getMessage());
+        }
+
+    }
+
+    /**
+     * Tests if the player doesn't have enough favout tokens
+     */
+    @Test
+    public void test4(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(4);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID());
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(1);
+        model.setParameters(param);
+
+        //The first time should go right
+        try{
+            card.cardAction(model);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        //Second time should go right
+        try{
+            card.cardAction(model);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        //Third time: not enough favour tokens
+        try{
+            card.cardAction(model);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
         }
 
     }
