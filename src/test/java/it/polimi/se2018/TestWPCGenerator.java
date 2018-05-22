@@ -58,4 +58,10 @@ public class TestWPCGenerator {
         assertEquals(testWPC, testWPC2);
         assertEquals(testWPC, wpc);
     }
+
+    @Test
+    public void testNumWpc(){
+        WpcGenerator gen = new WpcGenerator();
+        assertEquals(gen.getNumWpcs(), 5); //change the value if number of wpcs is changed
+    }
 }
