@@ -3,6 +3,7 @@ package it.polimi.se2018.model.table;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.exceptions.GameEndedException;
+import it.polimi.se2018.model.Turn;
 
 import java.util.ArrayList;
 
@@ -48,8 +49,25 @@ public class RoundTrack {
         turnCounter = 0;
         roundCounter = 0;
         roundMatrix = matrixFiller(nPlayers);
+        // Da valutare:
+        roundTrack = new ArrayList<>();
+        for(int i = 0; i < NUM_ROUND;i++) {
+            roundTrack.add(new ArrayList<>());
+        }
+
     }
 
+    public ArrayList<ArrayList<Die>> getRoundTrack() { return roundTrack; }
+
+    public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack) {this.roundTrack = roundTrack;}
+
+    public Die getRoundTrackCell(int turn, int index){
+        return roundTrack.get(turn).get(index);
+    }
+
+    public void setRoundTrackCell(int turn, int index, Die die){
+        roundTrack.get(turn).add(index, die);
+    }
     /**
      *
      * @return the ID of the current player
@@ -81,6 +99,12 @@ public class RoundTrack {
         }
     }
 
+    /*
+    public Die getDie(int round, int turn){
+        if(round )
+    }
+    */
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
@@ -100,6 +124,7 @@ public class RoundTrack {
         return roundMatrix;
     }
 
+    /*
     public static void main(String[] args) {
         RoundTrack r = new RoundTrack(2);
         int[][] temp = r.getRoundMatrix();
@@ -110,6 +135,7 @@ public class RoundTrack {
             System.out.print("\n");
         }
     }
+    */
 
     /**
      * Method used to calculate the winner

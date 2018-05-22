@@ -4,8 +4,11 @@ import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
+
+import java.util.ArrayList;
 
 public class RestrictionChecker {
     public static final String ADJACENT_ERROR = "Error: die must be adjacent to another die.";
@@ -16,6 +19,11 @@ public class RestrictionChecker {
     public static final String SAMEDIE_ERROR = "Error: same die orthogonally adjacent.";
     public static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
     public static final String EMPTY_ERROR = "Error: cell not empty.";
+    public static final String RTCELLNOTEMPTY_ERROR = "Error: round track cell is empty.";
+    public static final String RTCELLEMPTY_ERROR = "Error: round track cell is not empty.";
+    public static final String DPCELLNOTEMPTY_ERROR = "Error: draft pool cell is empty.";
+    public static final String DPCELLEMPTY_ERROR = "Error: draft pool cell is not empty.";
+
     /**
      *
      * @param p player
@@ -179,5 +187,22 @@ public class RestrictionChecker {
         }
         return true;
     }
+
+    public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
+        if (!(roundTrack.get(turn).get(index)==null)) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
+    }
+
+    public void checkRTCellEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException {
+        if (roundTrack.get(turn).get(index) == null) throw new MoveNotAllowedException(RTCELLEMPTY_ERROR);
+    }
+
+    public void checkDPCellNotEmpty(Model model, int index) throws MoveNotAllowedException{
+        if(model.getDraftPool().get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
+    }
+
+    public void checkDPCellEmpty(Model model, int index) throws MoveNotAllowedException{
+        if(!(model.getDraftPool().get(index)==null)) throw new MoveNotAllowedException(DPCELLEMPTY_ERROR);
+    }
+
 
 }

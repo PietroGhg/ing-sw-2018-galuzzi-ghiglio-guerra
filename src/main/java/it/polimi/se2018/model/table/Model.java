@@ -15,13 +15,13 @@ import java.util.List;
 
 public class Model extends Observable<MVGameMessage> {
 
-    //da ricontrollare
+    //essendo un ArrayList, per il get di un dado basta il metodo get(index)
+    // e per settare un dado basta draftPool.add(index,die)
     private ArrayList<Die> draftPool;
-    public List<Die> getDraftPool() { return draftPool; }
-    public void setDraftPool(List<Die> draftPool) { this.draftPool = (ArrayList<Die>)draftPool;}
+    public ArrayList<Die> getDraftPool() { return draftPool; }
+    public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
 
     private RoundTrack roundTrack;
-    //getter e setter?
     
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
@@ -31,8 +31,12 @@ public class Model extends Observable<MVGameMessage> {
     private PlayerMoveParameters playerMoveParameters;
 
     public Model(){
-        players = new ArrayList<Player>();
-        //aggiungere altre inizializzazioni
+        players = new ArrayList<>();
+        puCards = new ArrayList<>();
+        diceBag = new DiceBag();
+        // chooseWinner = new ChooseWinner(); ??
+        turn = new Turn();
+        // playerMoveParameters = new PlayerMoveParameters(); ??
     }
 
     public void nextTurn(){

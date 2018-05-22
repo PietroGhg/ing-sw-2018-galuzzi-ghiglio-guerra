@@ -1,4 +1,4 @@
-package it.polimi.se2018.model.States;
+package it.polimi.se2018.model.states;
 
 public enum States {
 
