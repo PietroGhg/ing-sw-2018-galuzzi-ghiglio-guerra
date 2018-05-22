@@ -21,6 +21,11 @@ public class Player {
         playerID = id;
     }
 
+    public Player(String name, int playerID){
+        this.name = name;
+        this.playerID = playerID;
+    }
+
     public void setWpc(WPC wpc) {
         this.wpc = wpc;
     }

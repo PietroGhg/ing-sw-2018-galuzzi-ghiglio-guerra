@@ -5,6 +5,7 @@ import it.polimi.se2018.model.Colour;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * @author Pietro Ghiglio
@@ -74,8 +75,11 @@ public class WpcGenerator {
         catch (Exception e) {
             e.printStackTrace();
         }
-
         return  temp;
+    }
+
+    public int getNumWpcs(){
+        return 0;
     }
 
 }

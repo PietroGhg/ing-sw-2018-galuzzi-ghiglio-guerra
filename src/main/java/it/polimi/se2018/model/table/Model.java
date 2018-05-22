@@ -7,6 +7,7 @@ import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjective
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.messages.MVGameMessage;
 import it.polimi.se2018.utils.messages.MVMessage;
+import it.polimi.se2018.utils.messages.MVSetUpMessage;
 import it.polimi.se2018.utils.messages.VCGameMessage;
 
 import java.util.ArrayList;
@@ -131,5 +132,16 @@ public class Model extends Observable<MVGameMessage> {
 
     public void addPlayer(Player p){
         players.add(p);
+    }
+
+    public void addPlayer(String name) {
+        Player p = new Player(name, players.size() + 1 );
+        players.add(p);
+        //setSetupMessage(players.size(),  extractWpcs());
+    }
+
+    private void setSetupMessage(int playerID, String[] wpcs){
+        MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs);
+        //notify(message);
     }
 }
