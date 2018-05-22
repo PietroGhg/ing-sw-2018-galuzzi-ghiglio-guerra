@@ -1,4 +1,4 @@
-package it.polimi.se2018.utils.messages;
+package it.polimi.se2018.controller.messages;
 
 
 import java.util.HashMap;

@@ -1,19 +1,20 @@
 package it.polimi.se2018.model.table;
 
+import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.GameEndedException;
 import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.utils.messages.MVGameMessage;
-import it.polimi.se2018.utils.messages.MVMessage;
-import it.polimi.se2018.utils.messages.MVSetUpMessage;
-import it.polimi.se2018.utils.messages.VCGameMessage;
+import it.polimi.se2018.controller.messages.MVGameMessage;
+import it.polimi.se2018.controller.messages.MVMessage;
+import it.polimi.se2018.controller.messages.MVSetUpMessage;
+import it.polimi.se2018.controller.messages.VCGameMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model extends Observable<MVGameMessage> {
+public class Model extends Observable<MVMessage> {
 
     //essendo un ArrayList, per il get di un dado basta il metodo get(index)
     // e per settare un dado basta draftPool.add(index,die)
@@ -81,7 +82,7 @@ public class Model extends Observable<MVGameMessage> {
         notify(message);
     }
 
-    public void setParameters(VCGameMessage m){
+    public void setParameters(VCAbstractMessage m){
         playerMoveParameters = new PlayerMoveParameters(m.getPlayerID(),
                                                             m.getParameters());
     }
@@ -146,6 +147,6 @@ public class Model extends Observable<MVGameMessage> {
 
     private void setSetupMessage(int playerID, String[] wpcs){
         MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs);
-        //notify(message);
+        notify(message);
     }
 }
