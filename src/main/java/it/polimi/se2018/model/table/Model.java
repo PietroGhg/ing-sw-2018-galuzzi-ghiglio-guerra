@@ -6,13 +6,11 @@ import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.controller.messages.MVGameMessage;
-import it.polimi.se2018.controller.messages.MVMessage;
-import it.polimi.se2018.controller.messages.MVSetUpMessage;
-import it.polimi.se2018.controller.messages.VCGameMessage;
+import it.polimi.se2018.view.MVGameMessage;
+import it.polimi.se2018.view.MVMessage;
+import it.polimi.se2018.view.MVSetUpMessage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Model extends Observable<MVMessage> {
 

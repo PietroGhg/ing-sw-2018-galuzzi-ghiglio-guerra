@@ -1,23 +1,22 @@
-package it.polimi.se2018.controller.messages;
+package it.polimi.se2018.view;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MVGameMessage implements MVMessage{
+public class MVGameMessage extends MVMessage{
     private String message;
     private String roundTrack;
     private String draftPool;
-    private String prCard;
-    private int receiver; //playerID of the receiver of the message
     private Map<Integer, String> wpcs;
-    private String[] puCards;
 
     public MVGameMessage(String message, int playerID){
         this.message = message;
-        receiver = playerID;
+        this.playerID = playerID;
         wpcs = new HashMap<Integer, String>();
     }
+
+    public void accept(AbstractView view){ view.visit(this); }
 
     public String getMessage() {
         return message;
@@ -29,10 +28,6 @@ public class MVGameMessage implements MVMessage{
 
     public String getDraftPool() {
         return draftPool;
-    }
-
-    private String getPrCard(){
-        return prCard;
     }
 
     public String getWpc(int playerID){
