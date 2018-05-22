@@ -27,9 +27,8 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
     @Override
     public void cardAction(Model model) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        // RoundTrack rt = new ArrayList<>;
+        ArrayList<ArrayList<Die>> rt = model.getRoundTrack().getRT();
         ArrayList<Die> dp = model.getDraftPool();
-        // ArrayList<ArrayList<Die>> roundTrack = rt.getRoundTrack();
 
         PlayerMoveParameters param = model.getParameters();
         int playerID = param.getPlayerID();
@@ -40,8 +39,14 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         int rtNumber = param.getParameter(1);
         int rtIndex = param.getParameter(2);
 
+        //da completare con il corpo principale del metodo
 
-        //da completare
+        int currentFT = player.getFavorTokens() - favorTokensNeeded;
+        player.setFavorTokens(currentFT);
+
+        if (favorTokensNeeded == 1){
+            favorTokensNeeded = 2;
+        }
 
     }
 }

@@ -51,15 +51,12 @@ public class RoundTrack {
         roundMatrix = matrixFiller(nPlayers);
         // Da valutare:
         roundTrack = new ArrayList<>();
-        for(int i = 0; i < NUM_ROUND;i++) {
-            roundTrack.add(new ArrayList<>());
-        }
 
     }
 
-    public ArrayList<ArrayList<Die>> getRoundTrack() { return roundTrack; }
+    public ArrayList<ArrayList<Die>> getRT() { return roundTrack; }
 
-    public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack) {this.roundTrack = roundTrack;}
+    public void setRT(ArrayList<ArrayList<Die>> roundTrack) {this.roundTrack = roundTrack;}
 
     public Die getRoundTrackCell(int turn, int index){
         return roundTrack.get(turn).get(index);

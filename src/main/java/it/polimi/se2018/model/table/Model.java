@@ -21,6 +21,8 @@ public class Model extends Observable<MVMessage> {
     public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
 
     private RoundTrack roundTrack;
+    public RoundTrack getRoundTrack(){ return roundTrack; }
+    public void setRoundTrack(RoundTrack roundTrack){ this.roundTrack = roundTrack;}
     
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
