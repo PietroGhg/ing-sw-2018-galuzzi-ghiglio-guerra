@@ -79,7 +79,19 @@ public class WpcGenerator {
     }
 
     public int getNumWpcs(){
-        return 0;
+        String workingDir = System.getProperty("user.dir");
+        int numWpcs = 0;
+        File in = new File(workingDir + "/src/main/java/it/polimi/se2018/model/wpc/wpcs/numWpcs.cfg");
+        try(Scanner scanIn = new Scanner(in)) {
+            //Opens the right file
+           numWpcs = scanIn.nextInt();
+
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return numWpcs;
     }
 
 }
