@@ -20,9 +20,7 @@ public class RestrictionChecker {
     public static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
     public static final String EMPTY_ERROR = "Error: cell not empty.";
     public static final String RTCELLNOTEMPTY_ERROR = "Error: round track cell is empty.";
-    public static final String RTCELLEMPTY_ERROR = "Error: round track cell is not empty.";
     public static final String DPCELLNOTEMPTY_ERROR = "Error: draft pool cell is empty.";
-    public static final String DPCELLEMPTY_ERROR = "Error: draft pool cell is not empty.";
 
     /**
      *
@@ -188,21 +186,25 @@ public class RestrictionChecker {
         return true;
     }
 
+    /**
+     * Ckecks that a cell of the Round Track contains a die
+     * @param roundTrack the round track
+     * @param turn number of turn on the round track
+     * @param index of the die in the chosen turn
+     * @throws MoveNotAllowedException if the cell is empty
+     */
     public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
         if (!(roundTrack.get(turn).get(index)==null)) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
     }
 
-    public void checkRTCellEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException {
-        if (roundTrack.get(turn).get(index) == null) throw new MoveNotAllowedException(RTCELLEMPTY_ERROR);
+    /**
+     * Checks that a cell of the Draft Pool contains a die
+     * @param draftPool
+     * @param index
+     * @throws MoveNotAllowedException
+     */
+    public void checkDPCellNotEmpty(ArrayList<Die> draftPool, int index) throws MoveNotAllowedException{
+        if(draftPool.get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
     }
-
-    public void checkDPCellNotEmpty(Model model, int index) throws MoveNotAllowedException{
-        if(model.getDraftPool().get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
-    }
-
-    public void checkDPCellEmpty(Model model, int index) throws MoveNotAllowedException{
-        if(!(model.getDraftPool().get(index)==null)) throw new MoveNotAllowedException(DPCELLEMPTY_ERROR);
-    }
-
 
 }

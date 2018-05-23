@@ -17,8 +17,8 @@ public interface ToolCard {
     4: Lathekin -> 0: die1 row, 1: die1 col, 2: cell1 row, 3: cell1 col,
                     4: die2 row, 5: die2 col, 6: cell2 row, 7: cell2 col
     5: LensCutter -> 0: DraftPool index, 1: RoundTrack number, 2: RoundTrack index
-    6: FluxBrush -> 0: die row, 1: die col
-    7: GlazingHammer -> (no parameters)
+    6: FluxBrush -> 0: DraftPool index; se il controllo è positivo (si può piazzare il dado): 1: cell row, 2: cell col
+    7: GlazingHammer -> (no parameters); controllo sul fatto che sia il secondo turno
     8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col
     9: CorkBackedStraightedge -> 0: DraftPool index, 1: cell row, 2: cell col
     10: GrindingStone -> 0: die row, 1: die col

@@ -56,7 +56,7 @@ public class Lathekin implements ToolCard{
         Die d1 = new Die(v1, c1);
         Die d2 = new Die(v2, c2);
 
-        // Restrictions check for the first die
+        //Restrictions check for the first die
         rc.checkEmptiness(temp, rowCell1, colCell1);
         rc.checkColourRestriction(temp, rowCell1, colCell1, d1);
         rc.checkValueRestriction(temp, rowCell1, colCell1, d1);
@@ -66,7 +66,7 @@ public class Lathekin implements ToolCard{
         temp.setDie(rowCell1, colCell1, d1);
         temp.removeDie(rowDie1, colDie1);
 
-        // Restrictions check for the second die
+        //Restrictions check for the second die
         rc.checkEmptiness(temp, rowCell2, colCell2);
         rc.checkColourRestriction(temp, rowCell2, colCell2, d2);
         rc.checkValueRestriction(temp, rowCell2, colCell2, d2);

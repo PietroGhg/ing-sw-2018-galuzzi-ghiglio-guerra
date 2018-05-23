@@ -44,6 +44,7 @@ public class Die {
     }
 
     public Integer getDieValue() { return value; }
+    public void setDieValue(Integer newValue) { this.value = newValue; }
     public Colour getDieColour() { return colour; }
 
     public void remove(){

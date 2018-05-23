@@ -39,7 +39,13 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         int rtNumber = param.getParameter(1);
         int rtIndex = param.getParameter(2);
 
-        //da completare con il corpo principale del metodo
+        rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
+        rc.checkDPCellNotEmpty(dp,rtIndex);
+
+        //Swap the chosen die on the draft pool with another chosen die on the round track
+        Die temp = new Die(model.getDraftPool().get(rtIndex));
+        dp.set(dpIndex, rt.get(rtNumber).get(rtIndex));
+        rt.get(rtNumber).set(rtIndex,temp);
 
         int currentFT = player.getFavorTokens() - favorTokensNeeded;
         player.setFavorTokens(currentFT);
