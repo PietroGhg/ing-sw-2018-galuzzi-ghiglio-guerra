@@ -4,7 +4,7 @@ package it.polimi.se2018.view;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MVGameMessage extends MVMessage{
+public class MVGameMessage extends MVAbstractMessage {
     private String message;
     private String roundTrack;
     private String draftPool;

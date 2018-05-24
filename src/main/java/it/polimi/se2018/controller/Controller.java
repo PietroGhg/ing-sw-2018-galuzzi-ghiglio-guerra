@@ -9,7 +9,6 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.Observer;
-import it.polimi.se2018.controller.messages.*;
 
 
 

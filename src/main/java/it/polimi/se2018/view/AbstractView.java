@@ -2,10 +2,10 @@ package it.polimi.se2018.view;
 
 import it.polimi.se2018.utils.Observer;
 
-public abstract class AbstractView implements Observer<MVMessage> {
+public abstract class AbstractView implements Observer<MVAbstractMessage> {
     private int playerID;
 
-    public void update(MVMessage message){
+    public void update(MVAbstractMessage message){
         message.accept(this);
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.se2018.view;
 
-public class MVExtractedCardsMessage extends MVMessage{
-    private int playerID;
+public class MVExtractedCardsMessage extends MVAbstractMessage {
     private String prCard;
     private String[] puCards;
 

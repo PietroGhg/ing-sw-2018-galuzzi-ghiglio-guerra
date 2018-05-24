@@ -1,6 +1,6 @@
 package it.polimi.se2018.view;
 
-public class MVSetUpMessage extends MVMessage{
+public class MVSetUpMessage extends MVAbstractMessage {
     private String[] wpcs;
 
     public MVSetUpMessage(int playerID, String[] wpcs){
