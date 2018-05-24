@@ -1,4 +1,4 @@
-package it.polimi.se2018.networking;
+package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observable;
@@ -9,6 +9,6 @@ import it.polimi.se2018.view.MVAbstractMessage;
  * The remote view sends MVAbstractMessages through the network using the send() method of the ClientConnection.
  * @author Pietro Ghiglio
  */
-public abstract class ClientConnection extends Observable<VCAbstractMessage> {
+public abstract class ClientConnection extends Observable<VCAbstractMessage> implements Runnable {
     public abstract void send(MVAbstractMessage message);
 }

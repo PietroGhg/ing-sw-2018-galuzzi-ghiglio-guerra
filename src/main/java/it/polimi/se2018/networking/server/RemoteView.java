@@ -1,4 +1,4 @@
-package it.polimi.se2018.networking;
+package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observer;
@@ -18,7 +18,8 @@ public class RemoteView extends AbstractView {
     private ClientConnection connection;
     private ConnectionObserver connectionObserver;
 
-    public RemoteView(){
+    public RemoteView(ClientConnection connection){
+        this.connection = connection;
         //Instantiation of the connection observer, which is registered as an observer of the connection.
         connectionObserver = new ConnectionObserver(this);
         connection.register(connectionObserver);
