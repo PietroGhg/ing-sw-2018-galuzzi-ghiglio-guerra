@@ -27,11 +27,9 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         int dpIndex = param.getParameter(0);
@@ -42,9 +40,9 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         r = new Random();
         Integer randomValue = r.nextInt(tot)+1;
 
-        Die temp = model.getDraftPool().get(dpIndex);
+        Die temp = param.getDraftPool().get(dpIndex);
         temp.setDieValue(randomValue);
-        model.getDraftPool().get(dpIndex).remove();
+        param.getDraftPool().get(dpIndex).remove();
 
         // check if it can be placed on the board
         /*

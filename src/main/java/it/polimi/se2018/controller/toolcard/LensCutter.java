@@ -27,14 +27,12 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        ArrayList<ArrayList<Die>> rt = model.getRoundTrack().getRT();
-        ArrayList<Die> dp = model.getDraftPool();
+        ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
+        ArrayList<Die> dp = param.getDraftPool();
 
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         int dpIndex = param.getParameter(0);
@@ -45,7 +43,7 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         rc.checkDPCellNotEmpty(dp,rtIndex);
 
         //Swap the chosen die on the draft pool with another chosen die on the round track
-        Die temp = new Die(model.getDraftPool().get(dpIndex));
+        Die temp = new Die(param.getDraftPool().get(dpIndex));
         dp.set(dpIndex, rt.get(rtNumber).get(rtIndex));
         rt.get(rtNumber).set(rtIndex,temp);
 

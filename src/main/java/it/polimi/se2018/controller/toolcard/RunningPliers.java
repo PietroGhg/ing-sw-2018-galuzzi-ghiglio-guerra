@@ -28,11 +28,9 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         /*
@@ -44,7 +42,7 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
         int cellRow = param.getParameter(1);
         int cellCol = param.getParameter(2);
 
-        ArrayList<Die> dp = model.getDraftPool();
+        ArrayList<Die> dp = param.getDraftPool();
         rc.checkDPCellNotEmpty(dp,dpIndex);
         Die temp = new Die(dp.get(dpIndex));
         WPC wpc = player.getWpc();

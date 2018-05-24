@@ -139,7 +139,7 @@ public class TestGrozingPliers {
         player.setWpc(before);
         player.setFavorTokens(5);
         model.addPlayer(player);
-        param = new PlayerMoveParameters(player.getPlayerID());
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(1);
@@ -147,7 +147,7 @@ public class TestGrozingPliers {
 
 
         try {
-            card.cardAction(model);
+            card.cardAction(param);
             assertEquals(player.getWpc(), expected);
         }
         catch (MoveNotAllowedException e){
@@ -166,14 +166,14 @@ public class TestGrozingPliers {
         player.setWpc(wpc1);
         player.setFavorTokens(5);
         model.addPlayer(player);
-        param = new PlayerMoveParameters(player.getPlayerID());
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(-1);
         model.setParameters(param);
 
         try{
-            card.cardAction(model);
+            card.cardAction(param);
             fail();
         }
         catch (MoveNotAllowedException e){
@@ -191,14 +191,14 @@ public class TestGrozingPliers {
         player.setWpc(wpc6);
         player.setFavorTokens(5);
         model.addPlayer(player);
-        param = new PlayerMoveParameters(player.getPlayerID());
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(1);
         model.setParameters(param);
 
         try{
-            card.cardAction(model);
+            card.cardAction(param);
             fail();
         }
         catch (MoveNotAllowedException e){
@@ -217,7 +217,7 @@ public class TestGrozingPliers {
         player.setWpc(before);
         player.setFavorTokens(4);
         model.addPlayer(player);
-        param = new PlayerMoveParameters(player.getPlayerID());
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
         param.addParameter(1);
         param.addParameter(1);
@@ -225,7 +225,7 @@ public class TestGrozingPliers {
 
         //The first time should go right
         try{
-            card.cardAction(model);
+            card.cardAction(param);
         }
         catch(MoveNotAllowedException e){
             fail();
@@ -233,7 +233,7 @@ public class TestGrozingPliers {
 
         //Second time should go right
         try{
-            card.cardAction(model);
+            card.cardAction(param);
         }
         catch(MoveNotAllowedException e){
             fail();
@@ -241,7 +241,7 @@ public class TestGrozingPliers {
 
         //Third time: not enough favour tokens
         try{
-            card.cardAction(model);
+            card.cardAction(param);
             fail();
         }
         catch(MoveNotAllowedException e){

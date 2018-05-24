@@ -26,11 +26,9 @@ public class CorkBackedStraightedge implements ToolCard{  //Riga in Sughero
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException {
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException {
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         WPC wpc = player.getWpc();
@@ -38,12 +36,12 @@ public class CorkBackedStraightedge implements ToolCard{  //Riga in Sughero
         int cellRow = param.getParameter(1);
         int cellCol = param.getParameter(2);
 
-        rc.checkDPCellNotEmpty(model.getDraftPool(),dpIndex);
+        rc.checkDPCellNotEmpty(param.getDraftPool(),dpIndex);
         /*
         la cella di destinazione NON DEVE essere adiacente ad altre celle con dadi
         */
         //move the die from the DraftPool to the board
-        Die temp = new Die(model.getDraftPool().get(dpIndex));
+        Die temp = new Die(param.getDraftPool().get(dpIndex));
         //Restriction check, adjacency restriction not checked
         rc.checkFirstMove(wpc,cellRow,cellCol);
         rc.checkEmptiness(wpc,cellRow,cellCol);
@@ -51,7 +49,7 @@ public class CorkBackedStraightedge implements ToolCard{  //Riga in Sughero
         rc.checkValueRestriction(wpc,cellRow,cellCol,temp);
         rc.checkColourRestriction(wpc,cellRow,cellCol,temp);
         wpc.setDie(cellRow,cellCol,temp);
-        model.getDraftPool().get(dpIndex).remove();
+        param.getDraftPool().get(dpIndex).remove();
 
         int currentFT = player.getFavorTokens() - favorTokensNeeded;
         player.setFavorTokens(currentFT);

@@ -6,7 +6,7 @@ import it.polimi.se2018.model.table.Model;
 
 public interface ToolCard {
     int getFavorTokensNeeded();
-    void cardAction(Model model) throws MoveNotAllowedException;
+    void cardAction(PlayerMoveParameters parameters) throws MoveNotAllowedException;
 }
 
 /*

@@ -31,7 +31,7 @@ public class Controller implements Observer<VCAbstractMessage> {
         int playerID = message.getPlayerID();
         try {
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
-            toolCardFactory.get(toolcardID).cardAction(model);
+            toolCardFactory.get(toolcardID).cardAction(model.getParameters());
             model.setMessage("Success.", playerID);
         } catch (MoveNotAllowedException|InputNotValidException e) {
             model.setMessage(e.getMessage(), playerID);
@@ -62,9 +62,9 @@ public class Controller implements Observer<VCAbstractMessage> {
         4: cell col
     */
     private void dieMove(PlayerMoveParameters parameters)throws MoveNotAllowedException{
-        Player p = model.getPlayer(parameters.getPlayerID());
-        WPC temp = new WPC(p.getWpc());
-        int dieIndex = parameters.getParameter(0);
+        //Player p = model.getPlayer(parameters.getPlayerID());
+        //WPC temp = new WPC(p.getWpc());
+        //int dieIndex = parameters.getParameter(0);
 
 
         //checks restrizioni

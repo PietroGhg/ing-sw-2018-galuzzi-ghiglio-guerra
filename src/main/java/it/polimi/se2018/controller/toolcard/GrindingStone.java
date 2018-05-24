@@ -28,15 +28,13 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException {
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException {
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         WPC wpc = player.getWpc();
-        ArrayList<Die> dp = model.getDraftPool();
+        ArrayList<Die> dp = param.getDraftPool();
         int dpIndex = param.getParameter(0);
         int cellRow = param.getParameter(1);
         int cellCol = param.getParameter(2);
@@ -49,7 +47,7 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
         Non è richiesto, ma è sottinteso che poi il dado vada piazzato:
         */
         //move the die from the DraftPool to the board
-        Die temp = new Die(model.getDraftPool().get(dpIndex));
+        Die temp = new Die(param.getDraftPool().get(dpIndex));
         //Restriction check, adjacency restriction not checked
         rc.checkFirstMove(wpc,cellRow,cellCol);
         rc.checkEmptiness(wpc,cellRow,cellCol);

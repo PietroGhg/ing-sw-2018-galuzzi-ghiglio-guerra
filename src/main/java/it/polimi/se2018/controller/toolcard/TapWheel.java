@@ -29,11 +29,9 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         WPC wpc = player.getWpc();
@@ -45,7 +43,7 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
         int rowCell1 = param.getParameter(4);
         int colCell1 = param.getParameter(5);
 
-        ArrayList<ArrayList<Die>> rt = model.getRoundTrack().getRT();
+        ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
         rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
         rc.checkMatchingColour(wpc.getCell(rowDie1,colDie1).getDie(),rt.get(rtNumber).get(rtIndex));
         Die d1 = new Die(wpc.getCell(rowDie1, colDie1).getDie().getDieValue(), wpc.getCell(rowDie1, colDie1).getDie().getDieColour());
@@ -58,7 +56,7 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
         wpc.removeDie(rowDie1,colDie1);
 
         //Second die moving
-        if(model.paramCount(param)==10){
+        if(param.paramCount()==10){
             int rowDie2 = param.getParameter(6);
             int colDie2 = param.getParameter(7);
             int rowCell2 = param.getParameter(8);

@@ -24,11 +24,9 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
     private int favorTokensNeeded=1;
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player, instance);
 
         WPC wpc = player.getWpc();

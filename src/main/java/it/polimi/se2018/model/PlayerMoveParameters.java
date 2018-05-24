@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.table.Model;
+import it.polimi.se2018.model.table.RoundTrack;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
@@ -13,22 +15,29 @@ import java.util.ArrayList;
  */
 
 public class PlayerMoveParameters {
+    private Model model;
     private int playerID;
     private ArrayList<Integer> parameters;
 
-    public PlayerMoveParameters(int playerID){
+    public PlayerMoveParameters(int playerID, Model model){
+        this.model = model;
         this.playerID = playerID;
         parameters = new ArrayList<>();
     }
 
-    public PlayerMoveParameters(int playerID, ArrayList<Integer> p){
+    public PlayerMoveParameters(int playerID, ArrayList<Integer> p, Model model){
         this.playerID = playerID;
         parameters = p;
+        this.model = model;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public Player getPlayer() {
+        return model.getPlayer(playerID);
     }
+
+    public ArrayList<Die> getDraftPool() { return model.getDraftPool(); }
+
+    public ArrayList<ArrayList<Die>> getRoundTrack() { return model.getRoundTrack().getRT(); }
 
     public void addParameter(int i){
         parameters.add(i);
@@ -39,4 +48,8 @@ public class PlayerMoveParameters {
     }
 
     public ArrayList<Integer> getParameters() { return parameters; }
+
+    public Die getVacantDie() {return model.getVacantDie(); }
+
+    public int paramCount(){ return parameters.size(); }
 }

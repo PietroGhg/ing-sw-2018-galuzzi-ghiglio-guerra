@@ -27,16 +27,14 @@ public class GlazingHammer implements ToolCard{//Martelletto
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
         /*
         Controllo che la DraftPool non sia vuota (?):
         */
-        rc.checkDPNotEmpty(model.getDraftPool());
+        rc.checkDPNotEmpty(param.getDraftPool());
 
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         /*
@@ -48,7 +46,7 @@ public class GlazingHammer implements ToolCard{//Martelletto
         Random r;
         int tot = 6;
         r = new Random();
-        for (Die d : model.getDraftPool()) {
+        for (Die d : param.getDraftPool()) {
             Integer randomValue = r.nextInt(tot) + 1;
             d.setDieValue(randomValue);
         }

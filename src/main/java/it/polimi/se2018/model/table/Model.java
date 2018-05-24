@@ -27,6 +27,7 @@ public class Model extends Observable<MVAbstractMessage> {
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
+    private Die vacantDie; //eventually used for toolcards 6 and 11
     private ChooseWinner chooseWinner;
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
@@ -39,6 +40,8 @@ public class Model extends Observable<MVAbstractMessage> {
         turn = new Turn();
         // playerMoveParameters = new PlayerMoveParameters(); ??
     }
+
+    public Die getVacantDie(){ return vacantDie; }
 
     public void nextTurn(){
         try {
@@ -84,7 +87,7 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public void setParameters(VCAbstractMessage m){
         playerMoveParameters = new PlayerMoveParameters(m.getPlayerID(),
-                                                            m.getParameters());
+                                                            m.getParameters(), this);
     }
 
     public void setParameters(PlayerMoveParameters param){
@@ -94,8 +97,6 @@ public class Model extends Observable<MVAbstractMessage> {
     public PlayerMoveParameters getParameters() {
         return playerMoveParameters;
     }
-
-    public int paramCount(PlayerMoveParameters param){ return param.getParameters().size(); }
 
     /**
      * @return The ID of the current player

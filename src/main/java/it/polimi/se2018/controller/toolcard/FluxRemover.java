@@ -27,15 +27,13 @@ public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
     public int getFavorTokensNeeded(){ return favorTokensNeeded; }
 
     @Override
-    public void cardAction(Model model) throws MoveNotAllowedException{
+    public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        PlayerMoveParameters param = model.getParameters();
-        int playerID = param.getPlayerID();
-        Player player = model.getPlayer(playerID);
+        Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         int dpIndex = param.getParameter(0);
-        ArrayList<Die> dp = model.getDraftPool();
+        ArrayList<Die> dp = param.getDraftPool();
         Die temp = new Die(dp.get(dpIndex));
         temp.setDieValue(null);
         dp.get(dpIndex).remove();
