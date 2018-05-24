@@ -4,7 +4,6 @@ import it.polimi.se2018.controller.RestrictionChecker;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 /**
@@ -39,10 +38,7 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
         if (increment == +1) wpc.getCell(row, col).getDie().increase();
         if (increment == -1) wpc.getCell(row, col).getDie().decrease();
 
-
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;
         }

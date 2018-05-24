@@ -31,21 +31,15 @@ public class PlayerMoveParameters {
         this.model = model;
     }
 
-    public Player getPlayer() {
-        return model.getPlayer(playerID);
-    }
+    public Player getPlayer() { return model.getPlayer(playerID); }
 
     public ArrayList<Die> getDraftPool() { return model.getDraftPool(); }
 
     public ArrayList<ArrayList<Die>> getRoundTrack() { return model.getRoundTrack().getRT(); }
 
-    public void addParameter(int i){
-        parameters.add(i);
-    }
+    public void addParameter(int i){ parameters.add(i); }
 
-    public int getParameter(int i){
-        return parameters.get(i);
-    }
+    public int getParameter(int i){ return parameters.get(i); }
 
     public ArrayList<Integer> getParameters() { return parameters; }
 

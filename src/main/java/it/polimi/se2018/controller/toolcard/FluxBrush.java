@@ -5,7 +5,6 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 
 import java.util.Random;
 
@@ -65,9 +64,7 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         wpc.setDie(cellRow,cellCol,temp);
         */
 
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1) {
             favorTokensNeeded = 2;
         }

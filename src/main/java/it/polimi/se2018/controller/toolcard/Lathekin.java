@@ -6,7 +6,6 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 /**
@@ -81,9 +80,7 @@ public class Lathekin implements ToolCard{
 
         player.setWpc(temp);
 
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;
         }

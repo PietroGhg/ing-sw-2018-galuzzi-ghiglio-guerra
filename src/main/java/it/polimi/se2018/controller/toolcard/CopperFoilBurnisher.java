@@ -6,7 +6,6 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 /**
@@ -31,7 +30,7 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        WPC temp = player.getWpc();
+        WPC wpc = player.getWpc();
 
         //Die to move
         int row1 = param.getParameter(0);
@@ -40,23 +39,21 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         int row2 = param.getParameter(2);
         int col2 = param.getParameter(3);
 
-        rc.checkNotEmpty(temp,row1,col1);
-        Integer v1 = temp.getCell(row1,col1).getDie().getDieValue();
-        Colour c1 = temp.getCell(row1,col1).getDie().getDieColour();
-        Die d1 = new Die(v1,c1);
+        rc.checkNotEmpty(wpc,row1,col1);
+        Integer v = wpc.getCell(row1,col1).getDie().getDieValue();
+        Colour c = wpc.getCell(row1,col1).getDie().getDieColour();
+        Die d = new Die(v,c);
 
         // Restrictions check, value restriction not checked
-        rc.checkEmptiness(temp,row2,col2);
-        rc.checkColourRestriction(temp, row2, col2, d1);
-        rc.checkAdjacent(temp, row2, col2);
-        rc.checkSameDie(temp,row2,col2,d1);
+        rc.checkEmptiness(wpc,row2,col2);
+        rc.checkColourRestriction(wpc, row2, col2, d);
+        rc.checkAdjacent(wpc, row2, col2);
+        rc.checkSameDie(wpc,row2,col2,d);
 
-        temp.setDie(row2, col2, d1);
-        temp.removeDie(row1,col1);
+        wpc.setDie(row2, col2, d);
+        wpc.removeDie(row1,col1);
 
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;
         }

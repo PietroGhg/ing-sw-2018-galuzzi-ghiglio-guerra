@@ -5,7 +5,6 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
@@ -58,9 +57,7 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
         wpc.setDie(cellRow,cellCol,temp);
         dp.get(dpIndex).remove();
 
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;
         }

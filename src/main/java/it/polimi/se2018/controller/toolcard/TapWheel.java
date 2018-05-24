@@ -2,11 +2,9 @@ package it.polimi.se2018.controller.toolcard;
 
 import it.polimi.se2018.controller.RestrictionChecker;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
-import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
@@ -73,9 +71,7 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
             //spostare un altro dado
         }
 
-        int currentFT = player.getFavorTokens() - favorTokensNeeded;
-        player.setFavorTokens(currentFT);
-
+        player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
             favorTokensNeeded = 2;
         }

@@ -4,7 +4,6 @@ import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 
@@ -26,9 +25,9 @@ public class RestrictionChecker {
 
     /**
      *
-     * @param p player
-     * @param tc Tool Card
-     * @throws MoveNotAllowedException if the player has not enough Favor Tokens to use the Tool Card
+     * @param p the player
+     * @param tc the tool card
+     * @throws MoveNotAllowedException if the player hasn't enough favor tokens to play the tool card
      * @author Leonardo Guerra
      */
     public void checkEnoughFavorTokens(Player p, ToolCard tc) throws MoveNotAllowedException{
@@ -40,8 +39,8 @@ public class RestrictionChecker {
     /**
      *
      * @param wpc the board
-     * @param row coordinate of the cell
-     * @param col coordinate of the cell
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
      * @throws MoveNotAllowedException if the restriction is violated
      * @author Pietro Ghiglio
      */
@@ -59,8 +58,13 @@ public class RestrictionChecker {
 
     }
 
-    //method that handles cells on the border of the matrix
-    //returns false if the cell contains a die
+    /**
+     * Handles cells on the border of the matrix, returns false if the cell contains a die
+     * @param wpc the board
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
+     * @return false if the cell contains a die
+     */
     private boolean checkCell(WPC wpc, int row, int col){
         try {
             return wpc.getCell(row, col).isEmpty();
@@ -71,10 +75,10 @@ public class RestrictionChecker {
     }
 
     /**
-     * Checks the first move restriction: if the board is empty, the die must be placed on the border
+     * Checks the first move restriction: if the board is still empty, the die must be placed on the border
      * @param wpc the board
-     * @param row coordinate of the cell
-     * @param col coordinate of the cell
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
      * @throws MoveNotAllowedException if the restriction is violated
      */
     public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
@@ -111,11 +115,11 @@ public class RestrictionChecker {
     }
 
     /**
-     * Checks that there's no die with the same value and colour orthogonally adjacent to the one that
-     * needs to be placed
+     * Checks that there's no die with the same value and colour
+     * orthogonally adjacent to the one which has to be placed
      * @param wpc the board
-     * @param row coordinate
-     * @param col coordinate
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
      * @param die die that needs to be placed
      * @throws MoveNotAllowedException if the restriction is violated
      */
@@ -159,8 +163,8 @@ public class RestrictionChecker {
     /**
      * Checks that a cell contains a die
      * @param wpc the boards
-     * @param row coordinates
-     * @param col coordinates
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
      * @throws MoveNotAllowedException if the cell does not contain a die
      */
     public void checkNotEmpty (WPC wpc, int row, int col) throws MoveNotAllowedException{
@@ -170,15 +174,19 @@ public class RestrictionChecker {
     /**
      * Checks that a cell is empty
      * @param wpc the board
-     * @param row coordinates
-     * @param col coordinates
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
      * @throws MoveNotAllowedException if the cell is not empty
      */
     public void checkEmptiness (WPC wpc, int row, int col) throws MoveNotAllowedException {
         if (!(wpc.getCell(row, col).isEmpty())) throw new MoveNotAllowedException(EMPTY_ERROR);
     }
 
-    //returns true if the board doesn't contain a die
+    /**
+     * Returns true if the board doesn't contain any die
+     * @param wpc the wpc to check
+     * @return a boolean value
+     */
     private boolean isEmpty(WPC wpc) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 4; j++){
@@ -194,6 +202,7 @@ public class RestrictionChecker {
      * @param turn number of turn on the round track
      * @param index of the die in the chosen turn
      * @throws MoveNotAllowedException if the cell is empty
+     * @author Leonardo Guerra
      */
     public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
         if (!(roundTrack.get(turn).get(index)==null)) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
@@ -201,21 +210,34 @@ public class RestrictionChecker {
 
     /**
      * Checks that a cell of the Draft Pool contains a die
-     * @param draftPool
-     * @param index
-     * @throws MoveNotAllowedException
+     * @param draftPool the draft pool
+     * @param index of the chosen die
+     * @throws MoveNotAllowedException if the draft pool cell is empty
+     * @author Leonardo Guerra
      */
     public void checkDPCellNotEmpty(ArrayList<Die> draftPool, int index) throws MoveNotAllowedException{
         if(draftPool.get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
     }
 
+    /**
+     * Checks if there's at least one die in the the draft pool
+     * @param draftPool the draft pool
+     * @throws MoveNotAllowedException if the draft pool is empty
+     * @author Leonardo Guerra
+     */
     public void checkDPNotEmpty(ArrayList<Die> draftPool) throws MoveNotAllowedException{
         if(draftPool.get(0)==null) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
     }
 
+    /**
+     * Checks if the two dice have the same colour
+     * @param die1 the first die
+     * @param die2 the second die
+     * @throws MoveNotAllowedException if they haven't the same colour
+     * @author Leonardo Guerra
+     */
     public void checkMatchingColour(Die die1, Die die2) throws MoveNotAllowedException{
         if(!(die1.getDieColour().equals(die2.getDieColour()))) throw new MoveNotAllowedException(MATCHINGCOLOUR_ERROR);
     }
-
 
 }
