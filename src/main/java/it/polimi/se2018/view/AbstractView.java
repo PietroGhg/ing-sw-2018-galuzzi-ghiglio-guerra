@@ -1,8 +1,10 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.Observer;
 
-public abstract class AbstractView implements Observer<MVAbstractMessage> {
+public abstract class AbstractView extends Observable<VCAbstractMessage> implements Observer<MVAbstractMessage> {
     private int playerID;
 
     public void update(MVAbstractMessage message){
