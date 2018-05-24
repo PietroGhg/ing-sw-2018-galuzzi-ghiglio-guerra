@@ -30,6 +30,7 @@ public class Controller implements Observer<VCAbstractMessage> {
         int toolcardID = message.getToolCardID();
         int playerID = message.getPlayerID();
         try {
+            checkTurn(message);
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             toolCardFactory.get(toolcardID).cardAction(model.getParameters());
             model.setMessage("Success.", playerID);
@@ -41,6 +42,7 @@ public class Controller implements Observer<VCAbstractMessage> {
     /*package private*/ void visit(VCDieMessage message){
         int playerID = message.getPlayerID();
         try {
+            checkTurn(message);
             if(model.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die has already been placed in the turn.");
             dieMove(model.getParameters());
             model.setMessage("Success.", playerID);
@@ -71,5 +73,9 @@ public class Controller implements Observer<VCAbstractMessage> {
 
         //Die d = model.chooseDieFromDraft(dieIndex);
 
+    }
+
+    private void checkTurn(VCAbstractMessage message) throws MoveNotAllowedException{
+        if(model.whoIsPlaying() != message.getPlayerID()) throw new MoveNotAllowedException("Error: not your turn");
     }
 }
