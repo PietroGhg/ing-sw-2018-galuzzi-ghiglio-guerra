@@ -7,12 +7,12 @@ import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVGameMessage;
-import it.polimi.se2018.view.MVMessage;
+import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.MVSetUpMessage;
 
 import java.util.ArrayList;
 
-public class Model extends Observable<MVMessage> {
+public class Model extends Observable<MVAbstractMessage> {
 
     //essendo un ArrayList, per il get di un dado basta il metodo get(index)
     // e per settare un dado basta draftPool.add(index,die)
