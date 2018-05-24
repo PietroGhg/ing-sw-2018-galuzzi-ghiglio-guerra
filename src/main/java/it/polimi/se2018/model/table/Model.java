@@ -95,6 +95,8 @@ public class Model extends Observable<MVMessage> {
         return playerMoveParameters;
     }
 
+    public int paramCount(PlayerMoveParameters param){ return param.getParameters().size(); }
+
     /**
      * @return The ID of the current player
      */

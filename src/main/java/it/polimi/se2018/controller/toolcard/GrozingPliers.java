@@ -8,7 +8,7 @@ import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
 /**
- * Class for toolcard GrozingPliers
+ * Class for ToolCard GrozingPliers
  * @author Leonardo Guerra
  */
 

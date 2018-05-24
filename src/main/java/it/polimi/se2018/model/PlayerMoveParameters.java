@@ -37,4 +37,6 @@ public class PlayerMoveParameters {
     public int getParameter(int i){
         return parameters.get(i);
     }
+
+    public ArrayList<Integer> getParameters() { return parameters; }
 }

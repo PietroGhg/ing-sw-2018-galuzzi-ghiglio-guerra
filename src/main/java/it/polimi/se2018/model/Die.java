@@ -44,7 +44,13 @@ public class Die {
     }
 
     public Integer getDieValue() { return value; }
+
     public void setDieValue(Integer newValue) { this.value = newValue; }
+
+    public void setOppositeDieValue(){
+        value = 7 - value;
+    }
+
     public Colour getDieColour() { return colour; }
 
     public void remove(){

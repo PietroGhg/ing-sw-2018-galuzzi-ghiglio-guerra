@@ -5,12 +5,14 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.table.Model;
-import it.polimi.se2018.model.table.RoundTrack;
 
 import java.util.ArrayList;
-import java.util.List;
+
+/**
+ * Class for ToolCard LensCutter
+ * @author Leonardo Guerra
+ */
 
 public class LensCutter implements ToolCard{  //Taglierina Circolare
 
@@ -43,7 +45,7 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         rc.checkDPCellNotEmpty(dp,rtIndex);
 
         //Swap the chosen die on the draft pool with another chosen die on the round track
-        Die temp = new Die(model.getDraftPool().get(rtIndex));
+        Die temp = new Die(model.getDraftPool().get(dpIndex));
         dp.set(dpIndex, rt.get(rtNumber).get(rtIndex));
         rt.get(rtNumber).set(rtIndex,temp);
 

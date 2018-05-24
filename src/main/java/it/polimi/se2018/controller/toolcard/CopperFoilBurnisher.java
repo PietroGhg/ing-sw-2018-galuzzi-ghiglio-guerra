@@ -9,6 +9,11 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
+/**
+ * Class for ToolCard CopperFoilBurnisher
+ * @author Leonardo Guerra
+ */
+
 public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di Rame
 
     private static CopperFoilBurnisher instance;

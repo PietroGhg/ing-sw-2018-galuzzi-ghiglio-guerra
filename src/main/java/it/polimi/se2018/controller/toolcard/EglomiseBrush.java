@@ -9,6 +9,11 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
+/**
+ * Class for ToolCard EglomiseBrush
+ * @author Leonardo Guerra
+ */
+
 public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
 
     private static EglomiseBrush instance;
