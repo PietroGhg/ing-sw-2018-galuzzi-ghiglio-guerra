@@ -21,6 +21,8 @@ public class RestrictionChecker {
     public static final String EMPTY_ERROR = "Error: cell not empty.";
     public static final String RTCELLNOTEMPTY_ERROR = "Error: round track cell is empty.";
     public static final String DPCELLNOTEMPTY_ERROR = "Error: draft pool cell is empty.";
+    public static final String DPNOTEMPTY_ERROR = "Error: draft pool is empty.";
+    public static final String MATCHINGCOLOUR_ERROR = "Error: die colour is different.";
 
     /**
      *
@@ -206,5 +208,14 @@ public class RestrictionChecker {
     public void checkDPCellNotEmpty(ArrayList<Die> draftPool, int index) throws MoveNotAllowedException{
         if(draftPool.get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
     }
+
+    public void checkDPNotEmpty(ArrayList<Die> draftPool) throws MoveNotAllowedException{
+        if(draftPool.get(0)==null) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
+    }
+
+    public void checkMatchingColour(Die die1, Die die2) throws MoveNotAllowedException{
+        if(!(die1.getDieColour().equals(die2.getDieColour()))) throw new MoveNotAllowedException(MATCHINGCOLOUR_ERROR);
+    }
+
 
 }
