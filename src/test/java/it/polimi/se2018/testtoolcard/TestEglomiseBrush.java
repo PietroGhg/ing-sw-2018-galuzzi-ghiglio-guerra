@@ -105,5 +105,5 @@ public class TestEglomiseBrush {
     }
 
     //Tests for adjacent, same die, value, recipient cell already full and enough favor tokens restrictions
-    
+
 }

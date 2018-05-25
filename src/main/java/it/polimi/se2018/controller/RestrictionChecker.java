@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class RestrictionChecker {
     public static final String ADJACENT_ERROR = "Error: die must be adjacent to another die.";
+    public static final String NOTADJACENT_ERROR = "Error: die is adjacent to other dice.";
     public static final String FIRSTMOVE_ERROR = "Error: first move, die must be on the border.";
     public static final String ENOUGHFAVORTOKENS_ERROR = "Error: not enough favor tokens.";
     public static final String COLOURRESTRICTION_ERROR = "Error: colour restriction violated.";
@@ -24,7 +25,7 @@ public class RestrictionChecker {
     public static final String MATCHINGCOLOUR_ERROR = "Error: die colour is different.";
 
     /**
-     *
+     * Checks that the player has enough favor tokens to play the tool card
      * @param p the player
      * @param tc the tool card
      * @throws MoveNotAllowedException if the player hasn't enough favor tokens to play the tool card
@@ -37,7 +38,7 @@ public class RestrictionChecker {
     }
 
     /**
-     *
+     * Checks adjacent restrictions
      * @param wpc the board
      * @param row coordinates of the cell
      * @param col coordinates of the cell
@@ -56,6 +57,26 @@ public class RestrictionChecker {
                     !checkCell(wpc, row+1,col+1) ) )
                 throw new MoveNotAllowedException(ADJACENT_ERROR);
 
+    }
+
+    /**
+     * Checks that the chosen die is placed in a cell not adjacent to other dice
+     * @param wpc the board
+     * @param row coordinates of the cell
+     * @param col coordinates of the cell
+     * @throws MoveNotAllowedException if the restriction is violated
+     * @author Leonardo Guerra
+     */
+    public void checkNotAdjacent(WPC wpc, int row, int col) throws MoveNotAllowedException{
+        if ( !checkCell(wpc,row-1, col) ||
+                !checkCell(wpc,row+1, col) ||
+                !checkCell(wpc, row, col-1) ||
+                !checkCell(wpc, row, col+1) ||
+                !checkCell(wpc, row-1,col-1) ||
+                !checkCell(wpc, row-1,col+1) ||
+                !checkCell(wpc, row+1,col-1) ||
+                !checkCell(wpc, row+1,col+1) )
+            throw new MoveNotAllowedException(NOTADJACENT_ERROR);
     }
 
     /**

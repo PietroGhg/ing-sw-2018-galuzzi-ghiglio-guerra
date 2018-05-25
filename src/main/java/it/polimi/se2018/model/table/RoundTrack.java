@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class RoundTrack {
     private static final int NUM_ROUND = 10;
     private ArrayList<ArrayList<Die>> roundTrack;
-    private int turnCounter;
-    private  int nPlayers;
-    private int roundCounter;
+    private int roundCounter; //the current round (row of the round matrix)
+    private int turnCounter; //column of the round matrix
+    private int nPlayers;
     private int[][] roundMatrix;
 
     /**
@@ -44,14 +44,27 @@ public class RoundTrack {
         return temp;
     }
 
+    /**
+     *
+     * @param playerID
+     * @return 0 if the playerID it's not the current, 1 if it's the player's first turn in the round,
+     *         2 if it's the player's second turn if the round.
+     */
+    public int turnNumber(int playerID){
+        int ris  = 0;
+        if(whoIsPlaying() != playerID) return 0;
+        for(int i=0; i<turnCounter; i++){
+            if(roundMatrix[roundCounter][i] == playerID) ris++;
+        }
+        return ris + 1;
+    }
+
     public RoundTrack(int nPlayers) {
         this.nPlayers = nPlayers;
         turnCounter = 0;
         roundCounter = 0;
         roundMatrix = matrixFiller(nPlayers);
-        // Da valutare:
-        roundTrack = new ArrayList<>();
-
+        roundTrack = new ArrayList<ArrayList<Die>>();
     }
 
     public ArrayList<ArrayList<Die>> getRT() { return roundTrack; }

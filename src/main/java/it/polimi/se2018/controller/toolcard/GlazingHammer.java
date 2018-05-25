@@ -28,26 +28,22 @@ public class GlazingHammer implements ToolCard{//Martelletto
     @Override
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        /*
-        Controllo che la DraftPool non sia vuota (?):
-        */
+
+        //Controllo che la DraftPool non sia vuota
         rc.checkDPNotEmpty(param.getDraftPool());
 
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        /*
-        in the second turn of the round only -> rc.checkSecondTurn(player,?);
-        before drafting -> rc.checkNotDrafted(player.?);
-        */
+        //Checks if the current is the second turn of the player
+        if(param.turnNumber(param.getPlayer().getPlayerID())==1)
+            { throw new MoveNotAllowedException("Error: this card can be played in the second turn only."); }
+        //Checks if the player hasn't drafted a die yet
+        if(param.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die is already been drafted.");
 
-        //Randomization of the value of the Draft Pool dice
-        Random r;
-        int tot = 6;
-        r = new Random();
+        //Randomization of the value of all the Draft Pool dice
         for (Die d : param.getDraftPool()) {
-            Integer randomValue = r.nextInt(tot) + 1;
-            d.setDieValue(randomValue);
+            d.roll();
         }
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);

@@ -37,6 +37,8 @@ public class PlayerMoveParameters {
 
     public ArrayList<ArrayList<Die>> getRoundTrack() { return model.getRoundTrack().getRT(); }
 
+    public int turnNumber(int playerID){ return model.turnNumber(playerID); }
+
     public void addParameter(int i){ parameters.add(i); }
 
     public int getParameter(int i){ return parameters.get(i); }
@@ -44,6 +46,8 @@ public class PlayerMoveParameters {
     public ArrayList<Integer> getParameters() { return parameters; }
 
     public Die getVacantDie() {return model.getVacantDie(); }
+
+    public boolean dieHasBeenPlayed() { return model.dieHasBeenPlayed(); }
 
     public int paramCount(){ return parameters.size(); }
 }

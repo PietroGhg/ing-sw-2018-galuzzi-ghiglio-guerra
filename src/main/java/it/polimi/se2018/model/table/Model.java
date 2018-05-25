@@ -16,14 +16,12 @@ public class Model extends Observable<MVAbstractMessage> {
 
     //essendo un ArrayList, per il get di un dado basta il metodo get(index)
     // e per settare un dado basta draftPool.add(index,die)
+
     private ArrayList<Die> draftPool;
     public ArrayList<Die> getDraftPool() { return draftPool; }
     public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
 
     private RoundTrack roundTrack;
-    public RoundTrack getRoundTrack(){ return roundTrack; }
-    public void setRoundTrack(RoundTrack roundTrack){ this.roundTrack = roundTrack;}
-    
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
@@ -33,15 +31,20 @@ public class Model extends Observable<MVAbstractMessage> {
     private PlayerMoveParameters playerMoveParameters;
 
     public Model(){
+        // roundTrack = new RoundTrack();
         players = new ArrayList<>();
         puCards = new ArrayList<>();
         diceBag = new DiceBag();
-        // chooseWinner = new ChooseWinner(); ??
         turn = new Turn();
-        // playerMoveParameters = new PlayerMoveParameters(); ??
     }
 
     public Die getVacantDie(){ return vacantDie; }
+
+    public void setRoundTrack(RoundTrack roundTrack){ this.roundTrack = roundTrack;}
+
+    public RoundTrack getRoundTrack(){ return roundTrack; }
+
+    public int turnNumber(int playerID){ return roundTrack.turnNumber(playerID); }
 
     public void nextTurn(){
         try {
