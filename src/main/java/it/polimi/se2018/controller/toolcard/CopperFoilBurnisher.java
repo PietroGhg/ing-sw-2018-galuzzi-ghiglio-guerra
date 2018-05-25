@@ -30,7 +30,7 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        WPC wpc = player.getWpc();
+        WPC temp = player.getWpc();
 
         //Die to move
         int row1 = param.getParameter(0);
@@ -39,19 +39,20 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         int row2 = param.getParameter(2);
         int col2 = param.getParameter(3);
 
-        rc.checkNotEmpty(wpc,row1,col1);
-        Integer v = wpc.getCell(row1,col1).getDie().getDieValue();
-        Colour c = wpc.getCell(row1,col1).getDie().getDieColour();
+        rc.checkNotEmpty(temp,row1,col1);
+        Integer v = temp.getCell(row1,col1).getDie().getDieValue();
+        Colour c = temp.getCell(row1,col1).getDie().getDieColour();
         Die d = new Die(v,c);
+        temp.removeDie(row1,col1);
 
         // Restrictions check, value restriction not checked
-        rc.checkEmptiness(wpc,row2,col2);
-        rc.checkColourRestriction(wpc, row2, col2, d);
-        rc.checkAdjacent(wpc, row2, col2);
-        rc.checkSameDie(wpc,row2,col2,d);
+        rc.checkEmptiness(temp,row2,col2);
+        rc.checkColourRestriction(temp, row2, col2, d);
+        rc.checkAdjacent(temp, row2, col2);
+        rc.checkSameDie(temp,row2,col2,d);
 
-        wpc.setDie(row2, col2, d);
-        wpc.removeDie(row1,col1);
+        temp.setDie(row2, col2, d);
+        player.setWpc(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

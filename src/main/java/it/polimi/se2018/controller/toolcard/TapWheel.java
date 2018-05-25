@@ -32,7 +32,7 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        WPC wpc = player.getWpc();
+        WPC temp = player.getWpc();
 
         int rtNumber = param.getParameter(0);
         int rtIndex = param.getParameter(1);
@@ -43,15 +43,16 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
 
         ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
         rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
-        rc.checkMatchingColour(wpc.getCell(rowDie1,colDie1).getDie(),rt.get(rtNumber).get(rtIndex));
-        Die d1 = new Die(wpc.getCell(rowDie1, colDie1).getDie().getDieValue(), wpc.getCell(rowDie1, colDie1).getDie().getDieColour());
-        rc.checkAdjacent(wpc,rowCell1,colCell1);
-        rc.checkEmptiness(wpc,rowCell1,colCell1);
-        rc.checkSameDie(wpc,rowCell1,colCell1,d1);
-        rc.checkValueRestriction(wpc,rowCell1,colCell1,d1);
-        rc.checkColourRestriction(wpc,rowCell1,colCell1,d1);
-        wpc.setDie(rowCell1,colCell1,d1);
-        wpc.removeDie(rowDie1,colDie1);
+        rc.checkMatchingColour(temp.getCell(rowDie1,colDie1).getDie(),rt.get(rtNumber).get(rtIndex));
+        Die d1 = new Die(temp.getCell(rowDie1, colDie1).getDie().getDieValue(), temp.getCell(rowDie1, colDie1).getDie().getDieColour());
+        temp.removeDie(rowDie1,colDie1);
+
+        rc.checkAdjacent(temp,rowCell1,colCell1);
+        rc.checkEmptiness(temp,rowCell1,colCell1);
+        rc.checkSameDie(temp,rowCell1,colCell1,d1);
+        rc.checkValueRestriction(temp,rowCell1,colCell1,d1);
+        rc.checkColourRestriction(temp,rowCell1,colCell1,d1);
+        temp.setDie(rowCell1,colCell1,d1);
 
         //Second die moving
         if(param.paramCount()==10){
@@ -59,17 +60,19 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
             int colDie2 = param.getParameter(7);
             int rowCell2 = param.getParameter(8);
             int colCell2 = param.getParameter(9);
-            rc.checkMatchingColour(wpc.getCell(rowDie2,colDie2).getDie(),rt.get(rtNumber).get(rtIndex));
-            Die d2 = new Die(wpc.getCell(rowDie2, colDie2).getDie().getDieValue(), wpc.getCell(rowDie2, colDie2).getDie().getDieColour());
-            rc.checkAdjacent(wpc,rowCell2,colCell2);
-            rc.checkEmptiness(wpc,rowCell2,colCell2);
-            rc.checkSameDie(wpc,rowCell2,colCell2,d2);
-            rc.checkValueRestriction(wpc,rowCell2,colCell2,d2);
-            rc.checkColourRestriction(wpc,rowCell2,colCell2,d2);
-            wpc.setDie(rowCell2,colCell2,d2);
-            wpc.removeDie(rowDie2,colDie2);
-            //spostare un altro dado
+            rc.checkMatchingColour(temp.getCell(rowDie2,colDie2).getDie(),rt.get(rtNumber).get(rtIndex));
+            Die d2 = new Die(temp.getCell(rowDie2, colDie2).getDie().getDieValue(), temp.getCell(rowDie2, colDie2).getDie().getDieColour());
+            temp.removeDie(rowDie2,colDie2);
+
+            rc.checkAdjacent(temp,rowCell2,colCell2);
+            rc.checkEmptiness(temp,rowCell2,colCell2);
+            rc.checkSameDie(temp,rowCell2,colCell2,d2);
+            rc.checkValueRestriction(temp,rowCell2,colCell2,d2);
+            rc.checkColourRestriction(temp,rowCell2,colCell2,d2);
+            temp.setDie(rowCell2,colCell2,d2);
         }
+
+        player.setWpc(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

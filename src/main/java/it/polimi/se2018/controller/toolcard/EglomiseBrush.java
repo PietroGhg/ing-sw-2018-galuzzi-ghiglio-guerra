@@ -30,7 +30,7 @@ public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        WPC wpc = player.getWpc();
+        WPC temp = player.getWpc();
 
         //Die to move
         int row1 = param.getParameter(0);
@@ -39,19 +39,20 @@ public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
         int row2 = param.getParameter(2);
         int col2 = param.getParameter(3);
 
-        rc.checkNotEmpty(wpc,row1,col1);
-        Integer v1 = wpc.getCell(row1,col1).getDie().getDieValue();
-        Colour c1 = wpc.getCell(row1,col1).getDie().getDieColour();
+        rc.checkNotEmpty(temp,row1,col1);
+        Integer v1 = temp.getCell(row1,col1).getDie().getDieValue();
+        Colour c1 = temp.getCell(row1,col1).getDie().getDieColour();
         Die d = new Die(v1,c1);
+        temp.removeDie(row1,col1);
 
         // Restrictions check, colour restriction not checked
-        rc.checkEmptiness(wpc,row2,col2);
-        rc.checkValueRestriction(wpc, row2, col2, d);
-        rc.checkAdjacent(wpc, row2, col2);
-        rc.checkSameDie(wpc,row2,col2,d);
+        rc.checkEmptiness(temp,row2,col2);
+        rc.checkValueRestriction(temp, row2, col2, d);
+        rc.checkAdjacent(temp, row2, col2);
+        rc.checkSameDie(temp,row2,col2,d);
 
-        wpc.setDie(row2, col2, d);
-        wpc.removeDie(row1,col1);
+        temp.setDie(row2, col2, d);
+        player.setWpc(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

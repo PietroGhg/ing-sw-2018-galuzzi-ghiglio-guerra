@@ -52,8 +52,4 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         }
 
     }
-
-    public static void main (String[] args){
-
-    }
 }
