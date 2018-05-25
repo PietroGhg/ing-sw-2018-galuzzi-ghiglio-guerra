@@ -14,7 +14,7 @@ public class RestrictionChecker {
     public static final String FIRSTMOVE_ERROR = "Error: first move, die must be on the border.";
     public static final String ENOUGHFAVORTOKENS_ERROR = "Error: not enough favor tokens.";
     public static final String COLOURRESTRICTION_ERROR = "Error: colour restriction violated.";
-    public static final String VALUERESTRICTION_ERROR = "Error: colour restriction violated.";
+    public static final String VALUERESTRICTION_ERROR = "Error: value restriction violated.";
     public static final String SAMEDIE_ERROR = "Error: same die orthogonally adjacent.";
     public static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
     public static final String EMPTY_ERROR = "Error: cell not empty.";
@@ -93,11 +93,14 @@ public class RestrictionChecker {
      * @param col coordinates of the cell
      * @param die die that needs to be placed
      * @throws MoveNotAllowedException
+     * @author Leonardo Guerra
      */
     public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
-        if (temp.getColourR() != die.getDieColour())
-            throw new MoveNotAllowedException(COLOURRESTRICTION_ERROR);
+        if(temp.getColourR()!=null) {
+            if (temp.getColourR() != die.getDieColour())
+                throw new MoveNotAllowedException(COLOURRESTRICTION_ERROR);
+        }
     }
 
     /**
@@ -107,11 +110,14 @@ public class RestrictionChecker {
      * @param col coordinates of the cell
      * @param die die that needs to be placed
      * @throws MoveNotAllowedException if the restriction is violated
+     * @author Leonardo Guerra
      */
     public void checkValueRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
-        if(! (die.getDieValue().equals(temp.getValueR())))
-            throw new MoveNotAllowedException(VALUERESTRICTION_ERROR);
+        if(temp.getValueR()!=null) {
+            if (!(die.getDieValue().equals(temp.getValueR())))
+                throw new MoveNotAllowedException(VALUERESTRICTION_ERROR);
+        }
     }
 
     /**
