@@ -18,7 +18,7 @@ public class UserInterrogation {
 
     }
 
-    public void chooseInterrogation(MVAbstractMessage){
+    public void chooseInterrogation(MVAbstractMessage m){
 
 
 

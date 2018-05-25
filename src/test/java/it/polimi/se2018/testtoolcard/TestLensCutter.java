@@ -73,26 +73,83 @@ public class TestLensCutter {
         //
     }
 
+    /**
+     * Tests the normal use of the tool card
+     */
     @Test
     public void test1(){
         model = new Model();
         player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setFavorTokens(5);
         model.addPlayer(player);
-        param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(2);
         param.addParameter(0);
         param.addParameter(2);
+        param.setRoundTrack(beforeRT);
+        param.setDraftPool(beforeDP);
         model.setParameters(param);
 
         try {
             card.cardAction(param);
-            assertEquals(beforeRT, expectedRT);
-            assertEquals(beforeDP, expectedDP);
+            assertEquals(param.getRoundTrack(), expectedRT);
+            assertEquals(param.getDraftPool(), expectedDP);
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
             fail();
+        }
+    }
+
+    /**
+     * Draft pool cell empty -> throws exception
+     */
+    @Test
+    public void test2(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param.addParameter(3);
+        param.addParameter(5);
+        param.addParameter(0);
+        param.setRoundTrack(beforeRT);
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: draft pool cell is empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * Round track cell empty -> throws exception
+     */
+    @Test
+    public void test3(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param.addParameter(0);
+        param.addParameter(3);
+        param.addParameter(0);
+        param.setRoundTrack(beforeRT);
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: round track cell is empty.", e.getMessage());
         }
     }
 

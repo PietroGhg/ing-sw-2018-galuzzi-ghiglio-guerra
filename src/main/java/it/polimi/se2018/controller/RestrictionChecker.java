@@ -232,7 +232,9 @@ public class RestrictionChecker {
      * @author Leonardo Guerra
      */
     public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
-        if (!(roundTrack.get(turn).get(index)==null)) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
+        if (roundTrack.size()<=turn) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
+        else
+            if(roundTrack.get(turn).size()<=index) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
     }
 
     /**
@@ -243,7 +245,7 @@ public class RestrictionChecker {
      * @author Leonardo Guerra
      */
     public void checkDPCellNotEmpty(ArrayList<Die> draftPool, int index) throws MoveNotAllowedException{
-        if(draftPool.get(index)==null) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
+        if (draftPool.size() <= index) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
     }
 
     /**
@@ -253,7 +255,7 @@ public class RestrictionChecker {
      * @author Leonardo Guerra
      */
     public void checkDPNotEmpty(ArrayList<Die> draftPool) throws MoveNotAllowedException{
-        if(draftPool.get(0)==null) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
+        if(draftPool.size()==0) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
     }
 
     /**

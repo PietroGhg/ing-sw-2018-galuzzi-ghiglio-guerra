@@ -9,9 +9,7 @@ public class InsertPlayerName extends UserInterrogation {
     //public void chooseName(){
         //System.out.println("Insert your name");
         //Scanner userInput = new Scanner(System.in);
-        //playerName = userInput.next();
-    }
-
-
+        //playerName = userInput.next();}
 
 }
+

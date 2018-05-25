@@ -39,7 +39,7 @@ public class LensCutter implements ToolCard{  //Taglierina Circolare
         int rtIndex = param.getParameter(2);
 
         rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
-        rc.checkDPCellNotEmpty(dp,rtIndex);
+        rc.checkDPCellNotEmpty(dp,dpIndex);
 
         //Swap the chosen die on the draft pool with another chosen die on the round track
         Die temp = new Die(param.getDraftPool().get(dpIndex));

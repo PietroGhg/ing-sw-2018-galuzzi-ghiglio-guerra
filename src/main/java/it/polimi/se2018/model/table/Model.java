@@ -31,18 +31,20 @@ public class Model extends Observable<MVAbstractMessage> {
     private PlayerMoveParameters playerMoveParameters;
 
     public Model(){
-        // roundTrack = new RoundTrack();
         players = new ArrayList<>();
         puCards = new ArrayList<>();
         diceBag = new DiceBag();
         turn = new Turn();
+        roundTrack = new RoundTrack(getPlayersNumber());
     }
 
     public Die getVacantDie(){ return vacantDie; }
 
-    public void setRoundTrack(RoundTrack roundTrack){ this.roundTrack = roundTrack;}
+    public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack){ this.roundTrack.setRT(roundTrack); }
 
-    public RoundTrack getRoundTrack(){ return roundTrack; }
+    public ArrayList<ArrayList<Die>> getRoundTrack(){ return roundTrack.getRT(); }
+
+    public int getPlayersNumber() { return players.size(); }
 
     public int turnNumber(int playerID){ return roundTrack.turnNumber(playerID); }
 

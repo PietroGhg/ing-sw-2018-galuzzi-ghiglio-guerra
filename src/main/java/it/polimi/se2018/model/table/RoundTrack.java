@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class RoundTrack {
     private static final int NUM_ROUND = 10;
-    private ArrayList<ArrayList<Die>> roundTrack;
+    private ArrayList<ArrayList<Die>> roundTrack = new ArrayList<ArrayList<Die>>();;
     private int roundCounter; //the current round (row of the round matrix)
     private int turnCounter; //column of the round matrix
     private int nPlayers;
@@ -64,7 +64,6 @@ public class RoundTrack {
         turnCounter = 0;
         roundCounter = 0;
         roundMatrix = matrixFiller(nPlayers);
-        roundTrack = new ArrayList<ArrayList<Die>>();
     }
 
     public ArrayList<ArrayList<Die>> getRT() { return roundTrack; }
