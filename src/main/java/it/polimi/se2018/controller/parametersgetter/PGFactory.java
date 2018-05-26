@@ -1,4 +1,4 @@
-package it.polimi.se2018.controller.ParametersGetter;
+package it.polimi.se2018.controller.parametersgetter;
 
 import it.polimi.se2018.exceptions.InputNotValidException;
 

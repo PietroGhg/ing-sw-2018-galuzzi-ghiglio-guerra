@@ -14,7 +14,6 @@ public class View extends AbstractView {
     private int currentplayerID;
     private int currentstate;
     private String playerName;
-    private Array
 
     public View(){
 
