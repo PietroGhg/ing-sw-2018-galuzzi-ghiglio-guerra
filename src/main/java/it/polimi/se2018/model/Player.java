@@ -13,12 +13,24 @@ public class Player {
     private int privateScore;
     private int totalScore;
     private WPC wpc;
+    private int[] extractedWpcsIDs;
+    private boolean ready;
 
     private ArrayList<PrivateObjectiveCard> prCard;
 
     public Player(int id){
         prCard = new ArrayList<>();
+        extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
+        ready = false;
         playerID = id;
+    }
+
+    public void setExtractedWpcsIDs(int[] extractedWpcsIDs) {
+        this.extractedWpcsIDs = extractedWpcsIDs;
+    }
+
+    public int[] getExtractedWpcsIDs() {
+        return extractedWpcsIDs;
     }
 
     public Player(String name, int playerID){

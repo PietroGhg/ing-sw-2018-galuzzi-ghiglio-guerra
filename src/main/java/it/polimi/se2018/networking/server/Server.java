@@ -1,6 +1,7 @@
 package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.Controller;
+import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.model.table.Model;
 
 /**
@@ -29,11 +30,11 @@ public class Server {
      * The remoteview is already registered as an observer to the connection in it's constructor.
      * @param connection the ClientConnection used by the RemoteView
      */
-    public void addClient(ClientConnection connection){
+    public void addClient(ClientConnection connection)throws GameStartedException{
         RemoteView remoteView = new RemoteView(connection);
         remoteView.register(controller);
         model.register(remoteView);
-        //model.addPlayer();
+        model.addPlayer();
         new Thread(connection).start();
     }
 }

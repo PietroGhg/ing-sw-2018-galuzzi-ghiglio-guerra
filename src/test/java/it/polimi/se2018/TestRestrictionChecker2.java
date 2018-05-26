@@ -104,4 +104,34 @@ public class TestRestrictionChecker2 {
             fail();
         }
     }
+
+    /**
+     * Test for the method that checks that a die is not adjacent to any other dice.
+     * The new die is placed in a cell that has no adjacent dice -> no exception should be thorwn
+     */
+    @Test
+    public void testNotAdj1(){
+        RestrictionChecker restrictionChecker = new RestrictionChecker();
+        try{
+            restrictionChecker.checkNotAdjacent(wpc, 2, 3);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+    }
+
+    /**
+     * Tests that when a die is placed in a cell adjacent to another die, an exception is thrown
+     */
+    @Test
+    public void testNotAdj2() {
+        RestrictionChecker restrictionChecker = new RestrictionChecker();
+        try{
+            restrictionChecker.checkNotAdjacent(wpc, 0, 1);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals(RestrictionChecker.NOTADJACENT_ERROR, e.getMessage());
+        }
+    }
 }

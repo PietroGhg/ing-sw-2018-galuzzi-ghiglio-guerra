@@ -47,14 +47,14 @@ public class RestrictionChecker {
      */
     public void checkAdjacent (WPC wpc, int row, int col) throws MoveNotAllowedException{
 
-            if( !( !checkCell(wpc,row-1, col) ||
-                    !checkCell(wpc,row+1, col) ||
-                    !checkCell(wpc, row, col-1) ||
-                    !checkCell(wpc, row, col+1) ||
-                    !checkCell(wpc, row-1,col-1) ||
-                    !checkCell(wpc, row-1,col+1) ||
-                    !checkCell(wpc, row+1,col-1) ||
-                    !checkCell(wpc, row+1,col+1) ) )
+            if(     checkCell(wpc,row-1, col) &&
+                    checkCell(wpc,row+1, col) &&
+                    checkCell(wpc, row, col-1) &&
+                    checkCell(wpc, row, col+1) &&
+                    checkCell(wpc, row-1,col-1) &&
+                    checkCell(wpc, row-1,col+1) &&
+                    checkCell(wpc, row+1,col-1) &&
+                    checkCell(wpc, row+1,col+1)  )
                 throw new MoveNotAllowedException(ADJACENT_ERROR);
 
     }
@@ -64,19 +64,18 @@ public class RestrictionChecker {
      * @param wpc the board
      * @param row coordinates of the cell
      * @param col coordinates of the cell
-     * @throws MoveNotAllowedException if the restriction is violated
+     * @throws MoveNotAllowedException if there's at least one adjacent die
      * @author Leonardo Guerra
      */
     public void checkNotAdjacent(WPC wpc, int row, int col) throws MoveNotAllowedException{
-        if ( !checkCell(wpc,row-1, col) ||
-                !checkCell(wpc,row+1, col) ||
-                !checkCell(wpc, row, col-1) ||
-                !checkCell(wpc, row, col+1) ||
-                !checkCell(wpc, row-1,col-1) ||
-                !checkCell(wpc, row-1,col+1) ||
-                !checkCell(wpc, row+1,col-1) ||
-                !checkCell(wpc, row+1,col+1) )
-            throw new MoveNotAllowedException(NOTADJACENT_ERROR);
+        try{
+            checkAdjacent(wpc, row, col);
+        }
+        catch(MoveNotAllowedException e){
+            //An adjacent exception should be thrown if there are no adjacent dice: no exception is thrown by this method
+            return;
+        }
+        throw new MoveNotAllowedException(NOTADJACENT_ERROR); //throws the exception if there's at least one adjacent die
     }
 
     /**
@@ -113,7 +112,7 @@ public class RestrictionChecker {
      * @param row coordinates of the cell
      * @param col coordinates of the cell
      * @param die die that needs to be placed
-     * @throws MoveNotAllowedException
+     * @throws MoveNotAllowedException when the restriction is violated
      * @author Leonardo Guerra
      */
     public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
@@ -233,8 +232,7 @@ public class RestrictionChecker {
      */
     public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
         if (roundTrack.size()<=turn) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
-        else
-            if(roundTrack.get(turn).size()<=index) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
+        if (roundTrack.get(turn).size()<=index) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
     }
 
     /**
@@ -255,7 +253,7 @@ public class RestrictionChecker {
      * @author Leonardo Guerra
      */
     public void checkDPNotEmpty(ArrayList<Die> draftPool) throws MoveNotAllowedException{
-        if(draftPool.size()==0) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
+        if(draftPool.isEmpty()) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
     }
 
     /**
