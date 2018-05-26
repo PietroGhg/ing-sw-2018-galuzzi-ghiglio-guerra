@@ -17,6 +17,7 @@ public class Extractor {
     private ArrayList<Integer> prCards;
     private ArrayList<Integer> puCards;
     private ArrayList<Integer> wpcs;
+    private int numWpcs;
 
     private static Extractor instance;
 
@@ -28,14 +29,14 @@ public class Extractor {
         puCards = new ArrayList<>(numPuCards);
         for(int i = 0; i < numPuCards; i++) puCards.add(i);
 
-        int numWpcs = gen.getNumWpcs();
+        numWpcs = gen.getNumWpcs();
         wpcs = new ArrayList<>(numWpcs);
         for(int i = 0; i < numWpcs; i++) wpcs.add(i);
     }
 
     public static Extractor getInstance(){
-        if (instance == null) return new Extractor();
-        else return instance;
+        if (instance == null) instance = new Extractor();
+        return instance;
     }
 
     /**
@@ -46,9 +47,21 @@ public class Extractor {
         int[] ris = new int[NUM_WPCS_EXTRACTED];
         Random random = new Random();
         for(int i = 0; i < NUM_WPCS_EXTRACTED; i++){
-            ris[i] = random.nextInt(wpcs.size());
+            //randomizes an index between 0  and wpcs.size()-1
+            int j = random.nextInt(wpcs.size());
+            //assegnates the value in the randomized index to the result
+            ris[i] = wpcs.get(j);
+            //removes the extracted value from the total of the boards
+            wpcs.remove(j);
         }
         return ris;
     }
+
+    /**
+     * @return The number of wpcs from which the boards can be extracted
+     */
+    public int currNumWpcs(){ return wpcs.size(); }
+
+    public int getNumWpcs() { return this.numWpcs; }
 
 }

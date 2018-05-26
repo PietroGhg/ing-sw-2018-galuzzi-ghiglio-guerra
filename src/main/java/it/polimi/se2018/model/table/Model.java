@@ -165,7 +165,7 @@ public class Model extends Observable<MVAbstractMessage> {
 
     /**
      * Method that starts a game, setting the GAMEPLAY state, extracting public, private a tool cards and notifying the
-     * players. 
+     * players.
      */
     private void startGame() {
         state = States.GAMEPLAY;
@@ -178,6 +178,13 @@ public class Model extends Observable<MVAbstractMessage> {
         //setSetupMessage(players.size(),  extractWpcs());
     }
 
+    /**
+     * Creates a MVSetupMessage that notifies the player that he's been allowed into the game, asking him tho choose between
+     * one of the extracted boards.
+     * @param playerID the playerID of the receiver
+     * @param wpcs to strings representing the wpcs
+     * @param indexes the indexes of the boards
+     */
     private void setSetupMessage(int playerID, String[] wpcs, int[] indexes){
         MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs, indexes);
         notify(message);
