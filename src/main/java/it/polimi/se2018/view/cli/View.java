@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.view.AbstractView;
-import it.polimi.se2018.view.MVAbstractMessage;
+import it.polimi.se2018.view.*;
 
 import java.lang.reflect.Array;
 import java.util.Scanner;
@@ -38,19 +37,18 @@ public class View extends AbstractView {
 
     }
 
-    //public void visit(MVGameMessage message){
+    public void visit(MVGameMessage message){
 
 
-
-    //}
-    //public void visit(MVSetUpMessage message){
-
-
-    //}
-    //public void visit(MVExtractedCardsMessage message){
+    }
+    public void visit(MVSetUpMessage message){
 
 
-    //}
+    }
+    public void visit(MVExtractedCardsMessage message){
+
+
+    }
 
     public void getCoordinates(){
 
