@@ -2,9 +2,12 @@ package it.polimi.se2018.model.table;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.GameEndedException;
+import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
+import it.polimi.se2018.model.states.States;
+import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
@@ -29,6 +32,7 @@ public class Model extends Observable<MVAbstractMessage> {
     private ChooseWinner chooseWinner;
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
+    private States state;
 
     public Model(){
         players = new ArrayList<>();
@@ -36,6 +40,7 @@ public class Model extends Observable<MVAbstractMessage> {
         diceBag = new DiceBag();
         turn = new Turn();
         roundTrack = new RoundTrack(getPlayersNumber());
+        state = States.CONNECTION;
     }
 
     public Die getVacantDie(){ return vacantDie; }
@@ -147,14 +152,52 @@ public class Model extends Observable<MVAbstractMessage> {
         players.add(p);
     }
 
+    public void addPlayer() throws GameStartedException{
+        if(state != States.CONNECTION) throw new GameStartedException();
+
+        Player p = new Player(players.size());
+        players.add(p);
+        String[] wpcsExtracted = extractWpc(p);
+        setSetupMessage(p.getPlayerID(), wpcsExtracted, p.getExtractedWpcsIDs());
+
+        if(players.size() == 4) startGame();
+    }
+
+    /**
+     * Method that starts a game, setting the GAMEPLAY state, extracting public, private a tool cards and notifying the
+     * players. 
+     */
+    private void startGame() {
+        state = States.GAMEPLAY;
+        //for each player, extract the cards and send an ExtractedCardMessage
+    }
+
     public void addPlayer(String name) {
         Player p = new Player(name, players.size() + 1 );
         players.add(p);
         //setSetupMessage(players.size(),  extractWpcs());
     }
 
-    private void setSetupMessage(int playerID, String[] wpcs){
-        MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs);
+    private void setSetupMessage(int playerID, String[] wpcs, int[] indexes){
+        MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs, indexes);
         notify(message);
+    }
+
+    /**
+     * @param p The player, sets the extractedWpcs attribute, so that it can later be checked that the user choose
+     *          an appropriate index.
+     * @return An array containing the strings representing the extracted boards
+     */
+    private String[] extractWpc(Player p) {
+        String[] ris = new String[Extractor.NUM_WPCS_EXTRACTED];
+        WpcGenerator gen = new WpcGenerator();
+        Extractor extractor = Extractor.getInstance();
+
+        int[] indexes = extractor.extractWpcs();
+        p.setExtractedWpcsIDs(indexes);
+        for(int i : indexes){
+            ris[i] = gen.getWPC(indexes[i]).toString();
+        }
+        return ris;
     }
 }

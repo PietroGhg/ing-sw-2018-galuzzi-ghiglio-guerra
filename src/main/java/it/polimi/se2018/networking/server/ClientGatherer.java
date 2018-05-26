@@ -1,5 +1,7 @@
 package it.polimi.se2018.networking.server;
 
+import it.polimi.se2018.exceptions.GameStartedException;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,7 +44,12 @@ public class ClientGatherer extends Thread {
             try{
                 newClientConnection = serverSocket.accept();
                 SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection);
-                server.addClient(socketClientConnection);
+                try {
+                    server.addClient(socketClientConnection);
+                }
+                catch (GameStartedException e){
+                    //notify the client
+                }
             }
             catch(IOException e){
                 e.printStackTrace();
