@@ -50,16 +50,8 @@ public class Lathekin implements ToolCard{
         rc.checkNotEmpty(temp,rowDie1,colDie1);
         Integer v1 = temp.getCell(rowDie1, colDie1).getDie().getDieValue();
         Colour c1 = temp.getCell(rowDie1, colDie1).getDie().getDieColour();
-
-        rc.checkNotEmpty(temp,rowDie2,colDie2);
-        Integer v2 = temp.getCell(rowDie2, colDie2).getDie().getDieValue();
-        Colour c2 = temp.getCell(rowDie2, colDie2).getDie().getDieColour();
-
         Die d1 = new Die(v1, c1);
         temp.removeDie(rowDie1, colDie1);
-
-        Die d2 = new Die(v2, c2);
-        temp.removeDie(rowDie2,colDie2);
 
         //Restrictions check for the first die
         rc.checkEmptiness(temp, rowCell1, colCell1);
@@ -69,6 +61,12 @@ public class Lathekin implements ToolCard{
         rc.checkSameDie(temp,rowCell1,colCell1,d1);
         //First die moving
         temp.setDie(rowCell1, colCell1, d1);
+
+        rc.checkNotEmpty(temp,rowDie2,colDie2);
+        Integer v2 = temp.getCell(rowDie2, colDie2).getDie().getDieValue();
+        Colour c2 = temp.getCell(rowDie2, colDie2).getDie().getDieColour();
+        Die d2 = new Die(v2, c2);
+        temp.removeDie(rowDie2,colDie2);
 
         //Restrictions check for the second die
         rc.checkEmptiness(temp, rowCell2, colCell2);

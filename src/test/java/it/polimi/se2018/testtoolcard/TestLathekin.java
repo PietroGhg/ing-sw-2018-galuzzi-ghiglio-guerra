@@ -76,8 +76,8 @@ public class TestLathekin {
         param.addParameter(0);
         param.addParameter(3);
         param.addParameter(3);
-        param.addParameter(2);
         param.addParameter(3);
+        param.addParameter(2);
         param.addParameter(2);
         param.addParameter(0);
         model.setParameters(param);
