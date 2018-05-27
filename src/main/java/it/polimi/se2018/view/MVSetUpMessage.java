@@ -5,12 +5,10 @@ package it.polimi.se2018.view;
  * @author Pietro Ghiglio
  */
 public class MVSetUpMessage extends MVAbstractMessage {
-    private String[] wpcs;
     private int[] ids;
 
-    public MVSetUpMessage(int playerID, String[] wpcs,int[] indexes){
+    public MVSetUpMessage(int playerID, int[] indexes){
         this.playerID = playerID;
-        this.wpcs = wpcs;
         this.ids = indexes;
     }
 
@@ -21,9 +19,5 @@ public class MVSetUpMessage extends MVAbstractMessage {
     }
 
     public int[] getIDs(){ return ids; }
-
-    public String[] getWpcs(){
-        return wpcs;
-    }
 
 }

@@ -7,7 +7,6 @@ import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.states.States;
-import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
@@ -153,12 +152,13 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     public void addPlayer() throws GameStartedException{
+        Extractor extractor = Extractor.getInstance();
         if(state != States.CONNECTION) throw new GameStartedException();
 
         Player p = new Player(players.size());
         players.add(p);
-        String[] wpcsExtracted = extractWpc(p);
-        setSetupMessage(p.getPlayerID(), wpcsExtracted, p.getExtractedWpcsIDs());
+        int[] wpcsExtracted = extractor.extractWpcs(p);
+        setSetupMessage(p.getPlayerID(), wpcsExtracted);
 
         if(players.size() == 4) startGame();
     }
@@ -170,6 +170,11 @@ public class Model extends Observable<MVAbstractMessage> {
     private void startGame() {
         state = States.GAMEPLAY;
         //for each player, extract the cards and send an ExtractedCardMessage
+        for(Player p: players){
+            /*String prCard = extractPrCard();
+            String[] puCards = extractPuCards();
+            setExtractedCardsMessage(p.getPlayerID(), prCard, puCards);*/
+        }
     }
 
     public void addPlayer(String name) {
@@ -182,29 +187,11 @@ public class Model extends Observable<MVAbstractMessage> {
      * Creates a MVSetupMessage that notifies the player that he's been allowed into the game, asking him tho choose between
      * one of the extracted boards.
      * @param playerID the playerID of the receiver
-     * @param wpcs to strings representing the wpcs
      * @param indexes the indexes of the boards
      */
-    private void setSetupMessage(int playerID, String[] wpcs, int[] indexes){
-        MVSetUpMessage message = new MVSetUpMessage(playerID, wpcs, indexes);
+    private void setSetupMessage(int playerID, int[] indexes){
+        MVSetUpMessage message = new MVSetUpMessage(playerID, indexes);
         notify(message);
     }
 
-    /**
-     * @param p The player, sets the extractedWpcs attribute, so that it can later be checked that the user choose
-     *          an appropriate index.
-     * @return An array containing the strings representing the extracted boards
-     */
-    private String[] extractWpc(Player p) {
-        String[] ris = new String[Extractor.NUM_WPCS_EXTRACTED];
-        WpcGenerator gen = new WpcGenerator();
-        Extractor extractor = Extractor.getInstance();
-
-        int[] indexes = extractor.extractWpcs();
-        p.setExtractedWpcsIDs(indexes);
-        for(int i : indexes){
-            ris[i] = gen.getWPC(indexes[i]).toString();
-        }
-        return ris;
-    }
 }

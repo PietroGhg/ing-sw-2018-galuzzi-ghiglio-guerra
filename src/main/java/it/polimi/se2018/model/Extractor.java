@@ -1,8 +1,13 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.exceptions.InputNotValidException;
+import it.polimi.se2018.model.objectivecards.ObjectiveCardFactory;
+import it.polimi.se2018.model.objectivecards.privateobjectivecard.PrivateObjectiveCard;
+import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -11,8 +16,9 @@ import java.util.Random;
  * @author Pietro Ghiglio
  */
 public class Extractor {
-    private final int numPrCards = 5;
-    private final int numPuCards = 11;
+    public static final int NUM_PR_CARDS = 5;
+    public static final int NUM_PU_CARDS = 10;
+    public static final int NUM_PUCARDS_EXTRACTED = 3;
     public static final int NUM_WPCS_EXTRACTED = 4;
     private ArrayList<Integer> prCards;
     private ArrayList<Integer> puCards;
@@ -23,11 +29,11 @@ public class Extractor {
 
     private Extractor(){
         WpcGenerator gen = new WpcGenerator();
-        prCards = new ArrayList<>(numPrCards);
-        for(int i = 0; i < numPrCards; i++)  prCards.add(i);
+        prCards = new ArrayList<>(NUM_PR_CARDS);
+        for(int i = 0; i < NUM_PR_CARDS; i++)  prCards.add(i);
 
-        puCards = new ArrayList<>(numPuCards);
-        for(int i = 0; i < numPuCards; i++) puCards.add(i);
+        puCards = new ArrayList<>(NUM_PU_CARDS);
+        for(int i = 0; i < NUM_PU_CARDS; i++) puCards.add(i);
 
         numWpcs = gen.getNumWpcs();
         wpcs = new ArrayList<>(numWpcs);
@@ -40,22 +46,68 @@ public class Extractor {
     }
 
     /**
-     * extracts the IDs of the possible boards that a player will choose
+     * Extracts the IDs of the possible boards that a player will choose
      * @return the IDs
      */
-    public int[] extractWpcs(){
+    public int[] extractWpcs(Player p){
         int[] ris = new int[NUM_WPCS_EXTRACTED];
         Random random = new Random();
         for(int i = 0; i < NUM_WPCS_EXTRACTED; i++){
-            //randomizes an index between 0  and wpcs.size()-1
-            int j = random.nextInt(wpcs.size());
-            //assegnates the value in the randomized index to the result
-            ris[i] = wpcs.get(j);
+            //randomizes an index between 0 and wpcs.size() - 1
+            int randomIndex = random.nextInt(wpcs.size());
+            //sets the value in the randomized index to the result
+            ris[i] = wpcs.get(randomIndex);
             //removes the extracted value from the total of the boards
-            wpcs.remove(j);
+            wpcs.remove(randomIndex);
         }
+        p.setExtractedWpcsIDs(ris);
         return ris;
     }
+
+    /**
+     * Extracts a PrivateObjectiveCard, sets it into the corresponding player
+     * @param p the player
+     * @return the name of the PrivateObjectiveCard
+     */
+    public String extractPrCard(Player p){
+        Random random = new Random();
+        ObjectiveCardFactory objectiveCardFactory = new ObjectiveCardFactory();
+        PrivateObjectiveCard card;
+        int randNum = random.nextInt(prCards.size());
+        try {
+            int cardID = prCards.get(randNum);
+            prCards.remove(randNum);
+            card = objectiveCardFactory.getPrivateObjectiveCard(cardID);
+            p.addPrCard(card);
+            return card.getName();
+        }
+        catch(InputNotValidException e){
+            //Since randNum is a value between 0 and 4, this exception should never be thrown
+            return "Error";
+        }
+    }
+
+    public List<PublicObjectiveCard> extractPuCards(){
+        Random random = new Random();
+        ObjectiveCardFactory objectiveCardFactory = new ObjectiveCardFactory();
+        ArrayList<PublicObjectiveCard> ris = new ArrayList<>();
+
+        try {
+            for(int i = 0; i < NUM_PUCARDS_EXTRACTED; i++){
+                int randNum = random.nextInt(puCards.size());
+                int cardID = prCards.get(randNum);
+                prCards.remove(randNum);
+                PublicObjectiveCard card = objectiveCardFactory.getPublicObjectiveCard(cardID);
+                ris.add(card);
+            }
+        }
+        catch(InputNotValidException e){
+            return new ArrayList<>();
+        }
+
+        return ris;
+    }
+
 
     /**
      * @return The number of wpcs from which the boards can be extracted
@@ -63,5 +115,7 @@ public class Extractor {
     public int currNumWpcs(){ return wpcs.size(); }
 
     public int getNumWpcs() { return this.numWpcs; }
+
+    public int getNumPuCards() { return prCards.size(); }
 
 }

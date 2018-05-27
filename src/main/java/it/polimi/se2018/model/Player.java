@@ -16,10 +16,9 @@ public class Player {
     private int[] extractedWpcsIDs;
     private boolean ready;
 
-    private ArrayList<PrivateObjectiveCard> prCard;
+    private PrivateObjectiveCard prCard;
 
     public Player(int id){
-        prCard = new ArrayList<>();
         extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
         ready = false;
         playerID = id;
@@ -49,15 +48,13 @@ public class Player {
     }
 
     public void addPrCard(PrivateObjectiveCard card){
-        prCard.add(card);
+        prCard = card;
     }
 
+    public PrivateObjectiveCard getPrCard() { return prCard; }
+
     public int getPrivateScore(){
-        privateScore = 0;
-        for(PrivateObjectiveCard c : prCard){
-            privateScore = privateScore + c.getScore(wpc);
-        }
-        return privateScore;
+        return prCard.getScore(wpc);
     }
 
     public int getTotalScore(ArrayList<PublicObjectiveCard> puCards){
