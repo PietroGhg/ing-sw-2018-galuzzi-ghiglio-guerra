@@ -118,7 +118,7 @@ public class RestrictionChecker {
     public void checkColourRestriction (WPC wpc, int row, int col, Die die) throws MoveNotAllowedException{
         Cell temp = wpc.getCell(row, col);
         if(temp.getColourR()!=null) {
-            if (temp.getColourR() != die.getDieColour())
+            if (!(die.getDieColour().equals(temp.getColourR())))
                 throw new MoveNotAllowedException(COLOURRESTRICTION_ERROR);
         }
     }

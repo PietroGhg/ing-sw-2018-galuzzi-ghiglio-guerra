@@ -86,7 +86,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * The starting cell is empty -> throws exception
+     * Starting cell is empty -> throws exception
      */
     @Test
     public void test2(){
