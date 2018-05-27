@@ -24,7 +24,7 @@ import static org.junit.Assert.fail;
  * Test for the methods that choose a winner.
  * @author Pietro Ghiglio
  */
-public class TestChooseWinner {
+public class  TestChooseWinner {
     private Player p1;
     private Player p2;
     private Player p3;

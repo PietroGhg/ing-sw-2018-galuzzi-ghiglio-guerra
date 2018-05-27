@@ -8,7 +8,7 @@ public class PGFactory{
     public PGFactory get(int id) throws InputNotValidException {
         switch (id) {
             //case(1): return getParameters();
-            // case(2): return getCoordinates();
+            //case(2): return getCoordinates();
 
             // throw new InputNotValidException();
         }
