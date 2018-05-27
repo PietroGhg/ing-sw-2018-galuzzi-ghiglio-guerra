@@ -92,7 +92,397 @@ public class TestLathekin {
         }
     }
 
-    
+    /**
+     * First die starting cell is empty -> throws exception
+     */
+    @Test
+    public void test2(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(0);
+        param.addParameter(0);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(3);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: the cell is empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * First recipient cell is not empty -> throws exception
+     */
+    @Test
+    public void test3(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(2);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: cell not empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * Colour restriction violated for the first die -> throws exception
+     */
+    @Test
+    public void test4(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(4);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(1);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: colour restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * Value restriction violated for the first die -> throws exception
+     */
+    @Test
+    public void test5(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(1);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: value restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * First recipient cell is not adjacent to other dice -> throws exception
+     */
+    @Test
+    public void test6(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(2);
+        param.addParameter(3);
+        param.addParameter(3);
+        param.addParameter(4);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(1);
+        param.addParameter(3);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: die must be adjacent to another die.", e.getMessage());
+        }
+    }
+
+    /**
+     * First recipient cell has the same orthogonally adjacent die -> throws exception
+     */
+    //Non trova l'infrazione della restrizione (anche per il test13)
+    @Test
+    public void test7(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(3);
+        param.addParameter(3);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+        }
+    }
+
+    /**
+     * Second die starting cell is empty -> throws exception
+     */
+    @Test
+    public void test8(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(3);
+        param.addParameter(0);
+        param.addParameter(0);
+        param.addParameter(0);
+        param.addParameter(2);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: the cell is empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * Second recipient cell is not empty -> throws exception
+     */
+    @Test
+    public void test9(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(2);
+        param.addParameter(4);
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(0);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: cell not empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * Colour restriction violated for the second die -> throws exception
+     */
+    @Test
+    public void test10(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: colour restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * Value restriction violated for the second die -> throws exception
+     */
+    @Test
+    public void test11(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(4);
+        param.addParameter(1);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(1);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: value restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * First recipient cell is not adjacent to other dice -> throws exception
+     */
+    @Test
+    public void test12(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(1);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(3);
+        param.addParameter(3);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: die must be adjacent to another die.", e.getMessage());
+        }
+    }
+
+    /**
+     * First recipient cell has the same orthogonally adjacent die -> throws exception
+     */
+    //Non trova l'infrazione della restrizione (anche per il test13)
+    @Test
+    public void test13(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(3);
+        param.addParameter(3);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(2);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void test14(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(1);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void test15(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(4);
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(1);
+        param.addParameter(4);
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+        }
+    }
+
     //da finire con gli altri test
 
     //Test to check favor tokens in TestGrozingPliers

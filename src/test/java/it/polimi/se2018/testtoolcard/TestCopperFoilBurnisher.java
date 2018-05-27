@@ -180,7 +180,7 @@ public class TestCopperFoilBurnisher {
     }
 
     /**
-     * Recipient cell has the same orthogonally adjacent die
+     * Recipient cell has the same orthogonally adjacent die -> throws exception
      */
     @Test
     public void test6(){
