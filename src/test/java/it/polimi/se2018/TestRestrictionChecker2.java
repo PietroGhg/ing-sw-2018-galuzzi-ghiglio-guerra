@@ -25,6 +25,7 @@ public class TestRestrictionChecker2 {
         WpcGenerator gen = new WpcGenerator();
         wpc = gen.getWPC(1);
         wpc.getCell(0, 0).setDie(new Die(4, Colour.GREEN));
+        wpc.getCell(2,2).setDie(new Die(4, Colour.GREEN));
     }
 
     //Test for first move restriction (not violated)
@@ -45,6 +46,7 @@ public class TestRestrictionChecker2 {
         RestrictionChecker restr = new RestrictionChecker();
         try {
             restr.checkAdjacent(wpc, 0, 2);
+            fail();
         }
         catch (MoveNotAllowedException e){
             assertEquals(RestrictionChecker.ADJACENT_ERROR, e.getMessage());
@@ -69,6 +71,35 @@ public class TestRestrictionChecker2 {
         RestrictionChecker restr = new RestrictionChecker();
         try {
             restr.checkSameDie(wpc, 1, 0, new Die(4, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+        }
+
+        try {
+            restr.checkSameDie(wpc, 2, 1, new Die(4, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 2, 3, new Die(4, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 1, 2, new Die(4, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 3, 2, new Die(4, Colour.GREEN));
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
@@ -113,7 +144,7 @@ public class TestRestrictionChecker2 {
     public void testNotAdj1(){
         RestrictionChecker restrictionChecker = new RestrictionChecker();
         try{
-            restrictionChecker.checkNotAdjacent(wpc, 2, 3);
+            restrictionChecker.checkNotAdjacent(wpc, 3, 4);
         }
         catch(MoveNotAllowedException e){
             fail();

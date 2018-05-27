@@ -178,7 +178,7 @@ public class RestrictionChecker {
 
         for(int i = 0; i< 4; i++){
             if(temp[i] != null) {
-                if (temp[i].getDieValue() == die.getDieValue() &&
+                if (die.getDieValue().equals(temp[i].getDieValue()) &&
                         temp[i].getDieColour().equals(die.getDieColour()))
                     throw new MoveNotAllowedException(SAMEDIE_ERROR);
             }

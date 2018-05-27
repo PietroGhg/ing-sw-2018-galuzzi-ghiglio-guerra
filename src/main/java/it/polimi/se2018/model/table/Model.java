@@ -8,11 +8,13 @@ import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.view.MVExtractedCardsMessage;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.MVSetUpMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Model extends Observable<MVAbstractMessage> {
 
@@ -170,11 +172,27 @@ public class Model extends Observable<MVAbstractMessage> {
     private void startGame() {
         state = States.GAMEPLAY;
         //for each player, extract the cards and send an ExtractedCardMessage
+        Extractor extractor = Extractor.getInstance();
         for(Player p: players){
-            /*String prCard = extractPrCard();
-            String[] puCards = extractPuCards();
-            setExtractedCardsMessage(p.getPlayerID(), prCard, puCards);*/
+            String prCard = extractor.extractPrCard(p);
+            this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();
+            setExtractedCardsMessage(p.getPlayerID(), prCard);
         }
+    }
+
+    /**
+     * Sets up a message containing the names of the cards that have been extracted
+     * @param playerID the receiver
+     * @param prCardName name of the private cards (public cards are an attribute of the model)
+     */
+    private void setExtractedCardsMessage(int playerID, String prCardName){
+        String[] puCardNames = new String[Extractor.NUM_PUCARDS_EXTRACTED];
+        for(int i = 0; i < Extractor.NUM_PUCARDS_EXTRACTED; i++){
+            puCardNames[i] = this.puCards.get(i).getName();
+        }
+
+        MVExtractedCardsMessage message = new MVExtractedCardsMessage(playerID, prCardName, puCardNames);
+        notify(message);
     }
 
     public void addPlayer(String name) {
