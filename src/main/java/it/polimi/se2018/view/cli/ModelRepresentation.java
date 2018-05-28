@@ -2,6 +2,11 @@ package it.polimi.se2018.view.cli;
 
 import java.util.Map;
 
+/*Representation of Model in the View
+ *@author Andrea Galuzzi
+ */
+
+
 public class ModelRepresentation {
     private String message;
     private String roundTrack;
@@ -9,7 +14,7 @@ public class ModelRepresentation {
 
 
     private String prCards;
-    private String [] puCards;
+    private String[] puCards;
 
     private Map<Integer, String> wpcs;
 
@@ -51,6 +56,6 @@ public class ModelRepresentation {
 
     public void setPrCards(String prCards) { this.prCards = prCards; }
 
-    //hpublic void setPuCards(String puCards) { this.puCards = puCards; }
+    public void setPuCards(String[] puCards) { this.puCards = puCards; }
 
 }
