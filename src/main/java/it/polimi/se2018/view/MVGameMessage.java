@@ -8,6 +8,9 @@ public class MVGameMessage extends MVAbstractMessage {
     private String message;
     private String roundTrack;
     private String draftPool;
+
+
+
     private Map<Integer, String> wpcs;
 
     public MVGameMessage(String message, int playerID){
@@ -45,4 +48,6 @@ public class MVGameMessage extends MVAbstractMessage {
     public void setRoundTrack(String roundTrack){
         this.roundTrack = roundTrack;
     }
+
+    public Map<Integer, String> getWpcs() { return wpcs; }
 }

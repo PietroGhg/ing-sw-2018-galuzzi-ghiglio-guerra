@@ -14,10 +14,6 @@ public class MVSetUpMessage extends MVAbstractMessage {
 
     public void accept(AbstractView view){ view.visit(this); }
 
-    public int getPlayerID(){
-        return playerID;
-    }
-
     public int[] getIDs(){ return ids; }
 
 }

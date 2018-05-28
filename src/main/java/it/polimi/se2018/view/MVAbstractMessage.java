@@ -5,4 +5,8 @@ import java.io.Serializable;
 public abstract class MVAbstractMessage implements Serializable {
     protected int playerID;
     public abstract void accept(AbstractView view);
+
+    public int getPlayerID() {
+        return playerID;
+    }
 }
