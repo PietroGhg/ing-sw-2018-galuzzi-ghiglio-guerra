@@ -30,7 +30,7 @@ public class Server {
      * The remoteview is already registered as an observer to the connection in it's constructor.
      * @param connection the ClientConnection used by the RemoteView
      */
-    public void addClient(ClientConnection connection)throws GameStartedException{
+    public void addClient(ClientConnection connection) throws GameStartedException{
         RemoteView remoteView = new RemoteView(connection);
         remoteView.register(controller);
         model.register(remoteView);
