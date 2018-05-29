@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Test for the toolcard LensCutter
+ * @author Leonardo Guerra
+ */
+
 public class TestLensCutter {
     private Model model;
     private PlayerMoveParameters param;

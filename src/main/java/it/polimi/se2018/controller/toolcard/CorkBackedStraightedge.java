@@ -37,9 +37,6 @@ public class CorkBackedStraightedge implements ToolCard{  //Riga in Sughero
 
         rc.checkDPCellNotEmpty(param.getDraftPool(),dpIndex);
 
-        //Restriction check for the chosen die placed in a cell not adjacent to other dice
-        rc.checkNotAdjacent(wpc,cellRow,cellCol);
-
         //Move the die from the DraftPool to the board
         Die temp = new Die(param.getDraftPool().get(dpIndex));
         //Restrictions check, adjacent restriction not checked
@@ -48,6 +45,10 @@ public class CorkBackedStraightedge implements ToolCard{  //Riga in Sughero
         rc.checkSameDie(wpc,cellRow,cellCol,temp);
         rc.checkValueRestriction(wpc,cellRow,cellCol,temp);
         rc.checkColourRestriction(wpc,cellRow,cellCol,temp);
+
+        //Restriction check for the chosen die placed in a cell not adjacent to other dice
+        rc.checkNotAdjacent(wpc,cellRow,cellCol);
+
         wpc.setDie(cellRow,cellCol,temp);
         param.getDraftPool().get(dpIndex).remove();
 

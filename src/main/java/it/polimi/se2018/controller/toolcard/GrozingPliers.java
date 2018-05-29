@@ -39,7 +39,7 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
         int row = param.getParameter(2);
         int col = param.getParameter(3);
 
-        rc.checkDPCellNotEmpty(dp, dpIndex);
+        rc.checkDPCellNotEmpty(dp,dpIndex);
         Die d = new Die(dp.get(dpIndex));
 
         if (increment == +1) d.increase();

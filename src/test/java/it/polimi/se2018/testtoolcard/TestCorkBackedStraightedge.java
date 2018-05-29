@@ -59,6 +59,7 @@ public class TestCorkBackedStraightedge {
 
         expected = gen.getWPC(22);
         fillerExpected(expected);
+        empty = gen.getWPC(22);
 
         card = CorkBackedStraightedge.getInstance();
     }
@@ -105,7 +106,169 @@ public class TestCorkBackedStraightedge {
             System.out.println(e.getMessage());
             fail();
         }
+    }
 
+    /**
+     * Draft pool cell empty -> throws exception
+     */
+    @Test
+    public void test2(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.setDraftPool(emptyDP);
+        param.addParameter(6);
+        param.addParameter(3);
+        param.addParameter(1);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: draft pool cell is empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * Recipient cell is not empty -> throws exception
+     */
+    @Test
+    public void test3(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(4);
+        param.addParameter(0);
+        param.addParameter(4);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: cell not empty.", e.getMessage());
+        }
+    }
+
+    /**
+     * First move, but die not placed on the border -> throws exception
+     */
+    @Test
+    public void test4(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(empty);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(3);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: first move, die must be on the border.", e.getMessage());
+        }
+    }
+
+    /**
+     * Value restriction violated -> throws exception
+     */
+    @Test
+    public void test5(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(3);
+        param.addParameter(3);
+        param.addParameter(1);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: value restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * Colour restriction violated -> throws exception
+     */
+    @Test
+    public void test6(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(1);
+        param.addParameter(3);
+        param.addParameter(2);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: colour restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * Die adjacent to another die, but it shouldn't -> throws exception
+     * If it can't be adjacent toanother die, of course there isn't the same die orthogonally adjacent
+     */
+    @Test
+    public void test7(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(5);
+        param.addParameter(2);
+        param.addParameter(0);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: die is adjacent to other dice.", e.getMessage());
+        }
     }
 
     //Altri test
