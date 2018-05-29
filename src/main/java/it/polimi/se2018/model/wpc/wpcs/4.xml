@@ -1,16 +1,16 @@
 <wpc>
-    <name value = "Kaleidoscopic Dream"></name>
-    <favorTokens value = "4"></favorTokens>
-    <restriction type = "colour" row="0" col="0" value = "YELLOW"></restriction>
-    <restriction type = "colour" row="0" col="1" value="BLUE"></restriction>
-    <restriction type = "value" row="0" col="4" value = "1"></restriction>
-    <restriction type="colour" row="1" col="0" value="GREEN"></restriction>
-    <restriction type="value" row="1" col="2" value="5"></restriction>
-    <restriction type="value" row="1" col="4" value="4"></restriction>
-    <restriction type="value" row="2" col="0" value="3"></restriction>
-    <restriction type="value" row="2" col="2" value="RED"></restriction>
-    <restriction type="colour" row="2" col="4" value="GREEN"></restriction>
-    <restriction type="value" row="3" col="0" value="2"></restriction>
-    <restriction type="colour" row="3" col="3" value="BLUE"></restriction>
-    <restriction type="colour" row="3" col="4" value="YELLOW"></restriction>
+    <name value = "Kaleidoscopic Dream"/>
+    <favorTokens value = "4"/>
+    <restriction type = "colour" row="0" col="0" value = "YELLOW"/>
+    <restriction type = "colour" row="0" col="1" value="BLUE"/>
+    <restriction type = "value" row="0" col="4" value = "1"/>
+    <restriction type="colour" row="1" col="0" value="GREEN"/>
+    <restriction type="value" row="1" col="2" value="5"/>
+    <restriction type="value" row="1" col="4" value="4"/>
+    <restriction type="value" row="2" col="0" value="3"/>
+    <restriction type="value" row="2" col="2" value="RED"/>
+    <restriction type="colour" row="2" col="4" value="GREEN"/>
+    <restriction type="value" row="3" col="0" value="2"/>
+    <restriction type="colour" row="3" col="3" value="BLUE"/>
+    <restriction type="colour" row="3" col="4" value="YELLOW"/>
 </wpc>

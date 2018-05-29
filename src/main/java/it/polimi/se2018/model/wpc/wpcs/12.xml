@@ -1,0 +1,17 @@
+<wpc>
+    <name value = "Shadow Thief"/>
+    <favorTokens value = "5"/>
+    <restriction type = "value" row="0" col="0" value = "6"/>
+    <restriction type = "colour" row="0" col="1" value="PURPLE"/>
+    <restriction type = "value" row="0" col="4" value = "5"/>
+    <restriction type = "value" row="1" col="0" value = "5"/>
+    <restriction type = "colour" row="1" col="2" value="PURPLE"/>
+    <restriction type = "colour" row="2" col="0" value="PURPLE"/>
+    <restriction type = "value" row="2" col="1" value = "6"/>
+    <restriction type = "colour" row="2" col="3" value="RED"/>
+    <restriction type = "colour" row="3" col="0" value="YELLOW"/>
+    <restriction type = "colour" row="3" col="1" value="RED"/>
+    <restriction type = "value" row="3" col="2" value = "5"/>
+    <restriction type = "value" row="3" col="3" value = "4"/>
+    <restriction type = "value" row="3" col="4" value = "3"/>
+</wpc>
