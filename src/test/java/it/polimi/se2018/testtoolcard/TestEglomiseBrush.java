@@ -102,6 +102,7 @@ public class TestEglomiseBrush {
         param.addParameter(2);
         param.addParameter(1);
         param.addParameter(4);
+
         try{
             card.cardAction(param);
             fail();

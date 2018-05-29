@@ -59,6 +59,9 @@ public class TestCopperFoilBurnisher {
         wpc.setDie(3, 3, new Die(4,Colour.YELLOW));
     }
 
+    /**
+     * Tests the normal use of the tool card
+     */
     @Test
     public void test1(){
         model = new Model();
