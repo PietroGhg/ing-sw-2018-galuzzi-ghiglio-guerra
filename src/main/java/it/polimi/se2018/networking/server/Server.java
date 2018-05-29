@@ -12,7 +12,7 @@ import it.polimi.se2018.model.table.Model;
 public class Server {
     private Model model;
     private Controller controller;
-    private final int port = 12345;
+    private final static int port = 12345;
 
     /**
      * Instantiates the model and the controller, starts a ClientGatherer thread.
@@ -36,5 +36,9 @@ public class Server {
         model.register(remoteView);
         model.addPlayer();
         new Thread(connection).start();
+    }
+
+    public static void main(String[] args){
+        new Server();
     }
 }

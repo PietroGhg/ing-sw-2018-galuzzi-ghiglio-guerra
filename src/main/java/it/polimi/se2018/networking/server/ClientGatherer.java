@@ -40,10 +40,10 @@ public class ClientGatherer extends Thread {
         boolean loop = true;
         while(loop){
             Socket newClientConnection;
-
             try{
                 newClientConnection = serverSocket.accept();
                 SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection);
+
                 try {
                     server.addClient(socketClientConnection);
                 }

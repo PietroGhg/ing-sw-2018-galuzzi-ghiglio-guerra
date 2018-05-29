@@ -38,9 +38,10 @@ public class Model extends Observable<MVAbstractMessage> {
     public Model(){
         players = new ArrayList<>();
         puCards = new ArrayList<>();
+        draftPool = new ArrayList<>();
+        roundTrack = new RoundTrack(getPlayersNumber());
         diceBag = new DiceBag();
         turn = new Turn();
-        roundTrack = new RoundTrack(getPlayersNumber());
         state = States.CONNECTION;
     }
 
@@ -50,13 +51,15 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public ArrayList<ArrayList<Die>> getRoundTrack(){ return roundTrack.getRT(); }
 
+    public int[][] getRoundMatrix() { return roundTrack.getRoundMatrix(); }
+
     public int getPlayersNumber() { return players.size(); }
 
     public int turnNumber(int playerID){ return roundTrack.turnNumber(playerID); }
 
     public void nextTurn(){
         try {
-            roundTrack.nextTurn();
+            roundTrack.nextTurn(draftPool);
             turn.clear();
             //TO DO: notify the players
         }
@@ -169,7 +172,7 @@ public class Model extends Observable<MVAbstractMessage> {
      * Method that starts a game, setting the GAMEPLAY state, extracting public, private a tool cards and notifying the
      * players.
      */
-    private void startGame() {
+    public void startGame() {
         state = States.GAMEPLAY;
         //for each player, extract the cards and send an ExtractedCardMessage
         Extractor extractor = Extractor.getInstance();
@@ -178,6 +181,9 @@ public class Model extends Observable<MVAbstractMessage> {
             this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();
             setExtractedCardsMessage(p.getPlayerID(), prCard);
         }
+
+        //Initializes the roundtrack
+        roundTrack = new RoundTrack(getPlayersNumber());
     }
 
     /**

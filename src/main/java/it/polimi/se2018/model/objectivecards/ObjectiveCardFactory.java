@@ -11,6 +11,7 @@ public class ObjectiveCardFactory {
             case(1): return new ShadesOfGreen();
             case(2): return new ShadesOfRed();
             case(3): return new ShadesOfYellow();
+            case(4): return new ShadesOfPurple();
             default: throw new InputNotValidException();
         }
     }

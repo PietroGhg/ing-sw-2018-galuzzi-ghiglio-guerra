@@ -94,14 +94,20 @@ public class RoundTrack {
     }
 
     /**
-     * Method called by the model when a player finishes his turn
+     * Method called by the model when a player finishes his turn.
+     *
+     * @param draftPool the draftpool
      * @throws GameEndedException if the 10th round is complete
      */
-    public void nextTurn() throws GameEndedException{
+    public void nextTurn(ArrayList<Die> draftPool) throws GameEndedException{
         if(turnCounter == 2*nPlayers - 1){
             turnCounter = 0;
             if(roundCounter == NUM_ROUND - 1) throw new GameEndedException();
-            else roundCounter++;
+            else{
+                roundTrack.get(roundCounter).addAll(draftPool);
+                draftPool.clear();
+                roundCounter++;
+            }
         }
         else {
             turnCounter++;

@@ -18,6 +18,7 @@ public class TestExtractor {
      */
     @Test
     public void test1(){
+        Extractor.resetInstance();
         Extractor extractor1 = Extractor.getInstance();
         Extractor extractor2 = Extractor.getInstance();
 
@@ -52,5 +53,14 @@ public class TestExtractor {
         assertEquals(cardName, p.getPrCard().getName());
 
         assertEquals(Extractor.NUM_PR_CARDS - 1, extractor.getNumPuCards());
+    }
+
+    /**
+     * Tests the extraction of a Public Objective Card
+     */
+    @Test
+    public void test4(){
+        Extractor extractor = Extractor.getInstance();
+        assertEquals(extractor.extractPuCards().size(), 3);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Client {
     private View view;
     private ServerConnection connection;
+    private Socket socket;
 
     public Client(){
         Scanner input = new Scanner(System.in);
@@ -16,8 +17,11 @@ public class Client {
         String serverIP = input.nextLine();
         System.out.println("Insert Server Port Number.");
         int port = input.nextInt();
+
+
         try {
-            Socket socket = new Socket(serverIP, port);
+            socket = new Socket(serverIP, port);
+            view = new View();
             connection = new SocketServerConnection(socket);
             view.register(connection);
             new Thread(connection).start();
@@ -26,5 +30,9 @@ public class Client {
         catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args){
+        new Client();
     }
 }

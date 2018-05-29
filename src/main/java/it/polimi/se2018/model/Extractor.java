@@ -83,6 +83,7 @@ public class Extractor {
         }
         catch(InputNotValidException e){
             //Since randNum is a value between 0 and 4, this exception should never be thrown
+            System.out.println("Boh");
             return "Error";
         }
     }
@@ -95,8 +96,8 @@ public class Extractor {
         try {
             for(int i = 0; i < NUM_PUCARDS_EXTRACTED; i++){
                 int randNum = random.nextInt(puCards.size());
-                int cardID = prCards.get(randNum);
-                prCards.remove(randNum);
+                int cardID = puCards.get(randNum);
+                puCards.remove(randNum);
                 PublicObjectiveCard card = objectiveCardFactory.getPublicObjectiveCard(cardID);
                 ris.add(card);
             }
@@ -117,5 +118,10 @@ public class Extractor {
     public int getNumWpcs() { return this.numWpcs; }
 
     public int getNumPuCards() { return prCards.size(); }
+
+    /**
+     * Method used in order to avoid conflicts will running all the tests
+     */
+    public static void resetInstance() { instance = new Extractor(); }
 
 }

@@ -35,9 +35,16 @@ public class Controller implements Observer<VCAbstractMessage> {
             model.setParameters(message);
             toolCardFactory.get(toolcardID).cardAction(model.getParameters());
             model.setMessage("Success.", playerID);
-        } catch (MoveNotAllowedException|InputNotValidException e) {
+        }
+        catch (MoveNotAllowedException|InputNotValidException e) {
             model.setMessage(e.getMessage(), playerID);
         }
+        /*catch (ToolCard6Exception e){
+            model.setTC6Message(message.getPlayerID());
+        }
+        catch (ToolCard11Exception e) {
+            model.setTC11Exception(message.getPlayerID());
+        }*/
     }
 
     /*package private*/ void visit(VCDieMessage message){

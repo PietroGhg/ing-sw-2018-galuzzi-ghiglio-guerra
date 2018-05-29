@@ -12,7 +12,6 @@ import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
-import jdk.internal.util.xml.impl.Input;
 
 import java.util.List;
 import java.util.Scanner;
@@ -116,7 +115,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
         do {
             System.out.println("Choose wpc number (Form 1 to 4)");
-            choice = Integer.valueOf(choice).intValue();
+            choice = Integer.valueOf(choice);
         } while (choice < 1 || choice > 4);
         chosen = wpcGenerator.getWPC(choice);
         modelRepresentation.setWpcs(possibleWPCs[choice], chosen.toString());

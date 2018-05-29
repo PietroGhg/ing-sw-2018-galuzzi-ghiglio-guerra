@@ -1,7 +1,9 @@
 package it.polimi.se2018.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Observable<T> {
 
@@ -26,11 +28,4 @@ public class Observable<T> {
             }
         }
     }
-
-    protected void notify (int id, T message){
-        synchronized (observers) {
-            observers.get(id).update(message);
-        }
-    }
-
 }

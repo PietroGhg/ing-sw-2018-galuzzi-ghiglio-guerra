@@ -37,15 +37,16 @@ public class SocketClientConnection extends ClientConnection {
         VCAbstractMessage message;
         boolean loop = true;
 
-        try {
-            while (loop) {
+        while(loop){
+            try{
                 message = (VCAbstractMessage) objectInputStream.readObject();
                 notify(message);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            loop = false;
-            //PlayerDisconnectedException ??
+            catch(Exception e){
+                System.out.println("Player disconnected");
+                //TO DO: handling a player's disconnection
+                loop = false;
+            }
         }
     }
 

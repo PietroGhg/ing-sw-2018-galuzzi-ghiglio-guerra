@@ -22,8 +22,8 @@ public class SocketServerConnection extends ServerConnection {
     public SocketServerConnection(Socket socket){
         this.socket = socket;
         try{
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
         }
         catch(IOException e){
             e.printStackTrace();
@@ -48,10 +48,10 @@ public class SocketServerConnection extends ServerConnection {
         //deserilizes MVAbstractMessages and notifies them
         boolean loop = true;
         MVAbstractMessage message;
-
         while(loop){
             try{
                 message = (MVAbstractMessage)objectInputStream.readObject();
+                notify(message);
             }
             catch(Exception e){
                 e.printStackTrace();
