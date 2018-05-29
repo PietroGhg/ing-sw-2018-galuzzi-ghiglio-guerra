@@ -2,9 +2,12 @@ package it.polimi.se2018.controller.toolcard;
 
 import it.polimi.se2018.controller.RestrictionChecker;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
+
+import java.util.ArrayList;
 
 /**
  * Class for ToolCard GrozingPliers
@@ -29,14 +32,30 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
         rc.checkEnoughFavorTokens(player, instance);
 
         WPC wpc = player.getWpc();
+        ArrayList<Die> dp = param.getDraftPool();
 
-        int row = param.getParameter(0);
-        int col = param.getParameter(1);
-        int increment = param.getParameter(2);
+        int dpIndex = param.getParameter(0);
+        int increment = param.getParameter(1);
+        int row = param.getParameter(2);
+        int col = param.getParameter(3);
 
-        rc.checkNotEmpty(wpc,row,col);
-        if (increment == +1) wpc.getCell(row, col).getDie().increase();
-        if (increment == -1) wpc.getCell(row, col).getDie().decrease();
+        rc.checkDPCellNotEmpty(dp, dpIndex);
+        Die d = new Die(dp.get(dpIndex));
+
+        if (increment == +1) d.increase();
+        if (increment == -1) d.decrease();
+
+        rc.checkEmptiness(wpc,row,col);
+        rc.checkFirstMove(wpc,row,col);
+        rc.checkAdjacent(wpc,row,col);
+        rc.checkValueRestriction(wpc,row,col,d);
+        rc.checkColourRestriction(wpc,row,col,d);
+        rc.checkSameDie(wpc,row,col,d);
+
+        wpc.setDie(row,col,d);
+
+        player.setWpc(wpc);
+        dp.remove(dpIndex);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

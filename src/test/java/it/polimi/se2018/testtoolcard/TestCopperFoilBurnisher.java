@@ -203,5 +203,5 @@ public class TestCopperFoilBurnisher {
         }
     }
 
-    //Test to check favor tokens in TestGrozingPliers
+    //Test to check favor tokens in TestEglomiseBrush
 }

@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 
 public class TestEglomiseBrush {
     private PlayerMoveParameters param;
+    private PlayerMoveParameters param2;
+    private PlayerMoveParameters param3;
     private EglomiseBrush card;
     private Model model;
     private Player player;
@@ -205,6 +207,60 @@ public class TestEglomiseBrush {
         }
     }
 
-    //Test to check favor tokens in TestGrozingPliers
+    /**
+     * Tests if the player doesn't have enough favor tokens
+     */
+    @Test
+    public void test7(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(4);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(0);
+        param.addParameter(0);
+        model.setParameters(param);
+
+        //The first time should go right
+        try{
+            card.cardAction(param);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(1);
+        param2.addParameter(1);
+        param2.addParameter(2);
+        param2.addParameter(4);
+
+        //Second time should go right
+        try{
+            card.cardAction(param2);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        param3 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param3.addParameter(1);
+        param3.addParameter(2);
+        param3.addParameter(0);
+        param3.addParameter(1);
+
+        //Third time: not enough favour tokens
+        try{
+            card.cardAction(param3);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+
+    }
 
 }

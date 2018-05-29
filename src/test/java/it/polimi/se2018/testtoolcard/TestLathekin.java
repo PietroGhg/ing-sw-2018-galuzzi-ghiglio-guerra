@@ -483,8 +483,6 @@ public class TestLathekin {
         }
     }
 
-    //da finire con gli altri test
-
-    //Test to check favor tokens in TestGrozingPliers
+    //Test to check favor tokens in TestEglomiseBrush
 
 }
