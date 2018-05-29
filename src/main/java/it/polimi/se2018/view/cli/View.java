@@ -6,6 +6,7 @@ import it.polimi.se2018.controller.VCEndTurnMessage;
 import it.polimi.se2018.controller.VCToolMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
+import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.RawInputObservable;
@@ -20,7 +21,7 @@ import java.util.Scanner;
  *@author Andrea Galuzzi
  */
 
-public class View extends AbstractView implements RawInputObservable {
+public class View extends AbstractView implements RawInputObservable, Runnable {
     private int currentplayerID;
     private String playerName;
     private String errorID = "Wrong Player ID";
@@ -191,6 +192,18 @@ public class View extends AbstractView implements RawInputObservable {
         for(RawInputObserver ob : rawObservers){
             ob.rawUpdate(message);
         }
+    }
+
+    public void getMove(){
+        System.out.println("Make you move");
+        Scanner Input = new Scanner(System.in);
+        String move = Input.nextLine();
+        rawNotify(new RawUnrequestedMessage(move));
+
+    }
+
+    public void run(){
+        getMove();
     }
 
 }
