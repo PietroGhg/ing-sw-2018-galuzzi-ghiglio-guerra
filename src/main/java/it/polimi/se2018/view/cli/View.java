@@ -1,13 +1,17 @@
 package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.controller.VCDieMessage;
+import it.polimi.se2018.controller.VCEndTurnMessage;
 import it.polimi.se2018.controller.VCToolMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
+import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
+import jdk.internal.util.xml.impl.Input;
 
 import java.util.List;
 import java.util.Scanner;
@@ -60,15 +64,39 @@ public class View extends AbstractView implements RawInputObservable {
 
 
 
-    public void getCoordinates() {
-
+    public void getCoordinates(String s) {
+        System.out.println(s);
         System.out.println("Insert row number");
         Scanner Input = new Scanner(System.in);
         int row = Input.nextInt();
-        message.addParameter(row);
+        rawNotify(new RawRequestedMessage(row));
 
         System.out.println("Insert column number ");
         int column = Input.nextInt();
+        rawNotify(new RawRequestedMessage(column));
+    }
+
+    public void getCoordinates2(String s){
+
+        System.out.println(s);
+        Scanner Input = new Scanner(System.in);
+        String answer = Input.nextLine();
+
+        if(answer.equalsIgnoreCase("yes")) {
+            System.out.println("Insert row number");
+            int row = Input.nextInt();
+            rawNotify(new RawRequestedMessage(row));
+
+            System.out.println("Insert column number ");
+            int column = Input.nextInt();
+            rawNotify(new RawRequestedMessage(column));
+
+            getCoordinates("Insert the coordinates of the Die to move. ");
+            getCoordinates("Insert the coordinates of the recipient cell. ");
+
+        }
+
+
     }
 
     //the player has to choose his wpc for the game
@@ -103,11 +131,39 @@ public class View extends AbstractView implements RawInputObservable {
         System.out.println("Your name is: " +playerName);
     }
 
-    public void getDraftPoolIndex(){
+    public void getDraftPoolIndex(String s){
+        System.out.println(s);
+        System.out.println("Insert DraftPool Index number");
+        Scanner Input = new Scanner(System.in);
+        int index = Input.nextInt();
+        rawNotify(new RawRequestedMessage(index));
+
 
     }
 
-    public void getRoundTrackPosition(){
+    public void getRoundTrackPosition(String s){
+        System.out.println(s);
+        System.out.println("Insert Round number");
+        Scanner Input = new Scanner(System.in);
+        int roundNumber = Input.nextInt();
+        rawNotify(new RawRequestedMessage(roundNumber));
+
+        System.out.println("Insert Die number");
+        int dieNumber = Input.nextInt();
+        rawNotify(new RawRequestedMessage(dieNumber));
+
+    }
+
+    public void newDieValue(String s){
+        System.out.println(s);
+        System.out.println("Insert new Value");
+        Scanner Input = new Scanner(System.in);
+        int value = Input.nextInt();
+        rawNotify(new RawRequestedMessage(value));
+    }
+
+    public void getConfirmation(String s){
+
 
     }
 
@@ -119,15 +175,11 @@ public class View extends AbstractView implements RawInputObservable {
         message = new VCToolMessage(currentplayerID, toolcardID);
     }
 
-    public void createDieMessage(){
+    public void createDieMessage(){ message = new VCDieMessage(currentplayerID); }
 
-    }
+    public void createEndMessage(){ message = new VCEndTurnMessage(currentplayerID); }
 
-    public void createEndMessage(){
-        
-    }
-
-    public void notifyController(){
+    public void notifyController(VCAbstractMessage message){
         notify(message);
     }
 

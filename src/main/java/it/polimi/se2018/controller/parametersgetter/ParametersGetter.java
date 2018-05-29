@@ -6,4 +6,5 @@ public interface ParametersGetter {
 
 
     public void getParameters(View view);
+
 }
