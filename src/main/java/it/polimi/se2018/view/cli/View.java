@@ -1,19 +1,28 @@
 package it.polimi.se2018.view.cli;
 
+import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.controller.VCToolMessage;
+import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
+import it.polimi.se2018.utils.RawInputObservable;
+import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
+
+import java.util.List;
 import java.util.Scanner;
 
 /* Manages interrogation to be asked the user
  *@author Andrea Galuzzi
  */
 
-public class View extends AbstractView {
+public class View extends AbstractView implements RawInputObservable {
     private int currentplayerID;
     private String playerName;
     private String errorID = "Wrong Player ID";
     private ModelRepresentation modelRepresentation;
+    private VCAbstractMessage message;
+    private List<RawInputObserver> rawObservers;
 
 
 
@@ -56,6 +65,7 @@ public class View extends AbstractView {
         System.out.println("Insert row number");
         Scanner Input = new Scanner(System.in);
         int row = Input.nextInt();
+        message.addParameter(row);
 
         System.out.println("Insert column number ");
         int column = Input.nextInt();
@@ -92,6 +102,45 @@ public class View extends AbstractView {
         playerName = input.nextLine();
         System.out.println("Your name is: " +playerName);
     }
+
+    public void getDraftPoolIndex(){
+
+    }
+
+    public void getRoundTrackPosition(){
+
+    }
+
+    public void displayMessage(String message){
+        System.out.println(message);
+    }
+
+    public void createToolMessage(int toolcardID){
+        message = new VCToolMessage(currentplayerID, toolcardID);
+    }
+
+    public void createDieMessage(){
+
+    }
+
+    public void createEndMessage(){
+        
+    }
+
+    public void notifyController(){
+        notify(message);
+    }
+
+    public void rawRegister(RawInputObserver observer){
+        rawObservers.add(observer);
+    }
+
+    public void rawNotify(RawInputMessage message){
+        for(RawInputObserver ob : rawObservers){
+            ob.rawUpdate(message);
+        }
+    }
+
 }
 
 
