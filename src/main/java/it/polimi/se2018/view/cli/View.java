@@ -1,9 +1,6 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.controller.VCAbstractMessage;
-import it.polimi.se2018.controller.VCDieMessage;
-import it.polimi.se2018.controller.VCEndTurnMessage;
-import it.polimi.se2018.controller.VCToolMessage;
+import it.polimi.se2018.controller.*;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
@@ -101,8 +98,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     //the player has to choose his wpc for the game
 
-    public void chooseWpc(int possibleWPCs[]){
-
+    private void chooseWpc(int[] possibleWPCs){
         int i;
         int choice = 0;
         WpcGenerator wpcGenerator = new WpcGenerator();
@@ -117,8 +113,10 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
             System.out.println("Choose wpc number (Form 1 to 4)");
             choice = Integer.valueOf(choice);
         } while (choice < 1 || choice > 4);
-        chosen = wpcGenerator.getWPC(choice);
-        modelRepresentation.setWpcs(possibleWPCs[choice], chosen.toString());
+        int chosenID = possibleWPCs[choice];
+        chosen = wpcGenerator.getWPC(chosenID);
+        modelRepresentation.setWpcs(currentplayerID, chosen.toString());
+        notify(new VCSetUpMessage(currentplayerID, chosenID));
     }
 
     //the player has to digit his name
@@ -128,7 +126,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         System.out.println("Insert your name");
         Scanner input = new Scanner(System.in);
         playerName = input.nextLine();
-        System.out.println("Your name is: " +playerName);
+        System.out.println("Your name is: " + playerName);
     }
 
     public void getDraftPoolIndex(String s){

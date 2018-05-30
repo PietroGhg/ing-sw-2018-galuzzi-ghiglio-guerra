@@ -73,6 +73,10 @@ public class Controller implements Observer<VCAbstractMessage> {
         }
     }
 
+    /*package private*/ void visit(VCSetUpMessage message){
+        model.setWpc(message.getPlayerID(), message.getChosenWpc());
+    }
+
     /**
      * Usual die moving
      * @param parameters

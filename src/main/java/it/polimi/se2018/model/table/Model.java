@@ -7,6 +7,8 @@ import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.states.States;
+import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVExtractedCardsMessage;
 import it.polimi.se2018.view.MVGameMessage;
@@ -216,6 +218,13 @@ public class Model extends Observable<MVAbstractMessage> {
     private void setSetupMessage(int playerID, int[] indexes){
         MVSetUpMessage message = new MVSetUpMessage(playerID, indexes);
         notify(message);
+    }
+
+    public void setWpc(int playerID, int chosenWpc){
+        WpcGenerator generator = new WpcGenerator();
+        WPC chosen = generator.getWPC(chosenWpc);
+        Player player = players.get(playerID);
+        player.setWpc(chosen);
     }
 
 }
