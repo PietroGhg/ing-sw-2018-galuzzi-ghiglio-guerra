@@ -2,10 +2,7 @@ package it.polimi.se2018.testtoolcard;
 
 import it.polimi.se2018.controller.toolcard.GlazingHammer;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
-import it.polimi.se2018.model.Colour;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.table.Model;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +42,10 @@ public class TestGlazingHammer {
         emptyDP = new ArrayList<Die>();
 
         card = GlazingHammer.getInstance();
+
+        //usare questo metodo se extractor da problemi
+        Extractor.resetInstance();
+
     }
 
     private int[] countColours(ArrayList<Die> dp){
@@ -68,13 +69,34 @@ public class TestGlazingHammer {
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setFavorTokens(5);
+
+        //bisogna aggiungere giocatori al model e chiamare model.startgame() che inizializza la roundmatrix
         model.addPlayer(player);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
+
+        /*la carta può essere giocata solo nel seocndo turno, ci sono tre giocatori in gioco
+           -> devono passare (1,2,3,3,2,1) cinque turni
+        */
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+
+
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
+
         try{
             card.cardAction(param);
-            assertEquals(countColours(param.getDraftPool()), countColours(expectedDP));
+            //bisogna controllare colore per colore, asserEquals non funziona per gli int[]
+            int[] actualColors = countColours(param.getDraftPool());
+            int[] expectedColors = countColours(expectedDP);
+            for(int i = 0; i< actualColors.length; i++)
+                assertEquals(expectedColors[i], actualColors[i]);
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
