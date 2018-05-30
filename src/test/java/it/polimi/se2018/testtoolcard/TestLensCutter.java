@@ -75,7 +75,6 @@ public class TestLensCutter {
         expectedDP.add(new Die(2,Colour.YELLOW));
 
         card = LensCutter.getInstance();
-        //
     }
 
     /**

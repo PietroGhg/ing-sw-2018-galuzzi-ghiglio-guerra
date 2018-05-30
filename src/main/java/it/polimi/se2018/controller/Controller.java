@@ -4,12 +4,14 @@ package it.polimi.se2018.controller;
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
 import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.Observer;
 
+import java.util.ArrayList;
 
 
 public class Controller implements Observer<VCAbstractMessage> {
@@ -71,24 +73,44 @@ public class Controller implements Observer<VCAbstractMessage> {
         }
     }
 
-    /*
-        0: draftpool index
-        1: die row
-        2: die col
-        3: cell row
-        4: cell col
-    */
+    /**
+     * Usual die moving
+     * @param parameters
+     * @throws MoveNotAllowedException if any of the restrictions is violated
+     * @author Leonardo Guerra
+     */
     private void dieMove(PlayerMoveParameters parameters)throws MoveNotAllowedException{
-        //Player p = model.getPlayer(parameters.getPlayerID());
-        //WPC temp = new WPC(p.getWpc());
-        //int dieIndex = parameters.getParameter(0);
+        RestrictionChecker rc = new RestrictionChecker();
+        Player player = parameters.getPlayer();
 
+        WPC wpc = player.getWpc();
+        ArrayList<Die> dp = parameters.getDraftPool();
+        int dpIndex = parameters.getParameter(0); //DraftPool index for the chosen die
+        int cellRow = parameters.getParameter(1); //Row of the recipient cell
+        int cellCol = parameters.getParameter(2); //Column of the recipient cell
 
-        //checks restrizioni
+        //Checks for the DraftPool (non empty, chosen cell not empty)
+        rc.checkDPNotEmpty(dp);
+        rc.checkDPCellNotEmpty(dp, dpIndex);
 
-        //Die d = model.chooseDieFromDraft(dieIndex);
+        //Copy the die to move
+        Die toMove = new Die(dp.get(dpIndex));
 
-    }
+        //Other restrictions check
+        rc.checkEmptiness(wpc,cellRow,cellCol);
+        rc.checkFirstMove(wpc, cellRow, cellCol);
+        rc.checkColourRestriction(wpc,cellRow,cellCol,toMove);
+        rc.checkValueRestriction(wpc,cellRow,cellCol,toMove);
+        rc.checkAdjacent(wpc, cellRow, cellCol);
+        rc.checkSameDie(wpc,cellRow,cellCol,toMove);
+
+        //Set the die in the board
+        wpc.setDie(cellRow,cellCol,toMove);
+
+        //Remove the moved die from the DraftPool
+        dp.get(dpIndex).remove();
+
+        }
 
     /**
      * Checks that the move message comes from the current player
