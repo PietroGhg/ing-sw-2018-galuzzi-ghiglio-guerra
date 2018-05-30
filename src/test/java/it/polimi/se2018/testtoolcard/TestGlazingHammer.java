@@ -63,21 +63,24 @@ public class TestGlazingHammer {
         return count;
     }
 
+    /**
+     * Test for the normal use of the tool card
+     */
     @Test
     public void test1(){
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setFavorTokens(5);
-
-        //bisogna aggiungere giocatori al model e chiamare model.startgame() che inizializza la roundmatrix
         model.addPlayer(player);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
         model.startGame();
 
-        /*la carta può essere giocata solo nel seocndo turno, ci sono tre giocatori in gioco
-           -> devono passare (1,2,3,3,2,1) cinque turni
+        /*
+        the tool card can be played only during the player's second turn,
+        which is after 5 turns from the beginning of the round
+        (player 1 is the first of the round)
         */
         model.nextTurn();
         model.nextTurn();
@@ -85,16 +88,14 @@ public class TestGlazingHammer {
         model.nextTurn();
         model.nextTurn();
 
-
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-
         try{
             card.cardAction(param);
-            //bisogna controllare colore per colore, asserEquals non funziona per gli int[]
             int[] actualColors = countColours(param.getDraftPool());
             int[] expectedColors = countColours(expectedDP);
+            //checks colour by colour
             for(int i = 0; i< actualColors.length; i++)
                 assertEquals(expectedColors[i], actualColors[i]);
         }
@@ -102,6 +103,37 @@ public class TestGlazingHammer {
             System.out.println(e.getMessage());
             fail();
         }
-
     }
+
+    /**
+     * Not player's turn -> throws exception
+     */
+    @Test
+    public void test2(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        //Not player's turn
+
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            assertEquals("Error: this card can be played in the second turn only.", e.getMessage());
+        }
+    }
+
 }
