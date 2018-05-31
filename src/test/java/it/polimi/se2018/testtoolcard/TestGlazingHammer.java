@@ -12,9 +12,16 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Test for tool card GlazingHammer
+ * @author Leonardo Guerra
+ */
+
 public class TestGlazingHammer {
     private Model model;
     private PlayerMoveParameters param;
+    private PlayerMoveParameters param2;
+    private PlayerMoveParameters param3;
     private Player player;
     private GlazingHammer card;
     private ArrayList<Die> beforeDP;
@@ -134,6 +141,47 @@ public class TestGlazingHammer {
         catch (MoveNotAllowedException e){
             assertEquals("Error: this card can be played in the second turn only.", e.getMessage());
         }
+    }
+
+    /**
+     * Tests if the player has enough favor tokens
+     */
+    @Test
+    public void test3(){
+        model = new Model();
+        player = new Player(1);
+        player.setFavorTokens(4);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        model.setParameters(param);
+
+        //The first time should go right
+        try{
+            card.cardAction(param);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        //Second time should go right
+        try{
+            card.cardAction(param2);
+        }
+        catch(MoveNotAllowedException e){
+            fail();
+        }
+
+        param3 = new PlayerMoveParameters(player.getPlayerID(), model);
+        //Third time: not enough favour tokens
+        try{
+            card.cardAction(param3);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+
     }
 
 }

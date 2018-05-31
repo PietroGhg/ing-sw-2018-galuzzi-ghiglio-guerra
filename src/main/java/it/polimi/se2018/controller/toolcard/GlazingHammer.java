@@ -29,14 +29,13 @@ public class GlazingHammer implements ToolCard{//Martelletto
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
 
-        //Controllo che la DraftPool non sia vuota
         rc.checkDPNotEmpty(param.getDraftPool());
 
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
         //Checks if the current is the second turn of the player
-        if(param.turnNumber(param.getPlayer().getPlayerID())==1)
+        if(param.turnNumber(param.getPlayer().getPlayerID())!=2)
             { throw new MoveNotAllowedException("Error: this card can be played in the second turn only."); }
         //Checks if the player hasn't drafted a die yet
         if(param.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die is already been drafted.");

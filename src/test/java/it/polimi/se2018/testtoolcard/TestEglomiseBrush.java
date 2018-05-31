@@ -209,7 +209,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Tests if the player doesn't have enough favor tokens
+     * Tests if the player has enough favor tokens
      */
     @Test
     public void test7(){
