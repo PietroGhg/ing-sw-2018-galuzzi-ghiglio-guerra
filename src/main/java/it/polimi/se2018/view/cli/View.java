@@ -20,16 +20,17 @@ import java.util.Scanner;
 public class View extends AbstractView implements RawInputObservable, Runnable {
     private int currentplayerID = 0;
     private String playerName;
-    private String errorID = "Wrong Player ID";
     private ModelRepresentation modelRepresentation;
     private VCAbstractMessage message;
     private List<RawInputObserver> rawObservers;
 
-    public View(){
+    public View(String playerName){
         modelRepresentation = new ModelRepresentation();
+        this.playerName = playerName;
     }
 
     public void visit(MVGameMessage message) {
+        System.out.println("zung");
         if(currentplayerID == message.getPlayerID()){
             System.out.println( message.getMessage() );
             modelRepresentation.setRoundTrack(message.getRoundTrack());
@@ -46,24 +47,38 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
 
     public void visit(MVSetUpMessage message) {
-        if(currentplayerID == 0) {
+        if(playerName.equals(message.getPlayerName())) {
             currentplayerID = message.getPlayerID();
+            System.out.println("You have been assigned the id: " + currentplayerID);
             modelRepresentation.setPrCards(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
             chooseWpc(message.getIDs());
-            System.out.println(errorID);
         }
 
     }
 
+    //the player has to choose his wpc for the game
 
-    public void visit(MVExtractedCardsMessage message) {
-        if(currentplayerID == message.getPlayerID()){
-            modelRepresentation.setPrCards(message.getPrCard());
-            modelRepresentation.setPuCards(message.getPuCards());
+    private void chooseWpc(int[] possibleWPCs){
+        int i;
+        int choice = 0;
+        WpcGenerator wpcGenerator = new WpcGenerator();
+        WPC chosen;
+        Scanner in = new Scanner(System.in);
+
+        for(i=0; i<4; i++){
+            WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
+            System.out.println(i + ":\n" + temp.toString());
         }
 
-        System.out.println(errorID);
+        do {
+            System.out.println("Choose wpc number (Form 1 to 4)");
+            choice = in.nextInt();
+        } while (choice < 1 || choice > 4);
+        int chosenID = possibleWPCs[choice];
+        chosen = wpcGenerator.getWPC(chosenID);
+        modelRepresentation.setWpcs(currentplayerID, chosen.toString());
+        notify(new VCSetUpMessage(currentplayerID, chosenID));
     }
 
 
@@ -103,39 +118,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     }
 
-    //the player has to choose his wpc for the game
 
-    private void chooseWpc(int[] possibleWPCs){
-        int i;
-        int choice = 0;
-        WpcGenerator wpcGenerator = new WpcGenerator();
-        WPC chosen;
-        Scanner in = new Scanner(System.in);
-
-        for(i=0; i<=3; i++){
-            WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
-            System.out.println(temp.toString() +choice);
-        }
-
-        do {
-            System.out.println("Choose wpc number (Form 1 to 4)");
-            choice = in.nextInt();
-        } while (choice < 1 || choice > 4);
-        int chosenID = possibleWPCs[choice];
-        chosen = wpcGenerator.getWPC(chosenID);
-        modelRepresentation.setWpcs(currentplayerID, chosen.toString());
-        notify(new VCSetUpMessage(currentplayerID, chosenID));
-    }
-
-    //the player has to digit his name
-
-    public void setPlayerName(){
-
-        System.out.println("Insert your name");
-        Scanner input = new Scanner(System.in);
-        playerName = input.nextLine();
-        System.out.println("Your name is: " + playerName);
-    }
 
     public void getDraftPoolIndex(String s){
         System.out.println(s);

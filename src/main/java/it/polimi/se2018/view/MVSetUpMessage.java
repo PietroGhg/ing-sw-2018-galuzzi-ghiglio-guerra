@@ -6,10 +6,12 @@ package it.polimi.se2018.view;
  */
 public class MVSetUpMessage extends MVAbstractMessage {
     private int[] wpcIDs;
+    private String playerName;
     private String prCard;
     private String[] puCards;
 
-    public MVSetUpMessage(int playerID, int[] indexes, String prCard, String[] puCards){
+    public MVSetUpMessage(String playerName, int playerID, int[] indexes, String prCard, String[] puCards){
+        this.playerName = playerName;
         this.playerID = playerID;
         this.wpcIDs = indexes;
         this.prCard = prCard;
@@ -28,4 +30,7 @@ public class MVSetUpMessage extends MVAbstractMessage {
         return puCards;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
 }

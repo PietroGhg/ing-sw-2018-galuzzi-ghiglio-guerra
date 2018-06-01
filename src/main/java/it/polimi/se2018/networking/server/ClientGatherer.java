@@ -58,9 +58,9 @@ public class ClientGatherer extends Thread {
                 try {
                     model.handleRequest(playerName);
                     server.addClient(socketClientConnection);
-                    model.checkEnoughPlayers();
                     System.out.println(playerName + " joined");
                     sendString(newClientConnection, "Welcome to Sagrada, " + playerName);
+                    model.checkEnoughPlayers();
                 }
                 catch (GameStartedException e){
                     //notify the client

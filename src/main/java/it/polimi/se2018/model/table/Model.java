@@ -11,7 +11,6 @@ import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.view.MVExtractedCardsMessage;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.MVSetUpMessage;
@@ -163,10 +162,9 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     public void addPlayer(String playerName) throws GameStartedException{
-        Extractor extractor = Extractor.getInstance();
         if(state != States.CONNECTION) throw new GameStartedException();
 
-        Player p = new Player(players.size(), playerName);
+        Player p = new Player(players.size() + 1, playerName);
         players.add(p);
     }
 
@@ -226,27 +224,13 @@ public class Model extends Observable<MVAbstractMessage> {
         for(Player p: players){
             String prCard = extractor.extractPrCard(p);
             int[] wpcsExtracted = extractor.extractWpcs(p);
-            setSetupMessage(p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
+            setSetupMessage(p.getName(), p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
         }
 
         //Initializes the roundtrack
         roundTrack = new RoundTrack(getPlayersNumber());
     }
 
-    /**
-     * Sets up a message containing the names of the cards that have been extracted
-     * @param playerID the receiver
-     * @param prCardName name of the private cards (public cards are an attribute of the model)
-     */
-    private void setExtractedCardsMessage(int playerID, String prCardName){
-        String[] puCardNames = new String[Extractor.NUM_PUCARDS_EXTRACTED];
-        for(int i = 0; i < Extractor.NUM_PUCARDS_EXTRACTED; i++){
-            puCardNames[i] = this.puCards.get(i).getName();
-        }
-
-        MVExtractedCardsMessage message = new MVExtractedCardsMessage(playerID, prCardName, puCardNames);
-        notify(message);
-    }
 
 
     /**
@@ -255,8 +239,8 @@ public class Model extends Observable<MVAbstractMessage> {
      * @param playerID the playerID of the receiver
      * @param indexes the indexes of the boards
      */
-    private void setSetupMessage(int playerID, int[] indexes, String prCards, String[] puCards){
-        MVSetUpMessage message = new MVSetUpMessage(playerID, indexes, prCards, puCards);
+    private void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
+        MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards);
         notify(message);
     }
 

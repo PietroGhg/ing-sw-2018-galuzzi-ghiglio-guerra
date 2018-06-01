@@ -74,10 +74,15 @@ public class Controller implements Observer<VCAbstractMessage> {
     }
 
     /*package private*/ void visit(VCSetUpMessage message){
-        model.setWpc(message.getPlayerID(), message.getChosenWpc());
+        int playerID = message.getPlayerID();
+        model.setWpc(playerID, message.getChosenWpc());
+        model.setReady(playerID);
 
         //if all the players have chosen a board, a game can start
-        if(model.allReady()) model.setGameMessage("Game start", model.whoIsPlaying());
+        if(model.allReady()){
+            System.out.println("All ready.");
+            model.setGameMessage("Game start", model.whoIsPlaying());
+        }
     }
 
     /**

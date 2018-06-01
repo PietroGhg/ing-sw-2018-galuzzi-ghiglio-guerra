@@ -3,7 +3,6 @@ package it.polimi.se2018.networking.server;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.view.AbstractView;
-import it.polimi.se2018.view.MVExtractedCardsMessage;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.MVSetUpMessage;
 
@@ -30,10 +29,6 @@ public class RemoteView extends AbstractView {
     }
 
     public void visit(MVSetUpMessage message) {
-        connection.send(message);
-    }
-
-    public void visit(MVExtractedCardsMessage message){
         connection.send(message);
     }
 

@@ -3,9 +3,7 @@ package it.polimi.se2018.networking.client;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**

@@ -24,11 +24,10 @@ public class Client {
 
         try {
             socket = new Socket(serverIP, port);
-            view = new View();
             connection = new SocketServerConnection(socket);
 
             try{
-                insertName(socket);
+                view = new View(insertName(socket));
             }
             catch(GameStartedException e){
                 System.out.println("A game is already started");
@@ -40,6 +39,7 @@ public class Client {
             }
 
             connection.register(view);
+            view.register(connection);
             new Thread(connection).start();
             //new Thread(view).start();
         }
@@ -48,7 +48,7 @@ public class Client {
         }
     }
 
-    private void insertName(Socket socket) throws GameStartedException, UserNameTakenException {
+    private String insertName(Socket socket) throws GameStartedException, UserNameTakenException {
         try {
             PrintStream out = new PrintStream(socket.getOutputStream());
             Scanner inFromSock = new Scanner(socket.getInputStream());
@@ -66,10 +66,13 @@ public class Client {
             if(response.equals("A game is already started")) throw new GameStartedException();
             if(response.equals("Username already taken")) throw new UserNameTakenException();
             System.out.println(response);
+            return name;
         }
         catch(IOException e){
             e.printStackTrace();
         }
+        //TODO: handle this
+        return "";
     }
 
     public static void main(String[] args){

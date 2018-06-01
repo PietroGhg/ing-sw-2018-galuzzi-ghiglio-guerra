@@ -37,7 +37,10 @@ public class Extractor {
 
         numWpcs = gen.getNumWpcs();
         wpcs = new ArrayList<>(numWpcs);
-        for(int i = 0; i < numWpcs; i++) wpcs.add(i);
+
+
+        //the boards are stored in files whose names are 1.xml ... 24.xml,
+        for(int i = 1; i <= numWpcs; i++) wpcs.add(i);
     }
 
     public static Extractor getInstance(){
@@ -54,7 +57,7 @@ public class Extractor {
         Random random = new Random();
         for(int i = 0; i < NUM_WPCS_EXTRACTED; i++){
             //randomizes an index between 0 and wpcs.size() - 1
-            int randomIndex = random.nextInt(wpcs.size());
+            int randomIndex = random.nextInt(wpcs.size()) ;
             //sets the value in the randomized index to the result
             ris[i] = wpcs.get(randomIndex);
             //removes the extracted value from the total of the boards

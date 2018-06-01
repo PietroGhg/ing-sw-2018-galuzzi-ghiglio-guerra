@@ -3,9 +3,7 @@ package it.polimi.se2018.networking.server;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -44,7 +42,7 @@ public class SocketClientConnection extends ClientConnection {
             }
             catch(Exception e){
                 System.out.println("Player disconnected");
-                //TO DO: handling a player's disconnection
+                //TODO: handling a player's disconnection
                 loop = false;
             }
         }
