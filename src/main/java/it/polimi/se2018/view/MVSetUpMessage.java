@@ -5,15 +5,27 @@ package it.polimi.se2018.view;
  * @author Pietro Ghiglio
  */
 public class MVSetUpMessage extends MVAbstractMessage {
-    private int[] ids;
+    private int[] wpcIDs;
+    private String prCard;
+    private String[] puCards;
 
-    public MVSetUpMessage(int playerID, int[] indexes){
+    public MVSetUpMessage(int playerID, int[] indexes, String prCard, String[] puCards){
         this.playerID = playerID;
-        this.ids = indexes;
+        this.wpcIDs = indexes;
+        this.prCard = prCard;
+        this.puCards = puCards;
     }
 
     public void accept(AbstractView view){ view.visit(this); }
 
-    public int[] getIDs(){ return ids; }
+    public int[] getIDs(){ return wpcIDs; }
+
+    public String getPrCard() {
+        return prCard;
+    }
+
+    public String[] getPuCards() {
+        return puCards;
+    }
 
 }

@@ -12,7 +12,7 @@ import it.polimi.se2018.model.table.Model;
 public class Server {
     private Model model;
     private Controller controller;
-    private final static int port = 12345;
+    private static final int PORT = 12345;
 
     /**
      * Instantiates the model and the controller, starts a ClientGatherer thread.
@@ -21,20 +21,19 @@ public class Server {
     public Server(){
         model = new Model();
         controller = new Controller(model);
-        new ClientGatherer(this, port).start();
+        new ClientGatherer(this, PORT, model).start();
     }
 
     /**
      * Instantiates a new RemoteView, registers the controller as an observer to the remoteview and the
      * remoteview as an observer to the model.
      * The remoteview is already registered as an observer to the connection in it's constructor.
-     * @param connection the ClientConnection used by the RemoteView
+     * @param //connection the ClientConnection used by the RemoteView
      */
     public void addClient(ClientConnection connection) throws GameStartedException{
         RemoteView remoteView = new RemoteView(connection);
         remoteView.register(controller);
         model.register(remoteView);
-        model.addPlayer();
         new Thread(connection).start();
     }
 

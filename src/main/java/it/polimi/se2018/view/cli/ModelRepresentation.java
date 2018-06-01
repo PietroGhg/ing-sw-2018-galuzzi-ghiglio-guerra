@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.cli;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /*Representation of Model in the View
@@ -17,6 +18,10 @@ public class ModelRepresentation {
     private String[] puCards;
 
     private Map<Integer, String> wpcs;
+
+    public ModelRepresentation(){
+        wpcs = new HashMap<>();
+    }
 
     public String getMessage() {
         return message;

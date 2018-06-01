@@ -55,6 +55,7 @@ public class SocketServerConnection extends ServerConnection {
             }
             catch(Exception e){
                 e.printStackTrace();
+                loop = false;
             }
         }
     }
