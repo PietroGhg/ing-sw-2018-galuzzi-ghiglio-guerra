@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.GameEndedException;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.NoWinnerException;
+import it.polimi.se2018.exceptions.UserNameTakenException;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.states.States;
@@ -26,6 +27,7 @@ public class Model extends Observable<MVAbstractMessage> {
     private ArrayList<Die> draftPool;
     public ArrayList<Die> getDraftPool() { return draftPool; }
     public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
+    private final int MAX_PLAYERS = 2;
 
     private RoundTrack roundTrack;
     private ArrayList<Player> players;
@@ -36,11 +38,13 @@ public class Model extends Observable<MVAbstractMessage> {
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
     private States state;
+    private List<String> discPlayers;
 
     public Model(){
         players = new ArrayList<>();
         puCards = new ArrayList<>();
         draftPool = new ArrayList<>();
+        discPlayers = new ArrayList<>();
         roundTrack = new RoundTrack(getPlayersNumber());
         diceBag = new DiceBag();
         turn = new Turn();
@@ -83,10 +87,10 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     /**
-     * sets up a MVMessage containing all the useful datas and notifies it to the view
+     * sets up a MVGameMessage containing all the useful datas and notifies it to the view
      * @param m the message that has to be notified to the view
      */
-    public void setMessage(String m, int playerID){
+    public void setGameMessage(String m, int playerID){
         MVGameMessage message = new MVGameMessage(m, playerID);
 
         //set up wpcs
@@ -158,16 +162,48 @@ public class Model extends Observable<MVAbstractMessage> {
         players.add(p);
     }
 
-    public void addPlayer() throws GameStartedException{
+    public void addPlayer(String playerName) throws GameStartedException{
         Extractor extractor = Extractor.getInstance();
         if(state != States.CONNECTION) throw new GameStartedException();
 
-        Player p = new Player(players.size());
+        Player p = new Player(players.size(), playerName);
         players.add(p);
-        int[] wpcsExtracted = extractor.extractWpcs(p);
-        setSetupMessage(p.getPlayerID(), wpcsExtracted);
+    }
 
-        if(players.size() == 4) startGame();
+    /**
+     * Method called by the server in order to check if there are enough players to start a game
+     */
+    public void checkEnoughPlayers() {
+        if(players.size() == MAX_PLAYERS) startGame();
+    }
+
+    public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException{
+        ArrayList<String> playerNames = (ArrayList<String>)getPlayerNames();
+
+        if (playerNames.contains(playerName)) throw new UserNameTakenException();
+        if (discPlayers.contains(playerName)) reconnect(playerName);
+        if (state != States.CONNECTION) throw new GameStartedException();
+        if (state == States.CONNECTION){ addPlayer(playerName); }
+    }
+
+    private List<String> getPlayerNames(){
+        List<String> playerNames = new ArrayList<>();
+
+        for(Player p: players){
+            playerNames.add(p.getName());
+        }
+        return playerNames;
+    }
+
+    public void handleDisconnection(String playerName) {
+        //Get the right player having the playername
+        //Set the disconnected flag in player
+    }
+
+    public void reconnect(String playerName) {
+        //Get the right player having the playername
+        //Set disconnected flag to 0
+        //Throw reconnected player exception
     }
 
     /**
@@ -178,10 +214,19 @@ public class Model extends Observable<MVAbstractMessage> {
         state = States.GAMEPLAY;
         //for each player, extract the cards and send an ExtractedCardMessage
         Extractor extractor = Extractor.getInstance();
+        this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();
+
+        //Converts public objective cards to String
+        String[] puCardsNames = new String[this.puCards.size()];
+
+        for(int i = 0; i < this.puCards.size(); i++){
+            puCardsNames[i] = this.puCards.get(i).getName();
+        }
+
         for(Player p: players){
             String prCard = extractor.extractPrCard(p);
-            this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();
-            setExtractedCardsMessage(p.getPlayerID(), prCard);
+            int[] wpcsExtracted = extractor.extractWpcs(p);
+            setSetupMessage(p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
         }
 
         //Initializes the roundtrack
@@ -203,11 +248,6 @@ public class Model extends Observable<MVAbstractMessage> {
         notify(message);
     }
 
-    public void addPlayer(String name) {
-        Player p = new Player(name, players.size() + 1 );
-        players.add(p);
-        //setSetupMessage(players.size(),  extractWpcs());
-    }
 
     /**
      * Creates a MVSetupMessage that notifies the player that he's been allowed into the game, asking him tho choose between
@@ -215,8 +255,8 @@ public class Model extends Observable<MVAbstractMessage> {
      * @param playerID the playerID of the receiver
      * @param indexes the indexes of the boards
      */
-    private void setSetupMessage(int playerID, int[] indexes){
-        MVSetUpMessage message = new MVSetUpMessage(playerID, indexes);
+    private void setSetupMessage(int playerID, int[] indexes, String prCards, String[] puCards){
+        MVSetUpMessage message = new MVSetUpMessage(playerID, indexes, prCards, puCards);
         notify(message);
     }
 
@@ -225,6 +265,20 @@ public class Model extends Observable<MVAbstractMessage> {
         WPC chosen = generator.getWPC(chosenWpc);
         Player player = players.get(playerID);
         player.setWpc(chosen);
+    }
+
+    public void setReady(int playerID){
+        players.get(playerID).setReady();
+    }
+
+    public boolean allReady() {
+        boolean ris = true;
+
+        for(Player p: players){
+            if(!p.isReady()) ris = false;
+        }
+
+        return ris;
     }
 
 }

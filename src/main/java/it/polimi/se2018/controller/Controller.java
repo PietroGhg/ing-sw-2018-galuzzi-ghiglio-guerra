@@ -36,10 +36,10 @@ public class Controller implements Observer<VCAbstractMessage> {
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             model.setParameters(message);
             toolCardFactory.get(toolcardID).cardAction(model.getParameters());
-            model.setMessage("Success.", playerID);
+            model.setGameMessage("Success.", playerID);
         }
         catch (MoveNotAllowedException|InputNotValidException e) {
-            model.setMessage(e.getMessage(), playerID);
+            model.setGameMessage(e.getMessage(), playerID);
         }
         /*catch (ToolCard6Exception e){
             model.setTC6Message(message.getPlayerID());
@@ -56,10 +56,10 @@ public class Controller implements Observer<VCAbstractMessage> {
             if(model.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die has already been placed in the turn.");
             model.setParameters(message);
             dieMove(model.getParameters());
-            model.setMessage("Success.", playerID);
+            model.setGameMessage("Success.", playerID);
         }
         catch (MoveNotAllowedException e) {
-            model.setMessage(e.getMessage(), playerID);
+            model.setGameMessage(e.getMessage(), playerID);
         }
     }
 
@@ -69,12 +69,15 @@ public class Controller implements Observer<VCAbstractMessage> {
             model.nextTurn();
         }
         catch (MoveNotAllowedException e){
-            model.setMessage(e.getMessage(), message.getPlayerID());
+            model.setGameMessage(e.getMessage(), message.getPlayerID());
         }
     }
 
     /*package private*/ void visit(VCSetUpMessage message){
         model.setWpc(message.getPlayerID(), message.getChosenWpc());
+
+        //if all the players have chosen a board, a game can start
+        if(model.allReady()) model.setGameMessage("Game start", model.whoIsPlaying());
     }
 
     /**

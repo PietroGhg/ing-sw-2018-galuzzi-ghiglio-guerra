@@ -24,12 +24,23 @@ public class Player {
         playerID = id;
     }
 
+    public Player (int id, String name){
+        extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
+        ready = false;
+        playerID = id;
+        this.name = name;
+    }
+
     public void setExtractedWpcsIDs(int[] extractedWpcsIDs) {
         this.extractedWpcsIDs = extractedWpcsIDs;
     }
 
     public int[] getExtractedWpcsIDs() {
         return extractedWpcsIDs;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Player(String name, int playerID){
@@ -81,5 +92,13 @@ public class Player {
 
     public int getPlayerID() {
         return playerID;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady() {
+        this.ready = true;
     }
 }

@@ -18,14 +18,16 @@ import java.util.Scanner;
  */
 
 public class View extends AbstractView implements RawInputObservable, Runnable {
-    private int currentplayerID;
+    private int currentplayerID = 0;
     private String playerName;
     private String errorID = "Wrong Player ID";
     private ModelRepresentation modelRepresentation;
     private VCAbstractMessage message;
     private List<RawInputObserver> rawObservers;
 
-
+    public View(){
+        modelRepresentation = new ModelRepresentation();
+    }
 
     public void visit(MVGameMessage message) {
         if(currentplayerID == message.getPlayerID()){
@@ -34,18 +36,23 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
             modelRepresentation.setDraftPool(message.getDraftPool());
             modelRepresentation.setWpcs(message.getWpcs());
         }
-
-        System.out.println(errorID);
+        else{
+            modelRepresentation.setRoundTrack(message.getRoundTrack());
+            modelRepresentation.setDraftPool(message.getDraftPool());
+            modelRepresentation.setWpcs(message.getWpcs());
+        }
 
     }
 
 
     public void visit(MVSetUpMessage message) {
-        if(currentplayerID == message.getPlayerID()){
+        if(currentplayerID == 0) {
+            currentplayerID = message.getPlayerID();
+            modelRepresentation.setPrCards(message.getPrCard());
+            modelRepresentation.setPuCards(message.getPuCards());
             chooseWpc(message.getIDs());
+            System.out.println(errorID);
         }
-
-        System.out.println(errorID);
 
     }
 
@@ -103,6 +110,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         int choice = 0;
         WpcGenerator wpcGenerator = new WpcGenerator();
         WPC chosen;
+        Scanner in = new Scanner(System.in);
 
         for(i=0; i<=3; i++){
             WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
@@ -111,7 +119,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
         do {
             System.out.println("Choose wpc number (Form 1 to 4)");
-            choice = Integer.valueOf(choice);
+            choice = in.nextInt();
         } while (choice < 1 || choice > 4);
         int chosenID = possibleWPCs[choice];
         chosen = wpcGenerator.getWPC(chosenID);
