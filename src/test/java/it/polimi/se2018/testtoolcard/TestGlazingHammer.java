@@ -144,7 +144,7 @@ public class TestGlazingHammer {
     }
 
     /**
-     * Tests if the player has enough favor tokens
+     * The player hasn't enough favor tokens -> throws exception
      */
     @Test
     public void test3(){
@@ -190,7 +190,8 @@ public class TestGlazingHammer {
         catch(MoveNotAllowedException e){
             assertEquals("Error: not enough favor tokens.", e.getMessage());
         }
-
     }
+
+    //Test to check favor tokens in TestEglomiseBrush
 
 }
