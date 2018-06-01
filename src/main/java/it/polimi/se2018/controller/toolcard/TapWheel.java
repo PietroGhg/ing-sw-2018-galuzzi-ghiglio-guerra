@@ -43,6 +43,8 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
 
         ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
         rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
+
+        rc.checkNotEmpty(temp,rowDie1,colDie1);
         rc.checkMatchingColour(temp.getCell(rowDie1,colDie1).getDie(),rt.get(rtNumber).get(rtIndex));
         Die d1 = new Die(temp.getCell(rowDie1, colDie1).getDie().getDieValue(), temp.getCell(rowDie1, colDie1).getDie().getDieColour());
         temp.removeDie(rowDie1,colDie1);
@@ -60,15 +62,18 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
             int colDie2 = param.getParameter(7);
             int rowCell2 = param.getParameter(8);
             int colCell2 = param.getParameter(9);
+
+            rc.checkNotEmpty(temp,rowDie2,colDie2);
             rc.checkMatchingColour(temp.getCell(rowDie2,colDie2).getDie(),rt.get(rtNumber).get(rtIndex));
             Die d2 = new Die(temp.getCell(rowDie2, colDie2).getDie().getDieValue(), temp.getCell(rowDie2, colDie2).getDie().getDieColour());
             temp.removeDie(rowDie2,colDie2);
 
-            rc.checkAdjacent(temp,rowCell2,colCell2);
             rc.checkEmptiness(temp,rowCell2,colCell2);
-            rc.checkSameDie(temp,rowCell2,colCell2,d2);
             rc.checkValueRestriction(temp,rowCell2,colCell2,d2);
             rc.checkColourRestriction(temp,rowCell2,colCell2,d2);
+            rc.checkAdjacent(temp,rowCell2,colCell2);
+            rc.checkSameDie(temp,rowCell2,colCell2,d2);
+
             temp.setDie(rowCell2,colCell2,d2);
         }
 

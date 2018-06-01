@@ -47,13 +47,14 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
         Die temp = new Die(dp.get(dpIndex));
         WPC wpc = player.getWpc();
 
-        //Check restrictions
+        //Restrictions check
         rc.checkFirstMove(wpc,cellRow,cellCol);
         rc.checkEmptiness(wpc,cellRow,cellCol);
-        rc.checkAdjacent(wpc,cellRow,cellCol);
-        rc.checkSameDie(wpc,cellRow,cellCol,temp);
         rc.checkValueRestriction(wpc,cellRow,cellCol,temp);
         rc.checkColourRestriction(wpc,cellRow,cellCol,temp);
+        rc.checkAdjacent(wpc,cellRow,cellCol);
+        rc.checkSameDie(wpc,cellRow,cellCol,temp);
+
         wpc.setDie(cellRow,cellCol,temp);
         dp.get(dpIndex).remove();
 
