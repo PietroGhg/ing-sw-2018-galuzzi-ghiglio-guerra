@@ -29,10 +29,10 @@ public class GlazingHammer implements ToolCard{//Martelletto
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
 
-        rc.checkDPNotEmpty(param.getDraftPool());
-
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
+
+        rc.checkDPNotEmpty(param.getDraftPool());
 
         //Checks if the current is the second turn of the player
         if(param.turnNumber(param.getPlayer().getPlayerID())!=2)

@@ -152,8 +152,17 @@ public class TestGlazingHammer {
         player = new Player(1);
         player.setFavorTokens(4);
         model.addPlayer(player);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
         param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.setDraftPool(beforeDP);
         model.setParameters(param);
+        model.startGame();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
 
         //The first time should go right
         try{
@@ -173,7 +182,7 @@ public class TestGlazingHammer {
         }
 
         param3 = new PlayerMoveParameters(player.getPlayerID(), model);
-        //Third time: not enough favour tokens
+        //Third time: not enough favour tokens -> throws exception
         try{
             card.cardAction(param3);
             fail();

@@ -47,11 +47,11 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
         Die d1 = new Die(temp.getCell(rowDie1, colDie1).getDie().getDieValue(), temp.getCell(rowDie1, colDie1).getDie().getDieColour());
         temp.removeDie(rowDie1,colDie1);
 
-        rc.checkAdjacent(temp,rowCell1,colCell1);
         rc.checkEmptiness(temp,rowCell1,colCell1);
-        rc.checkSameDie(temp,rowCell1,colCell1,d1);
         rc.checkValueRestriction(temp,rowCell1,colCell1,d1);
         rc.checkColourRestriction(temp,rowCell1,colCell1,d1);
+        rc.checkAdjacent(temp,rowCell1,colCell1);
+        rc.checkSameDie(temp,rowCell1,colCell1,d1);
         temp.setDie(rowCell1,colCell1,d1);
 
         //Second die moving
