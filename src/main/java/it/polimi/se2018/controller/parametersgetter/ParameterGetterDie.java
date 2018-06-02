@@ -6,6 +6,7 @@ public class ParameterGetterDie implements ParametersGetter {
 
     @Override
     public void getParameters(View view) {
-
+        view.getDraftPoolIndex();
+        view.getCoordinates("Insert coordinates of the cell");
     }
 }

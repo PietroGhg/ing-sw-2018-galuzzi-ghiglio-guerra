@@ -10,6 +10,7 @@ import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,38 +19,54 @@ import java.util.Scanner;
  */
 
 public class View extends AbstractView implements RawInputObservable, Runnable {
-    private int currentplayerID = 0;
     private String playerName;
     private ModelRepresentation modelRepresentation;
-    private VCAbstractMessage message;
+    private boolean gameLoop;
     private List<RawInputObserver> rawObservers;
 
     public View(String playerName){
         modelRepresentation = new ModelRepresentation();
+        playerID = 0;
         this.playerName = playerName;
+        rawObservers = new ArrayList<>();
+        gameLoop = true;
     }
 
     public void visit(MVGameMessage message) {
-        System.out.println("zung");
-        if(currentplayerID == message.getPlayerID()){
+        if(playerID == message.getPlayerID()){
             System.out.println( message.getMessage() );
-            modelRepresentation.setRoundTrack(message.getRoundTrack());
-            modelRepresentation.setDraftPool(message.getDraftPool());
-            modelRepresentation.setWpcs(message.getWpcs());
+            System.out.println(message.getDraftPool());
+            updateMR(message);
         }
         else{
-            modelRepresentation.setRoundTrack(message.getRoundTrack());
-            modelRepresentation.setDraftPool(message.getDraftPool());
-            modelRepresentation.setWpcs(message.getWpcs());
+            updateMR(message);
         }
+    }
 
+    public void visit(MVStartGameMessage message){
+        if(playerID == message.getPlayerID())
+            System.out.println("It's your turn!");
+        updateMR(message);
+        new Thread(this).start();
+    }
+
+    public void visit(MVNewTurnMessage message){
+        if(playerID == message.getPlayerID())
+            System.out.println("It's your turn!");
+        updateMR(message);
+    }
+
+    private void updateMR(MVGameMessage message){
+        modelRepresentation.setRoundTrack(message.getRoundTrack());
+        modelRepresentation.setDraftPool(message.getDraftPool());
+        modelRepresentation.setWpcs(message.getWpcs());
     }
 
 
     public void visit(MVSetUpMessage message) {
         if(playerName.equals(message.getPlayerName())) {
-            currentplayerID = message.getPlayerID();
-            System.out.println("You have been assigned the id: " + currentplayerID);
+            playerID = message.getPlayerID();
+            System.out.println("You have been assigned the id: " + playerID);
             modelRepresentation.setPrCards(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
             chooseWpc(message.getIDs());
@@ -68,17 +85,17 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
         for(i=0; i<4; i++){
             WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
-            System.out.println(i + ":\n" + temp.toString());
+            System.out.println(i+1 + ":\n" + temp.toString());
         }
 
         do {
             System.out.println("Choose wpc number (Form 1 to 4)");
             choice = in.nextInt();
         } while (choice < 1 || choice > 4);
-        int chosenID = possibleWPCs[choice];
+        int chosenID = possibleWPCs[choice - 1];
         chosen = wpcGenerator.getWPC(chosenID);
-        modelRepresentation.setWpcs(currentplayerID, chosen.toString());
-        notify(new VCSetUpMessage(currentplayerID, chosenID));
+        modelRepresentation.setWpcs(playerID, chosen.toString());
+        notify(new VCSetUpMessage(playerID, chosenID));
     }
 
 
@@ -120,11 +137,10 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
 
 
-    public void getDraftPoolIndex(String s){
-        System.out.println(s);
-        System.out.println("Insert DraftPool Index number");
-        Scanner Input = new Scanner(System.in);
-        int index = Input.nextInt();
+    public void getDraftPoolIndex(){
+        System.out.println("Insert DraftPool Index");
+        Scanner input = new Scanner(System.in);
+        int index = input.nextInt();
         rawNotify(new RawRequestedMessage(index));
 
 
@@ -151,22 +167,9 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         rawNotify(new RawRequestedMessage(value));
     }
 
-    public void getConfirmation(String s){
-
-
-    }
-
     public void displayMessage(String message){
         System.out.println(message);
     }
-
-    public void createToolMessage(int toolcardID){
-        message = new VCToolMessage(currentplayerID, toolcardID);
-    }
-
-    public void createDieMessage(){ message = new VCDieMessage(currentplayerID); }
-
-    public void createEndMessage(){ message = new VCEndTurnMessage(currentplayerID); }
 
     public void notifyController(VCAbstractMessage message){
         notify(message);
@@ -183,15 +186,18 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void getMove(){
-        System.out.println("Make you move");
+        System.out.println("Make your move");
         Scanner Input = new Scanner(System.in);
         String move = Input.nextLine();
         rawNotify(new RawUnrequestedMessage(move));
 
     }
 
+    @Override
     public void run(){
-        getMove();
+        while(gameLoop){
+            getMove();
+        }
     }
 
 }

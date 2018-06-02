@@ -106,6 +106,7 @@ public class RoundTrack {
             else{
                 roundTrack.get(roundCounter).addAll(draftPool);
                 draftPool.clear();
+                draftPool = DiceBag.getInstance().extractDice(nPlayers);
                 roundCounter++;
             }
         }

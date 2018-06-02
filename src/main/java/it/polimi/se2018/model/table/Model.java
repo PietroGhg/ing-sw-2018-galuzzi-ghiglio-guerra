@@ -11,9 +11,7 @@ import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.view.MVGameMessage;
-import it.polimi.se2018.view.MVAbstractMessage;
-import it.polimi.se2018.view.MVSetUpMessage;
+import it.polimi.se2018.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class Model extends Observable<MVAbstractMessage> {
         draftPool = new ArrayList<>();
         discPlayers = new ArrayList<>();
         roundTrack = new RoundTrack(getPlayersNumber());
-        diceBag = new DiceBag();
+        diceBag = DiceBag.getInstance();
         turn = new Turn();
         state = States.CONNECTION;
     }
@@ -66,7 +64,8 @@ public class Model extends Observable<MVAbstractMessage> {
         try {
             roundTrack.nextTurn(draftPool);
             turn.clear();
-            //TO DO: notify the players
+            //TODO: notify the players
+            notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));
         }
         catch (GameEndedException e){
             chooseWinner();
@@ -144,6 +143,10 @@ public class Model extends Observable<MVAbstractMessage> {
     public boolean cardHasBeenPlayed(){
         return turn.cardHasBeenPlayed();
     }
+
+    public void setDiePlaced() { turn.diePlayed(); }
+
+    public void setToolCardUsed() { turn.cardPlayed(); }
 
     /**
      * @return true if a die has already been played in a turn
@@ -227,8 +230,9 @@ public class Model extends Observable<MVAbstractMessage> {
             setSetupMessage(p.getName(), p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
         }
 
-        //Initializes the roundtrack
+        //Initializes the roundtrack and extracts dice for the draftpool
         roundTrack = new RoundTrack(getPlayersNumber());
+        draftPool = diceBag.extractDice(getPlayersNumber());
     }
 
 
@@ -244,15 +248,20 @@ public class Model extends Observable<MVAbstractMessage> {
         notify(message);
     }
 
+    public void setStartGameMessage(String m, int playerID){
+        MVStartGameMessage message = new MVStartGameMessage(m, playerID);
+        notify(message);
+    }
+
     public void setWpc(int playerID, int chosenWpc){
         WpcGenerator generator = new WpcGenerator();
         WPC chosen = generator.getWPC(chosenWpc);
-        Player player = players.get(playerID);
+        Player player = players.get(playerID - 1);
         player.setWpc(chosen);
     }
 
     public void setReady(int playerID){
-        players.get(playerID).setReady();
+        players.get(playerID - 1).setReady();
     }
 
     public boolean allReady() {

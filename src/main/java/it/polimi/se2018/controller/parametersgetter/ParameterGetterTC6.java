@@ -6,7 +6,7 @@ public class ParameterGetterTC6 implements ParametersGetter {
 
     @Override
     public void getParameters(View view) {
-        view.getDraftPoolIndex("Insert the DraftPool index. ");
+        view.getDraftPoolIndex();
         //coordinate della board?
 
 

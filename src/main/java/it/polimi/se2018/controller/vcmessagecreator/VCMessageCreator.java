@@ -17,7 +17,10 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
     private PGFactory pgFactory;
     private VCAbstractMessage message;
 
-
+    public VCMessageCreator(View view){
+        pgFactory = new PGFactory();
+        this.view = view;
+    }
 
     private void parseString(String playerInput){
         if(playerInput.startsWith("ToolCard" )){
@@ -29,26 +32,27 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
                 parametersGetter.getParameters(view);
                 view.notifyController(message);
-                view.getMove();
             }
             catch (InputNotValidException e){
                 view.displayMessage(e.getMessage());
             }
         }
 
-        if(playerInput.startsWith("Dice Move")){
+        else if(playerInput.startsWith("Dice Move") || playerInput.startsWith("dicemove")){
             parametersGetter = new ParameterGetterDie();
             message = new VCDieMessage(view.getPlayerID());
             parametersGetter.getParameters(view);
             view.notifyController(message);
-            view.getMove();
         }
 
-        if(playerInput.startsWith("End Turn")){
+        else if(playerInput.startsWith("End Turn")){
             message = new VCEndTurnMessage(view.getPlayerID());
             view.notifyController(message);
         }
-        //aggiungere caso dicemove e endturn
+        else {
+            view.displayMessage("Input not valid");
+        }
+
     }
 
     public void rawUpdate(RawInputMessage message){

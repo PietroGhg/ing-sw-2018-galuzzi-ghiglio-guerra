@@ -8,15 +8,12 @@ public class MVGameMessage extends MVAbstractMessage {
     private String message;
     private String roundTrack;
     private String draftPool;
-
-
-
     private Map<Integer, String> wpcs;
 
     public MVGameMessage(String message, int playerID){
         this.message = message;
         this.playerID = playerID;
-        wpcs = new HashMap<Integer, String>();
+        wpcs = new HashMap<>();
     }
 
     public void accept(AbstractView view){ view.visit(this); }

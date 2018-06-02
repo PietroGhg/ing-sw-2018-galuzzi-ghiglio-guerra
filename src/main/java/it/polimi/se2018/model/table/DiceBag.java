@@ -9,15 +9,21 @@ import java.util.Random;
 public class DiceBag {
     private ArrayList<Die> bag;
     private final int DICETOTAL = 90;
+    private static DiceBag instance;
 
     //instanzia i 90 dadi
-    public DiceBag(){
+    private DiceBag(){
         bag = new ArrayList<>();
         for(Colour c : Colour.values()){
             for(int i = 0; i < DICETOTAL/Colour.values().length; i++){
                 bag.add(new Die(c));
             }
         }
+    }
+
+    public static DiceBag getInstance() {
+        if(instance == null) instance = new DiceBag();
+        return instance;
     }
 
     public ArrayList<Die> extractDice(int nPlayers){

@@ -1,5 +1,6 @@
 package it.polimi.se2018;
 import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import org.junit.*;
@@ -65,6 +66,10 @@ public class TestWPCGenerator {
         assertEquals(24, gen.getNumWpcs()); //change the value if number of wpcs is changed
     }
 
+    /**
+     * Tests that no parsing exceptions are thrown wile loading any of the boards
+     * @author Pietro Ghiglio
+     */
     @Test
     public void checkWPCs(){
         WpcGenerator generator = new WpcGenerator();
@@ -72,9 +77,19 @@ public class TestWPCGenerator {
         int numWpcs = generator.getNumWpcs();
 
         for(int i = 1; i <= numWpcs; i++){
-            System.out.println(i);
             temp = generator.getWPC(i);
-
         }
+        temp = generator.getWPC(1);
+        filler(temp);
+        System.out.println(temp.toString());
+
+    }
+
+    private void filler(WPC wpc){
+        wpc.setDie(0, 3, new Die(3, Colour.PURPLE));
+        wpc.setDie(0, 4, new Die(5, Colour.RED));
+        wpc.setDie(1, 1, new Die(1, Colour.RED));
+        wpc.setDie(1, 2, new Die(5, Colour.BLUE));
+        wpc.setDie(2, 3, new Die(3, Colour.PURPLE));
     }
 }

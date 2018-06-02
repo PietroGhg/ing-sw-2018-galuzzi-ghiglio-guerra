@@ -6,6 +6,8 @@ import it.polimi.se2018.model.Die;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static it.polimi.se2018.model.Die.prettyDie;
+
 public class WPC { //WindowPatternCard
     public final static int NUMROW = 4;
     public final static int NUMCOL = 5;
@@ -85,19 +87,22 @@ public class WPC { //WindowPatternCard
         StringBuilder builder = new StringBuilder();
 
         for(int i = 0; i < NUMROW; i++){
+
             for(int j = 0; j < NUMCOL; j++){
-                builder.append(i + ", " + j +": " );
+                //builder.append(i + "," + j +": " );
                 if(board[i][j].isEmpty()) {
-                    if(board[i][j].getColourR() != null) builder.append(board[i][j].getColourR().letter() + " ");
-                    if(board[i][j].getValueR() != null) builder.append(board[i][j].getValueR() + " ");
+                    if(board[i][j].getColourR() != null) builder.append(board[i][j].getColourR().letter());
+                    else if(board[i][j].getValueR() != null) builder.append(prettyDie(board[i][j].getValueR()));
+                    else builder.append(" ");
                 }
                 else {
-                    builder.append(Colour.RESET + board[i][j].getDie().getDieColour().escape() +
-                                    board[i][j].getDie().getDieValue() + "\t" + Colour.RESET);
+                    builder.append(board[i][j].getDie().toString());
                 }
+                builder.append("|");
             }
             builder.append("\n");
         }
+
         return builder.toString();
     }
 

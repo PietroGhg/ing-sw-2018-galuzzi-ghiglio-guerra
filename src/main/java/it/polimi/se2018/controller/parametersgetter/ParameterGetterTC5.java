@@ -6,7 +6,7 @@ public class ParameterGetterTC5 implements ParametersGetter {
 
     @Override
     public void getParameters(View view) {
-        view.getDraftPoolIndex("Insert the DraftPool index. ");
+        view.getDraftPoolIndex();
         view.getRoundTrackPosition("Insert the RoundTrack position");
 
     }

@@ -42,6 +42,7 @@ public class SocketClientConnection extends ClientConnection {
             }
             catch(Exception e){
                 System.out.println("Player disconnected");
+                e.printStackTrace();
                 //TODO: handling a player's disconnection
                 loop = false;
             }

@@ -7,7 +7,7 @@ public class ParameterGetterTC10 implements ParametersGetter {
     @Override
     public void getParameters(View view) { //??
 
-        view.getDraftPoolIndex("Insert the DraftPool index. ");
+        view.getDraftPoolIndex();
         view.getCoordinates("Insert the coordinates of the Die to move. ");
     }
 }

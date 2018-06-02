@@ -36,6 +36,7 @@ public class Controller implements Observer<VCAbstractMessage> {
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             model.setParameters(message);
             toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+            model.setToolCardUsed();
             model.setGameMessage("Success.", playerID);
         }
         catch (MoveNotAllowedException|InputNotValidException e) {
@@ -56,6 +57,7 @@ public class Controller implements Observer<VCAbstractMessage> {
             if(model.dieHasBeenPlayed()) throw new MoveNotAllowedException("Error: a die has already been placed in the turn.");
             model.setParameters(message);
             dieMove(model.getParameters());
+            model.setDiePlaced();
             model.setGameMessage("Success.", playerID);
         }
         catch (MoveNotAllowedException e) {
@@ -81,7 +83,7 @@ public class Controller implements Observer<VCAbstractMessage> {
         //if all the players have chosen a board, a game can start
         if(model.allReady()){
             System.out.println("All ready.");
-            model.setGameMessage("Game start", model.whoIsPlaying());
+            model.setStartGameMessage("Game start", model.whoIsPlaying());
         }
     }
 
@@ -120,7 +122,7 @@ public class Controller implements Observer<VCAbstractMessage> {
         wpc.setDie(cellRow,cellCol,toMove);
 
         //Remove the moved die from the DraftPool
-        dp.get(dpIndex).remove();
+        dp.remove(dpIndex);
 
         }
 

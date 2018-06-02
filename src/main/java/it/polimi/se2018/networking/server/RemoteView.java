@@ -2,9 +2,7 @@ package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observer;
-import it.polimi.se2018.view.AbstractView;
-import it.polimi.se2018.view.MVGameMessage;
-import it.polimi.se2018.view.MVSetUpMessage;
+import it.polimi.se2018.view.*;
 
 /**
  * RemoteView is the virtual view, it receives VCAbstractMessages from the network through it's ConnectionObserver object
@@ -31,6 +29,10 @@ public class RemoteView extends AbstractView {
     public void visit(MVSetUpMessage message) {
         connection.send(message);
     }
+
+    public void visit(MVStartGameMessage message) { connection.send(message); }
+
+    public void visit(MVNewTurnMessage message) { connection.send(message); }
 
     /**
      * ConnectionObserver observes the ClientConnection, basically simulating the user's input to the View
