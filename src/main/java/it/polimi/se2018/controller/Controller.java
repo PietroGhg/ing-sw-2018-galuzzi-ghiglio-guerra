@@ -2,25 +2,40 @@ package it.polimi.se2018.controller;
 
 
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
-import it.polimi.se2018.exceptions.InputNotValidException;
-import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.utils.Observer;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Controller implements Observer<VCAbstractMessage> {
     private Model model;
+    private Timer timer;
+    private TimerTask startGameTask;
+    private int timerDuration;
     private ToolCardFactory toolCardFactory;
 
-    public Controller(Model model){
+    public Controller(Model model, int timerDuration){
         this.model = model;
+        timer = new Timer();
+        this.timerDuration = timerDuration;
         toolCardFactory = new ToolCardFactory();
+
+        startGameTask = new TimerTask() {
+            @Override
+            public void run() {
+                model.startGame();
+            }
+        };
     }
 
 
@@ -133,5 +148,70 @@ public class Controller implements Observer<VCAbstractMessage> {
      */
     private void checkTurn(VCAbstractMessage message) throws MoveNotAllowedException{
         if(model.whoIsPlaying() != message.getPlayerID()) throw new MoveNotAllowedException("Error: not your turn");
+    }
+
+    /**
+     * Method called by the server in order to check if there are enough players to start a game
+     */
+    public void checkEnoughPlayers() {
+        if(model.getState() == States.CONNECTION) {
+            if (model.getPlayersNumber() >= 2) {
+                timer.schedule(startGameTask, (long) timerDuration * 1000);
+            }
+            if (model.getPlayersNumber() == Model.MAX_PLAYERS) model.startGame();
+        }
+    }
+
+    public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException, ReconnectionException {
+        ArrayList<String> playerNames = (ArrayList<String>)model.getPlayerNames();
+        ArrayList<String> discPlayers = (ArrayList<String>)model.getDiscPlayers();
+
+        if (playerNames.contains(playerName)) throw new UserNameTakenException();
+        if (discPlayers.contains(playerName)){
+            reconnect(playerName);
+            throw new ReconnectionException();
+        }
+        else if (model.getState() != States.CONNECTION) throw new GameStartedException();
+        else if (model.getState() == States.CONNECTION){ model.addPlayer(playerName); }
+    }
+
+    public void handleDisconnection(String playerName) {
+        if(model.getState() == States.CONNECTION){
+            if(model.getPlayersNumber() < 2) startGameTask.cancel();
+        }
+        else{
+            try {
+                Player p = model.getPlayer(playerName);
+                p.setDisconnected(true);
+                model.removePlayer(playerName);
+                model.addDiscPlayer(playerName);
+            }
+            catch (UserNameNotFoundException e){
+                System.out.println("Error while handling player disconnection.");
+            }
+        }
+    }
+
+    public void reconnect(String playerName) {
+        try{
+            Player p = model.getPlayer(playerName);
+            p.setDisconnected(false);
+            model.removeDiscPlayer(playerName);
+            model.addPlayerName(playerName);
+            System.out.println(playerName + " rejoined");
+        }
+        catch (UserNameNotFoundException e){
+            System.out.println("Error while handling player reconnection");
+        }
+    }
+
+    public void welcomeBack(String playerName) {
+        try{
+            Player p = model.getPlayer(playerName);
+            model.setWelcomeBackMessage(p.getPlayerID(), p.getName(),p.getName()+" rejoined");
+        }
+        catch (UserNameNotFoundException e){
+            System.out.println("Error while handling player reconnection");
+        }
     }
 }

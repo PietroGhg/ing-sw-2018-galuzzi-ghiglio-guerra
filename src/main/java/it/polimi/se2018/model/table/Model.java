@@ -1,10 +1,7 @@
 package it.polimi.se2018.model.table;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
-import it.polimi.se2018.exceptions.GameEndedException;
-import it.polimi.se2018.exceptions.GameStartedException;
-import it.polimi.se2018.exceptions.NoWinnerException;
-import it.polimi.se2018.exceptions.UserNameTakenException;
+import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.states.States;
@@ -24,7 +21,7 @@ public class Model extends Observable<MVAbstractMessage> {
     private ArrayList<Die> draftPool;
     public ArrayList<Die> getDraftPool() { return draftPool; }
     public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
-    private final int MAX_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 4;
 
     private RoundTrack roundTrack;
     private ArrayList<Player> players;
@@ -36,12 +33,14 @@ public class Model extends Observable<MVAbstractMessage> {
     private PlayerMoveParameters playerMoveParameters;
     private States state;
     private List<String> discPlayers;
+    private List<String> playerNames;
 
     public Model(){
         players = new ArrayList<>();
         puCards = new ArrayList<>();
         draftPool = new ArrayList<>();
         discPlayers = new ArrayList<>();
+        playerNames = new ArrayList<>();
         roundTrack = new RoundTrack(getPlayersNumber());
         diceBag = DiceBag.getInstance();
         turn = new Turn();
@@ -64,7 +63,7 @@ public class Model extends Observable<MVAbstractMessage> {
         try {
             roundTrack.nextTurn(draftPool);
             turn.clear();
-            //TODO: notify the players
+            if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn();
             notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));
         }
         catch (GameEndedException e){
@@ -76,7 +75,7 @@ public class Model extends Observable<MVAbstractMessage> {
         chooseWinner = new ChooseWinner(players, puCards, roundTrack);
         try {
             chooseWinner.getWinner();
-            //notify the winner
+            //TODO: notify the winner
         }
         catch (NoWinnerException e){
             e.printStackTrace();
@@ -169,42 +168,41 @@ public class Model extends Observable<MVAbstractMessage> {
 
         Player p = new Player(players.size() + 1, playerName);
         players.add(p);
+        playerNames.add(playerName);
+        System.out.println(playerName + " joined");
     }
 
-    /**
-     * Method called by the server in order to check if there are enough players to start a game
-     */
-    public void checkEnoughPlayers() {
-        if(players.size() == MAX_PLAYERS) startGame();
-    }
 
-    public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException{
-        ArrayList<String> playerNames = (ArrayList<String>)getPlayerNames();
 
-        if (playerNames.contains(playerName)) throw new UserNameTakenException();
-        if (discPlayers.contains(playerName)) reconnect(playerName);
-        if (state != States.CONNECTION) throw new GameStartedException();
-        if (state == States.CONNECTION){ addPlayer(playerName); }
-    }
-
-    private List<String> getPlayerNames(){
-        List<String> playerNames = new ArrayList<>();
-
-        for(Player p: players){
-            playerNames.add(p.getName());
-        }
+    public List<String> getPlayerNames(){
         return playerNames;
     }
 
-    public void handleDisconnection(String playerName) {
-        //Get the right player having the playername
-        //Set the disconnected flag in player
+    public List<String> getDiscPlayers(){ return discPlayers; }
+
+    public void addDiscPlayer(String playerName){
+        discPlayers.add(playerName);
     }
 
-    public void reconnect(String playerName) {
-        //Get the right player having the playername
-        //Set disconnected flag to 0
-        //Throw reconnected player exception
+    public void removeDiscPlayer(String playerName) {
+        discPlayers.remove(playerName);
+    }
+
+    public void removePlayer(String playerName){
+        playerNames.remove(playerName);
+    }
+
+    public void addPlayerName(String playerName){
+        playerNames.add(playerName);
+    }
+
+    public States getState(){ return state; }
+
+    public Player getPlayer(String playerName) throws UserNameNotFoundException{
+        for(Player p: players){
+            if(playerName.equals(p.getName())) return p;
+        }
+        throw new UserNameNotFoundException();
     }
 
     /**
@@ -251,6 +249,10 @@ public class Model extends Observable<MVAbstractMessage> {
     public void setStartGameMessage(String m, int playerID){
         MVStartGameMessage message = new MVStartGameMessage(m, playerID);
         notify(message);
+    }
+
+    public void setWelcomeBackMessage(int playerID, String playerName, String message){
+        notify(new MVWelcomeBackMessage(playerID, playerName, message));
     }
 
     public void setWpc(int playerID, int chosenWpc){

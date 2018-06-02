@@ -19,6 +19,8 @@ public abstract class AbstractView extends Observable<VCAbstractMessage> impleme
 
     public abstract void visit(MVNewTurnMessage message);
 
+    public abstract void visit(MVWelcomeBackMessage message);
+
     public int getPlayerID(){ return playerID; }
 
 }

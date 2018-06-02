@@ -71,7 +71,16 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
             modelRepresentation.setPuCards(message.getPuCards());
             chooseWpc(message.getIDs());
         }
+    }
 
+    public void visit(MVWelcomeBackMessage message) {
+        if(playerName.equals(message.getPlayerName())){
+            playerID = message.getPlayerID();
+            new Thread(this).start();
+        }
+        else{
+            System.out.println(message.getMessage());
+        }
     }
 
     //the player has to choose his wpc for the game

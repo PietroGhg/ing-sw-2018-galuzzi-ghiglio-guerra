@@ -12,6 +12,7 @@ public class Player {
     private int favorTokens;
     private int privateScore;
     private int totalScore;
+    private boolean disconnected;
     private WPC wpc;
     private int[] extractedWpcsIDs;
     private boolean ready;
@@ -21,6 +22,7 @@ public class Player {
     public Player(int id){
         extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
         ready = false;
+        disconnected = false;
         playerID = id;
     }
 
@@ -100,5 +102,11 @@ public class Player {
 
     public void setReady() {
         this.ready = true;
+    }
+
+    public boolean isDisconnected(){ return disconnected; }
+
+    public void setDisconnected(boolean disconnected){
+        this.disconnected = disconnected;
     }
 }

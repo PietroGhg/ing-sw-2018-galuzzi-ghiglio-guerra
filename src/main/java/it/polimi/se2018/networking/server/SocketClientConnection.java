@@ -12,13 +12,15 @@ import java.net.Socket;
  */
 public class SocketClientConnection extends ClientConnection {
     private Socket socket;
+    private Server server;
+    private String playerName;
 
     private ObjectInputStream objectInputStream;
 
     private ObjectOutputStream objectOutputStream;
 
-    public SocketClientConnection(Socket socket){
-
+    public SocketClientConnection(Socket socket, Server server){
+        this.server = server;
         this.socket = socket;
         try{
             objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -41,11 +43,16 @@ public class SocketClientConnection extends ClientConnection {
                 notify(message);
             }
             catch(Exception e){
-                System.out.println("Player disconnected");
-                e.printStackTrace();
-                //TODO: handling a player's disconnection
+                System.out.println(playerName + " disconnected");
+                server.detachClient(playerName);
                 loop = false;
             }
+        }
+        try{
+            socket.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -59,5 +66,9 @@ public class SocketClientConnection extends ClientConnection {
         catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void setPlayerName(String playerName){
+        this.playerName = playerName;
     }
 }

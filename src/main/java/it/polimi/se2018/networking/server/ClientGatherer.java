@@ -1,8 +1,9 @@
 package it.polimi.se2018.networking.server;
 
+import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.exceptions.GameStartedException;
+import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
-import it.polimi.se2018.model.table.Model;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,7 +19,7 @@ public class ClientGatherer extends Thread {
     private final Server server;
     private int port;
     private ServerSocket serverSocket;
-    private Model model;
+    private Controller controller;
     private PrintStream out;
     private Scanner in;
 
@@ -27,10 +28,10 @@ public class ClientGatherer extends Thread {
      * @param server the server
      * @param port port number
      */
-    public ClientGatherer(Server server, int port, Model model){
+    public ClientGatherer(Server server, int port, Controller controller){
         this.server = server;
         this.port = port;
-        this.model = model;
+        this.controller = controller;
 
         try{
             this.serverSocket = new ServerSocket(port);
@@ -53,14 +54,14 @@ public class ClientGatherer extends Thread {
                 out = new PrintStream(newClientConnection.getOutputStream());
                 in = new Scanner(newClientConnection.getInputStream());
 
-                SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection);
+                SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection, server);
                 String playerName = insertPlayerName(newClientConnection);
+                socketClientConnection.setPlayerName(playerName);
                 try {
-                    model.handleRequest(playerName);
-                    server.addClient(socketClientConnection);
-                    System.out.println(playerName + " joined");
+                    controller.handleRequest(playerName);
+                    server.addClient(socketClientConnection, playerName);
                     sendString(newClientConnection, "Welcome to Sagrada, " + playerName);
-                    model.checkEnoughPlayers();
+                    controller.checkEnoughPlayers();
                 }
                 catch (GameStartedException e){
                     //notify the client
@@ -68,6 +69,11 @@ public class ClientGatherer extends Thread {
                 }
                 catch (UserNameTakenException e) {
                     sendString(newClientConnection, "Username already taken");
+                }
+                catch (ReconnectionException e){
+                    server.addClient(socketClientConnection, playerName);
+                    sendString(newClientConnection, "Welcome back " + playerName);
+                    controller.welcomeBack(playerName);
                 }
             }
             catch(IOException e){
