@@ -38,7 +38,7 @@ public class RestrictionChecker {
     }
 
     /**
-     * Checks adjacent restrictions
+     * Checks adjacency restriction
      * @param wpc the board
      * @param row coordinates of the cell
      * @param col coordinates of the cell
@@ -47,7 +47,8 @@ public class RestrictionChecker {
      */
     public void checkAdjacent (WPC wpc, int row, int col) throws MoveNotAllowedException{
 
-            if(     checkCell(wpc,row-1, col) &&
+            if( !isEmpty(wpc) &&
+                    checkCell(wpc,row-1, col) &&
                     checkCell(wpc,row+1, col) &&
                     checkCell(wpc, row, col-1) &&
                     checkCell(wpc, row, col+1) &&
