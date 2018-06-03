@@ -61,6 +61,8 @@ public class Player {
         this.favorTokens = favorTokens;
     }
 
+    public void setWpcOnly(WPC wpc){ this.wpc = wpc; }
+
     public void addPrCard(PrivateObjectiveCard card){
         prCard = card;
     }

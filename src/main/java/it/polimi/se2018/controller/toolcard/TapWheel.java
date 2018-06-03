@@ -77,7 +77,7 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
             temp.setDie(rowCell2,colCell2,d2);
         }
 
-        player.setWpc(temp);
+        player.setWpcOnly(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

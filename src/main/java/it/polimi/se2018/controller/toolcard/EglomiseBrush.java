@@ -52,7 +52,7 @@ public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
         rc.checkSameDie(temp,row2,col2,d);
 
         temp.setDie(row2, col2, d);
-        player.setWpc(temp);
+        player.setWpcOnly(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
