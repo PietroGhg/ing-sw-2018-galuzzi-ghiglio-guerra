@@ -22,7 +22,9 @@ import static org.junit.Assert.fail;
 
 public class TestCopperFoilBurnisher {
     private PlayerMoveParameters param;
-    CopperFoilBurnisher card;
+    private PlayerMoveParameters param2;
+    private PlayerMoveParameters param3;
+    private CopperFoilBurnisher card;
     private Model model;
     private Player player;
     private WPC before;
@@ -106,6 +108,7 @@ public class TestCopperFoilBurnisher {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: the cell is empty.", e.getMessage());
         }
     }
@@ -130,6 +133,7 @@ public class TestCopperFoilBurnisher {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: cell not empty.", e.getMessage());
         }
     }
@@ -154,6 +158,7 @@ public class TestCopperFoilBurnisher {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: colour restriction violated.", e.getMessage());
         }
     }
@@ -178,6 +183,7 @@ public class TestCopperFoilBurnisher {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: die must be adjacent to another die.", e.getMessage());
         }
     }
@@ -202,9 +208,66 @@ public class TestCopperFoilBurnisher {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
         }
     }
 
-    //Test to check favor tokens in TestEglomiseBrush
+    /**
+     * Tests if the player has enough favor tokens
+     */
+    @Test
+    public void test7(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(4);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(3);
+        model.setParameters(param);
+        //The first time should go right
+        try{
+            card.cardAction(param);
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(1);
+        param2.addParameter(3);
+        param2.addParameter(0);
+        param2.addParameter(2);
+        model.setParameters(param2);
+        //Second time should go right
+        try{
+            card.cardAction(param2);
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param3 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param3.addParameter(1);
+        param3.addParameter(1);
+        param3.addParameter(1);
+        param3.addParameter(0);
+        model.setParameters(param3);
+        //Third time: not enough favour tokens
+        try{
+            card.cardAction(param3);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+
+    }
 }

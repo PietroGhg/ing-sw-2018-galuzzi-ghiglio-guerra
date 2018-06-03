@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 public class TestCorkBackedStraightedge {
     private Model model;
     private PlayerMoveParameters param;
-    CorkBackedStraightedge card;
+    private CorkBackedStraightedge card;
     private Player player;
     private ArrayList<Die> beforeDP;
     private ArrayList<Die> emptyDP;
@@ -245,7 +245,7 @@ public class TestCorkBackedStraightedge {
 
     /**
      * Die adjacent to another die, but it shouldn't -> throws exception
-     * If it can't be adjacent toanother die, of course there isn't the same die orthogonally adjacent
+     * If it can't be adjacent to another die, of course there isn't the same die orthogonally adjacent
      */
     @Test
     public void test7(){
@@ -270,8 +270,6 @@ public class TestCorkBackedStraightedge {
             assertEquals("Error: die is adjacent to other dice.", e.getMessage());
         }
     }
-
-    //Altri test
 
     //Test to check favor tokens in TestEglomiseBrush
 

@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
  */
 public class TestGrozingPliers {
     private PlayerMoveParameters param;
+    private PlayerMoveParameters param2;
+    private PlayerMoveParameters param3;
     private GrozingPliers card;
     private Model model;
     private Player player;
@@ -117,6 +119,7 @@ public class TestGrozingPliers {
         try {
             card.cardAction(param);
             assertEquals(player.getWpc(), expectedIncrease);
+            assertEquals(param.getDraftPool(),expectedIncreaseDP);
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
@@ -145,6 +148,7 @@ public class TestGrozingPliers {
         try {
             card.cardAction(param);
             assertEquals(player.getWpc(), expectedDecrease);
+            assertEquals(param.getDraftPool(),expectedDecreaseDP);
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
@@ -395,6 +399,57 @@ public class TestGrozingPliers {
         }
     }
 
-    //Test to check favor tokens in TestEglomiseBrush
+    /**
+     * Tests if the player has enough favor tokens
+     */
+    @Test
+    public void test12(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setWpc(before);
+        player.setFavorTokens(4);
+        model.addPlayer(player);
+        param.addParameter(1);
+        param.addParameter(+1);
+        param.addParameter(0);
+        param.addParameter(4);
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+        try {
+            card.cardAction(param);
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(0);
+        param2.addParameter(+1);
+        param2.addParameter(1);
+        param2.addParameter(0);
+        try {
+            card.cardAction(param2);
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param3 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param3.addParameter(0);
+        param3.addParameter(-1);
+        param3.addParameter(2);
+        param3.addParameter(4);
+        try {
+            card.cardAction(param3);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+    }
 
 }

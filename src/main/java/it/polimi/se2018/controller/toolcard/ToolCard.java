@@ -19,7 +19,7 @@ public interface ToolCard {
     T               5: LensCutter -> 0: DraftPool index, 1: RoundTrack number, 2: RoundTrack index
     tc DA FINIRE    6: FluxBrush -> 0: DraftPool index; se il controllo è positivo (si può piazzare il dado): 1: cell row, 2: cell col
     T               7: GlazingHammer -> (no parameters); controllo che sia il secondo turno
-                    8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col; controllo che sia il primo turno, far saltare il secondo turno
+    tc DA FINIRE    8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col; controllo che sia il primo turno, far saltare il secondo turno
     T               9: CorkBackedStraightedge -> 0: DraftPool index, 1: cell row, 2: cell col
     T               10: GrindingStone -> 0: DraftPool index, 1: die row, 2: die col
     tc DA FINIRE    11: FluxRemover -> 0: DraftPool index, 1: cell row, 2: cell col; die value?

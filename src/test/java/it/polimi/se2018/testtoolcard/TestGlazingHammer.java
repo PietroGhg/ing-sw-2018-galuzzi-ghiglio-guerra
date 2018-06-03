@@ -50,7 +50,6 @@ public class TestGlazingHammer {
 
         card = GlazingHammer.getInstance();
 
-        //usare questo metodo se extractor da problemi
         Extractor.resetInstance();
 
     }
@@ -139,6 +138,7 @@ public class TestGlazingHammer {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: this card can be played in the second turn only.", e.getMessage());
         }
     }
@@ -169,6 +169,7 @@ public class TestGlazingHammer {
             card.cardAction(param);
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -178,6 +179,7 @@ public class TestGlazingHammer {
             card.cardAction(param2);
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -188,10 +190,8 @@ public class TestGlazingHammer {
             fail();
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: not enough favor tokens.", e.getMessage());
         }
     }
-
-    //Test to check favor tokens in TestEglomiseBrush
-
 }
