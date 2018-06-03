@@ -55,24 +55,23 @@ public class ClientGatherer extends Thread {
                 in = new Scanner(newClientConnection.getInputStream());
 
                 SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection, server);
-                String playerName = insertPlayerName(newClientConnection);
+                String playerName = insertPlayerName();
                 socketClientConnection.setPlayerName(playerName);
                 try {
                     controller.handleRequest(playerName);
                     server.addClient(socketClientConnection, playerName);
-                    sendString(newClientConnection, "Welcome to Sagrada, " + playerName);
+                    sendString("Welcome to Sagrada, " + playerName);
                     controller.checkEnoughPlayers();
                 }
                 catch (GameStartedException e){
-                    //notify the client
-                    sendString(newClientConnection, "A game is already started");
+                    sendString("A game is already started");
                 }
                 catch (UserNameTakenException e) {
-                    sendString(newClientConnection, "Username already taken");
+                    sendString("Username already taken");
                 }
                 catch (ReconnectionException e){
                     server.addClient(socketClientConnection, playerName);
-                    sendString(newClientConnection, "Welcome back " + playerName);
+                    sendString("Welcome back " + playerName);
                     controller.welcomeBack(playerName);
                 }
             }
@@ -82,7 +81,7 @@ public class ClientGatherer extends Thread {
         }
     }
 
-    private String insertPlayerName(Socket socket) throws IOException{
+    private String insertPlayerName(){
         String name;
 
         out.println("Insert player name.");
@@ -92,7 +91,7 @@ public class ClientGatherer extends Thread {
         return name;
     }
 
-    private void sendString(Socket socket, String s){
+    private void sendString(String s){
         out.println(s);
     }
 }

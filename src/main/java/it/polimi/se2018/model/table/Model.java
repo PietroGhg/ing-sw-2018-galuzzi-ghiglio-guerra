@@ -31,7 +31,6 @@ public class Model extends Observable<MVAbstractMessage> {
     private ChooseWinner chooseWinner;
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
-    private States state;
     private List<String> discPlayers;
     private List<String> playerNames;
 
@@ -44,7 +43,6 @@ public class Model extends Observable<MVAbstractMessage> {
         roundTrack = new RoundTrack(getPlayersNumber());
         diceBag = DiceBag.getInstance();
         turn = new Turn();
-        state = States.CONNECTION;
     }
 
     public Die getVacantDie(){ return vacantDie; }
@@ -163,9 +161,7 @@ public class Model extends Observable<MVAbstractMessage> {
         players.add(p);
     }
 
-    public void addPlayer(String playerName) throws GameStartedException{
-        if(state != States.CONNECTION) throw new GameStartedException();
-
+    public void addPlayer(String playerName) {
         Player p = new Player(players.size() + 1, playerName);
         players.add(p);
         playerNames.add(playerName);
@@ -188,7 +184,7 @@ public class Model extends Observable<MVAbstractMessage> {
         discPlayers.remove(playerName);
     }
 
-    public void removePlayer(String playerName){
+    public void removePlayerName(String playerName){
         playerNames.remove(playerName);
     }
 
@@ -196,7 +192,17 @@ public class Model extends Observable<MVAbstractMessage> {
         playerNames.add(playerName);
     }
 
-    public States getState(){ return state; }
+    public void removePlayer(String playerName){
+        try{
+            Player p = getPlayer(playerName);
+            players.remove(p);
+            removePlayerName(playerName);
+        }
+        catch(UserNameNotFoundException e){
+            System.out.println("Error while handling disconnection");
+        }
+    }
+
 
     public Player getPlayer(String playerName) throws UserNameNotFoundException{
         for(Player p: players){
@@ -210,7 +216,6 @@ public class Model extends Observable<MVAbstractMessage> {
      * players.
      */
     public void startGame() {
-        state = States.GAMEPLAY;
         //for each player, extract the cards and send an ExtractedCardMessage
         Extractor extractor = Extractor.getInstance();
         this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();

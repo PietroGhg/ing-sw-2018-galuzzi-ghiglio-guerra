@@ -51,7 +51,10 @@ public class SocketServerConnection extends ServerConnection {
                 message = (MVAbstractMessage)objectInputStream.readObject();
                 notify(message);
             }
-            catch(Exception e){
+            catch(EOFException e){
+                System.out.println("mah");
+            }
+            catch(IOException|ClassNotFoundException e){
                 e.printStackTrace();
                 loop = false;
             }

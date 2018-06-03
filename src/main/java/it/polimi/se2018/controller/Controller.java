@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller;
 
 
+import it.polimi.se2018.controller.states.*;
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
 import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.Die;
@@ -20,22 +21,26 @@ import java.util.TimerTask;
 public class Controller implements Observer<VCAbstractMessage> {
     private Model model;
     private Timer timer;
-    private TimerTask startGameTask;
+    private ConnectionTimer connectionTimer;
     private int timerDuration;
     private ToolCardFactory toolCardFactory;
+    private State state;
 
     public Controller(Model model, int timerDuration){
         this.model = model;
         timer = new Timer();
+        state = new ConnectionState();
         this.timerDuration = timerDuration;
         toolCardFactory = new ToolCardFactory();
 
-        startGameTask = new TimerTask() {
-            @Override
-            public void run() {
-                model.startGame();
-            }
-        };
+        connectionTimer = new ConnectionTimer(this);
+    }
+
+    public void startGame() {
+        state = new GameplayState();
+        System.out.println("Game starting.");
+        timer.cancel();
+        model.startGame();
     }
 
 
@@ -154,56 +159,17 @@ public class Controller implements Observer<VCAbstractMessage> {
      * Method called by the server in order to check if there are enough players to start a game
      */
     public void checkEnoughPlayers() {
-        if(model.getState() == States.CONNECTION) {
-            if (model.getPlayersNumber() >= 2) {
-                timer.schedule(startGameTask, (long) timerDuration * 1000);
-            }
-            if (model.getPlayersNumber() == Model.MAX_PLAYERS) model.startGame();
-        }
+        state = state.checkEnoughPlayers(new ModelFacade(model, timerDuration), this, timer, connectionTimer);
     }
 
     public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException, ReconnectionException {
-        ArrayList<String> playerNames = (ArrayList<String>)model.getPlayerNames();
-        ArrayList<String> discPlayers = (ArrayList<String>)model.getDiscPlayers();
-
-        if (playerNames.contains(playerName)) throw new UserNameTakenException();
-        if (discPlayers.contains(playerName)){
-            reconnect(playerName);
-            throw new ReconnectionException();
-        }
-        else if (model.getState() != States.CONNECTION) throw new GameStartedException();
-        else if (model.getState() == States.CONNECTION){ model.addPlayer(playerName); }
+        state.handleRequest(playerName, new ModelFacade(model, timerDuration));
     }
 
     public void handleDisconnection(String playerName) {
-        if(model.getState() == States.CONNECTION){
-            if(model.getPlayersNumber() < 2) startGameTask.cancel();
-        }
-        else{
-            try {
-                Player p = model.getPlayer(playerName);
-                p.setDisconnected(true);
-                model.removePlayer(playerName);
-                model.addDiscPlayer(playerName);
-            }
-            catch (UserNameNotFoundException e){
-                System.out.println("Error while handling player disconnection.");
-            }
-        }
+        state.handleDisconnection(playerName, new ModelFacade(model, timerDuration),timer, connectionTimer);
     }
 
-    public void reconnect(String playerName) {
-        try{
-            Player p = model.getPlayer(playerName);
-            p.setDisconnected(false);
-            model.removeDiscPlayer(playerName);
-            model.addPlayerName(playerName);
-            System.out.println(playerName + " rejoined");
-        }
-        catch (UserNameNotFoundException e){
-            System.out.println("Error while handling player reconnection");
-        }
-    }
 
     public void welcomeBack(String playerName) {
         try{
