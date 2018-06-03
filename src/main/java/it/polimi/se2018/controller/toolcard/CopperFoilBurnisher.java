@@ -52,7 +52,7 @@ public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di 
         rc.checkSameDie(temp,row2,col2,d);
 
         temp.setDie(row2, col2, d);
-        player.setWpc(temp);
+        player.setWpcOnly(temp);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

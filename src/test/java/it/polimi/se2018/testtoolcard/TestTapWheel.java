@@ -637,6 +637,7 @@ public class TestTapWheel {
      */
     @Test
     public void test18(){
+        TapWheel.resetInstance();
         model = new Model();
         player = new Player(1);
         player.setWpc(before);

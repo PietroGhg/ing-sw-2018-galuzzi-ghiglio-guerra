@@ -54,7 +54,7 @@ public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
 
         wpc.setDie(row,col,d);
 
-        player.setWpc(wpc);
+        player.setWpcOnly(wpc);
         dp.remove(dpIndex);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);

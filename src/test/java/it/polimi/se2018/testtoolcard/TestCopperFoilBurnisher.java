@@ -220,7 +220,7 @@ public class TestCopperFoilBurnisher {
     public void test7(){
         model = new Model();
         player = new Player(1);
-        player.setWpc(before);
+        player.setWpcOnly(before);
         player.setFavorTokens(4);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);

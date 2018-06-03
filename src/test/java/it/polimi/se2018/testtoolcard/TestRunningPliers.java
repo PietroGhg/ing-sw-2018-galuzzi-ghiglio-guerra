@@ -2,10 +2,7 @@ package it.polimi.se2018.testtoolcard;
 
 import it.polimi.se2018.controller.toolcard.RunningPliers;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
-import it.polimi.se2018.model.Colour;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
@@ -65,6 +62,7 @@ public class TestRunningPliers {
         empty = gen.getWPC(23);
 
         card = RunningPliers.getInstance();
+        Extractor.resetInstance();
     }
 
     public void filler(WPC wpc){
@@ -342,7 +340,7 @@ public class TestRunningPliers {
         player = new Player(1);
         player.setFavorTokens(3);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setWpc(before);
+        player.setWpcOnly(before);
         model.addPlayer(player);
         param.addParameter(4);
         param.addParameter(3);

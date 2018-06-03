@@ -84,4 +84,8 @@ public class TapWheel implements ToolCard{    //Taglierina Manuale
             favorTokensNeeded = 2;
         }
     }
+
+    public static void resetInstance(){
+        instance = new TapWheel();
+    }
 }
