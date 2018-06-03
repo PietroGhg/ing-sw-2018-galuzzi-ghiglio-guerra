@@ -108,6 +108,7 @@ public class TestEglomiseBrush {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: the cell is empty.", e.getMessage());
         }
     }
@@ -132,6 +133,7 @@ public class TestEglomiseBrush {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: die must be adjacent to another die.", e.getMessage());
         }
     }
@@ -156,6 +158,7 @@ public class TestEglomiseBrush {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
         }
     }
@@ -180,6 +183,7 @@ public class TestEglomiseBrush {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: value restriction violated.", e.getMessage());
         }
     }
@@ -204,6 +208,7 @@ public class TestEglomiseBrush {
             fail();
         }
         catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: cell not empty.", e.getMessage());
         }
     }
@@ -230,6 +235,7 @@ public class TestEglomiseBrush {
             card.cardAction(param);
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -244,6 +250,7 @@ public class TestEglomiseBrush {
             card.cardAction(param2);
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -259,9 +266,8 @@ public class TestEglomiseBrush {
             fail();
         }
         catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: not enough favor tokens.", e.getMessage());
         }
-
     }
-
 }

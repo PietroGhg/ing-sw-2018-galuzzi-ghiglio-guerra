@@ -55,7 +55,7 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
         rc.checkValueRestriction(wpc,cellRow,cellCol,temp);
         rc.checkColourRestriction(wpc,cellRow,cellCol,temp);
         wpc.setDie(cellRow,cellCol,temp);
-        dp.get(dpIndex).remove();
+        dp.remove(dpIndex);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

@@ -1,6 +1,6 @@
 package it.polimi.se2018.testtoolcard;
 
-import it.polimi.se2018.controller.toolcard.GrindingStone;
+import it.polimi.se2018.controller.toolcard.RunningPliers;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
@@ -18,70 +18,76 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Test for tool card GrindingStone
+ * Test for the toolcard RunningPliers
  * @author Leonardo Guerra
  */
 
-public class TestGrindingStone {
+public class TestRunningPliers {
+    private Model model;
     private PlayerMoveParameters param;
     private PlayerMoveParameters param2;
     private PlayerMoveParameters param3;
-    private GrindingStone card;
-    private Model model;
+    private RunningPliers card;
     private Player player;
     private ArrayList<Die> beforeDP;
-    private ArrayList<Die> expectedDP;
     private ArrayList<Die> emptyDP;
+    private ArrayList<Die> expectedDP;
     private WPC before;
-    private WPC expected;
     private WPC empty;
+    private WPC expected;
 
     @Before
     public void setUp(){
         beforeDP = new ArrayList<Die>();
-        beforeDP.add(new Die(1, Colour.BLUE));
-        beforeDP.add(new Die(4, Colour.RED));
-        beforeDP.add(new Die(2, Colour.RED));
-        beforeDP.add(new Die(3, Colour.YELLOW));
-        beforeDP.add(new Die(6, Colour.YELLOW));
-        beforeDP.add(new Die(5, Colour.GREEN));
-
-        expectedDP = new ArrayList<Die>();
-        expectedDP.add(new Die(1, Colour.BLUE));
-        expectedDP.add(new Die(2, Colour.RED));
-        expectedDP.add(new Die(3, Colour.YELLOW));
-        expectedDP.add(new Die(6, Colour.YELLOW));
-        expectedDP.add(new Die(5, Colour.GREEN));
+        beforeDP.add(new Die(1, Colour.YELLOW));
+        beforeDP.add(new Die(2, Colour.BLUE));
+        beforeDP.add(new Die(3, Colour.PURPLE));
+        beforeDP.add(new Die(4, Colour.YELLOW));
+        beforeDP.add(new Die(5, Colour.BLUE));
+        beforeDP.add(new Die(6, Colour.GREEN));
 
         emptyDP = new ArrayList<Die>();
 
+        expectedDP = new ArrayList<Die>();
+        expectedDP.add(new Die(1, Colour.YELLOW));
+        expectedDP.add(new Die(2, Colour.BLUE));
+        expectedDP.add(new Die(3, Colour.PURPLE));
+        expectedDP.add(new Die(4, Colour.YELLOW));
+        expectedDP.add(new Die(6, Colour.GREEN));
+
         WpcGenerator gen = new WpcGenerator();
-        before = gen.getWPC(11); //Aurora Sagradis
+        before = gen.getWPC(23); //Lux Mundi
         filler(before);
 
-        expected = gen.getWPC(11);
+        expected = gen.getWPC(23);
         fillerExpected(expected);
 
-        empty = gen.getWPC(11);
+        empty = gen.getWPC(23);
 
-        card = GrindingStone.getInstance();
+        card = RunningPliers.getInstance();
     }
 
-    public void filler (WPC wpc){
-        wpc.setDie(0, 2, new Die(4,Colour.BLUE));
-        wpc.setDie(0, 4, new Die(1, Colour.YELLOW));
-        wpc.setDie(1, 1, new Die(2, Colour.PURPLE));
-        wpc.setDie(1, 3, new Die(5, Colour.GREEN));
-        wpc.setDie(2, 3, new Die(5, Colour.BLUE));
+    public void filler(WPC wpc){
+        wpc.setDie(0, 3, new Die(3, Colour.GREEN));
+        wpc.setDie(0, 4, new Die(1, Colour.GREEN));
+        wpc.setDie(1, 3, new Die(6, Colour.BLUE));
+        wpc.setDie(2, 0, new Die(2, Colour.BLUE));
+        wpc.setDie(2, 1, new Die(5, Colour.PURPLE));
+        wpc.setDie(2, 2, new Die(4, Colour.RED));
+        wpc.setDie(2, 3, new Die(6, Colour.YELLOW));
+        wpc.setDie(3, 4, new Die(1, Colour.YELLOW));
     }
 
-    public void fillerExpected (WPC wpc){
-        wpc.setDie(0, 0, new Die(4, Colour.RED));
-        wpc.setDie(0, 2, new Die(4,Colour.BLUE));
-        wpc.setDie(0, 4, new Die(1, Colour.YELLOW));
-        wpc.setDie(1, 1, new Die(2, Colour.PURPLE));
-        wpc.setDie(1, 3, new Die(5, Colour.GREEN));
-        wpc.setDie(2, 3, new Die(5, Colour.BLUE));
+    public void fillerExpected(WPC wpc){
+        wpc.setDie(0, 3, new Die(3, Colour.GREEN));
+        wpc.setDie(0, 4, new Die(1, Colour.GREEN));
+        wpc.setDie(1, 3, new Die(6, Colour.BLUE));
+        wpc.setDie(2, 0, new Die(2, Colour.BLUE));
+        wpc.setDie(2, 1, new Die(5, Colour.PURPLE));
+        wpc.setDie(2, 2, new Die(4, Colour.RED));
+        wpc.setDie(2, 3, new Die(6, Colour.YELLOW));
+        wpc.setDie(3, 2, new Die(5, Colour.BLUE));
+        wpc.setDie(3, 4, new Die(1, Colour.YELLOW));
     }
 
     /**
@@ -91,78 +97,59 @@ public class TestGrindingStone {
     public void test1(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
-        param.addParameter(1);
-        param.addParameter(0);
-        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(2);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
         try {
             card.cardAction(param);
-            assertEquals(player.getWpc(), expected);
-            assertEquals(param.getDraftPool(),expectedDP);
+            assertEquals(player.getWpc(),expected);
+            assertEquals(param.getDraftPool(), expectedDP);
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             fail();
         }
     }
+
+    //Test per controllare che sia il primo turno e che si faccia saltare il secondo
 
     /**
      * Draft pool cell empty -> throws exception
      */
     @Test
-    public void test2(){
-        model = new Model();
-        player = new Player(1);
-        param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setWpc(before);
-        player.setFavorTokens(5);
-        model.addPlayer(player);
-        param.addParameter(5);
-        param.addParameter(0);
-        param.addParameter(4);
-        param.setDraftPool(emptyDP);
-        model.setParameters(param);
-
-        try{
-            card.cardAction(param);
-            fail();
-        }
-        catch (MoveNotAllowedException e){
-            System.out.println(e.getMessage());
-            assertEquals("Error: draft pool cell is empty.", e.getMessage());
-        }
-    }
-
-    /**
-     * Recipient cell is not empty -> throws exception
-     */
-    @Test
     public void test3(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
-        param.addParameter(4);
-        param.addParameter(2);
-        param.addParameter(3);
-        param.setDraftPool(beforeDP);
+        param.addParameter(1);
+        param.addParameter(1);
+        param.addParameter(0);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
+        param.setDraftPool(emptyDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
-            assertEquals("Error: cell not empty.", e.getMessage());
+            assertEquals("Error: draft pool cell is empty.", e.getMessage());
         }
     }
 
@@ -173,50 +160,56 @@ public class TestGrindingStone {
     public void test4(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(empty);
-        player.setFavorTokens(5);
         model.addPlayer(player);
+        param.addParameter(3);
         param.addParameter(2);
         param.addParameter(2);
-        param.addParameter(2);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             assertEquals("Error: first move, die must be on the border.", e.getMessage());
         }
     }
 
     /**
-     * Recipient cell is not adjacent to other dice -> throws exception
+     * Recipient cell is not empty -> throws exception
      */
     @Test
     public void test5(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
-        param.addParameter(4);
+        param.addParameter(5);
+        param.addParameter(2);
         param.addParameter(3);
-        param.addParameter(0);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
-            assertEquals("Error: die must be adjacent to another die.", e.getMessage());
+            assertEquals("Error: cell not empty.", e.getMessage());
         }
     }
 
@@ -227,21 +220,24 @@ public class TestGrindingStone {
     public void test6(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
+        param.addParameter(2);
         param.addParameter(1);
-        param.addParameter(1);
-        param.addParameter(0);
+        param.addParameter(4);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             assertEquals("Error: value restriction violated.", e.getMessage());
         }
@@ -254,23 +250,56 @@ public class TestGrindingStone {
     public void test7(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
-        param.addParameter(5);
         param.addParameter(0);
-        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(1);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             assertEquals("Error: colour restriction violated.", e.getMessage());
+        }
+    }
+
+    /**
+     * Recipient cell is not adjacent to other dice -> throws exception
+     */
+    @Test
+    public void test8(){
+        model = new Model();
+        player = new Player(1);
+        player.setFavorTokens(5);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.addParameter(2);
+        param.addParameter(0);
+        param.addParameter(0);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: die must be adjacent to another die.", e.getMessage());
         }
     }
 
@@ -278,24 +307,27 @@ public class TestGrindingStone {
      * Recipient cell has the same orthogonally adjacent die -> throws exception
      */
     @Test
-    public void test8(){
+    public void test9(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
-        param.addParameter(4);
-        param.addParameter(0);
+        param.addParameter(1);
         param.addParameter(3);
+        param.addParameter(0);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
 
-        try{
+        try {
             card.cardAction(param);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
         }
@@ -305,50 +337,52 @@ public class TestGrindingStone {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test9(){
+    public void test10(){
         model = new Model();
         player = new Player(1);
+        player.setFavorTokens(3);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
-        player.setFavorTokens(4);
         model.addPlayer(player);
-        param.addParameter(1);
-        param.addParameter(0);
-        param.addParameter(0);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(2);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
         try {
             card.cardAction(param);
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             fail();
         }
 
         param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(0);
         param2.addParameter(1);
-        param2.addParameter(2);
-        param2.addParameter(4);
+        param2.addParameter(0);
         try {
             card.cardAction(param2);
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             fail();
         }
 
         param3 = new PlayerMoveParameters(player.getPlayerID(), model);
         param3.addParameter(3);
-        param3.addParameter(2);
-        param3.addParameter(2);
+        param3.addParameter(3);
+        param3.addParameter(0);
         try {
             card.cardAction(param3);
             fail();
         }
-        catch (MoveNotAllowedException e){
+        catch(MoveNotAllowedException e){
             System.out.println(e.getMessage());
             assertEquals("Error: not enough favor tokens.", e.getMessage());
         }
     }
-
 }

@@ -56,7 +56,7 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
         rc.checkSameDie(wpc,cellRow,cellCol,temp);
 
         wpc.setDie(cellRow,cellCol,temp);
-        dp.get(dpIndex).remove();
+        dp.remove(dpIndex);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

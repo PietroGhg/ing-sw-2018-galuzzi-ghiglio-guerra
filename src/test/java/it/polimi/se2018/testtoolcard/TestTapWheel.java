@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 
 public class TestTapWheel {
     private PlayerMoveParameters param;
+    private PlayerMoveParameters param2;
+    private PlayerMoveParameters param3;
     private TapWheel card;
     private Model model;
     private Player player;
@@ -145,7 +147,8 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        } catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: round track cell is empty.", e.getMessage());
         }
     }
@@ -173,7 +176,8 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        } catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: die colour is different.", e.getMessage());
         }
     }
@@ -201,7 +205,8 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        } catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: the cell is empty.", e.getMessage());
         }
     }
@@ -230,6 +235,7 @@ public class TestTapWheel {
             card.cardAction(param);
             fail();
         } catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: cell not empty.", e.getMessage());
         }
     }
@@ -258,6 +264,7 @@ public class TestTapWheel {
             card.cardAction(param);
             fail();
         } catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: value restriction violated.", e.getMessage());
         }
     }
@@ -285,7 +292,8 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        } catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: colour restriction violated.", e.getMessage());
         }
     }
@@ -313,7 +321,8 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        } catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: die must be adjacent to another die.", e.getMessage());
         }
     }
@@ -342,6 +351,7 @@ public class TestTapWheel {
             card.cardAction(param);
             fail();
         } catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
         }
     }
@@ -411,7 +421,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: die colour is different.", e.getMessage());
         }
     }
@@ -443,7 +455,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: the cell is empty.", e.getMessage());
         }
     }
@@ -475,7 +489,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: cell not empty.", e.getMessage());
         }
     }
@@ -507,7 +523,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: value restriction violated.", e.getMessage());
         }
     }
@@ -539,7 +557,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: colour restriction violated.", e.getMessage());
         }
     }
@@ -571,7 +591,9 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e) {
+            System.out.println(e.getMessage());
             assertEquals("Error: die must be adjacent to another die.", e.getMessage());
         }
     }
@@ -603,11 +625,69 @@ public class TestTapWheel {
         try {
             card.cardAction(param);
             fail();
-        } catch (MoveNotAllowedException e) {
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
             assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
         }
     }
 
-    //Test to check favor tokens in TestEglomiseBrush
+    /**
+     * Tests if the player has enough favor tokens
+     */
+    @Test
+    public void test18(){
+        model = new Model();
+        player = new Player(1);
+        player.setWpc(before);
+        player.setFavorTokens(3);
+        model.addPlayer(player);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        param.addParameter(2);
+        param.addParameter(1);
+        param.addParameter(3);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.addParameter(2);
+        param.setRoundTrack(roundTrack);
+        model.setParameters(param);
+        try {
+            card.cardAction(param);
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
 
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(2);
+        param2.addParameter(0);
+        param2.addParameter(2);
+        param2.addParameter(3);
+        param2.addParameter(1);
+        param2.addParameter(4);
+        try {
+            card.cardAction(param2);
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param3 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param3.addParameter(4);
+        param3.addParameter(1);
+        param3.addParameter(2);
+        param3.addParameter(0);
+        param3.addParameter(3);
+        param3.addParameter(0);
+        try {
+            card.cardAction(param3);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+    }
 }
