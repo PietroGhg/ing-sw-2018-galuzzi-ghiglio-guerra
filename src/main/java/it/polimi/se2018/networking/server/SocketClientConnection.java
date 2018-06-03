@@ -42,7 +42,7 @@ public class SocketClientConnection extends ClientConnection {
                 message = (VCAbstractMessage) objectInputStream.readObject();
                 notify(message);
             }
-            catch(Exception e){
+            catch(IOException|ClassNotFoundException e){
                 System.out.println(playerName + " disconnected");
                 server.detachClient(playerName);
                 loop = false;

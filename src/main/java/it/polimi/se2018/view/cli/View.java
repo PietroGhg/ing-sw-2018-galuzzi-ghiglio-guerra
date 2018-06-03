@@ -121,27 +121,24 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         rawNotify(new RawRequestedMessage(column));
     }
 
-    public void getCoordinates2(String s){
+    public void getCoordinates2(){
 
-        System.out.println(s);
+        System.out.println("Insert another die? [yes/no]");
         Scanner Input = new Scanner(System.in);
         String answer = Input.nextLine();
 
         if(answer.equalsIgnoreCase("yes")) {
-            System.out.println("Insert row number");
-            int row = Input.nextInt();
-            rawNotify(new RawRequestedMessage(row));
-
-            System.out.println("Insert column number ");
-            int column = Input.nextInt();
-            rawNotify(new RawRequestedMessage(column));
-
             getCoordinates("Insert the coordinates of the Die to move. ");
             getCoordinates("Insert the coordinates of the recipient cell. ");
 
         }
+    }
 
-
+    public void getIncrement() {
+        System.out.println("Increas or decrease? \n[Increase: 1, Decrease: -1]");
+        Scanner input = new Scanner(System.in);
+        int value = input.nextInt();
+        rawNotify(new RawRequestedMessage(value));
     }
 
 

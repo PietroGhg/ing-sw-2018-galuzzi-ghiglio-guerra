@@ -5,15 +5,15 @@ import it.polimi.se2018.controller.VCDieMessage;
 import it.polimi.se2018.controller.VCEndTurnMessage;
 import it.polimi.se2018.controller.VCToolMessage;
 import it.polimi.se2018.controller.parametersgetter.PGFactory;
+import it.polimi.se2018.controller.parametersgetter.ParameterGetter;
 import it.polimi.se2018.controller.parametersgetter.ParameterGetterDie;
-import it.polimi.se2018.controller.parametersgetter.ParametersGetter;
 import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.cli.View;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
     private View view;
-    private ParametersGetter parametersGetter;
+    private ParameterGetter parametersGetter;
     private PGFactory pgFactory;
     private VCAbstractMessage message;
 
