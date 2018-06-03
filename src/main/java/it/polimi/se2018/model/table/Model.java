@@ -59,7 +59,7 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public void nextTurn(){
         try {
-            roundTrack.nextTurn(draftPool);
+            draftPool = roundTrack.nextTurn(draftPool);
             turn.clear();
             if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn();
             notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));

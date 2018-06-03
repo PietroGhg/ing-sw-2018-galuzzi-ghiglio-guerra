@@ -51,6 +51,7 @@ public class Player {
     }
 
     public void setWpc(WPC wpc) {
+        this.favorTokens = wpc.getFavorTokens();
         this.wpc = wpc;
     }
 

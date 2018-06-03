@@ -6,6 +6,7 @@ import it.polimi.se2018.exceptions.GameEndedException;
 import it.polimi.se2018.model.Turn;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for the round track, keeps track of the current turn
@@ -14,11 +15,24 @@ import java.util.ArrayList;
  */
 public class RoundTrack {
     private static final int NUM_ROUND = 10;
-    private ArrayList<ArrayList<Die>> roundTrack = new ArrayList<ArrayList<Die>>();;
+    private ArrayList<ArrayList<Die>> roundTrack;
     private int roundCounter; //the current round (row of the round matrix)
     private int turnCounter; //column of the round matrix
     private int nPlayers;
     private int[][] roundMatrix;
+
+    public RoundTrack(int nPlayers) {
+        roundTrack = new ArrayList<>(NUM_ROUND);
+        for(int i = 0; i < NUM_ROUND; i++){
+            ArrayList<Die> temp = new ArrayList<>();
+            roundTrack.add(temp);
+        }
+
+        this.nPlayers = nPlayers;
+        turnCounter = 0;
+        roundCounter = 0;
+        roundMatrix = matrixFiller(nPlayers);
+    }
 
     /**
      * Method that fills the round matrix at the beginning of the game
@@ -26,7 +40,7 @@ public class RoundTrack {
      * @return a matrix filled with the IDs in the correct order
      */
     private int[][] matrixFiller(int nPlayers){
-        int temp[][] = new int[NUM_ROUND][2*nPlayers];
+        int[][] temp = new int[NUM_ROUND][2*nPlayers];
 
         //fills left half of the matrix
         for(int col = 0; col < nPlayers; col++){
@@ -59,12 +73,7 @@ public class RoundTrack {
         return ris + 1;
     }
 
-    public RoundTrack(int nPlayers) {
-        this.nPlayers = nPlayers;
-        turnCounter = 0;
-        roundCounter = 0;
-        roundMatrix = matrixFiller(nPlayers);
-    }
+
 
     public ArrayList<ArrayList<Die>> getRT() { return roundTrack; }
 
@@ -99,19 +108,22 @@ public class RoundTrack {
      * @param draftPool the draftpool
      * @throws GameEndedException if the 10th round is complete
      */
-    public void nextTurn(ArrayList<Die> draftPool) throws GameEndedException{
+    public ArrayList<Die> nextTurn(ArrayList<Die> draftPool) throws GameEndedException{
         if(turnCounter == 2*nPlayers - 1){
             turnCounter = 0;
             if(roundCounter == NUM_ROUND - 1) throw new GameEndedException();
             else{
-                roundTrack.get(roundCounter).addAll(draftPool);
+                ArrayList<Die> temp = roundTrack.get(roundCounter);
+                temp.addAll(draftPool);
                 draftPool.clear();
                 draftPool = DiceBag.getInstance().extractDice(nPlayers);
                 roundCounter++;
+                return draftPool;
             }
         }
         else {
             turnCounter++;
+            return draftPool;
         }
     }
 
