@@ -35,12 +35,12 @@ public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
         ArrayList<Die> dp = param.getDraftPool();
         Die temp = new Die(dp.get(dpIndex));
         temp.setDieValue(null);
-        dp.get(dpIndex).remove();
-
-        /*
-        Rimettere il dado nella DraftPool, pescarne un altro,
-        scegliere il valore, scegliere se piazzarlo o rimetterlo nella DraftPool
-        */
+        dp.remove(dpIndex);
+        //Rimettere il dado nella DiceBag
+        //Pescare un altro dado dalla DiceBag
+        Die d = new Die(); //dalla DiceBag
+        d.roll();
+        //Chiedere se vuole metterlo nella DraftPool (e finisce) o se vuole piazzarlo (chiamare FluxRemover2)
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

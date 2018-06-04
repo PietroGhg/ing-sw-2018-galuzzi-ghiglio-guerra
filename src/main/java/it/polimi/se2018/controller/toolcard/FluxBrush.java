@@ -34,34 +34,24 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         int dpIndex = param.getParameter(0);
 
         //Generation of a random value
-        Random r;
-        int tot=6;
-        r = new Random();
-        Integer randomValue = r.nextInt(tot)+1;
 
         Die temp = param.getDraftPool().get(dpIndex);
-        temp.setDieValue(randomValue);
-        param.getDraftPool().get(dpIndex).remove();
+        temp.roll();
+        param.getDraftPool().remove(dpIndex);
 
         // check if it can be placed on the board
         /*
-        //...se non si può piazzare:
+        ...se non si può piazzare:
         model.getDraftPool().add(temp);
+        */
 
-        //...se si può piazzare, dopo aver chiesto i nuovi parametri:
-        int cellRow = param.getParameter(1?);
-        int cellCol = param.getParameter(2?);
+        /*
+        ...se si può piazzare, dopo aver chiesto i nuovi parametri:
+        chiamata a FluxBrush2 passandogli il dado temp
 
-        WPC wpc = player.getWpc();
-        //Check all the restrictions
-        rc.checkEmptiness(wpc,cellRow,cellCol);
-        rc.checkFirstMove(wpc,cellRow,cellCol);
-        rc.checkAdjacent(wpc,cellRow,cellCol);
-        rc.checkSameDie(wpc,cellRow,cellCol);
-        rc.checkValueRestriction(wpc,cellRow,cellCol);
-        rc.checkColourRestriction(wpc,cellRow,cellCol);
-
-        wpc.setDie(cellRow,cellCol,temp);
+        FluxBrush2 card2 = FluxBrush2.getInstance();
+        PlayerMoveParameters p = new PlayerMoveParameters();
+        card2.cardAction(p);
         */
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
