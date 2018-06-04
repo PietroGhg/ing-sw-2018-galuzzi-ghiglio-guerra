@@ -250,32 +250,20 @@ public class Model extends Observable<MVAbstractMessage> {
     public void setStartGameMessage(String m, int playerID){
         MVStartGameMessage message = new MVStartGameMessage(m, playerID);
 
-        //set up wpcs
-        for(Player p: players){
-            message.setWpc(p.getPlayerID(), p.getWpc().toString());
-        }
-        //set up draftpool
-        message.setDraftPool(getDraftPoolToString());
-        //set up roundtrack
-        message.setRoundTrack(roundTrack.toString());
+        setData(message);
 
         notify(message);
     }
 
-    public void setWelcomeBackMessage(int playerID, String playerName, String message){
-        notify(new MVWelcomeBackMessage(playerID, playerName, message));
+    public void setWelcomeBackMessage(int playerID, String playerName, String mex){
+        MVWelcomeBackMessage message = new MVWelcomeBackMessage(playerID, playerName, mex);
+        setData(message);
+        notify(message);
     }
 
     public void setNewTurnMessage(int playerID){
         MVNewTurnMessage message = new MVNewTurnMessage("It's tour turn!", playerID);
-        //set up wpcs
-        for(Player p: players){
-            message.setWpc(p.getPlayerID(), p.getWpc().toString());
-        }
-        //set up draftpool
-        message.setDraftPool(getDraftPoolToString());
-        //set up roundtrack
-        message.setRoundTrack(roundTrack.toString());
+        setData(message);
         notify(message);
 
     }
@@ -287,6 +275,12 @@ public class Model extends Observable<MVAbstractMessage> {
     public void setGameMessage(String m, int playerID){
         MVGameMessage message = new MVGameMessage(m, playerID);
 
+        setData(message);
+
+        notify(message);
+    }
+
+    private void setData(MVGameMessage message){
         //set up wpcs
         for(Player p: players){
             message.setWpc(p.getPlayerID(), p.getWpc().toString());
@@ -295,8 +289,6 @@ public class Model extends Observable<MVAbstractMessage> {
         message.setDraftPool(getDraftPoolToString());
         //set up roundtrack
         message.setRoundTrack(roundTrack.toString());
-
-        notify(message);
     }
 
     public void setMVTimesUpMessage(){
