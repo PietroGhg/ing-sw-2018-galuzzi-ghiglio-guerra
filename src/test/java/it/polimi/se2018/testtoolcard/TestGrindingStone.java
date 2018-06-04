@@ -76,7 +76,7 @@ public class TestGrindingStone {
     }
 
     public void fillerExpected (WPC wpc){
-        wpc.setDie(0, 0, new Die(4, Colour.RED));
+        wpc.setDie(0, 0, new Die(3, Colour.RED)); //Opposite side of 4: 7-4=3
         wpc.setDie(0, 2, new Die(4,Colour.BLUE));
         wpc.setDie(0, 4, new Die(1, Colour.YELLOW));
         wpc.setDie(1, 1, new Die(2, Colour.PURPLE));

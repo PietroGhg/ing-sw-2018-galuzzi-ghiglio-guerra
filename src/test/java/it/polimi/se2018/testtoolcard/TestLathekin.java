@@ -58,8 +58,8 @@ public class TestLathekin {
         wpc.setDie(0, 4, new Die(3, Colour.YELLOW));
         wpc.setDie(1, 0, new Die(2, Colour.GREEN));
         wpc.setDie(1, 2, new Die(5, Colour.BLUE));
-        wpc.setDie(2, 0, new Die(2, Colour.GREEN));
-        wpc.setDie(3, 2, new Die(6, Colour.RED));
+        wpc.setDie(2, 0, new Die(6, Colour.RED));
+        wpc.setDie(2, 3, new Die(2, Colour.GREEN));
         wpc.setDie(3, 3, new Die(1, Colour.PURPLE));
     }
 
