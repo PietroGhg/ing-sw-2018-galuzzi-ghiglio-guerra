@@ -53,6 +53,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         else if(playerInput.startsWith("show")){
             String[] temp =playerInput.split(" ");
             String toShow = temp[1];
+            toShow=toShow.trim();
             if(toShow.equalsIgnoreCase("roundtrack")){ view.showRoundTrack(); }
 
             if(toShow.equalsIgnoreCase("myboard")){ view.showMyBoard(); }
@@ -63,11 +64,9 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
             if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
-            if(toShow.equalsIgnoreCase("objectivecards")){ }
+            if(toShow.equalsIgnoreCase("objectivecards")){view.showBoards();}
 
-            if(toShow.equalsIgnoreCase("myobjectivecard")){
-
-            }
+            if(toShow.equalsIgnoreCase("myobjectivecard")){ view.showMyObjectiveCard();}
 
             else{view.displayMessage("Input not valid");}
 

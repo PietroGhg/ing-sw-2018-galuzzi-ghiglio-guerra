@@ -41,7 +41,7 @@ public class ModelRepresentation {
         return wpcs;
     }
 
-    public Map<Integer, String> getWpcs(int playerID) {return wpcs; }
+    public String getWpcs(int playerID) {return wpcs.get(playerID); }
 
     public void setMessage(String message) {
         this.message = message;
@@ -68,6 +68,8 @@ public class ModelRepresentation {
     public void setPuCards(String[] puCards) { this.puCards = puCards; }
 
     public String[] getPuCards(){ return puCards; }
+
+    public String getPrCards(){return prCards; }
 
     public int getNumPlayers(){ return wpcs.size(); }
 

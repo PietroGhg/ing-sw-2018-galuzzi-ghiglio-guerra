@@ -212,7 +212,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void showMyBoard(){
-        Map myBoard = modelRepresentation.getWpcs(playerID);
+        String myBoard = modelRepresentation.getWpcs(playerID);
         System.out.println(myBoard);
     }
 
@@ -220,7 +220,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         int id;
         for(id=1; id <= modelRepresentation.getNumPlayers(); id++){
             if(id!=playerID){
-                Map board = modelRepresentation.getWpcs(id);
+                String board = modelRepresentation.getWpcs(id);
                 System.out.println(board);
             }
         }
@@ -239,13 +239,15 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void showMyObjectiveCard(){
-
-
-
+        System.out.println(modelRepresentation.getPrCards());
     }
 
-    public void showObjectiveCrads(){
+    public void showObjectiveCards(){
+        int i;
        String[] puCards = modelRepresentation.getPuCards();
+       for(i=0; i<=2; i++){
+           System.out.println(puCards[i]);
+       }
     }
 
 }
