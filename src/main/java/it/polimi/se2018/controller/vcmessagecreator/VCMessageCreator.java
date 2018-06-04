@@ -38,16 +38,41 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             }
         }
 
-        else if(playerInput.startsWith("Dice Move") || playerInput.startsWith("dicemove")){
+        else if(playerInput.startsWith("dicemove")){
             parametersGetter = new ParameterGetterDie();
             message = new VCDieMessage(view.getPlayerID());
             parametersGetter.getParameters(view);
             view.notifyController(message);
         }
 
-        else if(playerInput.startsWith("End Turn")){
+        else if(playerInput.startsWith("endturn")){
             message = new VCEndTurnMessage(view.getPlayerID());
             view.notifyController(message);
+        }
+
+        else if(playerInput.startsWith("show")){
+            String[] temp =playerInput.split(" ");
+            String toShow = temp[1];
+            if(toShow.equalsIgnoreCase("roundtrack")){ view.showRoundTrack(); }
+
+            if(toShow.equalsIgnoreCase("myboard")){ view.showMyBoard(); }
+
+            if(toShow.equalsIgnoreCase("boards")){ view.showBoards();}
+
+            if(toShow.equalsIgnoreCase("toolcards")){ }
+
+            if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
+
+            if(toShow.equalsIgnoreCase("objectivecards")){ }
+
+            if(toShow.equalsIgnoreCase("myobjectivecard")){
+
+            }
+
+            else{view.displayMessage("Input not valid");}
+
+
+
         }
         else {
             view.displayMessage("Input not valid");

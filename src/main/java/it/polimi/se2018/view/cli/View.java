@@ -10,9 +10,7 @@ import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /* Manages interrogation to be asked the user
  *@author Andrea Galuzzi
@@ -24,7 +22,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     private boolean gameLoop;
     private List<RawInputObserver> rawObservers;
 
-    public View(String playerName){
+    public View(String playerName) {
         modelRepresentation = new ModelRepresentation();
         playerID = 0;
         this.playerName = playerName;
@@ -33,30 +31,29 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void visit(MVGameMessage message) {
-        if(playerID == message.getPlayerID()){
-            System.out.println( message.getMessage() );
+        if (playerID == message.getPlayerID()) {
+            System.out.println(message.getMessage());
             System.out.println(message.getDraftPool());
             updateMR(message);
-        }
-        else{
+        } else {
             updateMR(message);
         }
     }
 
-    public void visit(MVStartGameMessage message){
-        if(playerID == message.getPlayerID())
+    public void visit(MVStartGameMessage message) {
+        if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
         new Thread(this).start();
     }
 
-    public void visit(MVNewTurnMessage message){
-        if(playerID == message.getPlayerID())
+    public void visit(MVNewTurnMessage message) {
+        if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
     }
 
-    private void updateMR(MVGameMessage message){
+    private void updateMR(MVGameMessage message) {
         modelRepresentation.setRoundTrack(message.getRoundTrack());
         modelRepresentation.setDraftPool(message.getDraftPool());
         modelRepresentation.setWpcs(message.getWpcs());
@@ -64,7 +61,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
 
     public void visit(MVSetUpMessage message) {
-        if(playerName.equals(message.getPlayerName())) {
+        if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
             System.out.println("You have been assigned the id: " + playerID);
             modelRepresentation.setPrCards(message.getPrCard());
@@ -74,27 +71,26 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void visit(MVWelcomeBackMessage message) {
-        if(playerName.equals(message.getPlayerName())){
+        if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
             new Thread(this).start();
-        }
-        else{
+        } else {
             System.out.println(message.getMessage());
         }
     }
 
     //the player has to choose his wpc for the game
 
-    private void chooseWpc(int[] possibleWPCs){
+    private void chooseWpc(int[] possibleWPCs) {
         int i;
         int choice = 0;
         WpcGenerator wpcGenerator = new WpcGenerator();
         WPC chosen;
         Scanner in = new Scanner(System.in);
 
-        for(i=0; i<4; i++){
+        for (i = 0; i < 4; i++) {
             WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
-            System.out.println(i+1 + ":\n" + temp.toString());
+            System.out.println(i + 1 + ":\n" + temp.toString());
         }
 
         do {
@@ -106,7 +102,6 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         modelRepresentation.setWpcs(playerID, chosen.toString());
         notify(new VCSetUpMessage(playerID, chosenID));
     }
-
 
 
     public void getCoordinates(String s) {
@@ -121,13 +116,13 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         rawNotify(new RawRequestedMessage(column));
     }
 
-    public void getCoordinates2(){
+    public void getCoordinates2() {
 
         System.out.println("Insert another die? [yes/no]");
         Scanner Input = new Scanner(System.in);
         String answer = Input.nextLine();
 
-        if(answer.equalsIgnoreCase("yes")) {
+        if (answer.equalsIgnoreCase("yes")) {
             getCoordinates("Insert the coordinates of the Die to move. ");
             getCoordinates("Insert the coordinates of the recipient cell. ");
 
@@ -142,8 +137,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
 
-
-    public void getDraftPoolIndex(){
+    public void getDraftPoolIndex() {
         System.out.println("Insert DraftPool Index");
         Scanner input = new Scanner(System.in);
         int index = input.nextInt();
@@ -152,7 +146,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     }
 
-    public void getRoundTrackPosition(String s){
+    public void getRoundTrackPosition(String s) {
         System.out.println(s);
         System.out.println("Insert Round number");
         Scanner Input = new Scanner(System.in);
@@ -165,7 +159,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     }
 
-    public void newDieValue(String s){
+    public void newDieValue(String s) {
         System.out.println(s);
         System.out.println("Insert new Value");
         Scanner Input = new Scanner(System.in);
@@ -173,26 +167,26 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         rawNotify(new RawRequestedMessage(value));
     }
 
-    public void displayMessage(String message){
+    public void displayMessage(String message) {
         System.out.println(message);
     }
 
-    public void notifyController(VCAbstractMessage message){
+    public void notifyController(VCAbstractMessage message) {
         notify(message);
     }
 
-    public void rawRegister(RawInputObserver observer){
+    public void rawRegister(RawInputObserver observer) {
         rawObservers.add(observer);
     }
 
-    public void rawNotify(RawInputMessage message){
-        for(RawInputObserver ob : rawObservers){
+    public void rawNotify(RawInputMessage message) {
+        for (RawInputObserver ob : rawObservers) {
             ob.rawUpdate(message);
         }
     }
 
-    public void getMove(){
-        System.out.println("Make your move");
+    public void getMove() {
+        System.out.println("Insert command");
         Scanner Input = new Scanner(System.in);
         String move = Input.nextLine();
         rawNotify(new RawUnrequestedMessage(move));
@@ -200,10 +194,52 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     @Override
-    public void run(){
-        while(gameLoop){
+    public void run() {
+        while (gameLoop) {
             getMove();
         }
+
+    }
+
+    public void showRoundTrack(){
+        System.out.println(modelRepresentation.getDraftPool());
+    }
+
+    public void showMyBoard(){
+        Map myBoard = modelRepresentation.getWpcs(playerID);
+        System.out.println(myBoard);
+    }
+
+    public void showBoards(){
+        int id;
+        for(id=1; id <= modelRepresentation.getNumPlayers(); id++){
+            if(id!=playerID){
+                Map board = modelRepresentation.getWpcs(id);
+                System.out.println(board);
+            }
+        }
+
+    }
+
+    public void showToolCards(){
+        System.out.println();
+
+
+    }
+
+    public void showDraftPool(){
+        System.out.println(modelRepresentation.getDraftPool());
+
+    }
+
+    public void showMyObjectiveCard(){
+
+
+
+    }
+
+    public void showObjectiveCrads(){
+       String[] puCards = modelRepresentation.getPuCards();
     }
 
 }
