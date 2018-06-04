@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.table;
 
+import it.polimi.se2018.controller.TurnTimer;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.*;
@@ -57,12 +58,28 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public int turnNumber(int playerID){ return roundTrack.turnNumber(playerID); }
 
+    public void nextTurn(TurnTimer turnTimer){
+        try {
+            draftPool = roundTrack.nextTurn(draftPool);
+            turn.clear();
+            turnTimer.reset(); //resets a turn timer
+            if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn(turnTimer);
+            notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));
+        }
+        catch (GameEndedException e){
+            turnTimer.cancel(); //cancels the turn timer
+            chooseWinner();
+        }
+    }
+
+    /**
+     * Used in testing
+     */
     public void nextTurn(){
         try {
             draftPool = roundTrack.nextTurn(draftPool);
             turn.clear();
             if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn();
-            notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));
         }
         catch (GameEndedException e){
             chooseWinner();
@@ -279,6 +296,10 @@ public class Model extends Observable<MVAbstractMessage> {
         }
 
         return ris;
+    }
+
+    public void sendMVTimesUpMessage(){
+        notify(new MVTimesUpMessage(whoIsPlaying()));
     }
 
 }

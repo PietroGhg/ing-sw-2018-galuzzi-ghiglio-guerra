@@ -79,6 +79,12 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         }
     }
 
+    public void visit(MVTimesUpMessage message) {
+        if(message.getPlayerID() == playerID){
+            System.out.println("Time's up. End of your turn.");
+        }
+    }
+
     //the player has to choose his wpc for the game
 
     private void chooseWpc(int[] possibleWPCs) {
