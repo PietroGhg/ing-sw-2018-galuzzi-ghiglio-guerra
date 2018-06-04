@@ -1,6 +1,4 @@
-package it.polimi.se2018.controller;
-
-import it.polimi.se2018.controller.turntimer.TurnFacade;
+package it.polimi.se2018.controller.turntimer;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,7 +20,7 @@ public class TurnTimer {
         task.cancel();
         task = new MyTask(this);
 
-        timer.schedule(task, (long)turnDuration*1000);
+        timer.schedule(task, (long)turnDuration*1000*60);
     }
 
     public void cancel(){

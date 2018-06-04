@@ -33,7 +33,6 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     public void visit(MVGameMessage message) {
         if (playerID == message.getPlayerID()) {
             System.out.println(message.getMessage());
-            System.out.println(message.getDraftPool());
             updateMR(message);
         } else {
             updateMR(message);
@@ -44,12 +43,14 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
+        System.out.println(message.getWpc(playerID));
         new Thread(this).start();
     }
 
     public void visit(MVNewTurnMessage message) {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
+        System.out.println(message.getWpc(playerID));
         updateMR(message);
     }
 

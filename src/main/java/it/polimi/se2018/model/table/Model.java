@@ -1,11 +1,10 @@
 package it.polimi.se2018.model.table;
 
-import it.polimi.se2018.controller.TurnTimer;
+import it.polimi.se2018.controller.turntimer.TurnTimer;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
-import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Observable;
@@ -64,7 +63,7 @@ public class Model extends Observable<MVAbstractMessage> {
             turn.clear();
             turnTimer.reset(); //resets a turn timer
             if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn(turnTimer);
-            notify(new MVNewTurnMessage("It's your turn", whoIsPlaying()));
+            setNewTurnMessage(whoIsPlaying());
         }
         catch (GameEndedException e){
             turnTimer.cancel(); //cancels the turn timer
@@ -95,25 +94,6 @@ public class Model extends Observable<MVAbstractMessage> {
         catch (NoWinnerException e){
             //notify users that something went a donnacce
         }
-    }
-
-    /**
-     * sets up a MVGameMessage containing all the useful datas and notifies it to the view
-     * @param m the message that has to be notified to the view
-     */
-    public void setGameMessage(String m, int playerID){
-        MVGameMessage message = new MVGameMessage(m, playerID);
-
-        //set up wpcs
-        for(Player p: players){
-            message.setWpc(p.getPlayerID(), p.getWpc().toString());
-        }
-        //set up draftpool
-        message.setDraftPool(getDraftPoolToString());
-        //set up roundtrack
-        message.setRoundTrack(roundTrack.toString());
-
-        notify(message);
     }
 
     public void setParameters(VCAbstractMessage m){
@@ -269,11 +249,57 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public void setStartGameMessage(String m, int playerID){
         MVStartGameMessage message = new MVStartGameMessage(m, playerID);
+
+        //set up wpcs
+        for(Player p: players){
+            message.setWpc(p.getPlayerID(), p.getWpc().toString());
+        }
+        //set up draftpool
+        message.setDraftPool(getDraftPoolToString());
+        //set up roundtrack
+        message.setRoundTrack(roundTrack.toString());
+
         notify(message);
     }
 
     public void setWelcomeBackMessage(int playerID, String playerName, String message){
         notify(new MVWelcomeBackMessage(playerID, playerName, message));
+    }
+
+    public void setNewTurnMessage(int playerID){
+        MVNewTurnMessage message = new MVNewTurnMessage("It's tour turn!", playerID);
+        //set up wpcs
+        for(Player p: players){
+            message.setWpc(p.getPlayerID(), p.getWpc().toString());
+        }
+        //set up draftpool
+        message.setDraftPool(getDraftPoolToString());
+        //set up roundtrack
+        message.setRoundTrack(roundTrack.toString());
+
+    }
+
+    /**
+     * sets up a MVGameMessage containing all the useful datas and notifies it to the view
+     * @param m the message that has to be notified to the view
+     */
+    public void setGameMessage(String m, int playerID){
+        MVGameMessage message = new MVGameMessage(m, playerID);
+
+        //set up wpcs
+        for(Player p: players){
+            message.setWpc(p.getPlayerID(), p.getWpc().toString());
+        }
+        //set up draftpool
+        message.setDraftPool(getDraftPoolToString());
+        //set up roundtrack
+        message.setRoundTrack(roundTrack.toString());
+
+        notify(message);
+    }
+
+    public void setMVTimesUpMessage(){
+        notify(new MVTimesUpMessage(whoIsPlaying()));
     }
 
     public void setWpc(int playerID, int chosenWpc){
@@ -295,10 +321,6 @@ public class Model extends Observable<MVAbstractMessage> {
         }
 
         return ris;
-    }
-
-    public void sendMVTimesUpMessage(){
-        notify(new MVTimesUpMessage(whoIsPlaying()));
     }
 
 }

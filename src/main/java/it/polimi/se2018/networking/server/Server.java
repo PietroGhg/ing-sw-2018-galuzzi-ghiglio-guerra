@@ -21,9 +21,9 @@ public class Server {
      * Instantiates the model and the controller, starts a ClientGatherer thread.
      * The ClientGatherer will call the addClient() method as new players connect.
      */
-    public Server(int timerSeconds, int port){
+    public Server(int timerSeconds, int port, int turnDuration){
         model = new Model();
-        controller = new Controller(model, timerSeconds, 30);
+        controller = new Controller(model, timerSeconds, turnDuration);
         new ClientGatherer(this, port, controller).start();
         remoteViewMap = new HashMap<>();
     }
@@ -51,8 +51,10 @@ public class Server {
         int port = in.nextInt();
         System.out.println("Insert timer duration [seconds].");
         int timerDuration = in.nextInt();
+        System.out.println("Insert turn duration [minutes]");
+        int turnDuration = in.nextInt();
 
-        new Server(timerDuration, port);
+        new Server(timerDuration, port, turnDuration);
     }
 
     /**

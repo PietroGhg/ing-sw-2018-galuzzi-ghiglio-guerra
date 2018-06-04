@@ -12,13 +12,8 @@ public class ModelRepresentation {
     private String message;
     private String roundTrack;
     private String draftPool;
-
-
-
-
     private String prCards;
     private String[] puCards;
-
     private Map<Integer, String> wpcs;
 
     public ModelRepresentation(){
@@ -57,6 +52,7 @@ public class ModelRepresentation {
 
     public void setWpcs(int playerID, String wpc) {
         wpcs.put(playerID, wpc);
+        System.out.println(playerID + "\n"+ wpc);
     }
 
     public void setWpcs(Map<Integer, String> wpcs) {

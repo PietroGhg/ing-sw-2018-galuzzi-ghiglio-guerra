@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller.turntimer;
 
-import it.polimi.se2018.controller.TurnTimer;
 import it.polimi.se2018.model.table.Model;
 
 public class TurnFacade {
@@ -11,7 +10,7 @@ public class TurnFacade {
     }
 
     public void sendMVTimesUpMessage(){
-        model.sendMVTimesUpMessage();
+        model.setMVTimesUpMessage();
     }
 
     public void nextTurn(TurnTimer timer) {
