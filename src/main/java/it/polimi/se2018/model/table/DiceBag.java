@@ -29,7 +29,7 @@ public class DiceBag {
     public ArrayList<Die> extractDice(int nPlayers){
         ArrayList<Die> result = new ArrayList<>();
         Random rand = new Random();
-        for(int i = 0; i < nPlayers + 1; i++){
+        for(int i = 0; i < 2*nPlayers + 1; i++){
             int index = rand.nextInt(bag.size());
             Die die = bag.get(index);
             die.roll();

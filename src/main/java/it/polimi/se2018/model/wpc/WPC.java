@@ -71,14 +71,14 @@ public class WPC { //WindowPatternCard
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WPC wpc = (WPC) o;
-        boolean restr = true;
-        for(int i = 0; i < NUMROW; i++){
-            for(int j = 0; j < NUMCOL; j++){
-                restr = board[i][j].equals(wpc.getCell(i,j));
+        boolean same = true;
+        for(int i = 0; i < NUMROW && same; i++){
+            for(int j = 0; j < NUMCOL && same; j++){
+                same = board[i][j].equals(wpc.getCell(i,j));
             }
         }
         return getFavorTokens() == wpc.getFavorTokens() &&
-                restr &&
+                same &&
                 Objects.equals(getName(), wpc.getName());
     }
 

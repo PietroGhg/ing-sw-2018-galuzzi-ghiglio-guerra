@@ -105,6 +105,7 @@ public class TestRunningPliers {
         param.addParameter(2);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
@@ -138,6 +139,7 @@ public class TestRunningPliers {
         param.addParameter(0);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         param.setDraftPool(emptyDP);
         model.setParameters(param);
@@ -168,6 +170,7 @@ public class TestRunningPliers {
         param.addParameter(2);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
@@ -198,6 +201,7 @@ public class TestRunningPliers {
         param.addParameter(3);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);
@@ -228,6 +232,7 @@ public class TestRunningPliers {
         param.addParameter(4);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         param.setDraftPool(beforeDP);
         model.setParameters(param);

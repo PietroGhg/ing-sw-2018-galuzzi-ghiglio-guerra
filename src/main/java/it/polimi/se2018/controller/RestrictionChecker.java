@@ -214,7 +214,8 @@ public class RestrictionChecker {
     private boolean isEmpty(WPC wpc) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 4; j++){
-                if(!wpc.getCell(i,j).isEmpty()) return false;
+                if(!wpc.getCell(i,j).isEmpty())
+                    return false;
             }
         }
         return true;

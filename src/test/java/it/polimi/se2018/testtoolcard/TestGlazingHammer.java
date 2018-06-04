@@ -3,6 +3,7 @@ package it.polimi.se2018.testtoolcard;
 import it.polimi.se2018.controller.toolcard.GlazingHammer;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.table.Model;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +52,7 @@ public class TestGlazingHammer {
         card = GlazingHammer.getInstance();
 
         Extractor.resetInstance();
+        DiceBag.resetInstance();
 
     }
 
@@ -81,6 +83,7 @@ public class TestGlazingHammer {
         model.addPlayer(player);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
 
         /*
@@ -123,6 +126,7 @@ public class TestGlazingHammer {
         model.addPlayer(player);
         model.addPlayer(new Player(2));
         model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
         model.startGame();
         model.nextTurn();
         model.nextTurn();
@@ -157,6 +161,7 @@ public class TestGlazingHammer {
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.setDraftPool(beforeDP);
         model.setParameters(param);
+        DiceBag.resetInstance();
         model.startGame();
         model.nextTurn();
         model.nextTurn();
