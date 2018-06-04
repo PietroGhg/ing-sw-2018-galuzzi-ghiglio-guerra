@@ -3,6 +3,7 @@ package it.polimi.se2018.testtoolcard;
 import it.polimi.se2018.controller.toolcard.RunningPliers;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
@@ -246,6 +247,7 @@ public class TestRunningPliers {
      */
     @Test
     public void test7(){
+        DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(5);
@@ -276,6 +278,7 @@ public class TestRunningPliers {
      */
     @Test
     public void test8(){
+        DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(5);
@@ -306,6 +309,7 @@ public class TestRunningPliers {
      */
     @Test
     public void test9(){
+        DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(5);

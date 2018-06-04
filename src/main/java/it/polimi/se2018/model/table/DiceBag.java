@@ -38,4 +38,8 @@ public class DiceBag {
         }
         return result;
     }
+
+    public static void resetInstance(){
+        instance = new DiceBag();
+    }
 }

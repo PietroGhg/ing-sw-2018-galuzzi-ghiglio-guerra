@@ -93,7 +93,6 @@ public class Model extends Observable<MVAbstractMessage> {
             //TODO: notify the winner
         }
         catch (NoWinnerException e){
-            e.printStackTrace();
             //notify users that something went a donnacce
         }
     }
