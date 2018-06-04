@@ -1,13 +1,12 @@
 package it.polimi.se2018.view;
 
-public class MVWelcomeBackMessage extends MVAbstractMessage {
+public class MVWelcomeBackMessage extends MVGameMessage {
     String message;
     String playerName;
 
     public MVWelcomeBackMessage(int playerID, String playerName, String message){
-        this.playerID = playerID;
+        super(message, playerID);
         this.playerName = playerName;
-        this.message = message;
     }
 
     public void accept(AbstractView view){ view.visit(this); }
