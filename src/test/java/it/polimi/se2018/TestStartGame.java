@@ -44,7 +44,7 @@ public class TestStartGame {
         model.addPlayer(player2);
         model.addPlayer(player3);
 
-        controller = new Controller(model, 0);
+        controller = new Controller(model, 0,0);
     }
 
     /**

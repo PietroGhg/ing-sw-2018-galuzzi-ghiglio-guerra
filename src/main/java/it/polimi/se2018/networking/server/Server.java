@@ -23,7 +23,7 @@ public class Server {
      */
     public Server(int timerSeconds, int port){
         model = new Model();
-        controller = new Controller(model, timerSeconds);
+        controller = new Controller(model, timerSeconds, 30);
         new ClientGatherer(this, port, controller).start();
         remoteViewMap = new HashMap<>();
     }

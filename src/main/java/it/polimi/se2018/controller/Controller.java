@@ -3,11 +3,11 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.controller.states.*;
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
+import it.polimi.se2018.controller.turntimer.TurnFacade;
 import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.states.States;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.exceptions.ReconnectionException;
@@ -15,19 +15,20 @@ import it.polimi.se2018.utils.Observer;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class Controller implements Observer<VCAbstractMessage> {
     private Model model;
     private Timer timer;
+    private TurnTimer turnTimer;
     private ConnectionTimer connectionTimer;
     private int timerDuration;
     private ToolCardFactory toolCardFactory;
     private State state;
 
-    public Controller(Model model, int timerDuration){
+    public Controller(Model model, int timerDuration, int turnDuration){
         this.model = model;
+        turnTimer = new TurnTimer(turnDuration, new TurnFacade(model));
         timer = new Timer();
         state = new ConnectionState();
         this.timerDuration = timerDuration;
@@ -39,7 +40,8 @@ public class Controller implements Observer<VCAbstractMessage> {
     public void startGame() {
         state = new GameplayState();
         System.out.println("Game starting.");
-        timer.cancel();
+        timer.cancel(); //cancels the connection timer
+        turnTimer.reset(); //starts the turn timer
         model.startGame();
     }
 
@@ -88,7 +90,7 @@ public class Controller implements Observer<VCAbstractMessage> {
     /*package private*/ void visit(VCEndTurnMessage message){
         try{
             checkTurn(message);
-            model.nextTurn();
+            model.nextTurn(turnTimer);
         }
         catch (MoveNotAllowedException e){
             model.setGameMessage(e.getMessage(), message.getPlayerID());
