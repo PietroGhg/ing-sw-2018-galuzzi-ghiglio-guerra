@@ -43,14 +43,12 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
-        System.out.println(message.getWpc(playerID));
         new Thread(this).start();
     }
 
     public void visit(MVNewTurnMessage message) {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
-        System.out.println(message.getWpc(playerID));
         updateMR(message);
     }
 

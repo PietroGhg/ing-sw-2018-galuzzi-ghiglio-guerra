@@ -58,15 +58,15 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
             if(toShow.equalsIgnoreCase("myboard")){ view.showMyBoard(); }
 
-            if(toShow.equalsIgnoreCase("boards")){ view.showBoards();}
+            else if(toShow.equalsIgnoreCase("boards")){ view.showBoards();}
 
-            if(toShow.equalsIgnoreCase("toolcards")){ }
+            else if(toShow.equalsIgnoreCase("toolcards")){ }
 
-            if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
+            else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
-            if(toShow.equalsIgnoreCase("objectivecards")){view.showBoards();}
+            else if(toShow.equalsIgnoreCase("objectivecards")){view.showBoards();}
 
-            if(toShow.equalsIgnoreCase("myobjectivecard")){ view.showMyObjectiveCard();}
+            else if(toShow.equalsIgnoreCase("myobjectivecard")){ view.showMyObjectiveCard();}
 
             else{view.displayMessage("Input not valid");}
 

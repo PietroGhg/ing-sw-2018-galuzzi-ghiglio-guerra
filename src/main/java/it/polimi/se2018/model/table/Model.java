@@ -276,6 +276,7 @@ public class Model extends Observable<MVAbstractMessage> {
         message.setDraftPool(getDraftPoolToString());
         //set up roundtrack
         message.setRoundTrack(roundTrack.toString());
+        notify(message);
 
     }
 
