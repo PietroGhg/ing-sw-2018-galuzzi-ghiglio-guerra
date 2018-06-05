@@ -10,6 +10,8 @@ import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 
+
+
 import java.util.*;
 
 /* Manages interrogation to be asked the user
@@ -227,6 +229,8 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void showToolCards(){
+
+
         System.out.println();
 
 

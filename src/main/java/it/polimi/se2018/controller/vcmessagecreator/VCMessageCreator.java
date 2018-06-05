@@ -10,6 +10,10 @@ import it.polimi.se2018.controller.parametersgetter.ParameterGetterDie;
 import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.cli.View;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
     private View view;
@@ -58,9 +62,21 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
             if(toShow.equalsIgnoreCase("myboard")){ view.showMyBoard(); }
 
-            else if(toShow.equalsIgnoreCase("boards")){ view.showBoards();}
+            else if(toShow.equalsIgnoreCase("boards")){ view.showBoards();
 
-            else if(toShow.equalsIgnoreCase("toolcards")){ }
+            }
+
+            else if(toShow.equalsIgnoreCase("toolcards")){
+                //BufferedReader reader = new BufferedReader(new FileReader("toolcard1"));
+                //String line = reader.readLine();
+                //while(line!=null) {
+                //    System.out.println(line);
+                //    line = reader.readLine();
+                //}
+                //reader.close();
+
+
+                }
 
             else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
