@@ -1,9 +1,13 @@
 package it.polimi.se2018.model.wpc;
 
+import it.polimi.se2018.controller.RestrictionChecker;
+import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static it.polimi.se2018.model.Die.prettyDie;
@@ -112,6 +116,41 @@ public class WPC { //WindowPatternCard
 
         int result = Objects.hash(getFavorTokens(), getName());
         result = 31 * result + Arrays.hashCode(board);
+        return result;
+    }
+
+    /**
+     * Method that checks if a die is placeable on the board.
+     * @param d the floating die
+     * @return a list of valid coordinates
+     * @author Pietro Ghiglio, Leonardo Guerra
+     */
+    public List<int[]> isPlaceable(Die d){
+        RestrictionChecker rc = new RestrictionChecker();
+        List<int[]> result = new ArrayList<>();
+
+        for(int i = 0; i < WPC.NUMROW; i++){
+            for(int j = 0; j < WPC.NUMCOL; j++){
+                try{
+                    rc.checkFirstMove(this, i ,j);
+                    rc.checkEmptiness(this, i ,j);
+                    rc.checkValueRestriction(this, i , j, d);
+                    rc.checkColourRestriction(this, i ,j, d);
+                    rc.checkAdjacent(this, i, j);
+                    rc.checkSameDie(this, i ,j, d);
+
+                    //if no restrictions are violated, adds the coordinates to the result
+                    int[] temp = new int[2];
+                    temp[0] = i;
+                    temp[1] = j;
+                    result.add(temp);
+                }
+                catch(MoveNotAllowedException e){
+                    //does not add the the result list
+                }
+            }
+        }
+
         return result;
     }
 }

@@ -27,7 +27,7 @@ public class Model extends Observable<MVAbstractMessage> {
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
-    private Die vacantDie; //eventually used for toolcards 6 and 11
+    private Die floatingDie; //used for toolcards 6 and 11
     private ChooseWinner chooseWinner;
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
@@ -45,7 +45,9 @@ public class Model extends Observable<MVAbstractMessage> {
         turn = new Turn();
     }
 
-    public Die getVacantDie(){ return vacantDie; }
+    public Die getFloatingDie(){ return floatingDie; }
+
+    public void setFloatingDie(Die d) { floatingDie = d; }
 
     public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack){ this.roundTrack.setRT(roundTrack); }
 
@@ -277,6 +279,12 @@ public class Model extends Observable<MVAbstractMessage> {
 
         setData(message);
 
+        notify(message);
+    }
+
+    public void setTC6Message(int playerID, String m, List<int[]> validCoordinates){
+        MVTC6Message message = new MVTC6Message(playerID, m, validCoordinates);
+        setData(message);
         notify(message);
     }
 

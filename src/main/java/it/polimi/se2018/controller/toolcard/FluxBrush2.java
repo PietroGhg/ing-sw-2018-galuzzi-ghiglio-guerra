@@ -7,7 +7,16 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
-public class FluxBrush2{
+import java.util.ArrayList;
+
+public class FluxBrush2 implements ToolCard{
+    private static FluxBrush2 instance;
+
+    public static FluxBrush2 getInstance(){
+        if (instance == null) instance = new FluxBrush2();
+        return instance;
+    }
+
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         //Se mettiamo il dado ottenuto da FluxBrush e quello ottenuto da FluxRemover
             //in floatingDie, possiamo usare la stessa classe per continuare
@@ -18,8 +27,8 @@ public class FluxBrush2{
         int cellCol = param.getParameter(1);
 
         //Prendere il dado ottenuto alla fine di FluxBrush
-        Die d = new Die();
-        //Die d = param.getDie();  (di FluxBrush: floatingDie?)
+        ArrayList<Die> dp = param.getDraftPool();
+        Die d = dp.get(dp.size() - 1);
 
         WPC wpc = player.getWpc();
         //Check all the restrictions
@@ -32,4 +41,6 @@ public class FluxBrush2{
 
         wpc.setDie(cellRow,cellCol,d);
     }
+
+    public int getFavorTokensNeeded(){ return 0; }
 }

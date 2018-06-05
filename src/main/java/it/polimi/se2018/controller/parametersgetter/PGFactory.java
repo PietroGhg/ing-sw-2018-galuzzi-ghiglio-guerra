@@ -51,7 +51,9 @@ public class PGFactory{
                 pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
                 pg = new AskCoordinates2(pg);
                 return pg;
-            //case(): return new ParameterGetterTC6pt2();
+            case(20):
+                pg = new AskCoordIndex(pg);
+                return pg;
             //case(): return new ParameterGetterTC11pt2();
 
 

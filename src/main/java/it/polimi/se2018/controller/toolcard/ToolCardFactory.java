@@ -17,13 +17,14 @@ public class ToolCardFactory {
             case(10): return GrindingStone.getInstance();
             case(11): return FluxRemover.getInstance();
             case(12): return TapWheel.getInstance();
+            case(20): return FluxBrush2.getInstance();
             default: throw new InputNotValidException();
         }
     }
 
     public ToolCard get(String s) throws InputNotValidException{
         switch(s){
-            case("Grozing PLiers"): return GrozingPliers.getInstance();
+            case("Grozing Pliers"): return GrozingPliers.getInstance();
             case("Eglomise Brush"): return EglomiseBrush.getInstance();
             case("Copper Foil Burnisher"): return CopperFoilBurnisher.getInstance();
             case("Lthekin"): return Lathekin.getInstance();

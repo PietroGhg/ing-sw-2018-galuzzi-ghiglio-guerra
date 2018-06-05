@@ -1,10 +1,9 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.table.Model;
-import it.polimi.se2018.model.table.RoundTrack;
-import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for the parameters required by a toolcard.cardAction() or diceMove() method in order to modify the model according to the
@@ -49,10 +48,18 @@ public class PlayerMoveParameters {
 
     public ArrayList<Integer> getParameters() { return parameters; }
 
-    public Die getVacantDie() {return model.getVacantDie(); }
+    public Die getVacantDie() {return model.getFloatingDie(); }
 
     public boolean dieHasBeenPlayed() { return model.dieHasBeenPlayed(); }
 
     public int paramCount(){ return parameters.size(); }
+
+    public Die getFloatingDie(){ return model.getFloatingDie(); }
+
+    public void setFloatingDie(Die d){model.setFloatingDie(d); }
+
+    public void setTC6Message(int playerID, String message, List<int[]> validCoordinates){
+        model.setTC6Message(playerID, message, validCoordinates);
+    }
 
 }

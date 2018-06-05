@@ -5,7 +5,9 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.wpc.WPC;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -30,6 +32,7 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         RestrictionChecker rc = new RestrictionChecker();
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
+        WPC wpc = player.getWpc();
 
         int dpIndex = param.getParameter(0);
 
@@ -39,20 +42,21 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         temp.roll();
         param.getDraftPool().remove(dpIndex);
 
-        // check if it can be placed on the board
-        /*
-        ...se non si può piazzare:
-        model.getDraftPool().add(temp);
-        */
+        List<int[]> validCoordinates = wpc.isPlaceable(temp);
 
-        /*
-        ...se si può piazzare, dopo aver chiesto i nuovi parametri:
-        chiamata a FluxBrush2 passandogli il dado temp
+        // checks if it can be placed on the board
+        if(validCoordinates.isEmpty()){
+            //die not placeable
+            param.getDraftPool().add(temp);
+            param.setTC6Message(player.getPlayerID(), "Not placeable.\nDie returned to the draftpool.The die: " + temp.toString(), validCoordinates);
+        }
+        else{
+            //die is placeable
+            param.setTC6Message(player.getPlayerID(), "Die is placeable. The die: " + temp.toString(), validCoordinates);
+        }
 
-        FluxBrush2 card2 = FluxBrush2.getInstance();
-        PlayerMoveParameters p = new PlayerMoveParameters();
-        card2.cardAction(p);
-        */
+
+
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1) {

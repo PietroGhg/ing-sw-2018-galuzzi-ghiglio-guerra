@@ -58,9 +58,14 @@ public class Controller implements Observer<VCAbstractMessage> {
             checkTurn(message);
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             model.setParameters(message);
-            toolCardFactory.get(toolcardID).cardAction(model.getParameters());
-            model.setToolCardUsed();
-            model.setGameMessage("Success.", playerID);
+            if(toolcardID != 6 && toolcardID != 11) {
+                toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+                model.setToolCardUsed();
+                model.setGameMessage("Success.", playerID);
+            }
+            else {
+                toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+            }
         }
         catch (MoveNotAllowedException|InputNotValidException e) {
             model.setGameMessage(e.getMessage(), playerID);

@@ -23,6 +23,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     private ModelRepresentation modelRepresentation;
     private boolean gameLoop;
     private List<RawInputObserver> rawObservers;
+    private List<int[]> validCoordinates;
 
     public View(String playerName) {
         modelRepresentation = new ModelRepresentation();
@@ -30,6 +31,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         this.playerName = playerName;
         rawObservers = new ArrayList<>();
         gameLoop = true;
+        validCoordinates = new ArrayList<>();
     }
 
     public void visit(MVGameMessage message) {
@@ -52,6 +54,36 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
+    }
+
+    public void visit(MVTC6Message message) {
+        if(playerID == message.getPlayerID()){
+            String m = message.getMessage();
+            if(m.startsWith("Not")){
+                System.out.println(message.getMessage());
+            }
+            else{
+                validCoordinates = message.getValidCoordinates();
+                System.out.println("Valid coordinates: ");
+
+                for(int i = 0; i < validCoordinates.size(); i++){
+                    int[] temp = validCoordinates.get(i);
+                    System.out.println((i + 1) + ": " + temp[0] + ", " + temp[1]);
+                }
+                rawNotify(new RawUnrequestedMessage("ToolCard 20"));
+            }
+        }
+    }
+
+    public void getCoordIndex(){
+        Scanner input = new Scanner(System.in);
+        int i;
+        do{
+            i = input.nextInt();
+        }while(i <= 0 || i >= validCoordinates.size());
+        int[] temp = validCoordinates.get(i);
+        rawNotify(new RawRequestedMessage(temp[0]));
+        rawNotify(new RawRequestedMessage(temp[1]));
     }
 
     private void updateMR(MVGameMessage message) {
