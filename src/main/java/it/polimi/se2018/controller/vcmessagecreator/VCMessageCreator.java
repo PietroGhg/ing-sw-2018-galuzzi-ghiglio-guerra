@@ -54,29 +54,32 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             view.notifyController(message);
         }
 
-        else if(playerInput.startsWith("show")){
-            String[] temp =playerInput.split(" ");
+        else if(playerInput.startsWith("show")) {
+            String[] temp = playerInput.split(" ");
             String toShow = temp[1];
-            toShow=toShow.trim();
-            if(toShow.equalsIgnoreCase("roundtrack")){ view.showRoundTrack(); }
-
-            if(toShow.equalsIgnoreCase("myboard")){ view.showMyBoard(); }
-
-            else if(toShow.equalsIgnoreCase("boards")){ view.showBoards();
-
+            toShow = toShow.trim();
+            if (toShow.equalsIgnoreCase("roundtrack")) {
+                view.showRoundTrack();
             }
 
-            else if(toShow.equalsIgnoreCase("toolcards")){
-                //BufferedReader reader = new BufferedReader(new FileReader("toolcard1"));
-                //String line = reader.readLine();
-                //while(line!=null) {
-                //    System.out.println(line);
-                //    line = reader.readLine();
-                //}
-                //reader.close();
+            if (toShow.equalsIgnoreCase("myboard")) {
+                view.showMyBoard();
+            } else if (toShow.equalsIgnoreCase("boards")) {
+                view.showBoards();
+
+            } else if (toShow.equalsIgnoreCase("toolcards")) {
+                try(BufferedReader reader = new BufferedReader(new FileReader("toolcard1"))){
+                    String line = reader.readLine();
+                    while (line != null) {
+                        view.displayMessage(line);
+                        line = reader.readLine();
+                    }
+                }catch (IOException e){view.displayMessage("error while loading");}
+            }
 
 
-                }
+
+
 
             else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
