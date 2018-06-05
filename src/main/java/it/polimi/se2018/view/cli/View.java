@@ -18,10 +18,13 @@ import java.util.*;
  *@author Andrea Galuzzi
  */
 
-public class View extends AbstractView implements RawInputObservable, Runnable {
+public class View extends AbstractView implements RawInputObservable {
     private String playerName;
     private ModelRepresentation modelRepresentation;
     private boolean gameLoop;
+    private boolean inputLoop;
+    private final Object lock = new Object();
+    private InputThread inputThread;
     private List<RawInputObserver> rawObservers;
     private List<int[]> validCoordinates;
 
@@ -31,6 +34,8 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         this.playerName = playerName;
         rawObservers = new ArrayList<>();
         gameLoop = true;
+        inputLoop = true;
+        inputThread = new InputThread(this, lock);
         validCoordinates = new ArrayList<>();
     }
 
@@ -47,7 +52,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
-        new Thread(this).start();
+        inputThread.start();
     }
 
     public void visit(MVNewTurnMessage message) {
@@ -79,8 +84,9 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         Scanner input = new Scanner(System.in);
         int i;
         do{
+            System.out.println("Select coordinates: ");
             i = input.nextInt();
-        }while(i <= 0 || i >= validCoordinates.size());
+        }while(!(i>=1 && i <= validCoordinates.size()));
         int[] temp = validCoordinates.get(i);
         rawNotify(new RawRequestedMessage(temp[0]));
         rawNotify(new RawRequestedMessage(temp[1]));
@@ -90,6 +96,11 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         modelRepresentation.setRoundTrack(message.getRoundTrack());
         modelRepresentation.setDraftPool(message.getDraftPool());
         modelRepresentation.setWpcs(message.getWpcs());
+
+        synchronized (lock) {
+            inputLoop = true;
+            lock.notifyAll();
+        }
     }
 
 
@@ -106,7 +117,7 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
-            new Thread(this).start();
+            inputThread.start();
         } else {
             System.out.println(message.getMessage());
         }
@@ -211,7 +222,8 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
     }
 
     public void notifyController(VCAbstractMessage message) {
-        notify(message);
+        inputLoop = false;
+        inputThread.notifyController(message);
     }
 
     public void rawRegister(RawInputObserver observer) {
@@ -226,19 +238,13 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     public void getMove() {
         System.out.println("Insert command");
-        Scanner Input = new Scanner(System.in);
-        String move = Input.nextLine();
+        Scanner input = new Scanner(System.in);
+        String move = input.nextLine();
         rawNotify(new RawUnrequestedMessage(move));
 
     }
 
-    @Override
-    public void run() {
-        while (gameLoop) {
-            getMove();
-        }
 
-    }
 
     public void showRoundTrack(){
         System.out.println(modelRepresentation.getDraftPool());
@@ -264,6 +270,42 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
         System.out.println(modelRepresentation.getDraftPool());
 
     }
+
+    /**
+     * Thread used to prevent overlays of user requested and unrequested input
+     * @author Pietro Ghiglio
+     */
+    private class InputThread extends Thread{
+        private View view;
+        private final Object lock;
+
+        InputThread(View view, Object lock){
+            this.view = view;
+            this.lock = lock;
+        }
+
+        @Override
+        public void run() {
+            while (gameLoop) {
+                getMove();
+            }
+        }
+
+        void notifyController(VCAbstractMessage message) {
+            view.notify(message);
+            synchronized (lock){
+                try{
+                    while(!inputLoop)
+                        lock.wait();
+                }
+                catch(InterruptedException e){
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+
+
 
 }
 
