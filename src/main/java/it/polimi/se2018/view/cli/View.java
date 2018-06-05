@@ -260,29 +260,9 @@ public class View extends AbstractView implements RawInputObservable, Runnable {
 
     }
 
-    public void showToolCards(){
-
-
-        System.out.println();
-
-
-    }
-
     public void showDraftPool(){
         System.out.println(modelRepresentation.getDraftPool());
 
-    }
-
-    public void showMyObjectiveCard(){
-        System.out.println(modelRepresentation.getPrCards());
-    }
-
-    public void showObjectiveCards(){
-        int i;
-       String[] puCards = modelRepresentation.getPuCards();
-       for(i=0; i<=2; i++){
-           System.out.println(puCards[i]);
-       }
     }
 
 }

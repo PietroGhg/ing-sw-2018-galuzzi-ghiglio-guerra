@@ -14,6 +14,7 @@ public class ModelRepresentation {
     private String draftPool;
     private String prCards;
     private String[] puCards;
+    private String toolCards;
     private Map<Integer, String> wpcs;
 
     public ModelRepresentation(){
@@ -66,6 +67,8 @@ public class ModelRepresentation {
     public String[] getPuCards(){ return puCards; }
 
     public String getPrCards(){return prCards; }
+
+    public String getToolCards(){ return toolCards; }
 
     public int getNumPlayers(){ return wpcs.size(); }
 

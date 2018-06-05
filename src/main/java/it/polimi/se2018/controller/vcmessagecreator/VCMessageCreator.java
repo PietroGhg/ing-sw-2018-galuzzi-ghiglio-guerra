@@ -27,6 +27,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
     }
 
     private void parseString(String playerInput){
+        String error = "error while loading";
         if(playerInput.startsWith("ToolCard" )){
             String[] temp = playerInput.split(" ");
             int toolCardID = Integer.parseInt(temp[1]);
@@ -74,8 +75,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                         view.displayMessage(line);
                         line = reader.readLine();
                     }
-                }catch (IOException e){view.displayMessage("error while loading");}
-            }
+                }catch (IOException e){view.displayMessage(error);} }
 
 
 
@@ -83,9 +83,29 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
             else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
-            else if(toShow.equalsIgnoreCase("objectivecards")){view.showBoards();}
+            else if(toShow.equalsIgnoreCase("objectivecards")) {
+                try (BufferedReader reader = new BufferedReader(new FileReader("objective cards"))) {
+                    String line = reader.readLine();
+                    while (line != null) {
+                        view.displayMessage(line);
+                        line = reader.readLine();
+                    }
 
-            else if(toShow.equalsIgnoreCase("myobjectivecard")){ view.showMyObjectiveCard();}
+                } catch (IOException e) { view.displayMessage(error); }
+
+            }
+
+            else if(toShow.equalsIgnoreCase("myobjectivecard")){
+                try (BufferedReader reader = new BufferedReader(new FileReader("my objective card"))) {
+                String line = reader.readLine();
+                while (line != null) {
+                    view.displayMessage(line);
+                    line = reader.readLine();
+                }
+
+            } catch (IOException e) { view.displayMessage(error); }
+
+            }
 
             else{view.displayMessage("Input not valid");}
 
