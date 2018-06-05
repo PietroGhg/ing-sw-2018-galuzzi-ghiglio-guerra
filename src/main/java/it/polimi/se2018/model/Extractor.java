@@ -20,10 +20,13 @@ public class Extractor {
     public static final int NUM_PU_CARDS = 10;
     public static final int NUM_PUCARDS_EXTRACTED = 3;
     public static final int NUM_WPCS_EXTRACTED = 4;
+    public static final int NUM_TOOLCARDS_EXTRACTED=3;
     private ArrayList<Integer> prCards;
     private ArrayList<Integer> puCards;
     private ArrayList<Integer> wpcs;
+    private ArrayList<Integer> toolCards;
     private int numWpcs;
+    private int numToolCards;
 
     private static Extractor instance;
 
@@ -41,6 +44,11 @@ public class Extractor {
 
         //the boards are stored in files whose names are 1.xml ... 24.xml,
         for(int i = 1; i <= numWpcs; i++) wpcs.add(i);
+
+        numToolCards = getNumToolCards();
+        toolCards = new ArrayList<>(numToolCards);
+
+        for(int i = 1; i <= numToolCards; i++) toolCards.add(i);
     }
 
     public static Extractor getInstance(){
@@ -112,6 +120,17 @@ public class Extractor {
         return ris;
     }
 
+    public int[] extractToolCards(){
+        int[] ris = new int[NUM_TOOLCARDS_EXTRACTED];
+        Random random = new Random();
+        for(int i=0; i<NUM_TOOLCARDS_EXTRACTED; i++) {
+            int randomIndex = random.nextInt(toolCards.size());
+            ris[i] = toolCards.get(randomIndex);
+            toolCards.remove(randomIndex);
+        }
+        return ris;
+    }
+
 
     /**
      * @return The number of wpcs from which the boards can be extracted
@@ -119,6 +138,8 @@ public class Extractor {
     public int currNumWpcs(){ return wpcs.size(); }
 
     public int getNumWpcs() { return this.numWpcs; }
+
+    public int getNumToolCards() { return this.numToolCards; }
 
     public int getNumPuCards() { return prCards.size(); }
 
