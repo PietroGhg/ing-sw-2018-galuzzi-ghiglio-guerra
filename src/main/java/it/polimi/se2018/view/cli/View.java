@@ -271,6 +271,10 @@ public class View extends AbstractView implements RawInputObservable {
 
     }
 
+    /**
+     * Thread used to prevent overlays of user requested and unrequested input
+     * @author Pietro Ghiglio
+     */
     private class InputThread extends Thread{
         private View view;
         private final Object lock;
@@ -298,10 +302,10 @@ public class View extends AbstractView implements RawInputObservable {
                     Thread.currentThread().interrupt();
                 }
             }
-
-
         }
     }
+
+
 
 }
 
