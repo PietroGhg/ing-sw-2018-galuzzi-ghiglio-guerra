@@ -44,11 +44,12 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                 view.getDraftPoolIndex();
                 int dpIndex = message.getParameters().get(0);
                 cardSixAction(dpIndex);
-                view.getCoordinates("Insert coordinates of the recipient cell.");
                 view.notifyController(message);
             }
             if(toolCardID == 11){
-                //cardElevenAction();
+                message = new VCToolMessage(view.getPlayerID(), toolCardID);
+                view.getDraftPoolIndex();
+                cardElevenAction();
             }
             else{
                 try {
@@ -158,6 +159,23 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         message.addParameter(d.getDieValue());
         view.displayMessage("New value: " + d.getDieValue());
         //checks placeability
+        checkPlaceability(d);
+    }
+
+    private void cardElevenAction(){
+        int index = modelRep.getRandomIndex();
+        message.addParameter(index);
+        Die d = modelRep.getDieFromDBag(index);
+        view.displayMessage("Extracted die: " + d.toString());
+        view.newDieValue("Insert new die value");
+
+        //checks placeability
+        checkPlaceability(d);
+
+
+    }
+
+    private void checkPlaceability(Die d){
         WPC wpc = modelRep.getWpc(view.getPlayerID());
         List<int[]> validCoordinates = wpc.isPlaceable(d);
         view.getValidCoordinates(validCoordinates);

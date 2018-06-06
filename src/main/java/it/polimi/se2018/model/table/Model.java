@@ -282,12 +282,6 @@ public class Model extends Observable<MVAbstractMessage> {
         notify(message);
     }
 
-    public void setTC6Message(int playerID, String m, List<int[]> validCoordinates){
-        MVTC6Message message = new MVTC6Message(playerID, m, validCoordinates);
-        setData(message);
-        notify(message);
-    }
-
     private void setData(MVGameMessage message){
         //set up wpcs
         for(Player p: players){

@@ -39,6 +39,19 @@ public class DiceBag {
         return result;
     }
 
+    public int getRandomIndex(){
+        Random random = new Random();
+        return random.nextInt(bag.size());
+    }
+
+    public Die getDie(int index){
+        return bag.get(index);
+    }
+
+    public void removeDie(int index){
+        bag.remove(index);
+    }
+
     public static void resetInstance(){
         instance = new DiceBag();
     }

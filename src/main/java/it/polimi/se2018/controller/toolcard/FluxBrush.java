@@ -44,16 +44,6 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
 
         List<int[]> validCoordinates = wpc.isPlaceable(temp);
 
-        // checks if it can be placed on the board
-        if(validCoordinates.isEmpty()){
-            //die not placeable
-            param.getDraftPool().add(temp);
-            param.setTC6Message(player.getPlayerID(), "Not placeable.\nDie returned to the draftpool.The die: " + temp.toString(), validCoordinates);
-        }
-        else{
-            //die is placeable
-            param.setTC6Message(player.getPlayerID(), "Die is placeable. The die: " + temp.toString(), validCoordinates);
-        }
 
 
 

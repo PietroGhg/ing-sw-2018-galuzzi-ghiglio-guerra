@@ -212,7 +212,10 @@ public class View extends AbstractView implements RawInputObservable {
         System.out.println(s);
         System.out.println("Insert new Value");
         Scanner Input = new Scanner(System.in);
-        int value = Input.nextInt();
+        int value;
+        do {
+            value = Input.nextInt();
+        }while(!(value>=1 && value <=6));
         rawNotify(new RawRequestedMessage(value));
     }
 

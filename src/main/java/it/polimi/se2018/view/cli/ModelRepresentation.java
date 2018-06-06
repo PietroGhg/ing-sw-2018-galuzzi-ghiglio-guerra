@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
@@ -14,20 +15,16 @@ import java.util.Map;
 
 
 public class ModelRepresentation {
-    private String message;
     private String roundTrack;
     private ArrayList<Die> draftPool;
     private String prCards;
     private String[] puCards;
     private String toolCards;
     private Map<Integer, WPC> wpcs;
+    private DiceBag diceBag;
 
     public ModelRepresentation(){
         wpcs = new HashMap<>();
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public String getRoundTrack() {
@@ -45,10 +42,6 @@ public class ModelRepresentation {
     }
 
     public WPC getWpc(int playerID) {return wpcs.get(playerID); }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public void setRoundTrack(String roundTrack) {
         this.roundTrack = roundTrack;
@@ -77,5 +70,9 @@ public class ModelRepresentation {
     public String getToolCards(){ return toolCards; }
 
     public int getNumPlayers(){ return wpcs.size(); }
+
+    public int getRandomIndex(){ return diceBag.getRandomIndex(); }
+
+    public Die getDieFromDBag(int index) { return diceBag.getDie(index); }
 
 }

@@ -58,8 +58,4 @@ public class PlayerMoveParameters {
 
     public void setFloatingDie(Die d){model.setFloatingDie(d); }
 
-    public void setTC6Message(int playerID, String message, List<int[]> validCoordinates){
-        model.setTC6Message(playerID, message, validCoordinates);
-    }
-
 }
