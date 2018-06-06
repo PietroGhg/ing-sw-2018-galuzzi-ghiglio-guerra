@@ -34,7 +34,8 @@ public class PGFactory{
                 pg = new AskRTPosition(pg);
                 return pg;
             case(6):
-                return justDP(pg);
+                pg = justDP(pg);
+                return pg;
             case(7):
                 return pg;
             case(8):
@@ -51,16 +52,12 @@ public class PGFactory{
                 pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
                 pg = new AskCoordinates2(pg);
                 return pg;
-            case(20):
-                pg = new AskCoordIndex(pg);
-                return pg;
             //case(): return new ParameterGetterTC11pt2();
 
 
 
-            // throw new InputNotValidException();
+            default: throw new InputNotValidException();
         }
-        return null;
     }
 
     private ParameterGetter moveDie(ParameterGetter pg){

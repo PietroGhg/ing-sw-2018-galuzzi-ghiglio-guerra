@@ -1,6 +1,11 @@
 package it.polimi.se2018.view.cli;
 
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.wpc.WPC;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*Representation of Model in the View
@@ -11,11 +16,11 @@ import java.util.Map;
 public class ModelRepresentation {
     private String message;
     private String roundTrack;
-    private String draftPool;
+    private ArrayList<Die> draftPool;
     private String prCards;
     private String[] puCards;
     private String toolCards;
-    private Map<Integer, String> wpcs;
+    private Map<Integer, WPC> wpcs;
 
     public ModelRepresentation(){
         wpcs = new HashMap<>();
@@ -30,14 +35,16 @@ public class ModelRepresentation {
     }
 
     public String getDraftPool() {
-        return draftPool;
+        return draftPool.toString();
     }
 
-    public Map<Integer, String> getWpcs() {
+    public Die getDieFromDraft(int i) { return draftPool.get(i); }
+
+    public Map<Integer, WPC> getWpc() {
         return wpcs;
     }
 
-    public String getWpcs(int playerID) {return wpcs.get(playerID); }
+    public WPC getWpc(int playerID) {return wpcs.get(playerID); }
 
     public void setMessage(String message) {
         this.message = message;
@@ -47,16 +54,15 @@ public class ModelRepresentation {
         this.roundTrack = roundTrack;
     }
 
-    public void setDraftPool(String draftPool) {
-        this.draftPool = draftPool;
+    public void setDraftPool(List<Die> draftPool) {
+        this.draftPool = (ArrayList<Die>)draftPool;
     }
 
-    public void setWpcs(int playerID, String wpc) {
+    public void setWpcs(int playerID, WPC wpc) {
         wpcs.put(playerID, wpc);
-        System.out.println(playerID + "\n"+ wpc);
     }
 
-    public void setWpcs(Map<Integer, String> wpcs) {
+    public void setWpcs(Map<Integer, WPC> wpcs) {
         this.wpcs = wpcs;
     }
 

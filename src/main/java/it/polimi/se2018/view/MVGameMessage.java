@@ -1,14 +1,18 @@
 package it.polimi.se2018.view;
 
 
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.wpc.WPC;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MVGameMessage extends MVAbstractMessage {
     private String message;
     private String roundTrack;
-    private String draftPool;
-    private Map<Integer, String> wpcs;
+    private List<Die> draftPool;
+    private Map<Integer, WPC> wpcs;
 
     public MVGameMessage(String message, int playerID){
         this.message = message;
@@ -26,19 +30,19 @@ public class MVGameMessage extends MVAbstractMessage {
         return roundTrack;
     }
 
-    public String getDraftPool() {
+    public List<Die> getDraftPool() {
         return draftPool;
     }
 
-    public String getWpc(int playerID){
+    public WPC getWpc(int playerID){
         return wpcs.get(playerID);
     }
 
-    public void setWpc(int playerID, String wpc){
+    public void setWpc(int playerID, WPC wpc){
         wpcs.put(playerID, wpc);
     }
 
-    public void setDraftPool(String draftPool){
+    public void setDraftPool(List<Die> draftPool){
         this.draftPool = draftPool;
     }
 
@@ -46,5 +50,5 @@ public class MVGameMessage extends MVAbstractMessage {
         this.roundTrack = roundTrack;
     }
 
-    public Map<Integer, String> getWpcs() { return wpcs; }
+    public Map<Integer, WPC> getWpcs() { return wpcs; }
 }

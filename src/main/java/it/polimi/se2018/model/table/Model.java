@@ -291,10 +291,10 @@ public class Model extends Observable<MVAbstractMessage> {
     private void setData(MVGameMessage message){
         //set up wpcs
         for(Player p: players){
-            message.setWpc(p.getPlayerID(), p.getWpc().toString());
+            message.setWpc(p.getPlayerID(), p.getWpc());
         }
         //set up draftpool
-        message.setDraftPool(getDraftPoolToString());
+        message.setDraftPool(draftPool);
         //set up roundtrack
         message.setRoundTrack(roundTrack.toString());
     }

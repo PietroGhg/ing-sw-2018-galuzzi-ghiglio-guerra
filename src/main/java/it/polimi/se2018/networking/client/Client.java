@@ -3,6 +3,7 @@ package it.polimi.se2018.networking.client;
 import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
+import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class Client {
     private View view;
     private VCMessageCreator vcMessageCreator;
+    private ModelRepresentation modelRep;
     private ServerConnection connection;
     private Socket socket;
 
@@ -29,8 +31,9 @@ public class Client {
             connection = new SocketServerConnection(socket);
 
             try{
-                view = new View(insertName(socket));
-                vcMessageCreator = new VCMessageCreator(view);
+                modelRep = new ModelRepresentation();
+                view = new View(insertName(socket), modelRep);
+                vcMessageCreator = new VCMessageCreator(view, modelRep);
             }
             catch(GameStartedException e){
                 System.out.println("A game is already started");

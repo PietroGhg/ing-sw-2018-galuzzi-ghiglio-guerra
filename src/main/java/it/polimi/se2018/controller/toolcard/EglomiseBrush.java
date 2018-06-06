@@ -30,7 +30,7 @@ public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        WPC temp = player.getWpc();
+        WPC temp = new WPC(player.getWpc());
 
         //Die to move
         int row1 = param.getParameter(0);

@@ -28,8 +28,8 @@ public class View extends AbstractView implements RawInputObservable {
     private List<RawInputObserver> rawObservers;
     private List<int[]> validCoordinates;
 
-    public View(String playerName) {
-        modelRepresentation = new ModelRepresentation();
+    public View(String playerName, ModelRepresentation modelRepresentation) {
+        this.modelRepresentation = modelRepresentation;
         playerID = 0;
         this.playerName = playerName;
         rawObservers = new ArrayList<>();
@@ -59,25 +59,6 @@ public class View extends AbstractView implements RawInputObservable {
         if (playerID == message.getPlayerID())
             System.out.println("It's your turn!");
         updateMR(message);
-    }
-
-    public void visit(MVTC6Message message) {
-        if(playerID == message.getPlayerID()){
-            String m = message.getMessage();
-            if(m.startsWith("Not")){
-                System.out.println(message.getMessage());
-            }
-            else{
-                validCoordinates = message.getValidCoordinates();
-                System.out.println("Valid coordinates: ");
-
-                for(int i = 0; i < validCoordinates.size(); i++){
-                    int[] temp = validCoordinates.get(i);
-                    System.out.println((i + 1) + ": " + temp[0] + ", " + temp[1]);
-                }
-                rawNotify(new RawUnrequestedMessage("ToolCard 20"));
-            }
-        }
     }
 
     public void getCoordIndex(){
@@ -149,7 +130,7 @@ public class View extends AbstractView implements RawInputObservable {
         } while (choice < 1 || choice > 4);
         int chosenID = possibleWPCs[choice - 1];
         chosen = wpcGenerator.getWPC(chosenID);
-        modelRepresentation.setWpcs(playerID, chosen.toString());
+        modelRepresentation.setWpcs(playerID, chosen);
         notify(new VCSetUpMessage(playerID, chosenID));
     }
 
@@ -176,6 +157,24 @@ public class View extends AbstractView implements RawInputObservable {
             getCoordinates("Insert the coordinates of the Die to move. ");
             getCoordinates("Insert the coordinates of the recipient cell. ");
 
+        }
+    }
+
+    public void getValidCoordinates(List<int[]> validCoordinates){
+        Scanner in = new Scanner(System.in);
+        for(int i = 0; i < validCoordinates.size(); i++) {
+            int[] temp = validCoordinates.get(i);
+            System.out.println((i+1) + ": " + temp[0] + temp[1]);
+        }
+        if(validCoordinates.isEmpty()){
+            System.out.println("Die not placeable. ");
+        }
+        else {
+            System.out.println("Select valid coordinates. ");
+            int chosen = in.nextInt();
+            int[] temp = validCoordinates.get(chosen - 1);
+            rawNotify(new RawRequestedMessage(temp[0]));
+            rawNotify(new RawRequestedMessage(temp[1]));
         }
     }
 
@@ -251,7 +250,7 @@ public class View extends AbstractView implements RawInputObservable {
     }
 
     public void showMyBoard(){
-        String myBoard = modelRepresentation.getWpcs(playerID);
+        String myBoard = modelRepresentation.getWpc(playerID).toString();
         System.out.println(myBoard);
     }
 
@@ -259,7 +258,7 @@ public class View extends AbstractView implements RawInputObservable {
         int id;
         for(id=1; id <= modelRepresentation.getNumPlayers(); id++){
             if(id!=playerID){
-                String board = modelRepresentation.getWpcs(id);
+                String board = modelRepresentation.getWpc(id).toString();
                 System.out.println(board);
             }
         }
