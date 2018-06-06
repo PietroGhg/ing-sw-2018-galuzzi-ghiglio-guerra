@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
 
     private static FluxRemover instance;
-    private FluxRemover(){};
+    private FluxRemover(){}
     public static FluxRemover getInstance(){
         if (instance==null) instance = new FluxRemover();
         return instance;
@@ -45,6 +45,7 @@ public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
         temp.setDieValue(dieValue);
         dp.remove(dpIndex);
 
+        //TODO: not sure
         db.add(temp);
         Die newDie = db.get(dbIndex);
 

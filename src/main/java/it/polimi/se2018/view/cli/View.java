@@ -77,6 +77,7 @@ public class View extends AbstractView implements RawInputObservable {
         modelRepresentation.setRoundTrack(message.getRoundTrack());
         modelRepresentation.setDraftPool(message.getDraftPool());
         modelRepresentation.setWpcs(message.getWpcs());
+        modelRepresentation.setDiceBag(message.getDiceBag());
 
         synchronized (lock) {
             inputLoop = true;
@@ -150,8 +151,8 @@ public class View extends AbstractView implements RawInputObservable {
     public void getCoordinates2() {
 
         System.out.println("Insert another die? [yes/no]");
-        Scanner Input = new Scanner(System.in);
-        String answer = Input.nextLine();
+        Scanner input = new Scanner(System.in);
+        String answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
             getCoordinates("Insert the coordinates of the Die to move. ");
@@ -164,14 +165,17 @@ public class View extends AbstractView implements RawInputObservable {
         Scanner in = new Scanner(System.in);
         for(int i = 0; i < validCoordinates.size(); i++) {
             int[] temp = validCoordinates.get(i);
-            System.out.println((i+1) + ": " + temp[0] + temp[1]);
+            System.out.println((i+1) + ": " + temp[0] + ", " + temp[1]);
         }
         if(validCoordinates.isEmpty()){
             System.out.println("Die not placeable. ");
         }
         else {
             System.out.println("Select valid coordinates. ");
-            int chosen = in.nextInt();
+            int chosen;
+            do {
+                chosen = in.nextInt();
+            }while(!(chosen>=1 && chosen <= validCoordinates.size()));
             int[] temp = validCoordinates.get(chosen - 1);
             rawNotify(new RawRequestedMessage(temp[0]));
             rawNotify(new RawRequestedMessage(temp[1]));
@@ -208,8 +212,7 @@ public class View extends AbstractView implements RawInputObservable {
 
     }
 
-    public void newDieValue(String s) {
-        System.out.println(s);
+    public void newDieValue() {
         System.out.println("Insert new Value");
         Scanner Input = new Scanner(System.in);
         int value;

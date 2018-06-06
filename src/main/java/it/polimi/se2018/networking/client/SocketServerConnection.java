@@ -2,6 +2,7 @@ package it.polimi.se2018.networking.client;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
+import it.polimi.se2018.view.MVGameMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,10 +29,10 @@ public class SocketServerConnection extends ServerConnection {
         }
     }
 
-    //synchronized ??
     public void send(VCAbstractMessage message){
         //sends the message
         try {
+            objectOutputStream.reset();
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
         }
@@ -48,7 +49,7 @@ public class SocketServerConnection extends ServerConnection {
         MVAbstractMessage message;
         while(loop){
             try{
-                message = (MVAbstractMessage)objectInputStream.readObject();
+                message = (MVAbstractMessage)objectInputStream.readUnshared();
                 notify(message);
             }
             catch(IOException|ClassNotFoundException e){

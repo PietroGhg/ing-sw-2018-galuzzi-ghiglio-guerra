@@ -35,7 +35,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
     private void parseString(String playerInput){
         String error = "error while loading";
-        if(playerInput.startsWith("ToolCard" )){
+        if(playerInput.startsWith("toolcard" )){
             String[] temp = playerInput.split(" ");
             int toolCardID = Integer.parseInt(temp[1]);
             //check che toolcardid è tra 1 e 12
@@ -50,6 +50,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
                 view.getDraftPoolIndex();
                 cardElevenAction();
+                view.notifyController(message);
             }
             else{
                 try {
@@ -166,13 +167,11 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         int index = modelRep.getRandomIndex();
         message.addParameter(index);
         Die d = modelRep.getDieFromDBag(index);
-        view.displayMessage("Extracted die: " + d.toString());
-        view.newDieValue("Insert new die value");
-
+        view.displayMessage("Extracted a " + d.getDieColour().letter() + " die: ");
+        view.newDieValue();
+        d.setDieValue(message.getParameters().get(2));
         //checks placeability
         checkPlaceability(d);
-
-
     }
 
     private void checkPlaceability(Die d){

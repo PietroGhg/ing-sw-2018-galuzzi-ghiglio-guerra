@@ -39,7 +39,7 @@ public class SocketClientConnection extends ClientConnection {
 
         while(loop){
             try{
-                message = (VCAbstractMessage) objectInputStream.readObject();
+                message = (VCAbstractMessage) objectInputStream.readUnshared();
                 notify(message);
             }
             catch(IOException|ClassNotFoundException e){
@@ -60,6 +60,7 @@ public class SocketClientConnection extends ClientConnection {
     public void send(MVAbstractMessage message){
         //send the message
         try {
+            objectOutputStream.reset();
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
         }

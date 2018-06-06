@@ -58,24 +58,15 @@ public class Controller implements Observer<VCAbstractMessage> {
             checkTurn(message);
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             model.setParameters(message);
-            if(toolcardID != 6 && toolcardID != 11) {
-                toolCardFactory.get(toolcardID).cardAction(model.getParameters());
-                model.setToolCardUsed();
-                model.setGameMessage("Success.", playerID);
-            }
-            else {
-                toolCardFactory.get(toolcardID).cardAction(model.getParameters());
-            }
+
+            toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+            model.setToolCardUsed();
+            model.setGameMessage("Success.", playerID);
+
         }
         catch (MoveNotAllowedException|InputNotValidException e) {
             model.setGameMessage(e.getMessage(), playerID);
         }
-        /*catch (ToolCard6Exception e){
-            model.setTC6Message(message.getPlayerID());
-        }
-        catch (ToolCard11Exception e) {
-            model.setTC11Exception(message.getPlayerID());
-        }*/
     }
 
     /*package private*/ void visit(VCDieMessage message){
@@ -117,7 +108,7 @@ public class Controller implements Observer<VCAbstractMessage> {
 
     /**
      * Usual die moving
-     * @param parameters
+     * @param parameters the move's parameters
      * @throws MoveNotAllowedException if any of the restrictions is violated
      * @author Leonardo Guerra
      */

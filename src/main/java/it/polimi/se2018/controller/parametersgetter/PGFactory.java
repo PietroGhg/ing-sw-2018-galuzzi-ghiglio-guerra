@@ -34,7 +34,6 @@ public class PGFactory{
                 pg = new AskRTPosition(pg);
                 return pg;
             case(6):
-                pg = justDP(pg);
                 return pg;
             case(7):
                 return pg;
@@ -45,14 +44,13 @@ public class PGFactory{
             case(10):
                 return dpThenDie(pg);
             case(11):
-                return justDP(pg);
+                return pg;
             case(12):
                 pg = new AskCoordinates(pg, "Insert the RoundTrack position");
                 pg = new AskCoordinates(pg, "Insert the coordinates of the Die to move. ");
                 pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
                 pg = new AskCoordinates2(pg);
                 return pg;
-            //case(): return new ParameterGetterTC11pt2();
 
 
 

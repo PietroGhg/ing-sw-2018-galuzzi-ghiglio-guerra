@@ -5,6 +5,7 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.Objects;
 
 import static it.polimi.se2018.model.Die.prettyDie;
 
-public class WPC { //WindowPatternCard
-    public final static int NUMROW = 4;
-    public final static int NUMCOL = 5;
+public class WPC implements Serializable{ //WindowPatternCard
+    public static final int NUMROW = 4;
+    public static final int NUMCOL = 5;
     private Cell[][] board;
     private int favorTokens;
     private String name;

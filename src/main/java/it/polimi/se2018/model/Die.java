@@ -2,10 +2,11 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Die {
+public class Die implements Serializable {
     private Integer value;
     private Colour colour;
 

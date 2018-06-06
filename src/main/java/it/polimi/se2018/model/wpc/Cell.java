@@ -3,9 +3,10 @@ package it.polimi.se2018.model.wpc;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cell {
+public class Cell implements Serializable {
     private Die die;
     private Colour colourRestriction;
     private Integer valueRestriction;
