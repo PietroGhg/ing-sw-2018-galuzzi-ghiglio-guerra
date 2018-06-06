@@ -33,10 +33,11 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
         rc.checkEnoughFavorTokens(player,instance);
 
         //Checks if the current is the first turn of the player
+        // TODO: controllo che ne sia la fine (?)
         if(param.turnNumber(param.getPlayer().getPlayerID())==2)
         { throw new MoveNotAllowedException("Error: this card can be played in the first turn only."); }
 
-        /* far saltare il secondo turno */
+        /* TODO: far saltare il secondo turno */
 
         int dpIndex = param.getParameter(0);
         int cellRow = param.getParameter(1);

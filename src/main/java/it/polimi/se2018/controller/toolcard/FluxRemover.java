@@ -5,6 +5,8 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
+import it.polimi.se2018.model.table.Model;
+import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
 
@@ -31,16 +33,33 @@ public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
+        // 0: dpIndex, 1: dbIndex, 2: dieValue
+        // eventually, 3: RowCell, 4: ColCell
         int dpIndex = param.getParameter(0);
+        int dbIndex = param.getParameter(1);
+        int dieValue = param.getParameter(2);
+
         ArrayList<Die> dp = param.getDraftPool();
+        ArrayList<Die> db = param.getDiceBag();
         Die temp = new Die(dp.get(dpIndex));
-        temp.setDieValue(null);
+        temp.setDieValue(dieValue);
         dp.remove(dpIndex);
-        //Rimettere il dado nella DiceBag
-        //Pescare un altro dado dalla DiceBag
-        Die d = new Die(); //dalla DiceBag
-        d.roll();
-        //Chiedere se vuole metterlo nella DraftPool (e finisce) o se vuole piazzarlo (chiamare FluxRemover2)
+
+        db.add(temp);
+        Die newDie = db.get(dbIndex);
+
+        if(param.getParameters().size()==5){
+            int rowCell = param.getParameter(3);
+            int colCell = param.getParameter(4);
+            WPC tempWpc = new WPC(player.getWpc());
+
+            //restriction already checked
+            tempWpc.setDie(rowCell,colCell,newDie);
+            player.setWpc(tempWpc);
+        }
+        else {
+            dp.add(newDie);
+        }
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

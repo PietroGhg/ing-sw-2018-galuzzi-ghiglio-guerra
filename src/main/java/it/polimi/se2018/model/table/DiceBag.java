@@ -21,6 +21,10 @@ public class DiceBag {
         }
     }
 
+    public ArrayList<Die> getDiceBag() { return bag; }
+
+    public void setDiceBag(ArrayList<Die> bag) { this.bag = bag; }
+
     public static DiceBag getInstance() {
         if(instance == null) instance = new DiceBag();
         return instance;
@@ -44,9 +48,7 @@ public class DiceBag {
         return random.nextInt(bag.size());
     }
 
-    public Die getDie(int index){
-        return bag.get(index);
-    }
+    public Die getDie(int index){ return bag.get(index); }
 
     public void removeDie(int index){
         bag.remove(index);

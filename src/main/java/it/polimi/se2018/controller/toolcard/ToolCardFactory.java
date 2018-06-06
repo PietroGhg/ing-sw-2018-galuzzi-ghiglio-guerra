@@ -17,6 +17,7 @@ public class ToolCardFactory {
             case(10): return GrindingStone.getInstance();
             case(11): return FluxRemover.getInstance();
             case(12): return TapWheel.getInstance();
+            //TODO: delete this
             case(20): return FluxBrush2.getInstance();
             default: throw new InputNotValidException();
         }

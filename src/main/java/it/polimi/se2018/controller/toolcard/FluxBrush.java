@@ -43,10 +43,18 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         param.getDraftPool().remove(dpIndex);
 
         List<int[]> validCoordinates = wpc.isPlaceable(temp);
+        if (validCoordinates.isEmpty()){
+            param.getDraftPool().add(temp);
+        }
+        else {
+            int rowCell = param.getParameter(1);
+            int colCell = param.getParameter(2);
+            WPC tempWpc = player.getWpc();
 
-
-
-
+            //restrictions already checked
+            tempWpc.setDie(rowCell,colCell,temp);
+            player.setWpc(tempWpc);
+        }
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1) {

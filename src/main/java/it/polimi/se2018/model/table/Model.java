@@ -53,6 +53,10 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public ArrayList<ArrayList<Die>> getRoundTrack(){ return roundTrack.getRT(); }
 
+    public ArrayList<Die> getDiceBag() { return diceBag.getDiceBag(); }
+
+    public void setDiceBag(ArrayList<Die> bag) { diceBag.setDiceBag(bag); }
+
     public int[][] getRoundMatrix() { return roundTrack.getRoundMatrix(); }
 
     public int getPlayersNumber() { return players.size(); }

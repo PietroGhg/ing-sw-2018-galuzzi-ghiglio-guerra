@@ -66,7 +66,7 @@ public class RestrictionChecker {
      * @param row coordinates of the cell
      * @param col coordinates of the cell
      * @throws MoveNotAllowedException if there's at least one adjacent die
-     * @author Leonardo Guerra
+     * @author Leonardo Guerra, Pietro Ghiglio
      */
     public void checkNotAdjacent(WPC wpc, int row, int col) throws MoveNotAllowedException{
         try{

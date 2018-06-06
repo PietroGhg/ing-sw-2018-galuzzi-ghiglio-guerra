@@ -40,6 +40,10 @@ public class PlayerMoveParameters {
 
     public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack) { model.setRoundTrack(roundTrack); }
 
+    public ArrayList<Die> getDiceBag () {return model.getDiceBag(); }
+
+    public void setDiceBag(ArrayList<Die> bag) { model.setDiceBag(bag); }
+
     public int turnNumber(int playerID){ return model.turnNumber(playerID); }
 
     public void addParameter(int i){ parameters.add(i); }

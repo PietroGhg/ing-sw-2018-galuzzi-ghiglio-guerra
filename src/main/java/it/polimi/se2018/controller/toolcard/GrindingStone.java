@@ -42,9 +42,6 @@ public class GrindingStone implements ToolCard{   //Tampone Diamantato
         //Flip the die to its opposite side
         dp.get(dpIndex).setOppositeDieValue();
 
-        /*
-        Non è richiesto, ma è sottinteso che poi il dado vada piazzato:
-        */
         //move the die from the DraftPool to the board
         Die temp = new Die(param.getDraftPool().get(dpIndex));
         //Restriction check, adjacency restriction not checked
