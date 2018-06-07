@@ -1,11 +1,14 @@
 package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.networking.client.SocketServerConnection;
 import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.MVWelcomeBackMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the ClientConnection class
@@ -15,12 +18,13 @@ public class SocketClientConnection extends ClientConnection {
     private Socket socket;
     private Server server;
     private String playerName;
+    private Logger LOGGER = Logger.getLogger(SocketClientConnection.class.getName());
 
     private ObjectInputStream objectInputStream;
 
     private ObjectOutputStream objectOutputStream;
 
-    public SocketClientConnection(Socket socket, Server server){
+    SocketClientConnection(Socket socket, Server server){
         this.server = server;
         this.socket = socket;
         try{
@@ -28,7 +32,7 @@ public class SocketClientConnection extends ClientConnection {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -44,7 +48,7 @@ public class SocketClientConnection extends ClientConnection {
                 notify(message);
             }
             catch(IOException|ClassNotFoundException e){
-                System.out.println(playerName + " disconnected");
+                LOGGER.log(Level.INFO, playerName + " disconnected");
                 server.detachClient(playerName);
                 loop = false;
             }
@@ -53,7 +57,7 @@ public class SocketClientConnection extends ClientConnection {
             socket.close();
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -66,7 +70,7 @@ public class SocketClientConnection extends ClientConnection {
             objectOutputStream.flush();
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 

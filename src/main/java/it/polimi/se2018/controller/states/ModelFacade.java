@@ -5,8 +5,6 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.table.Model;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * This class acts as a facade of the model passed as parameter to the State's methods.

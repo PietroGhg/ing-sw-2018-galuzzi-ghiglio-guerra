@@ -7,6 +7,8 @@ public class AskCoordinates extends PGDecorator {
     public AskCoordinates(ParameterGetter pg, String s){
         super(pg, s);
     }
+
+    @Override
     public void getParameters(View view){
         pg.getParameters(view);
         view.getCoordinates(s);

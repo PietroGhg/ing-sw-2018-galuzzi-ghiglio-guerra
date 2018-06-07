@@ -6,6 +6,7 @@ import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
+import it.polimi.se2018.utils.Printer;
 import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
@@ -14,11 +15,13 @@ import it.polimi.se2018.view.*;
 
 import java.util.*;
 
+
 /* Manages interrogation to be asked the user
  *@author Andrea Galuzzi
  */
 
 public class View extends AbstractView implements RawInputObservable {
+    private Printer out = new Printer();
     private String playerName;
     private ModelRepresentation modelRepresentation;
     private boolean gameLoop;
@@ -41,7 +44,7 @@ public class View extends AbstractView implements RawInputObservable {
 
     public void visit(MVGameMessage message) {
         if (playerID == message.getPlayerID()) {
-            System.out.println(message.getMessage());
+            out.println(message.getMessage());
             updateMR(message);
         } else {
             updateMR(message);
@@ -50,14 +53,14 @@ public class View extends AbstractView implements RawInputObservable {
 
     public void visit(MVStartGameMessage message) {
         if (playerID == message.getPlayerID())
-            System.out.println("It's your turn!");
+            out.println("It's your turn!");
         updateMR(message);
         inputThread.start();
     }
 
     public void visit(MVNewTurnMessage message) {
         if (playerID == message.getPlayerID())
-            System.out.println("It's your turn!");
+            out.println("It's your turn!");
         updateMR(message);
     }
 
@@ -65,7 +68,7 @@ public class View extends AbstractView implements RawInputObservable {
         Scanner input = new Scanner(System.in);
         int i;
         do{
-            System.out.println("Select coordinates: ");
+            out.println("Select coordinates: ");
             i = input.nextInt();
         }while(!(i>=1 && i <= validCoordinates.size()));
         int[] temp = validCoordinates.get(i);
@@ -89,7 +92,7 @@ public class View extends AbstractView implements RawInputObservable {
     public void visit(MVSetUpMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
-            System.out.println("You have been assigned the id: " + playerID);
+            out.println("You have been assigned the id: " + playerID);
             modelRepresentation.setPrCards(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
             chooseWpc(message.getIDs());
@@ -102,13 +105,13 @@ public class View extends AbstractView implements RawInputObservable {
             updateMR(message);
             inputThread.start();
         } else {
-            System.out.println(message.getMessage());
+            out.println(message.getMessage());
         }
     }
 
     public void visit(MVTimesUpMessage message) {
         if(message.getPlayerID() == playerID){
-            System.out.println("Time's up. End of your turn.");
+            out.println("Time's up. End of your turn.");
         }
     }
 
@@ -116,18 +119,18 @@ public class View extends AbstractView implements RawInputObservable {
 
     private void chooseWpc(int[] possibleWPCs) {
         int i;
-        int choice = 0;
+        int choice;
         WpcGenerator wpcGenerator = new WpcGenerator();
         WPC chosen;
         Scanner in = new Scanner(System.in);
 
         for (i = 0; i < 4; i++) {
             WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
-            System.out.println(i + 1 + ":\n" + temp.toString());
+            out.println(i + 1 + ":\n" + temp.toString());
         }
 
         do {
-            System.out.println("Choose wpc number (Form 1 to 4)");
+            out.println("Choose wpc number (Form 1 to 4)");
             choice = in.nextInt();
         } while (choice < 1 || choice > 4);
         int chosenID = possibleWPCs[choice - 1];
@@ -138,20 +141,20 @@ public class View extends AbstractView implements RawInputObservable {
 
 
     public void getCoordinates(String s) {
-        System.out.println(s);
-        System.out.println("Insert row number");
-        Scanner Input = new Scanner(System.in);
-        int row = Input.nextInt();
+        out.println(s);
+        out.println("Insert row number");
+        Scanner input = new Scanner(System.in);
+        int row = input.nextInt();
         rawNotify(new RawRequestedMessage(row));
 
-        System.out.println("Insert column number ");
-        int column = Input.nextInt();
+        out.println("Insert column number ");
+        int column = input.nextInt();
         rawNotify(new RawRequestedMessage(column));
     }
 
     public void getCoordinates2() {
 
-        System.out.println("Insert another die? [yes/no]");
+        out.println("Insert another die? [yes/no]");
         Scanner input = new Scanner(System.in);
         String answer = input.nextLine();
 
@@ -166,13 +169,13 @@ public class View extends AbstractView implements RawInputObservable {
         Scanner in = new Scanner(System.in);
         for(int i = 0; i < validCoordinates.size(); i++) {
             int[] temp = validCoordinates.get(i);
-            System.out.println((i+1) + ": " + temp[0] + ", " + temp[1]);
+            out.println((i+1) + ": " + temp[0] + ", " + temp[1]);
         }
         if(validCoordinates.isEmpty()){
-            System.out.println("Die not placeable. ");
+            out.println("Die not placeable. ");
         }
         else {
-            System.out.println("Select valid coordinates. ");
+            out.println("Select valid coordinates. ");
             int chosen;
             do {
                 chosen = in.nextInt();
@@ -184,7 +187,7 @@ public class View extends AbstractView implements RawInputObservable {
     }
 
     public void getIncrement() {
-        System.out.println("Increas or decrease? \n[Increase: 1, Decrease: -1]");
+        out.println("Increas or decrease? \n[Increase: 1, Decrease: -1]");
         Scanner input = new Scanner(System.in);
         int value = input.nextInt();
         rawNotify(new RawRequestedMessage(value));
@@ -192,7 +195,7 @@ public class View extends AbstractView implements RawInputObservable {
 
 
     public void getDraftPoolIndex() {
-        System.out.println("Insert DraftPool Index");
+        out.println("Insert DraftPool Index");
         Scanner input = new Scanner(System.in);
         int index = input.nextInt();
         rawNotify(new RawRequestedMessage(index));
@@ -201,30 +204,30 @@ public class View extends AbstractView implements RawInputObservable {
     }
 
     public void getRoundTrackPosition(String s) {
-        System.out.println(s);
-        System.out.println("Insert Round number");
-        Scanner Input = new Scanner(System.in);
-        int roundNumber = Input.nextInt();
+        out.println(s);
+        out.println("Insert Round number");
+        Scanner input = new Scanner(System.in);
+        int roundNumber = input.nextInt();
         rawNotify(new RawRequestedMessage(roundNumber));
 
-        System.out.println("Insert Die number");
-        int dieNumber = Input.nextInt();
+        out.println("Insert Die number");
+        int dieNumber = input.nextInt();
         rawNotify(new RawRequestedMessage(dieNumber));
 
     }
 
     public void newDieValue() {
-        System.out.println("Insert new Value");
-        Scanner Input = new Scanner(System.in);
+        out.println("Insert new Value");
+        Scanner input = new Scanner(System.in);
         int value;
         do {
-            value = Input.nextInt();
+            value = input.nextInt();
         }while(!(value>=1 && value <=6));
         rawNotify(new RawRequestedMessage(value));
     }
 
     public void displayMessage(String message) {
-        System.out.println(message);
+        out.println(message);
     }
 
     public void notifyController(VCAbstractMessage message) {
@@ -242,23 +245,13 @@ public class View extends AbstractView implements RawInputObservable {
         }
     }
 
-    public void getMove() {
-        System.out.println("Insert command");
-        Scanner input = new Scanner(System.in);
-        String move = input.nextLine();
-        rawNotify(new RawUnrequestedMessage(move));
-
-    }
-
-
-
     public void showRoundTrack(){
-        System.out.println(modelRepresentation.getRoundTrack());
+        out.println(modelRepresentation.getRoundTrack());
     }
 
     public void showMyBoard(){
         String myBoard = modelRepresentation.getWpc(playerID).toString();
-        System.out.println(myBoard);
+        out.println(myBoard);
     }
 
     public void showBoards(){
@@ -266,14 +259,14 @@ public class View extends AbstractView implements RawInputObservable {
         for(id=1; id <= modelRepresentation.getNumPlayers(); id++){
             if(id!=playerID){
                 String board = modelRepresentation.getWpc(id).toString();
-                System.out.println(board);
+                out.println(board);
             }
         }
 
     }
 
     public void showDraftPool(){
-        System.out.println(modelRepresentation.getDraftPool());
+        out.println(modelRepresentation.getDraftPool());
 
     }
 
@@ -308,6 +301,13 @@ public class View extends AbstractView implements RawInputObservable {
                     Thread.currentThread().interrupt();
                 }
             }
+        }
+
+        private void getMove() {
+            out.println("Insert command");
+            Scanner input = new Scanner(System.in);
+            String move = input.nextLine();
+            rawNotify(new RawUnrequestedMessage(move));
         }
     }
 

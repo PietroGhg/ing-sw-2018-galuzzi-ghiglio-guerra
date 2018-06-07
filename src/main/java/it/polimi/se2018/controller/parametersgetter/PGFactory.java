@@ -7,16 +7,22 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 
 
 public class PGFactory{
+    private static final String GET_CELL_COORD = "Insert the coordinates of the recipient cell. ";
+    private static final String GET_DIE_COORD = "Insert the coordinates of the Die to move. ";
+    private ParameterGetter pg2;
+    private ParameterGetter pg3;
 
 
     public ParameterGetter get(int id) throws InputNotValidException {
         ParameterGetter pg = new ParameterGetter();
+        ParameterGetter pg4;
+        ParameterGetter pg5;
         switch (id) {
             case(1):
                 pg = new AskDPIndex(pg);
-                pg = new AskIncrement(pg);
-                pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
-                return pg;
+                pg2 = new AskIncrement(pg);
+                pg3 = new AskCoordinates(pg2, GET_CELL_COORD);
+                return pg3;
             case(2):
                 return moveDie(pg);
 
@@ -24,15 +30,15 @@ public class PGFactory{
                 return moveDie(pg);
             case(4):
                 pg = new ParameterGetter();
-                pg = new AskCoordinates(pg, "Insert the coordinates of the first Die to move. ");
-                pg = new AskCoordinates(pg, "Insert the coordinates of the first recipient cell. ");
-                pg = new AskCoordinates(pg, "Insert the coordinates of the second Die to move. ");
-                pg = new AskCoordinates(pg, "Insert the coordinates of the second recipient cell. ");
-                return pg;
+                pg2 = new AskCoordinates(pg, "Insert the coordinates of the first Die to move. ");
+                pg3 = new AskCoordinates(pg2, "Insert the coordinates of the first recipient cell. ");
+                pg4 = new AskCoordinates(pg3, "Insert the coordinates of the second Die to move. ");
+                pg5 = new AskCoordinates(pg4, "Insert the coordinates of the second recipient cell. ");
+                return pg5;
             case(5):
                 pg = new AskDPIndex(pg);
-                pg = new AskRTPosition(pg);
-                return pg;
+                pg2 = new AskRTPosition(pg);
+                return pg2;
             case(6):
                 return pg;
             case(7):
@@ -47,10 +53,10 @@ public class PGFactory{
                 return pg;
             case(12):
                 pg = new AskCoordinates(pg, "Insert the RoundTrack position");
-                pg = new AskCoordinates(pg, "Insert the coordinates of the Die to move. ");
-                pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
-                pg = new AskCoordinates2(pg);
-                return pg;
+                pg2 = new AskCoordinates(pg, GET_DIE_COORD);
+                pg3 = new AskCoordinates(pg2, GET_CELL_COORD);
+                pg4 = new AskCoordinates2(pg3);
+                return pg4;
 
 
 
@@ -59,21 +65,16 @@ public class PGFactory{
     }
 
     private ParameterGetter moveDie(ParameterGetter pg){
-        pg = new ParameterGetter();
-        pg = new AskCoordinates(pg, "Insert the coordinates of the Die to move. ");
-        pg = new AskCoordinates(pg, "Insert the coordinates of the recipient cell. ");
+        pg2 = new AskCoordinates(pg, GET_DIE_COORD);
+        pg3 = new AskCoordinates(pg, GET_CELL_COORD);
         return pg;
     }
 
     private ParameterGetter dpThenDie(ParameterGetter pg){
         pg = new AskDPIndex(pg);
-        pg = new AskCoordinates(pg,"Insert the coordinates of the Die to move. ");
+        pg = new AskCoordinates(pg,GET_DIE_COORD);
         return pg;
     }
 
-    private ParameterGetter justDP(ParameterGetter pg){
-        pg = new AskDPIndex(pg);
-        return pg;
-    }
 }
 

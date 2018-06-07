@@ -8,6 +8,7 @@ public class AskCoordIndex extends PGDecorator {
         super(pg, "");
     }
 
+    @Override
     public void getParameters(View view){
         view.getCoordIndex();
     }

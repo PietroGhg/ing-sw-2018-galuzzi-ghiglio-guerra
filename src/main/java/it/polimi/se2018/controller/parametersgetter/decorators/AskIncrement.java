@@ -8,6 +8,7 @@ public class AskIncrement extends PGDecorator {
         super(pg, "");
     }
 
+    @Override
     public void getParameters(View view){
         pg.getParameters(view);
         view.getIncrement();

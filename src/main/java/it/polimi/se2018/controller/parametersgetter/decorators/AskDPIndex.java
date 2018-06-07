@@ -8,6 +8,7 @@ public class AskDPIndex extends PGDecorator {
         super(pg, "Insert Draft Pool index.");
     }
 
+    @Override
     public void getParameters(View view){
         pg.getParameters(view);
         view.getDraftPoolIndex();

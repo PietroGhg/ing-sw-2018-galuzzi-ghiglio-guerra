@@ -6,7 +6,6 @@ import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**

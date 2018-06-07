@@ -6,26 +6,27 @@ import it.polimi.se2018.view.MVGameMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the ServerConnection class
  * @author Pietro Ghiglio
  */
 public class SocketServerConnection extends ServerConnection {
-    private Socket socket;
-
     private ObjectOutputStream objectOutputStream;
 
     private ObjectInputStream objectInputStream;
 
-    public SocketServerConnection(Socket socket){
-        this.socket = socket;
+    private static final Logger LOGGER = Logger.getLogger(SocketServerConnection.class.getName());
+
+    SocketServerConnection(Socket socket){
         try{
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -37,7 +38,7 @@ public class SocketServerConnection extends ServerConnection {
             objectOutputStream.flush();
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
     }
@@ -53,7 +54,7 @@ public class SocketServerConnection extends ServerConnection {
                 notify(message);
             }
             catch(IOException|ClassNotFoundException e){
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.getMessage());
                 loop = false;
             }
         }
