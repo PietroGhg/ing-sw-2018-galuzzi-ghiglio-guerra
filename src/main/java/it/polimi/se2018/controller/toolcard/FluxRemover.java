@@ -42,11 +42,13 @@ public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
         ArrayList<Die> dp = param.getDraftPool();
         ArrayList<Die> db = param.getDiceBag();
         Die temp = new Die(dp.get(dpIndex));
-        temp.setDieValue(dieValue);
         dp.remove(dpIndex);
 
         db.add(temp);
+
         Die newDie = db.get(dbIndex);
+        newDie.setDieValue(dieValue);
+        db.remove(dbIndex);
 
         if(param.getParameters().size()==5){
             int rowCell = param.getParameter(3);
