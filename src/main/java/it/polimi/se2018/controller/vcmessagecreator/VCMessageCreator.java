@@ -84,8 +84,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             if (toShow.equalsIgnoreCase("roundtrack")) {
                 view.showRoundTrack();
             }
-
-            if (toShow.equalsIgnoreCase("myboard")) {
+            else if (toShow.equalsIgnoreCase("myboard")) {
                 view.showMyBoard();
             } else if (toShow.equalsIgnoreCase("boards")) {
                 view.showBoards();

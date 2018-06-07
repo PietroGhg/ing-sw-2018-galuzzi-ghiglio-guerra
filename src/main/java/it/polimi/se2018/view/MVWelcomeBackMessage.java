@@ -1,7 +1,6 @@
 package it.polimi.se2018.view;
 
 public class MVWelcomeBackMessage extends MVGameMessage {
-    String message;
     String playerName;
 
     public MVWelcomeBackMessage(int playerID, String playerName, String message){
@@ -9,13 +8,11 @@ public class MVWelcomeBackMessage extends MVGameMessage {
         this.playerName = playerName;
     }
 
+    @Override
     public void accept(AbstractView view){ view.visit(this); }
 
     public String getPlayerName() {
         return playerName;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }

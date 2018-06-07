@@ -2,6 +2,7 @@ package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.view.MVAbstractMessage;
+import it.polimi.se2018.view.MVWelcomeBackMessage;
 
 import java.io.*;
 import java.net.Socket;

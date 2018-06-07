@@ -99,6 +99,7 @@ public class View extends AbstractView implements RawInputObservable {
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
+            updateMR(message);
             inputThread.start();
         } else {
             System.out.println(message.getMessage());
@@ -252,7 +253,7 @@ public class View extends AbstractView implements RawInputObservable {
 
 
     public void showRoundTrack(){
-        System.out.println(modelRepresentation.getDraftPool());
+        System.out.println(modelRepresentation.getRoundTrack());
     }
 
     public void showMyBoard(){
