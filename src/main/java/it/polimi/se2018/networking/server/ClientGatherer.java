@@ -10,6 +10,8 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The client gatherer waits for incoming connections and calls the addClient method from the Server
@@ -17,7 +19,7 @@ import java.util.Scanner;
  */
 public class ClientGatherer extends Thread {
     private final Server server;
-    private int port;
+    private static final Logger LOGGER = Logger.getLogger(ClientGatherer.class.getName());
     private ServerSocket serverSocket;
     private Controller controller;
     private PrintStream out;
@@ -28,16 +30,15 @@ public class ClientGatherer extends Thread {
      * @param server the server
      * @param port port number
      */
-    public ClientGatherer(Server server, int port, Controller controller){
+    ClientGatherer(Server server, int port, Controller controller){
         this.server = server;
-        this.port = port;
         this.controller = controller;
 
         try{
             this.serverSocket = new ServerSocket(port);
         }
         catch (IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -76,7 +77,7 @@ public class ClientGatherer extends Thread {
                 }
             }
             catch(IOException e){
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
         }
     }

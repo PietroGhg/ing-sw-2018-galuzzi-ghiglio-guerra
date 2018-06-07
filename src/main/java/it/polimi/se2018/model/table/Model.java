@@ -295,6 +295,8 @@ public class Model extends Observable<MVAbstractMessage> {
         message.setDraftPool(draftPool);
         //set up roundtrack
         message.setRoundTrack(roundTrack.toString());
+
+        message.setDiceBag(diceBag);
     }
 
     public void setMVTimesUpMessage(){

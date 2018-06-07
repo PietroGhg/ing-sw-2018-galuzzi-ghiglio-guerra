@@ -3,10 +3,12 @@ package it.polimi.se2018.model.table;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DiceBag {
+public class DiceBag implements Serializable{
     private ArrayList<Die> bag;
     private final int DICETOTAL = 90;
     private static DiceBag instance;
@@ -16,7 +18,7 @@ public class DiceBag {
         bag = new ArrayList<>();
         for(Colour c : Colour.values()){
             for(int i = 0; i < DICETOTAL/Colour.values().length; i++){
-                bag.add(new Die(c));
+                bag.add(new Die(0,c));
             }
         }
     }
@@ -56,5 +58,13 @@ public class DiceBag {
 
     public static void resetInstance(){
         instance = new DiceBag();
+    }
+
+    /**
+     * Method needed to allow correct deserialization of a Singleton
+     * @return the instance
+     */
+    public Object readResolve() throws ObjectStreamException{
+        return getInstance();
     }
 }

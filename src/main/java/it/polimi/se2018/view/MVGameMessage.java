@@ -2,6 +2,7 @@ package it.polimi.se2018.view;
 
 
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class MVGameMessage extends MVAbstractMessage {
     private String roundTrack;
     private List<Die> draftPool;
     private Map<Integer, WPC> wpcs;
+    private DiceBag diceBag;
 
     public MVGameMessage(String message, int playerID){
         this.message = message;
@@ -51,4 +53,12 @@ public class MVGameMessage extends MVAbstractMessage {
     }
 
     public Map<Integer, WPC> getWpcs() { return wpcs; }
+
+    public DiceBag getDiceBag() {
+        return diceBag;
+    }
+
+    public void setDiceBag(DiceBag diceBag) {
+        this.diceBag = diceBag;
+    }
 }

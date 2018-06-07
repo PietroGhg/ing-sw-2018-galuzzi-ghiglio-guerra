@@ -39,7 +39,7 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
         //Generation of a random value
 
         Die temp = param.getDraftPool().get(dpIndex);
-        temp.roll();
+        temp.setDieValue(param.getParameter(1));
         param.getDraftPool().remove(dpIndex);
 
         List<int[]> validCoordinates = wpc.isPlaceable(temp);
@@ -47,8 +47,8 @@ public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
             param.getDraftPool().add(temp);
         }
         else {
-            int rowCell = param.getParameter(1);
-            int colCell = param.getParameter(2);
+            int rowCell = param.getParameter(2);
+            int colCell = param.getParameter(3);
             WPC tempWpc = player.getWpc();
 
             //restrictions already checked

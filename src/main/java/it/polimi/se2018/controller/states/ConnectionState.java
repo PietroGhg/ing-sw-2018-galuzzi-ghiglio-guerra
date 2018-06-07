@@ -7,6 +7,8 @@ import it.polimi.se2018.model.table.Model;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * ConnectionState acts as a game lobby, while in this state, players can connect and disconnect freely
@@ -15,6 +17,7 @@ import java.util.TimerTask;
  * @author Pietro Ghiglio
  */
 public class ConnectionState implements State{
+    private static final Logger LOGGER = Logger.getLogger(ConnectionState.class.getName());
     public void handleRequest(String playerName, ModelFacade model) throws UserNameTakenException{
         ArrayList<String> playerNames = (ArrayList<String>)model.getPlayerNames();
 
@@ -24,14 +27,13 @@ public class ConnectionState implements State{
 
     public void handleDisconnection(String playerName, ModelFacade model, Timer timer, ConnectionTimer connectionTimer){
 
-        if(model.getPlayersNumber() - 1 < 2){
-            if(connectionTimer.isScheduled()){
-                connectionTimer.cancel();
-                System.out.println("Timer stopped");
-            }
+        if(model.getPlayersNumber() - 1 < 2 && connectionTimer.isScheduled()){
+            connectionTimer.cancel();
+            LOGGER.log(Level.INFO, "Timer stopped");
         }
         model.removePlayer(playerName);
-        System.out.println(playerName + " left the lobby");
+        String s = playerName + " left the lobby";
+        LOGGER.log(Level.INFO, s);
     }
 
     public State checkEnoughPlayers(ModelFacade model, Controller controller, Timer timer, ConnectionTimer connectionTimer){
@@ -42,13 +44,14 @@ public class ConnectionState implements State{
                 connectionTimer.cancel();
                 TimerTask newTimerTask = connectionTimer.newTask();
                 timer.schedule(newTimerTask, (long) timerDuration * 1000);
-                System.out.println("Timer restarted.");
+                LOGGER.log(Level.INFO, "Timer restarted.");
             }
             else{ //start the timer
                 TimerTask newTimerTask = connectionTimer.newTask();
                 connectionTimer.setScheduled(true);
                 timer.schedule(newTimerTask, (long)timerDuration * 1000);
-                System.out.println("Timer started: " + (newTimerTask.scheduledExecutionTime() - System.currentTimeMillis()));
+                String s = "Timer started: " + (newTimerTask.scheduledExecutionTime() - System.currentTimeMillis());
+                LOGGER.log(Level.INFO, s);
             }
             return new ConnectionState();
         }

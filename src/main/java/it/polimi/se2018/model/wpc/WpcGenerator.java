@@ -6,6 +6,8 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import java.io.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Pietro Ghiglio
@@ -19,6 +21,7 @@ import java.util.Scanner;
  */
 public class WpcGenerator {
     private  WPC temp;
+    private Logger LOGGER = Logger.getLogger(WpcGenerator.class.getName());
 
     //The parser
     private class MyParser extends DefaultHandler {
@@ -73,7 +76,7 @@ public class WpcGenerator {
             saxParser.parse(in, par);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         return  temp;
     }
@@ -88,7 +91,7 @@ public class WpcGenerator {
 
         }
         catch(FileNotFoundException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
         return numWpcs;

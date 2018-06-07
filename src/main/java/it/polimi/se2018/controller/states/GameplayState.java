@@ -9,6 +9,8 @@ import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * In GameplayState, the program keeps track of the players that disconnect, so that they can later reconnect
@@ -16,6 +18,7 @@ import java.util.Timer;
  * @author Pietro Ghiglio
  */
 public class GameplayState implements State {
+    private static final Logger LOGGER = Logger.getLogger(GameplayState.class.getName());
 
     public void handleRequest(String playerName, ModelFacade model)throws GameStartedException, ReconnectionException{
         ArrayList<String> discPlayers = (ArrayList<String>)model.getDiscPlayers();
@@ -33,10 +36,11 @@ public class GameplayState implements State {
             p.setDisconnected(false);
             model.removeDiscPlayer(playerName);
             model.addPlayerName(playerName);
-            System.out.println(playerName + " rejoined");
+            String s = playerName + " rejoined";
+            LOGGER.log(Level.INFO, s);
         }
         catch (UserNameNotFoundException e){
-            System.out.println("Error while handling player reconnection");
+            LOGGER.log(Level.SEVERE, "Error while handling player reconnection");
         }
     }
 
@@ -48,7 +52,7 @@ public class GameplayState implements State {
             model.addDiscPlayer(playerName);
         }
         catch (UserNameNotFoundException e){
-            System.out.println("Error while handling player disconnection.");
+            LOGGER.log(Level.SEVERE, "Error while handling player disconnection.");
         }
     }
 

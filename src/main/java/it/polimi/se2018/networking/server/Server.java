@@ -2,10 +2,12 @@ package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.table.Model;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * The Server has an instance of the model and an instance of the controller.
@@ -13,6 +15,7 @@ import java.util.Scanner;
  * @author Pietro Ghiglio
  */
 public class Server {
+    private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     private Model model;
     private Controller controller;
     private Map<String, RemoteView> remoteViewMap;
@@ -47,11 +50,11 @@ public class Server {
 
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
-        System.out.println("Insert port number.");
+        LOGGER.log(Level.INFO, "Insert port number.");
         int port = in.nextInt();
-        System.out.println("Insert timer duration [seconds].");
+        LOGGER.log(Level.INFO, "Insert timer duration [seconds].");
         int timerDuration = in.nextInt();
-        System.out.println("Insert turn duration [minutes]");
+        LOGGER.log(Level.INFO, "Insert turn duration [minutes]");
         int turnDuration = in.nextInt();
 
         new Server(timerDuration, port, turnDuration);

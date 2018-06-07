@@ -8,6 +8,7 @@ public class AskRTPosition extends PGDecorator {
         super(pg, "Insert roundtrack position");
     }
 
+    @Override
     public void getParameters(View view){
         pg.getParameters(view);
         view.getRoundTrackPosition(s);

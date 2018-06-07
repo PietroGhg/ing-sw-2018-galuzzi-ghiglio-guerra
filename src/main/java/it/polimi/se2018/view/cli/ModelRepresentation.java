@@ -4,10 +4,7 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.table.DiceBag;
 import it.polimi.se2018.model.wpc.WPC;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*Representation of Model in the View
  *@author Andrea Galuzzi
@@ -71,8 +68,12 @@ public class ModelRepresentation {
 
     public int getNumPlayers(){ return wpcs.size(); }
 
-    public int getRandomIndex(){ return diceBag.getRandomIndex(); }
+    public int getRandomIndex(){
+        return diceBag.getRandomIndex();
+    }
 
     public Die getDieFromDBag(int index) { return diceBag.getDie(index); }
+
+    public void setDiceBag(DiceBag diceBag){ this.diceBag = diceBag; }
 
 }
