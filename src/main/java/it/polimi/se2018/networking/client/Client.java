@@ -60,24 +60,21 @@ public class Client {
     }
 
     private String insertName(Socket socket) throws GameStartedException, UserNameTakenException, IOException {
-        String name;
+
         PrintStream out = new PrintStream(socket.getOutputStream());
         Scanner inFromSock = new Scanner(socket.getInputStream());
         Scanner inFromKey = new Scanner(System.in);
+        String name;
         String response;
 
-        out.println(inFromSock.nextLine());
+        outToScreen.println(inFromSock.nextLine());
         name = inFromKey.nextLine();
         out.println(name);
         out.flush();
-
         response = inFromSock.nextLine();
-
         if(response.equals("A game is already started")) throw new GameStartedException();
         if(response.equals("Username already taken")) throw new UserNameTakenException();
-        out.println(response);
-
-        
+        outToScreen.println(response);
         return name;
     }
 

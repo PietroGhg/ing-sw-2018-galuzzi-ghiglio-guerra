@@ -1,9 +1,9 @@
 package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
-import it.polimi.se2018.networking.client.SocketServerConnection;
+import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVAbstractMessage;
-import it.polimi.se2018.view.MVWelcomeBackMessage;
+
 
 import java.io.*;
 import java.net.Socket;
@@ -14,11 +14,11 @@ import java.util.logging.Logger;
  * Implementation of the ClientConnection class
  * @author Pietro Ghiglio
  */
-public class SocketClientConnection extends ClientConnection {
+public class SocketClientConnection extends Observable<VCAbstractMessage> implements ClientConnection{
     private Socket socket;
     private Server server;
     private String playerName;
-    private Logger LOGGER = Logger.getLogger(SocketClientConnection.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SocketClientConnection.class.getName());
 
     private ObjectInputStream objectInputStream;
 

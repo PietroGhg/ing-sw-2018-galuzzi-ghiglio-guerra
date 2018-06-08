@@ -49,13 +49,13 @@ public class ClientGatherer extends Thread {
     public void run(){
         boolean loop = true;
         while(loop){
-            Socket newClientConnection;
+            Socket socket;
             try{
-                newClientConnection = serverSocket.accept();
-                out = new PrintStream(newClientConnection.getOutputStream());
-                in = new Scanner(newClientConnection.getInputStream());
+                socket = serverSocket.accept();
+                out = new PrintStream(socket.getOutputStream());
+                in = new Scanner(socket.getInputStream());
 
-                SocketClientConnection socketClientConnection = new SocketClientConnection(newClientConnection, server);
+                SocketClientConnection socketClientConnection = new SocketClientConnection(socket, server);
                 String playerName = insertPlayerName();
                 socketClientConnection.setPlayerName(playerName);
                 try {
@@ -84,15 +84,13 @@ public class ClientGatherer extends Thread {
 
     private String insertPlayerName(){
         String name;
-
-        out.println("Insert player name.");
-        out.flush();
+        sendString("Insert player name. ");
         name = in.nextLine();
-
         return name;
     }
 
     private void sendString(String s){
         out.println(s);
+        out.flush();
     }
 }
