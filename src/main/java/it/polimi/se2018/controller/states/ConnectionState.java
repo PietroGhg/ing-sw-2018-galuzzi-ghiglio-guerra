@@ -53,7 +53,6 @@ public class ConnectionState implements State{
                 String s = "Timer started: " + (newTimerTask.scheduledExecutionTime() - System.currentTimeMillis());
                 LOGGER.log(Level.INFO, s);
             }
-            return new ConnectionState();
         }
         if (model.getPlayersNumber() == Model.MAX_PLAYERS){
             controller.startGame();
