@@ -98,7 +98,6 @@ public class Model extends Observable<MVAbstractMessage> {
         try {
             Player winner = chooseWinner.getWinner();
             notify(new MVWinnerMessage(winner.getPlayerID(), winner.getName() + " won the game!"));
-            //TODO: notify the winner
         }
         catch (NoWinnerException e){
             //notify users that something went really wrong
@@ -232,15 +231,16 @@ public class Model extends Observable<MVAbstractMessage> {
             puCardsNames[i] = this.puCards.get(i).getName();
         }
 
+        //Initializes the roundtrack and extracts dice for the draftpool
+        roundTrack = new RoundTrack(getPlayersNumber());
+        draftPool = diceBag.extractDice(getPlayersNumber());
+
+        //Extracts private obj cards and wpcs, sends MVSetUPMessages
         for(Player p: players){
             String prCard = extractor.extractPrCard(p);
             int[] wpcsExtracted = extractor.extractWpcs(p);
             setSetupMessage(p.getName(), p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
         }
-
-        //Initializes the roundtrack and extracts dice for the draftpool
-        roundTrack = new RoundTrack(getPlayersNumber());
-        draftPool = diceBag.extractDice(getPlayersNumber());
     }
 
 

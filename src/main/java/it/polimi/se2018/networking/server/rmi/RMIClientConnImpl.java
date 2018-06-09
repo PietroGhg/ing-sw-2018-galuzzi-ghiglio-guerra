@@ -9,6 +9,8 @@ import it.polimi.se2018.utils.rmi.RMIObservable;
 import it.polimi.se2018.view.MVAbstractMessage;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +25,7 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
     }
 
     public void send(MVAbstractMessage message){
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -34,21 +36,17 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
                     LOGGER.log(Level.SEVERE, e.toString());
                 }
             }
-        }).start();*/
-        try {
-            LOGGER.log(Level.INFO, this.toString());
-            LOGGER.log(Level.INFO, "Sending message: " + message + " To " + message.getPlayerID());
-            clientService.notify(message);
-        }
-        catch(RemoteException e){
-            LOGGER.log(Level.SEVERE, e.toString());
-        }
+        }).start();
     }
 
     public void handleRequest(String playerName, RMIServerConnection clientService) throws UserNameTakenException,
             GameStartedException, ReconnectionException{
         this.clientService = clientService;
         rmiServer.handleRequest(playerName);
+    }
+
+    public void checkEnoughPlayers(){
+        rmiServer.checkEnoughPlayers();
     }
 
 

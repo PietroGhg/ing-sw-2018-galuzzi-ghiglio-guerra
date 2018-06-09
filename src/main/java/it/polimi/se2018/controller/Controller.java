@@ -96,6 +96,7 @@ public class Controller implements Observer<VCAbstractMessage> {
 
     /*package private*/ void visit(VCSetUpMessage message){
         int playerID = message.getPlayerID();
+        System.out.println(playerID + " ready.");
         model.setWpc(playerID, message.getChosenWpc());
         model.setReady(playerID);
 

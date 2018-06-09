@@ -21,4 +21,6 @@ public interface RMIClientConnection extends Remote{
 
     void handleRequest(String playerName, RMIServerConnection client) throws RemoteException, UserNameTakenException,
     GameStartedException, ReconnectionException;
+
+    void checkEnoughPlayers() throws RemoteException;
 }

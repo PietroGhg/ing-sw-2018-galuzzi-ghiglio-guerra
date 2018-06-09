@@ -47,6 +47,7 @@ public class RMIClient {
             view.rawRegister(vcMessageCreator);
             view.register(new ServerConnectionAdapter(serverConnection));
             serverConnection.register(new SockToRMIObserverAdapter<>(view));
+            serverService.checkEnoughPlayers();
         }
         catch(NotBoundException|MalformedURLException|RemoteException e){
             LOGGER.log(Level.SEVERE, e.toString());

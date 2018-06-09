@@ -9,6 +9,7 @@ import it.polimi.se2018.networking.server.RemoteView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -49,6 +50,22 @@ public class RMIServer {
         RemoteView remoteView = new RemoteView(new ClientConnectionAdapter(serverImpl));
         remoteView.register(controller);
         model.register(remoteView);
+
+        /**
+         * Rebinds the client connection implementation in order to have an unique communication canal between server and client
+         */
+        try {
+            Naming.unbind("//localhost/sagradarmi");
+            serverImpl = new RMIClientConnImpl(this);
+            serverInt = (RMIClientConnection) UnicastRemoteObject.exportObject(serverImpl, 0);
+            Naming.rebind("//localhost/sagradarmi", serverInt);
+        }
+        catch(RemoteException|NotBoundException|MalformedURLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void checkEnoughPlayers(){
         controller.checkEnoughPlayers();
     }
 
