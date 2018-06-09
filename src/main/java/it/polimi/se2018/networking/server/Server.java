@@ -2,6 +2,8 @@ package it.polimi.se2018.networking.server;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.table.Model;
+
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -44,8 +46,8 @@ public class Server {
         model.register(remoteView);
 
         remoteViewMap.put(playerName, remoteView);
-
-        new Thread(connection).start();
+        SocketClientConnection sockConn = (SocketClientConnection)connection;
+        new Thread(sockConn).start();
     }
 
     public static void main(String[] args){

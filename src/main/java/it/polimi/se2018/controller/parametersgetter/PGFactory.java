@@ -25,7 +25,6 @@ public class PGFactory{
                 return pg3;
             case(2):
                 return moveDie(pg);
-
             case(3):
                 return moveDie(pg);
             case(4):
@@ -66,14 +65,14 @@ public class PGFactory{
 
     private ParameterGetter moveDie(ParameterGetter pg){
         pg2 = new AskCoordinates(pg, GET_DIE_COORD);
-        pg3 = new AskCoordinates(pg, GET_CELL_COORD);
-        return pg;
+        pg3 = new AskCoordinates(pg2, GET_CELL_COORD);
+        return pg3;
     }
 
     private ParameterGetter dpThenDie(ParameterGetter pg){
-        pg = new AskDPIndex(pg);
-        pg = new AskCoordinates(pg,GET_DIE_COORD);
-        return pg;
+        pg2 = new AskDPIndex(pg);
+        pg3 = new AskCoordinates(pg2,GET_DIE_COORD);
+        return pg3;
     }
 
 }

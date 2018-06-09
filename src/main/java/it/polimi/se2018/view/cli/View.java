@@ -115,6 +115,15 @@ public class View extends AbstractView implements RawInputObservable {
         }
     }
 
+    public void visit(MVWinnerMessage message) {
+        if(message.getPlayerID() == playerID){
+            out.println("Congratulations, you won!");
+        }
+        else{
+            out.println(message.getMessage());
+        }
+    }
+
     //the player has to choose his wpc for the game
 
     private void chooseWpc(int[] possibleWPCs) {

@@ -4,6 +4,8 @@ import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.view.*;
 
+import java.io.Serializable;
+
 /**
  * RemoteView is the virtual view, it receives VCAbstractMessages from the network through it's ConnectionObserver object
  * and notifies them to it's observer (the controller).
@@ -37,6 +39,8 @@ public class RemoteView extends AbstractView {
     public void visit(MVWelcomeBackMessage message){ connection.send(message); }
 
     public void visit(MVTimesUpMessage message) { connection.send(message); }
+
+    public void visit(MVWinnerMessage message) { connection.send(message); }
 
 
     /**

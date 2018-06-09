@@ -12,12 +12,14 @@ import it.polimi.se2018.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Model extends Observable<MVAbstractMessage> {
 
     //essendo un ArrayList, per il get di un dado basta il metodo get(index)
     // e per settare un dado basta draftPool.add(index,die)
-
+    private Logger LOGGER = Logger.getLogger(Model.class.getName());
     private ArrayList<Die> draftPool;
     public ArrayList<Die> getDraftPool() { return draftPool; }
     public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
@@ -94,11 +96,12 @@ public class Model extends Observable<MVAbstractMessage> {
     private void chooseWinner(){
         chooseWinner = new ChooseWinner(players, puCards, roundTrack);
         try {
-            chooseWinner.getWinner();
+            Player winner = chooseWinner.getWinner();
+            notify(new MVWinnerMessage(winner.getPlayerID(), winner.getName() + " won the game!"));
             //TODO: notify the winner
         }
         catch (NoWinnerException e){
-            //notify users that something went a donnacce
+            //notify users that something went really wrong
         }
     }
 
@@ -214,7 +217,7 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     /**
-     * Method that starts a game, setting the GAMEPLAY state, extracting public, private a tool cards and notifying the
+     * Method that starts a game, extracting public, private a tool cards and notifying the
      * players.
      */
     public void startGame() {
@@ -248,8 +251,9 @@ public class Model extends Observable<MVAbstractMessage> {
      * @param playerID the playerID of the receiver
      * @param indexes the indexes of the boards
      */
-    private void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
+    private synchronized void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
         MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards);
+        LOGGER.log(Level.INFO, "Sending to: " + players.get(playerID - 1).getPlayerID() + "\nMessage: " + message +"\n\n");
         notify(message);
     }
 

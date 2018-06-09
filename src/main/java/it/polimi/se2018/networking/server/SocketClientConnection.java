@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Implementation of the ClientConnection class
  * @author Pietro Ghiglio
  */
-public class SocketClientConnection extends Observable<VCAbstractMessage> implements ClientConnection{
+public class SocketClientConnection extends Observable<VCAbstractMessage> implements ClientConnection, Runnable{
     private Socket socket;
     private Server server;
     private String playerName;

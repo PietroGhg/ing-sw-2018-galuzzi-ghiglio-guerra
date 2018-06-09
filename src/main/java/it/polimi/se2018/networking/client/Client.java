@@ -52,10 +52,11 @@ public class Client {
             connection.register(view);
             view.register(connection);
             view.rawRegister(vcMessageCreator);
-            new Thread(connection).start();
+            SocketServerConnection sockConn = (SocketServerConnection) connection;
+            new Thread(sockConn).start();
         }
         catch(IOException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(Level.SEVERE, e.toString());
         }
     }
 

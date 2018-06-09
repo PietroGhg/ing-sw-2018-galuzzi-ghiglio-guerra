@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Implementation of the ServerConnection class
  * @author Pietro Ghiglio
  */
-public class SocketServerConnection extends Observable<MVAbstractMessage> implements ServerConnection{
+public class SocketServerConnection extends Observable<MVAbstractMessage> implements ServerConnection,Runnable{
     private ObjectOutputStream objectOutputStream;
 
     private ObjectInputStream objectInputStream;
