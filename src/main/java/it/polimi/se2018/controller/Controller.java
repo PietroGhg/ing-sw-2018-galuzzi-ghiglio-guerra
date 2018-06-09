@@ -167,7 +167,9 @@ public class Controller implements Observer<VCAbstractMessage> {
     }
 
     public void handleDisconnection(String playerName) {
-        state.handleDisconnection(playerName, new ModelFacade(model, timerDuration),timer, connectionTimer);
+        ModelFacade mf = new ModelFacade(model, timerDuration);
+        mf.setTurnTimer(turnTimer);
+        state.handleDisconnection(playerName, mf,timer, connectionTimer);
     }
 
 

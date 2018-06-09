@@ -13,6 +13,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,9 +25,11 @@ public class RMIServer {
     private static final Logger LOGGER = Logger.getLogger(RMIServer.class.getName());
     private RMIClientConnection serverInt;
     private RMIClientConnImpl serverImpl;
+    private Map<String, RemoteView> remoteViewMap;
 
     private RMIServer(){
         model = new Model();
+        remoteViewMap = new HashMap<>();
         controller = new Controller(model,120, 10);
         try{
             LocateRegistry.createRegistry(PORT);
@@ -45,11 +49,21 @@ public class RMIServer {
         }
     }
 
-    public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException, ReconnectionException{
-        controller.handleRequest(playerName);
-        RemoteView remoteView = new RemoteView(new ClientConnectionAdapter(serverImpl));
-        remoteView.register(controller);
-        model.register(remoteView);
+    public void handleRequest(String playerName) throws GameStartedException, UserNameTakenException{
+        try{
+            controller.handleRequest(playerName);
+            RemoteView remoteView = new RemoteView(new ClientConnectionAdapter(serverImpl));
+            remoteView.register(controller);
+            model.register(remoteView);
+            remoteViewMap.put(playerName, remoteView);
+        }
+        catch(ReconnectionException e){
+            RemoteView remoteView = new RemoteView(new ClientConnectionAdapter(serverImpl));
+            remoteView.register(controller);
+            model.register(remoteView);
+            remoteViewMap.put(playerName, remoteView);
+            controller.welcomeBack(playerName);
+        }
 
         /**
          * Rebinds the client connection implementation in order to have an unique communication canal between server and client
@@ -67,6 +81,13 @@ public class RMIServer {
 
     public void checkEnoughPlayers(){
         controller.checkEnoughPlayers();
+    }
+
+    public void detachClient(String playerName){
+        RemoteView remoteView = remoteViewMap.get(playerName);
+        model.deregister(remoteView);
+        remoteViewMap.remove(playerName);
+        controller.handleDisconnection(playerName);
     }
 
     public static void main(String[] args){

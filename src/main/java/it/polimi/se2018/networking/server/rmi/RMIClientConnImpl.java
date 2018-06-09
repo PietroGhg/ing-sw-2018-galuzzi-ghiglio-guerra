@@ -19,6 +19,7 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
     private static final Logger LOGGER = Logger.getLogger(RMIClientConnImpl.class.getName());
     private RMIServerConnection clientService;
     private RMIServer rmiServer;
+    private String playerName;
 
     public RMIClientConnImpl(RMIServer rmiServer){
         this.rmiServer = rmiServer;
@@ -29,25 +30,30 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
             @Override
             public void run() {
                 try {
-                    LOGGER.log(Level.INFO, "Sending message: " + message + " To " + message.getPlayerID());
                     clientService.notify(message);
                 }
                 catch(RemoteException e){
                     LOGGER.log(Level.SEVERE, e.toString());
+                    rmiServer.detachClient(playerName);
                 }
             }
         }).start();
     }
 
     public void handleRequest(String playerName, RMIServerConnection clientService) throws UserNameTakenException,
-            GameStartedException, ReconnectionException{
+            GameStartedException{
         this.clientService = clientService;
+        this.playerName = playerName;
         rmiServer.handleRequest(playerName);
+
     }
 
     public void checkEnoughPlayers(){
         rmiServer.checkEnoughPlayers();
     }
 
+    public void setPlayerName(String playerName){
+        this.playerName = playerName;
+    }
 
 }

@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller.states;
 
+import it.polimi.se2018.controller.turntimer.TurnTimer;
 import it.polimi.se2018.exceptions.UserNameNotFoundException;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.table.Model;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ModelFacade {
     private Model model;
     private int timerDuration;
+    private TurnTimer turnTimer;
 
     public ModelFacade(Model model, int timerDuration){
         this.model = model;
@@ -42,6 +44,14 @@ public class ModelFacade {
     public Player getPlayer(String playerName) throws UserNameNotFoundException{ return model.getPlayer(playerName); }
 
     public int getTimerDuration(){ return timerDuration; }
+
+    public int whoIsPlaying() { return model.whoIsPlaying(); }
+
+    public void nextTurn() { model.nextTurn(turnTimer); }
+
+    public void setTurnTimer(TurnTimer turnTimer) {
+        this.turnTimer = turnTimer;
+    }
 
     public void startGame(){ model.startGame(); }
 
