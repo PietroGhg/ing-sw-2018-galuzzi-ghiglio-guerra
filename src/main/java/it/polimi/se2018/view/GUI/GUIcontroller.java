@@ -1,4 +1,4 @@
-package it.polimi.se2018.networking.client.GUI;
+package it.polimi.se2018.view.GUI;
 
 
 import javafx.fxml.FXMLLoader;
