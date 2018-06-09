@@ -20,7 +20,9 @@ public interface RMIClientConnection extends Remote{
     void notify(VCAbstractMessage message) throws RemoteException;
 
     void handleRequest(String playerName, RMIServerConnection client) throws RemoteException, UserNameTakenException,
-    GameStartedException, ReconnectionException;
+    GameStartedException;
 
     void checkEnoughPlayers() throws RemoteException;
+
+    //TODO: add polling method to handle disconnection
 }

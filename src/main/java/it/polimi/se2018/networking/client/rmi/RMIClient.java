@@ -58,9 +58,6 @@ public class RMIClient {
         catch(GameStartedException e){
             out.println("Game already started. ");
         }
-        catch(ReconnectionException e){
-            out.println("Welcome back. ");
-        }
     }
 
     public static void main(String[] args){
