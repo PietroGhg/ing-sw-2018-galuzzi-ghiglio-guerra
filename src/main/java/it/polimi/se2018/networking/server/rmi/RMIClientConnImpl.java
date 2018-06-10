@@ -44,6 +44,8 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
             GameStartedException{
         this.clientService = clientService;
         this.playerName = playerName;
+        ServerPollingTimer pt = new ServerPollingTimer(clientService, rmiServer, playerName);
+        pt.startPolling();
         rmiServer.handleRequest(playerName);
 
     }
@@ -54,6 +56,10 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
 
     public void setPlayerName(String playerName){
         this.playerName = playerName;
+    }
+
+    public void poll() {
+        //the method does nothing, it's just called to check the connection.
     }
 
 }

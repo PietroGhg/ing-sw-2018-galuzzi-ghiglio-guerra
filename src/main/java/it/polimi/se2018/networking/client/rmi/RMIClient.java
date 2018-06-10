@@ -2,13 +2,10 @@ package it.polimi.se2018.networking.client.rmi;
 
 import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GameStartedException;
-import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
-import it.polimi.se2018.networking.server.rmi.ClientConnectionAdapter;
 import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
 import it.polimi.se2018.utils.Printer;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
-import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
 
@@ -28,6 +25,7 @@ public class RMIClient {
     private VCMessageCreator vcMessageCreator;
     private ModelRepresentation modelRep;
     private Printer out;
+    private ClientPollingTimer timer;
 
 
     public RMIClient(){
@@ -48,6 +46,8 @@ public class RMIClient {
             view.register(new ServerConnectionAdapter(serverConnection));
             serverConnection.register(new SockToRMIObserverAdapter<>(view));
             serverService.checkEnoughPlayers();
+            timer = new ClientPollingTimer(serverService, this);
+            timer.startPolling();
         }
         catch(NotBoundException|MalformedURLException|RemoteException e){
             LOGGER.log(Level.SEVERE, e.toString());
@@ -59,6 +59,8 @@ public class RMIClient {
             out.println("Game already started. ");
         }
     }
+
+    public View getView(){ return view; }
 
     public static void main(String[] args){
         new RMIClient();

@@ -9,6 +9,10 @@ import java.rmi.RemoteException;
 
 public interface RMIServerConnection extends Remote {
     void send(VCAbstractMessage message) throws RemoteException;
+
     void register(RMIObserver<MVAbstractMessage> observer) throws RemoteException;
+
     void notify(MVAbstractMessage message) throws RemoteException;
+
+    void poll() throws RemoteException;
 }

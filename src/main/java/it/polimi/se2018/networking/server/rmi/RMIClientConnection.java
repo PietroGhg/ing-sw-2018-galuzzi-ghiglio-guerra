@@ -24,5 +24,5 @@ public interface RMIClientConnection extends Remote{
 
     void checkEnoughPlayers() throws RemoteException;
 
-    //TODO: add polling method to handle disconnection
+    void poll() throws RemoteException;
 }
