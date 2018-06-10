@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Test for the toolcard FluxRemover
+ * @author Leonardo Guerra
+ */
+
 public class TestFluxRemover {
     private Model model;
     private PlayerMoveParameters param;
