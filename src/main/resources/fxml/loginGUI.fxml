@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #582277;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.networking.client.GUI.GUIcontroller">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #582277;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.GUI.GUIcontroller">
    <children>
       <ImageView fitHeight="815.0" fitWidth="628.0" layoutX="587.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
