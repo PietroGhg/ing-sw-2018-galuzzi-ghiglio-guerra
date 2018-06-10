@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 public class Server {
     private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
+    private static final int RMIPORT = 1099;
+
     public static void main (String[] args){
         Model model;
         Controller controller;
@@ -21,8 +23,7 @@ public class Server {
         int timerD;
         LOGGER.log(Level.INFO, "Insert socket port number.");
         sockPort = scanner.nextInt();
-        LOGGER.log(Level.INFO, "Insert RMI port number. ");
-        rmiPort = scanner.nextInt();
+
         LOGGER.log(Level.INFO, "Insert connection timer duration. ");
         timerD = scanner.nextInt();
         LOGGER.log(Level.INFO, "Insert turn duration. ");
@@ -32,6 +33,6 @@ public class Server {
         controller = new Controller(model, timerD, turnD);
 
         new SocketServer(model, controller, sockPort);
-        new RMIServer(model, controller, rmiPort);
+        new RMIServer(model, controller, RMIPORT);
     }
 }
