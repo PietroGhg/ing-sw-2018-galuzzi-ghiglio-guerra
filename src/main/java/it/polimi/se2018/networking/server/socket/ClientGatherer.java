@@ -1,4 +1,4 @@
-package it.polimi.se2018.networking.server;
+package it.polimi.se2018.networking.server.socket;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.exceptions.GameStartedException;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Pietro Ghiglio
  */
 public class ClientGatherer extends Thread {
-    private final Server server;
+    private final SocketServer socketServer;
     private static final Logger LOGGER = Logger.getLogger(ClientGatherer.class.getName());
     private ServerSocket serverSocket;
     private Controller controller;
@@ -27,11 +27,11 @@ public class ClientGatherer extends Thread {
 
     /**
      * The constructor initializes the server and the ServerSocket
-     * @param server the server
+     * @param socketServer the server
      * @param port port number
      */
-    ClientGatherer(Server server, int port, Controller controller){
-        this.server = server;
+    ClientGatherer(SocketServer socketServer, int port, Controller controller){
+        this.socketServer = socketServer;
         this.controller = controller;
 
         try{
@@ -55,12 +55,12 @@ public class ClientGatherer extends Thread {
                 out = new PrintStream(socket.getOutputStream());
                 in = new Scanner(socket.getInputStream());
 
-                SocketClientConnection socketClientConnection = new SocketClientConnection(socket, server);
+                SocketClientConnection socketClientConnection = new SocketClientConnection(socket, socketServer);
                 String playerName = insertPlayerName();
                 socketClientConnection.setPlayerName(playerName);
                 try {
                     controller.handleRequest(playerName);
-                    server.addClient(socketClientConnection, playerName);
+                    socketServer.addClient(socketClientConnection, playerName);
                     sendString("Welcome to Sagrada, " + playerName);
                     controller.checkEnoughPlayers();
                 }
@@ -71,7 +71,7 @@ public class ClientGatherer extends Thread {
                     sendString("Username already taken");
                 }
                 catch (ReconnectionException e){
-                    server.addClient(socketClientConnection, playerName);
+                    socketServer.addClient(socketClientConnection, playerName);
                     sendString("Welcome back " + playerName);
                     controller.welcomeBack(playerName);
                 }

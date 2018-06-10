@@ -21,18 +21,17 @@ import java.util.logging.Logger;
 public class RMIServer {
     private Model model;
     private Controller controller;
-    private static final int PORT = 1099;
     private static final Logger LOGGER = Logger.getLogger(RMIServer.class.getName());
     private RMIClientConnection serverInt;
     private RMIClientConnImpl serverImpl;
     private Map<String, RemoteView> remoteViewMap;
 
-    private RMIServer(){
-        model = new Model();
+    public RMIServer(Model model, Controller controller, int port){
+        this.model = model;
         remoteViewMap = new HashMap<>();
-        controller = new Controller(model,120, 10);
+        this.controller = controller;
         try{
-            LocateRegistry.createRegistry(PORT);
+            LocateRegistry.createRegistry(port);
         }
         catch(RemoteException e){
             LOGGER.log(Level.SEVERE, e.getMessage());
@@ -88,9 +87,5 @@ public class RMIServer {
         model.deregister(remoteView);
         remoteViewMap.remove(playerName);
         controller.handleDisconnection(playerName);
-    }
-
-    public static void main(String[] args){
-        new RMIServer();
     }
 }

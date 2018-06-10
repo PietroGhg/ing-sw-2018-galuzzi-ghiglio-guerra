@@ -1,6 +1,7 @@
-package it.polimi.se2018.networking.client;
+package it.polimi.se2018.networking.client.socket;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.networking.client.ServerConnection;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVAbstractMessage;
 

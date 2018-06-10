@@ -1,6 +1,7 @@
-package it.polimi.se2018.networking.server;
+package it.polimi.se2018.networking.server.socket;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.networking.server.ClientConnection;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.MVAbstractMessage;
 
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class SocketClientConnection extends Observable<VCAbstractMessage> implements ClientConnection, Runnable{
     private Socket socket;
-    private Server server;
+    private SocketServer socketServer;
     private String playerName;
     private static final Logger LOGGER = Logger.getLogger(SocketClientConnection.class.getName());
 
@@ -24,8 +25,8 @@ public class SocketClientConnection extends Observable<VCAbstractMessage> implem
 
     private ObjectOutputStream objectOutputStream;
 
-    SocketClientConnection(Socket socket, Server server){
-        this.server = server;
+    SocketClientConnection(Socket socket, SocketServer socketServer){
+        this.socketServer = socketServer;
         this.socket = socket;
         try{
             objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -49,7 +50,7 @@ public class SocketClientConnection extends Observable<VCAbstractMessage> implem
             }
             catch(IOException|ClassNotFoundException e){
                 LOGGER.log(Level.INFO, playerName + " disconnected");
-                server.detachClient(playerName);
+                socketServer.detachClient(playerName);
                 loop = false;
             }
         }

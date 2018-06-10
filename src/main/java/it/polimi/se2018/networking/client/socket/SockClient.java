@@ -1,8 +1,9 @@
-package it.polimi.se2018.networking.client;
+package it.polimi.se2018.networking.client.socket;
 
 import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
+import it.polimi.se2018.networking.client.ServerConnection;
 import it.polimi.se2018.utils.Printer;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
@@ -14,16 +15,16 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Client {
+public class SockClient {
     private View view;
     private Printer outToScreen = new Printer();
-    private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SockClient.class.getName());
     private VCMessageCreator vcMessageCreator;
     private ModelRepresentation modelRep;
     private ServerConnection connection;
     private Socket socket;
 
-    private Client(){
+    private SockClient(){
         Scanner input = new Scanner(System.in);
         outToScreen.println("Insert Server IP Address.");
         String serverIP = input.nextLine();
@@ -80,6 +81,6 @@ public class Client {
     }
 
     public static void main(String[] args){
-        new Client();
+        new SockClient();
     }
 }

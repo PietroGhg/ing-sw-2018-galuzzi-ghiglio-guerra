@@ -9,6 +9,6 @@ it.polimi.se2018.model.objectivecards.privateobjectivecard
 it.polimi.se2018.model.objectivecards.publicobjectivecard
 it.polimi.se2018.model.table
 it.polimi.se2018.model.wpc
-it.polimi.se2018.server
+it.polimi.se2018.socketServer
 it.polimi.se2018.testobjectivecard
 it.polimi.se2018.utils
