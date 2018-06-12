@@ -79,6 +79,7 @@ public class Model extends Observable<MVAbstractMessage> {
             }
             if(currPlayer.getSkipTurn()){
                 nextTurn(turnTimer);
+                currPlayer.setSkipTurn(false);
                 newTurn = false;
             }
             if(newTurn) {

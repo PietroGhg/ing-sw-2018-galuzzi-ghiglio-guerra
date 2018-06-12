@@ -32,12 +32,10 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);
 
-        //Checks if the current is the first turn of the player
-
-        if(param.turnNumber(param.getPlayer().getPlayerID())==2)
-        { throw new MoveNotAllowedException("Error: this card can be played in the first turn only."); }
-
-        /* TODO: far saltare il secondo turno */
+        //Checks if the current is the second turn of the player
+        if(param.turnNumber(param.getPlayer().getPlayerID())!=1){
+            throw new MoveNotAllowedException("Error: this card can be played in the first turn only.");
+        }
 
         int dpIndex = param.getParameter(0);
         int cellRow = param.getParameter(1);
@@ -58,6 +56,8 @@ public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
 
         wpc.setDie(cellRow,cellCol,temp);
         dp.remove(dpIndex);
+
+        param.setSkipTurn(player.getPlayerID(),true);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){
