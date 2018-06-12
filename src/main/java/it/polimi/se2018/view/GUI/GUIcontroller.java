@@ -76,7 +76,7 @@ public class GUIcontroller {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
-        Scene window = new Scene(loader.load(), 1200, 800);
+        Scene window = new Scene(loader.load(), 900, 600);
         Stage stage = new Stage();
         stage.setScene(window);
         stage.setTitle("Game");
@@ -139,6 +139,7 @@ public class GUIcontroller {
     }
 
     public void diceMove(){
+
 
     }
 
