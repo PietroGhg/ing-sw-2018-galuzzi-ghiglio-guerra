@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.GUI.GUIcontroller">
    <children>
@@ -24,8 +24,12 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" text="Show Windows" />
-      <Button layoutX="21.0" layoutY="58.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" text="Show ToolCards" />
-      <Button layoutX="21.0" layoutY="104.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" text="Show DraftPool" />
+      <Button fx:id="showwindows" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#showWindows" prefHeight="27.0" prefWidth="135.0" text="Show Windows" />
+      <Button fx:id="toolCards" layoutX="21.0" layoutY="41.0" mnemonicParsing="false" onAction="#showToolCards" prefHeight="27.0" prefWidth="135.0" text="Show ToolCards" />
+      <Button fx:id="showdraftpool" layoutX="21.0" layoutY="68.0" mnemonicParsing="false" onAction="#showDraftPool" prefHeight="27.0" prefWidth="135.0" text="Show DraftPool" />
+      <Button fx:id="dicemove" layoutX="240.0" layoutY="340.0" mnemonicParsing="false" onAction="#diceMove" prefHeight="27.0" prefWidth="121.0" text="Dice Move" />
+      <Button fx:id="toolCard" layoutX="382.0" layoutY="340.0" mnemonicParsing="false" onAction="#toolCard" prefHeight="27.0" prefWidth="121.0" text="ToolCard" />
+      <ImageView fitHeight="198.0" fitWidth="150.0" layoutX="14.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="showpucards" layoutX="21.0" layoutY="95.0" mnemonicParsing="false" onAction="#showPuCards" prefHeight="27.0" prefWidth="135.0" text="Show Public Cards" />
    </children>
 </AnchorPane>
