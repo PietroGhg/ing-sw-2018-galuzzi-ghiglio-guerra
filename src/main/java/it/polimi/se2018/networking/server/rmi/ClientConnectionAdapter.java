@@ -8,7 +8,11 @@ import it.polimi.se2018.view.MVAbstractMessage;
 import java.rmi.RemoteException;
 
 /**
- * Class that adapts an RMIClientConnection to a ClientConnection
+ * Class that adapts an RMIClientConnection to a ClientConnection:
+ * the methods in RMIClientConnection need to throw a RemoteException, so RMIClientConnection cannot directly
+ * extend the ClientConnection interface, an adapter is needed.
+ * This class simply calls the remote methods and handles the RemoteExceptions internally, allowing compatibility
+ * with a normal ClientConnection.
  * @author Pietro Ghiglio
  */
 public class ClientConnectionAdapter implements ClientConnection{

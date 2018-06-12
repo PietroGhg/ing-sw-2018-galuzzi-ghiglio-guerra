@@ -11,7 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * ConnectionState acts as a game lobby, while in this state, players can connect and disconnect freely
+ * ConnectionState acts as a game lobby, while in this state, players can connect and disconnect freely:
+ * while handling a connection request, the controller simply checks if the username is already taken.
+ * in case of disconnection, the record of the player (his name, basically) is deleted.
  * The transition between ConnectionState and GameplayState takes place when either 4 players connect
  * or the Server's timer end it's countdown
  * @author Pietro Ghiglio

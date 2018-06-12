@@ -13,6 +13,7 @@ public class Player {
     private int privateScore;
     private int totalScore;
     private boolean disconnected;
+    private boolean skipTurn;
     private WPC wpc;
     private int[] extractedWpcsIDs;
     private boolean ready;
@@ -22,6 +23,7 @@ public class Player {
     public Player(int id){
         extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
         ready = false;
+        skipTurn = false;
         disconnected = false;
         playerID = id;
     }
@@ -111,5 +113,13 @@ public class Player {
 
     public void setDisconnected(boolean disconnected){
         this.disconnected = disconnected;
+    }
+
+    public void setSkipTurn(boolean skipTurn) {
+        this.skipTurn = skipTurn;
+    }
+
+    public boolean getSkipTurn() {
+        return skipTurn;
     }
 }

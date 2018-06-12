@@ -9,6 +9,10 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class containing the main method used to start the server, instantiates a new SocketServer and a new RMIServer
+ * @author Pietro Ghiglio
+ */
 public class Server {
     private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     private static final int RMIPORT = 1099;

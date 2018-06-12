@@ -18,6 +18,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that handles RMI connections.
+ * The model and the controller are passed in the constructor by the main Server.
+ * An RMIClientConnection is rebind to the registry as a new client connects in order to guarantee the uniqueness
+ * of the communication canal between a RemoteView and a client.
+ * @author Pietro Ghiglio
+ */
 public class RMIServer {
     private Model model;
     private Controller controller;
