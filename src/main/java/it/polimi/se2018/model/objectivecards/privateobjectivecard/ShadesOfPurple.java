@@ -19,17 +19,6 @@ public class ShadesOfPurple extends PrivateObjectiveCard {
      * @param wpc player board, on which the score is calculated
      */
     public int getScore (WPC wpc) {
-        int score=0;
-        Colour c = Colour.PURPLE;
-        for (int i=0; i<WPC.NUMROW; i++) {
-            for (int j = 0; j<WPC.NUMCOL; j++) {
-                if(!(wpc.getCell(i,j).isEmpty())) {
-                    if (wpc.getCell(i, j).getDie().getDieColour().equals(c)) {
-                        score = score + wpc.getCell(i, j).getDie().getDieValue();
-                    }
-                }
-            }
-        }
-        return score;
+        return privateScore(wpc, Colour.PURPLE);
     }
 }

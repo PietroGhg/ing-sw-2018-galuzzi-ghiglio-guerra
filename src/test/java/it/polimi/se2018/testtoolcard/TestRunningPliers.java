@@ -120,8 +120,6 @@ public class TestRunningPliers {
         }
     }
 
-    //TODO: Test per controllare che sia il primo turno e che si faccia saltare il secondo
-
     /**
      * Not player's first turn -> throws exception
      */

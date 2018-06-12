@@ -21,8 +21,7 @@ public interface ToolCard {
     T               6: FluxBrush -> 0: DraftPool index;
                                     (if isPlaceable): 1: cell row, 2: cell col
     T               7: GlazingHammer -> (no parameters); check second turn
-    tc DA FINIRE    8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col;
-                        TODO: check first turn end, skip player's second turn
+    T               8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col;
     T               9: CorkBackedStraightedge -> 0: DraftPool index, 1: cell row, 2: cell col
     T               10: GrindingStone -> 0: DraftPool index, 1: die row, 2: die col
     T               11: FluxRemover -> 0: DraftPool index, 1: Dice Bag index, 2: dieValue
