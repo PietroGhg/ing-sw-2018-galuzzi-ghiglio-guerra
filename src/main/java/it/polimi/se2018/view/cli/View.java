@@ -20,7 +20,7 @@ import java.util.*;
  *@author Andrea Galuzzi
  */
 
-public class View extends AbstractView implements RawInputObservable {
+public class View extends AbstractView implements RawInputObservable, ViewInterface {
     private Printer out = new Printer();
     private String playerName;
     private ModelRepresentation modelRepresentation;
@@ -62,18 +62,6 @@ public class View extends AbstractView implements RawInputObservable {
         if (playerID == message.getPlayerID())
             out.println("It's your turn!");
         updateMR(message);
-    }
-
-    public void getCoordIndex(){
-        Scanner input = new Scanner(System.in);
-        int i;
-        do{
-            out.println("Select coordinates: ");
-            i = input.nextInt();
-        }while(!(i>=1 && i <= validCoordinates.size()));
-        int[] temp = validCoordinates.get(i);
-        rawNotify(new RawRequestedMessage(temp[0]));
-        rawNotify(new RawRequestedMessage(temp[1]));
     }
 
     private void updateMR(MVGameMessage message) {
@@ -238,6 +226,8 @@ public class View extends AbstractView implements RawInputObservable {
     public void displayMessage(String message) {
         out.println(message);
     }
+
+    public int getPlayerID(){ return playerID; }
 
     public void notifyController(VCAbstractMessage message) {
         inputLoop = false;

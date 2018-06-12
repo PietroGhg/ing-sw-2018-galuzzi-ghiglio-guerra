@@ -1,9 +1,9 @@
 package it.polimi.se2018.controller.parametersgetter;
 
-import it.polimi.se2018.view.cli.View;
+import it.polimi.se2018.view.ViewInterface;
 
 public class ParameterGetter {
-    public void getParameters(View view){
+    public void getParameters(ViewInterface view){
         view.displayMessage("Insert parameters.");
     }
 }

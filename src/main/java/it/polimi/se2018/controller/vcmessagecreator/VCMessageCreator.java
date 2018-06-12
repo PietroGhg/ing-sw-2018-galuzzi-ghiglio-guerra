@@ -11,6 +11,7 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.RawInputObserver;
+import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
-    private View view;
+    private ViewInterface view;
     private ParameterGetter parametersGetter;
     private PGFactory pgFactory;
     private ModelRepresentation modelRep;
