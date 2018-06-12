@@ -96,7 +96,6 @@ public class TestRunningPliers {
     public void test1(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -121,7 +120,7 @@ public class TestRunningPliers {
         }
     }
 
-    //Test per controllare che sia il primo turno e che si faccia saltare il secondo
+    //TODO: Test per controllare che sia il primo turno e che si faccia saltare il secondo
 
     /**
      * Draft pool cell empty -> throws exception
@@ -130,7 +129,6 @@ public class TestRunningPliers {
     public void test3(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -161,7 +159,6 @@ public class TestRunningPliers {
     public void test4(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(empty);
         model.addPlayer(player);
@@ -192,7 +189,6 @@ public class TestRunningPliers {
     public void test5(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -223,7 +219,6 @@ public class TestRunningPliers {
     public void test6(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -255,7 +250,6 @@ public class TestRunningPliers {
         DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -286,7 +280,6 @@ public class TestRunningPliers {
         DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);
@@ -317,7 +310,6 @@ public class TestRunningPliers {
         DiceBag.resetInstance();
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(5);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         player.setWpc(before);
         model.addPlayer(player);

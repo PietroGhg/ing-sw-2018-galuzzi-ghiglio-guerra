@@ -68,7 +68,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -95,7 +94,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -121,7 +119,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(2);
@@ -146,7 +143,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(2);
@@ -171,7 +167,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -196,7 +191,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(1);
