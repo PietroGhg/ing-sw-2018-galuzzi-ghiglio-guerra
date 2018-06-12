@@ -123,6 +123,71 @@ public class TestRunningPliers {
     //TODO: Test per controllare che sia il primo turno e che si faccia saltare il secondo
 
     /**
+     * Not player's first turn -> throws exception
+     */
+    @Test
+    public void testNotFirstTurn(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setWpc(before);
+        model.addPlayer(player);
+        param.addParameter(4);
+        param.addParameter(3);
+        param.addParameter(2);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        DiceBag.resetInstance();
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+        model.startGame();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+
+        try {
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: this card can be played in the first turn only.", e.getMessage());
+        }
+    }
+
+    /**
+     * Player's first turn: skip the second turn
+     */
+    @Test
+    public void testFirstTurn(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setWpc(before);
+        model.addPlayer(player);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(0);
+        DiceBag.resetInstance();
+        model.startGame();
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try {
+            card.cardAction(param);
+            assertEquals(player.getSkipTurn(),true);
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+    }
+
+    /**
      * Draft pool cell empty -> throws exception
      */
     @Test

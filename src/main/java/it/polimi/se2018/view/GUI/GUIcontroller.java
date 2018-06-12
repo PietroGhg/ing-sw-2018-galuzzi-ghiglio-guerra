@@ -140,6 +140,7 @@ public class GUIcontroller {
 
     public void diceMove(){
 
+
     }
 
     public void toolCard(){
