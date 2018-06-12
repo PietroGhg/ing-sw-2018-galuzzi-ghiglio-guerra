@@ -15,7 +15,7 @@ import java.util.Random;
  * @author Leonardo Guerra
  */
 
-public class FluxBrush implements ToolCard{   //Pennello per Pasta Salda
+public class FluxBrush extends ToolCard{   //Pennello per Pasta Salda
 
     private static FluxBrush instance;
     private FluxBrush(){};

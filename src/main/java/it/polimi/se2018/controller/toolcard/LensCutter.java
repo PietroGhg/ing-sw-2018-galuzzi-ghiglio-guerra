@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class LensCutter implements ToolCard{  //Taglierina Circolare
+public class LensCutter extends ToolCard{  //Taglierina Circolare
 
     private static LensCutter instance;
     private LensCutter(){};

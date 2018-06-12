@@ -13,7 +13,7 @@ import it.polimi.se2018.model.wpc.WPC;
  * @author Leonardo Guerra
  */
 
-public class Lathekin implements ToolCard{
+public class Lathekin extends ToolCard{
 
     private static Lathekin instance;
     private Lathekin(){};

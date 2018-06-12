@@ -13,7 +13,7 @@ import it.polimi.se2018.model.wpc.WPC;
  * @author Leonardo Guerra
  */
 
-public class EglomiseBrush implements ToolCard{   //Pennello per Eglomise
+public class EglomiseBrush extends ToolCard{   //Pennello per Eglomise
 
     private static EglomiseBrush instance;
     private EglomiseBrush(){};

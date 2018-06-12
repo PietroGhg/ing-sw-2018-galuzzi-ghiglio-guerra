@@ -13,7 +13,7 @@ import java.util.Random;
  * @author Leonardo Guerra
  */
 
-public class GlazingHammer implements ToolCard{//Martelletto
+public class GlazingHammer extends ToolCard{//Martelletto
 
     private static GlazingHammer instance;
     private GlazingHammer(){};

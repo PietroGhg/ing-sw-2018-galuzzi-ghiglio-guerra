@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class GrozingPliers implements ToolCard{   //Pinza Sgrossatrice
+public class GrozingPliers extends ToolCard{   //Pinza Sgrossatrice
 
     private static GrozingPliers instance;
     private GrozingPliers(){};

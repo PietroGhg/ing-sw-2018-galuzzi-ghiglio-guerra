@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class GrindingStone implements ToolCard{   //Tampone Diamantato
+public class GrindingStone extends ToolCard{   //Tampone Diamantato
 
     private static GrindingStone instance;
     private GrindingStone(){};

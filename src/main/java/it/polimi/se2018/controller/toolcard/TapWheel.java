@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class TapWheel implements ToolCard{    //Taglierina Manuale
+public class TapWheel extends ToolCard{    //Taglierina Manuale
 
     private static TapWheel instance;
     private TapWheel(){};

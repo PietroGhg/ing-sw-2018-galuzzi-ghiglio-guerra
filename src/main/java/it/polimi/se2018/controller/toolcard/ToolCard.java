@@ -4,9 +4,10 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 
-public interface ToolCard {
-    int getFavorTokensNeeded();
-    void cardAction(PlayerMoveParameters parameters) throws MoveNotAllowedException;
+public abstract class ToolCard {
+    public abstract int getFavorTokensNeeded();
+    public abstract void cardAction(PlayerMoveParameters parameters) throws MoveNotAllowedException;
+    //TODO: protected...
 }
 
 /*
@@ -30,5 +31,6 @@ public interface ToolCard {
                         2: die1 row, 3: die1 col, 4: cell1 row, 5: cell1 col
                         (if moves 2 dice): 6: die2 row, 7: die2 col, 8: cell2 row, 9: cell2 col
 
-    TODO: eliminare codice ripetuto per Favor Tokens Needed e aggiornamento finale dei Favor Tokens
+    TODO: raggruppare effetti
+    TODO: controllare restrizioni all'inizio
 */

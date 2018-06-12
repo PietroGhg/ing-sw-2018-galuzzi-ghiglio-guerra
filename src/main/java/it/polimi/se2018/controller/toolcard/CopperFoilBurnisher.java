@@ -13,7 +13,7 @@ import it.polimi.se2018.model.wpc.WPC;
  * @author Leonardo Guerra
  */
 
-public class CopperFoilBurnisher implements ToolCard{ //Alesatore per Lamina di Rame
+public class CopperFoilBurnisher extends ToolCard{ //Alesatore per Lamina di Rame
 
     private static CopperFoilBurnisher instance;
     private CopperFoilBurnisher(){};

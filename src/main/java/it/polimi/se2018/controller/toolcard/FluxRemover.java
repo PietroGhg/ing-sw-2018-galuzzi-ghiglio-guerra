@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class FluxRemover implements ToolCard{ //Diluente per Pasta Salda
+public class FluxRemover extends ToolCard{ //Diluente per Pasta Salda
 
     private static FluxRemover instance;
     private FluxRemover(){};

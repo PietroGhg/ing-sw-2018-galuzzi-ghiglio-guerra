@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Leonardo Guerra
  */
 
-public class RunningPliers implements ToolCard{   //Tenaglia a Rotelle
+public class RunningPliers extends ToolCard{   //Tenaglia a Rotelle
 
     private static RunningPliers instance;
     private RunningPliers(){};
