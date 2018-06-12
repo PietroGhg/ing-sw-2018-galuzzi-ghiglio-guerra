@@ -56,7 +56,7 @@ public class TestGlazingHammer {
 
     }
 
-    private int[] countColours(ArrayList<Die> dp){
+    public int[] countColours(ArrayList<Die> dp){
         int i=0;
         int temp=0;
         int [] count = new int[5];
