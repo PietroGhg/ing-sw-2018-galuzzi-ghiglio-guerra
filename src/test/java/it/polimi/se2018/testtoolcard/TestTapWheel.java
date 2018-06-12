@@ -636,7 +636,7 @@ public class TestTapWheel {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test18(){
+    public void testEnoughFT(){
         TapWheel.resetInstance();
         model = new Model();
         player = new Player(1);

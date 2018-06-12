@@ -132,10 +132,9 @@ public class TestFluxRemover {
      * Tests the normal use of the tool card with 3 parameters
      */
     @Test
-    public void test1(){
+    public void test3(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(3);
         player.setWpc(before);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
@@ -164,10 +163,9 @@ public class TestFluxRemover {
      * Tests the normal use of the tool card with 5 parameters
      */
     @Test
-    public void test2(){
+    public void test5(){
         model = new Model();
         player = new Player(1);
-        player.setFavorTokens(4);
         player.setWpc(before);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
@@ -198,11 +196,11 @@ public class TestFluxRemover {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test3(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(4);
-        player.setWpc(before);
+        player.setWpcOnly(before);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         model.setDraftPool(beforeDP);

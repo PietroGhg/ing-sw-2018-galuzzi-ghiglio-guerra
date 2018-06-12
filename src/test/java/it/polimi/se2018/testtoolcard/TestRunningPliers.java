@@ -344,7 +344,7 @@ public class TestRunningPliers {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test10(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(3);

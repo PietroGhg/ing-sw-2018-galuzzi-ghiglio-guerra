@@ -506,7 +506,7 @@ public class TestLathekin {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test16(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
