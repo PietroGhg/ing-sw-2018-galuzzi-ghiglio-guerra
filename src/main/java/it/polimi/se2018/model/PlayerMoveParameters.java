@@ -62,4 +62,8 @@ public class PlayerMoveParameters {
 
     public void setFloatingDie(Die d){model.setFloatingDie(d); }
 
+    public void setSkipTurn(int playerID, boolean skipTurn){
+        model.setSkipTurn(playerID, skipTurn);
+    }
+
 }

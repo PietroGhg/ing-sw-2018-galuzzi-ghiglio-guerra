@@ -9,7 +9,9 @@ import java.util.Timer;
 
 
 /**
- * states are used to handle player's connections and disconnections
+ * States are used to handle player's connections and disconnections:
+ * connection and disconnections are handled differently according to the fact that a game is already started or not.
+ * Seen the ConnectionState and GameplayState comments.
  * @author Pietro Ghiglio
  */
 public interface State {

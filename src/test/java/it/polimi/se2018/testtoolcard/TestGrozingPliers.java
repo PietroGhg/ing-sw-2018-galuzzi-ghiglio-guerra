@@ -403,7 +403,7 @@ public class TestGrozingPliers {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test12(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);

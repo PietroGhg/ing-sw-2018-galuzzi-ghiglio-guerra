@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 
 
 /**
- * The Server has an instance of the model and an instance of the controller.
- * A RemoteView object is instantiated as new players connect
+ * Class that handles socket connections.
+ * In its constructor starts a ClientGatherer thread and creates a new remoteViewMap.
+ * The RemoteViewMap is used to keep track of the RemoteViews that had been instantiated, in relation to the corresponding player name
  * @author Pietro Ghiglio
  */
 public class SocketServer {
@@ -24,6 +25,7 @@ public class SocketServer {
     /**
      * Instantiates the model and the controller, starts a ClientGatherer thread.
      * The ClientGatherer will call the addClient() method as new players connect.
+     * The model and the controller are instantiated in the main Server class and passed as arguments in the constructor.
      */
     public SocketServer(Model model, Controller controller, int port){
         this.model = model;

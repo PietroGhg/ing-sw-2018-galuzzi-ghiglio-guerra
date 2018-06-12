@@ -67,11 +67,23 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public void nextTurn(TurnTimer turnTimer){
         try {
+            boolean newTurn = true;//Variable used to avoid multiple notifications in case there's a disc player.
             draftPool = roundTrack.nextTurn(draftPool);
             turn.clear();
             turnTimer.reset(); //resets a turn timer
-            if(players.get(whoIsPlaying()-1).isDisconnected()) nextTurn(turnTimer);
-            setNewTurnMessage(whoIsPlaying());
+
+            Player currPlayer = players.get(whoIsPlaying() - 1);
+            if(currPlayer.isDisconnected()){
+                nextTurn(turnTimer);
+                newTurn = false;
+            }
+            if(currPlayer.getSkipTurn()){
+                nextTurn(turnTimer);
+                newTurn = false;
+            }
+            if(newTurn) {
+                setNewTurnMessage(whoIsPlaying());
+            }
         }
         catch (GameEndedException e){
             turnTimer.cancel(); //cancels the turn timer
@@ -326,6 +338,11 @@ public class Model extends Observable<MVAbstractMessage> {
         }
 
         return ris;
+    }
+
+    public void setSkipTurn(int playerID, boolean skipTurn){
+        Player p = players.get(playerID - 1);
+        p.setSkipTurn(skipTurn);
     }
 
 }

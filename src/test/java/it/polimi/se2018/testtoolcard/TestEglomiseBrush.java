@@ -68,7 +68,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -95,7 +94,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -121,7 +119,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(2);
@@ -146,7 +143,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(2);
@@ -171,7 +167,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(0);
@@ -196,7 +191,6 @@ public class TestEglomiseBrush {
         model = new Model();
         player = new Player(1);
         player.setWpc(before);
-        player.setFavorTokens(5);
         model.addPlayer(player);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
         param.addParameter(1);
@@ -217,7 +211,7 @@ public class TestEglomiseBrush {
      * Tests if the player has enough favor tokens
      */
     @Test
-    public void test7(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         player.setWpc(before);

@@ -13,8 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * In GameplayState, the program keeps track of the players that disconnect, so that they can later reconnect
- * It's not possible for a new player to connect to the game
+ * In GameplayState, the program keeps track of the players that disconnect, so that they can later reconnect.
+ * In case of a connection request, the controller checks if the player is in the disconnected players list,
+ * if he is, a reconnection procedure is started, otherwise the method will return a GameStartedException.
+ * It's not possible for a new player to connect to the game.
  * @author Pietro Ghiglio
  */
 public class GameplayState implements State {

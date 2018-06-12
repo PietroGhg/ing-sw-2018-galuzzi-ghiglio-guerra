@@ -56,7 +56,7 @@ public class TestGlazingHammer {
 
     }
 
-    private int[] countColours(ArrayList<Die> dp){
+    public int[] countColours(ArrayList<Die> dp){
         int i=0;
         int temp=0;
         int [] count = new int[5];
@@ -75,7 +75,7 @@ public class TestGlazingHammer {
      * Test for the normal use of the tool card
      */
     @Test
-    public void test1(){
+    public void test(){
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
@@ -118,7 +118,7 @@ public class TestGlazingHammer {
      * Not player's turn -> throws exception
      */
     @Test
-    public void test2(){
+    public void testWrongTurn(){
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
@@ -151,7 +151,7 @@ public class TestGlazingHammer {
      * The player hasn't enough favor tokens -> throws exception
      */
     @Test
-    public void test3(){
+    public void testEnoughFT(){
         model = new Model();
         player = new Player(1);
         player.setFavorTokens(4);

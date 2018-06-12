@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 public class TestCorkBackedStraightedge {
     private Model model;
     private PlayerMoveParameters param;
+    private PlayerMoveParameters param2;
     private CorkBackedStraightedge card;
     private Player player;
     private ArrayList<Die> beforeDP;
@@ -89,7 +90,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -116,7 +116,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(emptyDP);
@@ -143,7 +142,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -170,7 +168,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(empty);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -197,7 +194,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -224,7 +220,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -252,7 +247,6 @@ public class TestCorkBackedStraightedge {
         model = new Model();
         player = new Player(1);
         param = new PlayerMoveParameters(player.getPlayerID(), model);
-        player.setFavorTokens(5);
         player.setWpc(before);
         model.addPlayer(player);
         param.setDraftPool(beforeDP);
@@ -271,6 +265,39 @@ public class TestCorkBackedStraightedge {
         }
     }
 
-    //Test to check favor tokens in TestEglomiseBrush
+    @Test
+    public void testEnoughFT(){
+        model = new Model();
+        player = new Player(1);
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        player.setWpcOnly(before);
+        player.setFavorTokens(2);
+        model.addPlayer(player);
+        param.setDraftPool(beforeDP);
+        param.addParameter(0);
+        param.addParameter(3);
+        param.addParameter(1);
+        model.setParameters(param);
+        try {
+            card.cardAction(param);
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(3);
+        param2.addParameter(3);
+        param2.addParameter(2);
+        try {
+            card.cardAction(param2);
+            fail();
+        }
+        catch (MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: not enough favor tokens.", e.getMessage());
+        }
+    }
 
 }

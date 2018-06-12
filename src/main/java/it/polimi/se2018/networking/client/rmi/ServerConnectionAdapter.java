@@ -8,6 +8,10 @@ import it.polimi.se2018.view.MVAbstractMessage;
 
 import java.rmi.RemoteException;
 
+/**
+ * Class that adapts an RMIServerConnection to a ServerConnection.
+ * See ClientConnectionAdapter for more details.
+ */
 public class ServerConnectionAdapter implements ServerConnection {
     private RMIServerConnection adaptee;
 
