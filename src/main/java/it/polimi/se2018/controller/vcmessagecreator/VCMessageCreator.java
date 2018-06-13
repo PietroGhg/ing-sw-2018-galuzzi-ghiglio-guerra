@@ -134,12 +134,16 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
     private void showFile(ViewInterface view, String tc){
         String path = System.getProperty("user.dir") + "/src/main/java/it/polimi/se2018/resourcescards/" + tc;
+        StringBuilder builder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line = reader.readLine();
             while (line != null) {
-                view.displayMessage(line);
+                builder.append(line);
+                builder.append("\n");
                 line = reader.readLine();
             }
+            builder.append("\n");
+            view.displayMessage(builder.toString());
 
         } catch (IOException e) { view.displayMessage("Error while opening file"); }
 

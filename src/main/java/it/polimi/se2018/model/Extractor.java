@@ -18,21 +18,21 @@ import java.util.Random;
  */
 public class Extractor {
     public static final int NUM_PR_CARDS = 5;
-    public static final int NUM_PU_CARDS = 10;
-    public static final int NUM_PUCARDS_EXTRACTED = 3;
+    private static final int NUM_PU_CARDS = 10;
+    private static final int NUM_PUCARDS_EXTRACTED = 3;
     public static final int NUM_WPCS_EXTRACTED = 4;
-    public static final int NUM_TOOLCARDS_EXTRACTED=3;
+    private static final int NUM_TOOLCARDS_EXTRACTED=3;
     private ArrayList<Integer> prCards;
     private ArrayList<Integer> puCards;
     private ArrayList<Integer> wpcs;
-    private List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightEdge", "EglomiseBrush",
-            "FluxBrush", "FluxRemover", "GlazingHammer", "GrindingStone", "GrozingPliers", "Lathekin", "LensCutter", "RunningPliers",
-            "TapWheel");
     private List<String> toolCards;
     private int numWpcs;
     private static Extractor instance;
 
     private Extractor(){
+        List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightEdge", "EglomiseBrush",
+                "FluxBrush", "FluxRemover", "GlazingHammer", "GrindingStone", "GrozingPliers", "Lathekin", "LensCutter", "RunningPliers",
+                "TapWheel");
         WpcGenerator gen = new WpcGenerator();
         prCards = new ArrayList<>(NUM_PR_CARDS);
         for(int i = 0; i < NUM_PR_CARDS; i++)  prCards.add(i);
@@ -44,9 +44,7 @@ public class Extractor {
         wpcs = new ArrayList<>(numWpcs);
 
         toolCards = new ArrayList<>();
-        for(String tc: staticToolCards){
-            toolCards.add(tc);
-        }
+        toolCards.addAll(staticToolCards);
 
 
         //the boards are stored in files whose names are 1.xml ... 24.xml,
@@ -96,7 +94,6 @@ public class Extractor {
         }
         catch(InputNotValidException e){
             //Since randNum is a value between 0 and 4, this exception should never be thrown
-            System.out.println("Boh");
             return "Error";
         }
     }
