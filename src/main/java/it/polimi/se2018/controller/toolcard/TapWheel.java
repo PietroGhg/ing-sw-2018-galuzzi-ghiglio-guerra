@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class TapWheel extends ToolCard{    //Taglierina Manuale
 
     private static TapWheel instance;
-    private TapWheel(){};
+    private TapWheel(){
+        super("TapWheel");
+    }
     public static TapWheel getInstance(){
         if (instance==null) instance = new TapWheel();
         return instance;

@@ -83,6 +83,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             out.println("You have been assigned the id: " + playerID);
             modelRepresentation.setPrCards(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
+            modelRepresentation.setToolCards(message.getTcInUse());
             chooseWpc(message.getIDs());
         }
     }

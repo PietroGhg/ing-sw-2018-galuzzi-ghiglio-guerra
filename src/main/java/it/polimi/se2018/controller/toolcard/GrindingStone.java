@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class GrindingStone extends ToolCard{   //Tampone Diamantato
 
     private static GrindingStone instance;
-    private GrindingStone(){};
+    private GrindingStone(){
+        super("GrindingStone");
+    }
     public static GrindingStone getInstance(){
         if (instance==null) instance = new GrindingStone();
         return instance;

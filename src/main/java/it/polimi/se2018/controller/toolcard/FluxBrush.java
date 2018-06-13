@@ -18,7 +18,9 @@ import java.util.Random;
 public class FluxBrush extends ToolCard{   //Pennello per Pasta Salda
 
     private static FluxBrush instance;
-    private FluxBrush(){};
+    private FluxBrush(){
+        super("FluxBrush");
+    }
     public static FluxBrush getInstance(){
         if (instance==null) instance = new FluxBrush();
         return instance;

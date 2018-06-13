@@ -16,7 +16,9 @@ import java.util.ArrayList;
 public class LensCutter extends ToolCard{  //Taglierina Circolare
 
     private static LensCutter instance;
-    private LensCutter(){};
+    private LensCutter(){
+        super("LensCutter");
+    }
     public static LensCutter getInstance(){
         if (instance==null) instance = new LensCutter();
         return instance;

@@ -16,7 +16,9 @@ import it.polimi.se2018.model.wpc.WPC;
 public class EglomiseBrush extends ToolCard{   //Pennello per Eglomise
 
     private static EglomiseBrush instance;
-    private EglomiseBrush(){};
+    private EglomiseBrush(){
+        super("EglomiseBrush");
+    }
     public static EglomiseBrush getInstance(){
         if (instance==null) instance = new EglomiseBrush();
         return instance;

@@ -18,7 +18,9 @@ import java.util.ArrayList;
 public class FluxRemover extends ToolCard{ //Diluente per Pasta Salda
 
     private static FluxRemover instance;
-    private FluxRemover(){};
+    private FluxRemover(){
+        super("FluxRemover");
+    }
     public static FluxRemover getInstance(){
         if (instance==null) instance = new FluxRemover();
         return instance;

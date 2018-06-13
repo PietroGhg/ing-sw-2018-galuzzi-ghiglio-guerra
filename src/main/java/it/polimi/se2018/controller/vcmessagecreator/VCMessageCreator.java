@@ -91,18 +91,11 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                 view.showBoards();
 
             } else if (toShow.equalsIgnoreCase("toolcards")) {
-                try(BufferedReader reader = new BufferedReader(new FileReader("toolcard1"))){
-                    String line = reader.readLine();
-                    while (line != null) {
-                        view.displayMessage(line);
-                        line = reader.readLine();
-                    }
-                }catch (IOException e){view.displayMessage(error);} }
-
-
-
-
-
+                List<String> toolCards = modelRep.getToolCards();
+                for (String tc : toolCards) {
+                    showFile(view, tc);
+                }
+            }
             else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
             else if(toShow.equalsIgnoreCase("objectivecards")) {
@@ -137,6 +130,18 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         else {
             view.displayMessage("Input not valid");
         }
+    }
+
+    private void showFile(ViewInterface view, String tc){
+        String path = System.getProperty("user.dir") + "/src/main/java/it/polimi/se2018/resourcescards/" + tc;
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String line = reader.readLine();
+            while (line != null) {
+                view.displayMessage(line);
+                line = reader.readLine();
+            }
+
+        } catch (IOException e) { view.displayMessage("Error while opening file"); }
 
     }
 

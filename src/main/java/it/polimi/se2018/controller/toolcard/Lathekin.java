@@ -16,7 +16,9 @@ import it.polimi.se2018.model.wpc.WPC;
 public class Lathekin extends ToolCard{
 
     private static Lathekin instance;
-    private Lathekin(){};
+    private Lathekin(){
+        super("Lathekin");
+    }
     public static Lathekin getInstance(){
         if (instance==null) instance = new Lathekin();
         return instance;

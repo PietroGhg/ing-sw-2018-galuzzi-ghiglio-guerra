@@ -16,7 +16,9 @@ import java.util.Random;
 public class GlazingHammer extends ToolCard{//Martelletto
 
     private static GlazingHammer instance;
-    private GlazingHammer(){};
+    private GlazingHammer(){
+        super("GlazingHammer");
+    }
     public static GlazingHammer getInstance(){
         if (instance==null) instance = new GlazingHammer();
         return instance;

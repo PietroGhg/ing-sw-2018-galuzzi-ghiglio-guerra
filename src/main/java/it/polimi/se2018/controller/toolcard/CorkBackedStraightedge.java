@@ -15,7 +15,9 @@ import it.polimi.se2018.model.wpc.WPC;
 public class CorkBackedStraightedge extends ToolCard{  //Riga in Sughero
 
     private static CorkBackedStraightedge instance;
-    private CorkBackedStraightedge(){};
+    private CorkBackedStraightedge(){
+        super("CorkBackedStraightedge");
+    }
     public static CorkBackedStraightedge getInstance(){
         if (instance==null) instance = new CorkBackedStraightedge();
         return instance;

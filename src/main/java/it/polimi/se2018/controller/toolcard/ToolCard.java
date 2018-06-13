@@ -5,8 +5,14 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.table.Model;
 
 public abstract class ToolCard {
+    private String name;
     public abstract int getFavorTokensNeeded();
+    protected ToolCard(String name){
+        this.name = name;
+    }
     public abstract void cardAction(PlayerMoveParameters parameters) throws MoveNotAllowedException;
+
+    public String getName(){ return name; }
     //TODO: protected...
 }
 

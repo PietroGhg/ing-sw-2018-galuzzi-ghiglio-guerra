@@ -2,6 +2,7 @@ package it.polimi.se2018.controller;
 
 
 import it.polimi.se2018.controller.states.*;
+import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.controller.toolcard.ToolCardFactory;
 import it.polimi.se2018.controller.turntimer.TurnFacade;
 import it.polimi.se2018.controller.turntimer.TurnTimer;
@@ -55,11 +56,13 @@ public class Controller implements Observer<VCAbstractMessage> {
         int toolcardID = message.getToolCardID();
         int playerID = message.getPlayerID();
         try {
-            checkTurn(message);
+            checkTurn(message); //throws exception if it's not the player's turn
+            ToolCard toolCard = toolCardFactory.get(toolcardID);
+            model.isInUse(toolCard.getName()); //throws exception if the toolcard is not in use
             if(model.cardHasBeenPlayed()) throw new MoveNotAllowedException("Error: a tool card has already been used in the turn.");
             model.setParameters(message);
 
-            toolCardFactory.get(toolcardID).cardAction(model.getParameters());
+            toolCard.cardAction(model.getParameters()); //throws exception based on the cardAction
             model.setToolCardUsed();
             model.setGameMessage("Success.", playerID);
 

@@ -16,7 +16,7 @@ public class ModelRepresentation {
     private ArrayList<Die> draftPool;
     private String prCards;
     private String[] puCards;
-    private String toolCards;
+    private List<String> toolCards;
     private Map<Integer, WPC> wpcs;
     private DiceBag diceBag;
 
@@ -64,7 +64,9 @@ public class ModelRepresentation {
 
     public String getPrCards(){return prCards; }
 
-    public String getToolCards(){ return toolCards; }
+    public List<String> getToolCards(){ return toolCards; }
+
+    public void setToolCards(List<String> toolCards) { this.toolCards = toolCards; }
 
     public int getNumPlayers(){ return wpcs.size(); }
 

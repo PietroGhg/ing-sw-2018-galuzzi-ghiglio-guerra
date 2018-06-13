@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class GrozingPliers extends ToolCard{   //Pinza Sgrossatrice
 
     private static GrozingPliers instance;
-    private GrozingPliers(){};
+    private GrozingPliers(){
+        super("GrozingPliers");
+    }
     public static GrozingPliers getInstance(){
         if (instance==null) instance = new GrozingPliers();
         return instance;

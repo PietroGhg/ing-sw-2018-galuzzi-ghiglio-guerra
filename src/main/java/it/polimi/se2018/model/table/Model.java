@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.table;
 
+import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.controller.turntimer.TurnTimer;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.*;
@@ -26,6 +27,7 @@ public class Model extends Observable<MVAbstractMessage> {
     public static final int MAX_PLAYERS = 4;
 
     private RoundTrack roundTrack;
+    private List<String> toolCardsInUse;
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
@@ -244,6 +246,9 @@ public class Model extends Observable<MVAbstractMessage> {
             puCardsNames[i] = this.puCards.get(i).getName();
         }
 
+        //Extracts three toolcards
+        toolCardsInUse = extractor.extractToolCards();
+
         //Initializes the roundtrack and extracts dice for the draftpool
         roundTrack = new RoundTrack(getPlayersNumber());
         draftPool = diceBag.extractDice(getPlayersNumber());
@@ -256,6 +261,10 @@ public class Model extends Observable<MVAbstractMessage> {
         }
     }
 
+    public void isInUse(String toolCard) throws MoveNotAllowedException{
+        if(!toolCardsInUse.contains(toolCard)) throw new MoveNotAllowedException("Toolcard not in use");
+    }
+
 
 
     /**
@@ -265,7 +274,7 @@ public class Model extends Observable<MVAbstractMessage> {
      * @param indexes the indexes of the boards
      */
     private synchronized void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
-        MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards);
+        MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards, toolCardsInUse);
         LOGGER.log(Level.INFO, "Sending to: " + players.get(playerID - 1).getPlayerID() + "\nMessage: " + message +"\n\n");
         notify(message);
     }

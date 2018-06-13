@@ -7,6 +7,7 @@ import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjective
 import it.polimi.se2018.model.wpc.WpcGenerator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -24,10 +25,11 @@ public class Extractor {
     private ArrayList<Integer> prCards;
     private ArrayList<Integer> puCards;
     private ArrayList<Integer> wpcs;
-    private ArrayList<Integer> toolCards;
+    private List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightEdge", "EglomiseBrush",
+            "FluxBrush", "FluxRemover", "GlazingHammer", "GrindingStone", "GrozingPliers", "Lathekin", "LensCutter", "RunningPliers",
+            "TapWheel");
+    private List<String> toolCards;
     private int numWpcs;
-    private int numToolCards;
-
     private static Extractor instance;
 
     private Extractor(){
@@ -41,14 +43,14 @@ public class Extractor {
         numWpcs = gen.getNumWpcs();
         wpcs = new ArrayList<>(numWpcs);
 
+        toolCards = new ArrayList<>();
+        for(String tc: staticToolCards){
+            toolCards.add(tc);
+        }
+
 
         //the boards are stored in files whose names are 1.xml ... 24.xml,
         for(int i = 1; i <= numWpcs; i++) wpcs.add(i);
-
-        numToolCards = getNumToolCards();
-        toolCards = new ArrayList<>(numToolCards);
-
-        for(int i = 1; i <= numToolCards; i++) toolCards.add(i);
     }
 
     public static Extractor getInstance(){
@@ -120,12 +122,12 @@ public class Extractor {
         return ris;
     }
 
-    public int[] extractToolCards(){
-        int[] ris = new int[NUM_TOOLCARDS_EXTRACTED];
+    public List<String> extractToolCards(){
+        List<String> ris = new ArrayList<>();
         Random random = new Random();
         for(int i=0; i<NUM_TOOLCARDS_EXTRACTED; i++) {
             int randomIndex = random.nextInt(toolCards.size());
-            ris[i] = toolCards.get(randomIndex);
+            ris.add(  toolCards.get(randomIndex) );
             toolCards.remove(randomIndex);
         }
         return ris;
@@ -138,8 +140,6 @@ public class Extractor {
     public int currNumWpcs(){ return wpcs.size(); }
 
     public int getNumWpcs() { return this.numWpcs; }
-
-    public int getNumToolCards() { return this.numToolCards; }
 
     public int getNumPuCards() { return prCards.size(); }
 

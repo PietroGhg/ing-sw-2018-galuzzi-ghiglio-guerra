@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class RunningPliers extends ToolCard{   //Tenaglia a Rotelle
 
     private static RunningPliers instance;
-    private RunningPliers(){};
+    private RunningPliers(){
+        super("RunningPliers");
+    }
     public static RunningPliers getInstance(){
         if (instance==null) instance = new RunningPliers();
         return instance;
