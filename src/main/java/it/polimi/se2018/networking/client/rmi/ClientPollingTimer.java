@@ -16,14 +16,14 @@ public class ClientPollingTimer {
     private Timer timer;
     private RMIClientConnection serverService;
     private RMIClient rmiClient;
-    private PollingTask task;
 
-    public ClientPollingTimer(RMIClientConnection serverService, RMIClient rmiClient){
+    /*package-private*/ ClientPollingTimer(RMIClientConnection serverService, RMIClient rmiClient){
         this.serverService = serverService;
         this.rmiClient = rmiClient;
     }
 
     public void startPolling(){
+        PollingTask task;
         task = new PollingTask();
         timer = new Timer();
         timer.scheduleAtFixedRate(task, 500, 500);

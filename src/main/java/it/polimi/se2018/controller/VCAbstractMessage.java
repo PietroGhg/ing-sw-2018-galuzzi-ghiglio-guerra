@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.Controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class VCAbstractMessage implements Serializable {
     private int playerID;
@@ -15,7 +16,7 @@ public abstract class VCAbstractMessage implements Serializable {
     }
 
     public int getPlayerID(){ return playerID; }
-    public ArrayList<Integer> getParameters() { return parameters; }
+    public List<Integer> getParameters() { return parameters; }
     public abstract void accept(Controller c);
     public void addParameter(int n){
         parameters.add(n);

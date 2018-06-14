@@ -3,25 +3,20 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.objectivecards.privateobjectivecard.PrivateObjectiveCard;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.wpc.WPC;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private int playerID;
     private String name;
     private int favorTokens;
-    private int privateScore;
-    private int totalScore;
     private boolean disconnected;
     private boolean skipTurn;
     private WPC wpc;
-    private int[] extractedWpcsIDs;
     private boolean ready;
 
     private PrivateObjectiveCard prCard;
 
     public Player(int id){
-        extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
         ready = false;
         skipTurn = false;
         disconnected = false;
@@ -29,18 +24,9 @@ public class Player {
     }
 
     public Player (int id, String name){
-        extractedWpcsIDs = new int[Extractor.NUM_WPCS_EXTRACTED];
         ready = false;
         playerID = id;
         this.name = name;
-    }
-
-    public void setExtractedWpcsIDs(int[] extractedWpcsIDs) {
-        this.extractedWpcsIDs = extractedWpcsIDs;
-    }
-
-    public int[] getExtractedWpcsIDs() {
-        return extractedWpcsIDs;
     }
 
     public String getName() {
@@ -75,7 +61,7 @@ public class Player {
         return prCard.getScore(wpc);
     }
 
-    public int getTotalScore(ArrayList<PublicObjectiveCard> puCards){
+    public int getTotalScore(List<PublicObjectiveCard> puCards){
         int ris = 0;
         for(PublicObjectiveCard c : puCards){
             ris = ris + c.getScore(wpc);

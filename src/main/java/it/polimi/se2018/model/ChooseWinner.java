@@ -4,18 +4,18 @@ import it.polimi.se2018.exceptions.NoWinnerException;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.table.RoundTrack;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Chooses the winner: checks total score, private score, favor tokens and position in the last turn
  * @author Pietro Ghiglio
  */
 public class ChooseWinner {
-    private ArrayList<Player> possibleW;
-    private ArrayList<PublicObjectiveCard> puCard;
+    private List<Player> possibleW;
+    private List<PublicObjectiveCard> puCard;
     private RoundTrack roundTrack;
 
-    public ChooseWinner(ArrayList<Player> possibleW, ArrayList<PublicObjectiveCard> puCard, RoundTrack r) {
+    public ChooseWinner(List<Player> possibleW, List<PublicObjectiveCard> puCard, RoundTrack r) {
         this.possibleW = possibleW;
         this.puCard = puCard;
         this.roundTrack = r;

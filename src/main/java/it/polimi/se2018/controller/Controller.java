@@ -15,11 +15,14 @@ import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.utils.Observer;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Controller implements Observer<VCAbstractMessage> {
+    private static final Logger LOGGER = Logger.getLogger(Controller.class.getName());
     private Model model;
     private Timer timer;
     private TurnTimer turnTimer;
@@ -41,7 +44,7 @@ public class Controller implements Observer<VCAbstractMessage> {
 
     public void startGame() {
         state = new GameplayState();
-        System.out.println("Game starting.");
+        LOGGER.log(Level.INFO, "Game starting.");
         timer.cancel(); //cancels the connection timer
         turnTimer.reset(); //starts the turn timer
         model.startGame();
@@ -99,13 +102,14 @@ public class Controller implements Observer<VCAbstractMessage> {
 
     /*package private*/ void visit(VCSetUpMessage message){
         int playerID = message.getPlayerID();
-        System.out.println(playerID + " ready.");
+        String s = playerID + " ready.";
+        LOGGER.log(Level.INFO, s);
         model.setWpc(playerID, message.getChosenWpc());
         model.setReady(playerID);
 
         //if all the players have chosen a board, a game can start
         if(model.allReady()){
-            System.out.println("All ready.");
+            LOGGER.log(Level.INFO, "All ready.");
             model.setStartGameMessage("Game start", model.whoIsPlaying());
         }
     }
@@ -121,7 +125,7 @@ public class Controller implements Observer<VCAbstractMessage> {
         Player player = parameters.getPlayer();
 
         WPC wpc = player.getWpc();
-        ArrayList<Die> dp = parameters.getDraftPool();
+        List<Die> dp = parameters.getDraftPool();
         int dpIndex = parameters.getParameter(0); //DraftPool index for the chosen die
         int cellRow = parameters.getParameter(1); //Row of the recipient cell
         int cellCol = parameters.getParameter(2); //Column of the recipient cell
@@ -182,7 +186,7 @@ public class Controller implements Observer<VCAbstractMessage> {
             model.setWelcomeBackMessage(p.getPlayerID(), p.getName(),p.getName()+" rejoined");
         }
         catch (UserNameNotFoundException e){
-            System.out.println("Error while handling player reconnection");
+            LOGGER.log(Level.SEVERE, "Error while handling player reconnection");
         }
     }
 }

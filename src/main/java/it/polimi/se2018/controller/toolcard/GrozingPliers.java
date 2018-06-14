@@ -6,8 +6,7 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard GrozingPliers
@@ -34,7 +33,7 @@ public class GrozingPliers extends ToolCard{   //Pinza Sgrossatrice
         rc.checkEnoughFavorTokens(player, instance);
 
         WPC wpc = player.getWpc();
-        ArrayList<Die> dp = param.getDraftPool();
+        List<Die> dp = param.getDraftPool();
 
         int dpIndex = param.getParameter(0);
         int increment = param.getParameter(1);

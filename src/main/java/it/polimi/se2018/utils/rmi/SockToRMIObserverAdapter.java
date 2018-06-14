@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  * @author Pietro Ghiglio
  */
 public class SockToRMIObserverAdapter<T> implements RMIObserver<T>, Serializable {
-    private static final Logger LOGGER = Logger.getLogger(SockToRMIObserverAdapter.class.getName());
     private Observer<T> adaptee;
 
     public SockToRMIObserverAdapter(Observer<T> observer){

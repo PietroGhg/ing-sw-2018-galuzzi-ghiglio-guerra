@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -31,7 +32,7 @@ public class TestGlazingHammer {
 
     @Before
     public void setUP(){
-        beforeDP = new ArrayList<Die>();
+        beforeDP = new ArrayList<>();
         beforeDP.add(new Die(1, Colour.RED));
         beforeDP.add(new Die(2, Colour.RED));
         beforeDP.add(new Die(3, Colour.PURPLE));
@@ -56,7 +57,7 @@ public class TestGlazingHammer {
 
     }
 
-    public int[] countColours(ArrayList<Die> dp){
+    private int[] countColours(List<Die> dp){
         int i=0;
         int temp=0;
         int [] count = new int[5];

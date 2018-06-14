@@ -5,8 +5,7 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard LensCutter
@@ -30,8 +29,8 @@ public class LensCutter extends ToolCard{  //Taglierina Circolare
     @Override
     public void cardAction(PlayerMoveParameters param) throws MoveNotAllowedException{
         RestrictionChecker rc = new RestrictionChecker();
-        ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
-        ArrayList<Die> dp = param.getDraftPool();
+        List<List<Die>> rt = param.getRoundTrack();
+        List<Die> dp = param.getDraftPool();
 
         Player player = param.getPlayer();
         rc.checkEnoughFavorTokens(player,instance);

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -27,14 +28,14 @@ public class TestLensCutter {
     private PlayerMoveParameters param3;
     private LensCutter card;
     private Player player;
-    private ArrayList<ArrayList<Die>> beforeRT;
+    private List<List<Die>> beforeRT;
     private ArrayList<ArrayList<Die>> expectedRT;
     private ArrayList<Die> beforeDP;
     private ArrayList<Die> expectedDP;
 
     @Before
     public void setUp(){
-        beforeRT = new ArrayList<ArrayList<Die>>(10);
+        beforeRT = new ArrayList<>(10);
         for(int i=0;i<=5;i++) {
             beforeRT.add(new ArrayList<Die>());
         }
@@ -47,15 +48,15 @@ public class TestLensCutter {
         beforeRT.get(5).add(new Die(4,Colour.YELLOW));
         beforeRT.get(5).add(new Die(6,Colour.YELLOW));
 
-        expectedRT = new ArrayList<ArrayList<Die>>(10);
+        expectedRT = new ArrayList<>(10);
         for(int i=0;i<=5;i++) {
-            expectedRT.add(new ArrayList<Die>());
+            expectedRT.add(new ArrayList<>());
         }
-        expectedRT.set(0,new ArrayList<Die>());
+        expectedRT.set(0,new ArrayList<>());
         expectedRT.get(0).add(new Die(3, Colour.BLUE));
         expectedRT.get(0).add(new Die(5,Colour.RED));
         expectedRT.get(0).add(new Die(6,Colour.PURPLE));
-        expectedRT.set(1,new ArrayList<Die>());
+        expectedRT.set(1,new ArrayList<>());
         expectedRT.get(1).add(new Die(4,Colour.GREEN));
         expectedRT.set(2,new ArrayList<Die>());
         expectedRT.get(2).add(new Die(2,Colour.PURPLE));

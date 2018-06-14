@@ -8,6 +8,7 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard TapWheel
@@ -43,7 +44,7 @@ public class TapWheel extends ToolCard{    //Taglierina Manuale
         int rowCell1 = param.getParameter(4);
         int colCell1 = param.getParameter(5);
 
-        ArrayList<ArrayList<Die>> rt = param.getRoundTrack();
+        List<List<Die>> rt = param.getRoundTrack();
         rc.checkRTCellNotEmpty(rt,rtNumber,rtIndex);
 
         rc.checkNotEmpty(temp,rowDie1,colDie1);

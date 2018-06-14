@@ -3,7 +3,7 @@ package it.polimi.se2018.model.objectivecards.publicobjectivecard;
 import it.polimi.se2018.model.objectivecards.ObjectiveCard;
 import it.polimi.se2018.model.wpc.WPC;
 
-public abstract class PublicObjectiveCard extends ObjectiveCard {
+public abstract class PublicObjectiveCard implements ObjectiveCard {
     private String name;
 
     public PublicObjectiveCard(String name){

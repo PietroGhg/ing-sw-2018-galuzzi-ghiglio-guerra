@@ -7,15 +7,19 @@ import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.MVAbstractMessage;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that adapts an RMIServerConnection to a ServerConnection.
  * See ClientConnectionAdapter for more details.
  */
 public class ServerConnectionAdapter implements ServerConnection {
+    private static final Logger LOGGER = Logger.getLogger(ServerConnectionAdapter.class.getName());
     private RMIServerConnection adaptee;
 
-    public ServerConnectionAdapter(RMIServerConnection adaptee){
+    /*package-private*/ServerConnectionAdapter(RMIServerConnection adaptee){
         this.adaptee = adaptee;
     }
 
@@ -28,7 +32,8 @@ public class ServerConnectionAdapter implements ServerConnection {
             adaptee.send(message);
         }
         catch (RemoteException e){
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 
@@ -37,7 +42,8 @@ public class ServerConnectionAdapter implements ServerConnection {
             adaptee.register(new SockToRMIObserverAdapter<MVAbstractMessage>(observer));
         }
         catch(RemoteException e){
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 }

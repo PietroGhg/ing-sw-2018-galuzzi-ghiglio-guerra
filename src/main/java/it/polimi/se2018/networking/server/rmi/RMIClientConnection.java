@@ -2,7 +2,6 @@ package it.polimi.se2018.networking.server.rmi;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.GameStartedException;
-import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
 import it.polimi.se2018.networking.client.rmi.RMIServerConnection;
 import it.polimi.se2018.utils.rmi.RMIObserver;

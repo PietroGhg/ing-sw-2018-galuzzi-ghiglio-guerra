@@ -21,7 +21,8 @@ import java.util.logging.Logger;
  */
 public class WpcGenerator {
     private  WPC temp;
-    private Logger LOGGER = Logger.getLogger(WpcGenerator.class.getName());
+    private static final String VALUE = "value";
+    private static final Logger LOGGER = Logger.getLogger(WpcGenerator.class.getName());
 
     //The parser
     private class MyParser extends DefaultHandler {
@@ -39,23 +40,23 @@ public class WpcGenerator {
                 int r = Integer.parseInt(atts.getValue("row"));
                 int c = Integer.parseInt(atts.getValue("col"));
                 if (type.equals("colour")) {
-                    temp.getCell(r, c).setColourR(Colour.valueOf(atts.getValue("value")));
+                    temp.getCell(r, c).setColourR(Colour.valueOf(atts.getValue(VALUE)));
                 }
-                if (type.equals("value")) {
-                    temp.getCell(r, c).setValueR(Integer.valueOf(atts.getValue("value")));
+                if (type.equals(VALUE)) {
+                    temp.getCell(r, c).setValueR(Integer.valueOf(atts.getValue(VALUE)));
                 }
 
                 if (type.equals("favToken")) {
-                    temp.setFavorTokens(Integer.valueOf(atts.getValue("value")));
+                    temp.setFavorTokens(Integer.valueOf(atts.getValue(VALUE)));
                 }
             }
 
             if(qName.equals("favorTokens")) {
-                temp.setFavorTokens(Integer.parseInt(atts.getValue("value")));
+                temp.setFavorTokens(Integer.parseInt(atts.getValue(VALUE)));
             }
 
             if(qName.equals("name")) {
-                temp.setName(atts.getValue("value"));
+                temp.setName(atts.getValue(VALUE));
             }
         }
 

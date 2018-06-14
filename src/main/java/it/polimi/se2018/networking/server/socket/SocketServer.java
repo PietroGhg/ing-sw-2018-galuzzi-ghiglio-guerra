@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  * @author Pietro Ghiglio
  */
 public class SocketServer {
-    private static final Logger LOGGER = Logger.getLogger(SocketServer.class.getName());
     private Model model;
     private Controller controller;
     private Map<String, RemoteView> remoteViewMap;

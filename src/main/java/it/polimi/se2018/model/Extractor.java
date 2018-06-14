@@ -60,7 +60,7 @@ public class Extractor {
      * Extracts the IDs of the possible boards that a player will choose
      * @return the IDs
      */
-    public int[] extractWpcs(Player p){
+    public int[] extractWpcs(){
         int[] ris = new int[NUM_WPCS_EXTRACTED];
         Random random = new Random();
         for(int i = 0; i < NUM_WPCS_EXTRACTED; i++){
@@ -71,7 +71,7 @@ public class Extractor {
             //removes the extracted value from the total of the boards
             wpcs.remove(randomIndex);
         }
-        p.setExtractedWpcsIDs(ris);
+
         return ris;
     }
 

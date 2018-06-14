@@ -7,7 +7,7 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard GrindingStone
@@ -35,7 +35,7 @@ public class GrindingStone extends ToolCard{   //Tampone Diamantato
         rc.checkEnoughFavorTokens(player,instance);
 
         WPC wpc = player.getWpc();
-        ArrayList<Die> dp = param.getDraftPool();
+        List<Die> dp = param.getDraftPool();
         int dpIndex = param.getParameter(0);
         int cellRow = param.getParameter(1);
         int cellCol = param.getParameter(2);

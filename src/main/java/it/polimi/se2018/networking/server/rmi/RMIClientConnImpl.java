@@ -2,15 +2,12 @@ package it.polimi.se2018.networking.server.rmi;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.GameStartedException;
-import it.polimi.se2018.exceptions.ReconnectionException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
 import it.polimi.se2018.networking.client.rmi.RMIServerConnection;
 import it.polimi.se2018.utils.rmi.RMIObservable;
 import it.polimi.se2018.view.MVAbstractMessage;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

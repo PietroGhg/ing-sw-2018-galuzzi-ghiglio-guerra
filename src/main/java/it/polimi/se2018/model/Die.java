@@ -11,7 +11,7 @@ public class Die implements Serializable {
     private Colour colour;
 
     public Die(int v, String c){
-        value = Integer.valueOf(v);
+        value = v;
         colour = Colour.valueOf(c);
     }
 
@@ -22,7 +22,7 @@ public class Die implements Serializable {
 
     public Die(Die d) {
         try {
-            value = new Integer(d.getDieValue());
+            value = d.getDieValue();
         }
         catch(NullPointerException e){
             value = null;
@@ -36,7 +36,7 @@ public class Die implements Serializable {
     }
 
     public Die(int v, Colour c){
-        value = Integer.valueOf(v);
+        value = v;
         colour = c;
     }
 
@@ -92,7 +92,10 @@ public class Die implements Serializable {
     public String toString(){
         StringBuilder builder = new StringBuilder();
         String num = prettyDie(value);
-        builder.append(Colour.RESET + colour.escape() + num + Colour.RESET);
+        builder.append(Colour.RESET);
+        builder.append(colour.escape());
+        builder.append(num);
+        builder.append(Colour.RESET);
         return builder.toString();
     }
 

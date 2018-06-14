@@ -6,7 +6,6 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 
-import java.util.Random;
 
 /**
  * Class for ToolCard GlazingHammer

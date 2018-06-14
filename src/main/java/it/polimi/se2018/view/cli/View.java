@@ -29,7 +29,6 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     private final Object lock = new Object();
     private InputThread inputThread;
     private List<RawInputObserver> rawObservers;
-    private List<int[]> validCoordinates;
 
     public View(String playerName, ModelRepresentation modelRepresentation) {
         this.modelRepresentation = modelRepresentation;
@@ -39,7 +38,6 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         gameLoop = true;
         inputLoop = true;
         inputThread = new InputThread(this, lock);
-        validCoordinates = new ArrayList<>();
     }
 
     public void visit(MVGameMessage message) {
@@ -81,7 +79,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
             out.println("You have been assigned the id: " + playerID);
-            modelRepresentation.setPrCards(message.getPrCard());
+            modelRepresentation.setPrCard(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
             modelRepresentation.setToolCards(message.getTcInUse());
             chooseWpc(message.getIDs());

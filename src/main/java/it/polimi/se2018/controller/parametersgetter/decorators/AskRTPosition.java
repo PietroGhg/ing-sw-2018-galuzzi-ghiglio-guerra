@@ -2,7 +2,6 @@ package it.polimi.se2018.controller.parametersgetter.decorators;
 
 import it.polimi.se2018.controller.parametersgetter.ParameterGetter;
 import it.polimi.se2018.view.ViewInterface;
-import it.polimi.se2018.view.cli.View;
 
 public class AskRTPosition extends PGDecorator {
     public AskRTPosition(ParameterGetter pg){

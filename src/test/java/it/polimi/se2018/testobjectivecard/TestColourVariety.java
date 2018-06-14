@@ -69,8 +69,8 @@ public class TestColourVariety {
         int result = c.getScore(wpc);
         int result2 = c2.getScore(wpc2);
         int result3 = c3.getScore(wpc3);
-        assertEquals(result, 3*4);
-        assertEquals(result2, 1*4);
-        assertEquals(result3, 0);
+        assertEquals(3*4, result);
+        assertEquals( 4, result2);
+        assertEquals( 0, result3);
     }
 }

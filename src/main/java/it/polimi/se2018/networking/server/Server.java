@@ -22,7 +22,6 @@ public class Server {
         Controller controller;
         Scanner scanner = new Scanner(System.in);
         int sockPort;
-        int rmiPort;
         int turnD;
         int timerD;
         LOGGER.log(Level.INFO, "Insert socket port number.");

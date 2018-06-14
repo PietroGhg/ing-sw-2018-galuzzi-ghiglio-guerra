@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class RoundTrack {
     private static final int NUM_ROUND = 10;
-    private ArrayList<ArrayList<Die>> roundTrack;
+    private List<List<Die>> roundTrack;
     private int roundCounter; //the current round (row of the round matrix)
     private int turnCounter; //column of the round matrix
     private int nPlayers;
@@ -60,7 +60,7 @@ public class RoundTrack {
 
     /**
      *
-     * @param playerID
+     * @param playerID the player's id
      * @return 0 if the playerID it's not the current, 1 if it's the player's first turn in the round,
      *         2 if it's the player's second turn if the round.
      */
@@ -75,9 +75,9 @@ public class RoundTrack {
 
 
 
-    public ArrayList<ArrayList<Die>> getRT() { return roundTrack; }
+    public List<List<Die>> getRT() { return roundTrack; }
 
-    public void setRT(ArrayList<ArrayList<Die>> roundTrack) {this.roundTrack = roundTrack;}
+    public void setRT(List<List<Die>> roundTrack) {this.roundTrack = roundTrack;}
 
     public Die getRoundTrackCell(int turn, int index){
         return roundTrack.get(turn).get(index);
@@ -94,26 +94,18 @@ public class RoundTrack {
         return roundMatrix[roundCounter][turnCounter];
     }
 
-    public int getTurnCounter() {
-        return turnCounter;
-    }
-
-    public int getRoundCounter() {
-        return roundCounter;
-    }
-
     /**
      * Method called by the model when a player finishes his turn.
      *
      * @param draftPool the draftpool
      * @throws GameEndedException if the 10th round is complete
      */
-    public ArrayList<Die> nextTurn(ArrayList<Die> draftPool) throws GameEndedException{
+    public List<Die> nextTurn(List<Die> draftPool) throws GameEndedException{
         if(turnCounter == 2*nPlayers - 1){
             turnCounter = 0;
             if(roundCounter == NUM_ROUND - 1) throw new GameEndedException();
             else{
-                ArrayList<Die> temp = roundTrack.get(roundCounter);
+                List<Die> temp = roundTrack.get(roundCounter);
                 temp.addAll(draftPool);
                 draftPool.clear();
                 draftPool = DiceBag.getInstance().extractDice(nPlayers);
@@ -131,11 +123,14 @@ public class RoundTrack {
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        Die temp;
-        for(int i = 0; i < roundTrack.size(); i++){
-            for(int j = 0; j < roundTrack.get(i).size(); j++){
-                temp = roundTrack.get(i).get(j);
-                builder.append(Colour.RESET + temp.getDieColour().escape() + temp.getDieValue() + "\t" + Colour.RESET);
+
+        for(List<Die> tempList: roundTrack) {
+            for(Die temp: tempList){
+                builder.append(Colour.RESET);
+                builder.append(temp.getDieColour().escape());
+                builder.append(temp.getDieValue());
+                builder.append("\t");
+                builder.append(Colour.RESET);
             }
             builder.append("\n");
         }
@@ -147,18 +142,6 @@ public class RoundTrack {
         return roundMatrix;
     }
 
-    /*
-    public static void main(String[] args) {
-        RoundTrack r = new RoundTrack(2);
-        int[][] temp = r.getRoundMatrix();
-        for(int i = 0; i < NUM_ROUND; i++){
-            for(int j = 0; j < 4; j++){
-                System.out.print(temp[i][j] + " ");
-            }
-            System.out.print("\n");
-        }
-    }
-    */
 
     /**
      * Method used to calculate the winner
@@ -166,6 +149,7 @@ public class RoundTrack {
      */
     public int[] getLastRound() {
         int[] ris = new int[2*nPlayers];
+        //TODO: fix this
         for(int i = 0; i < 2*nPlayers; i++) ris[i] = roundMatrix[NUM_ROUND - 1][i];
         return ris;
     }

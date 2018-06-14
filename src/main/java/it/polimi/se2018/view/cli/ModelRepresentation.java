@@ -14,7 +14,7 @@ import java.util.*;
 public class ModelRepresentation {
     private String roundTrack;
     private ArrayList<Die> draftPool;
-    private String prCards;
+    private String prCard;
     private String[] puCards;
     private List<String> toolCards;
     private Map<Integer, WPC> wpcs;
@@ -56,13 +56,13 @@ public class ModelRepresentation {
         this.wpcs = wpcs;
     }
 
-    public void setPrCards(String prCards) { this.prCards = prCards; }
+    public void setPrCard(String prCard) { this.prCard = prCard; }
 
     public void setPuCards(String[] puCards) { this.puCards = puCards; }
 
     public String[] getPuCards(){ return puCards; }
 
-    public String getPrCards(){return prCards; }
+    public String getPrCard(){return prCard; }
 
     public List<String> getToolCards(){ return toolCards; }
 

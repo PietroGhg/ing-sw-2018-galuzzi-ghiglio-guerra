@@ -16,7 +16,7 @@ import java.util.List;
 public class PlayerMoveParameters {
     private Model model;
     private int playerID;
-    private ArrayList<Integer> parameters;
+    private List<Integer> parameters;
 
     public PlayerMoveParameters(int playerID, Model model){
         this.model = model;
@@ -24,7 +24,7 @@ public class PlayerMoveParameters {
         parameters = new ArrayList<>();
     }
 
-    public PlayerMoveParameters(int playerID, ArrayList<Integer> p, Model model){
+    public PlayerMoveParameters(int playerID, List<Integer> p, Model model){
         this.playerID = playerID;
         parameters = p;
         this.model = model;
@@ -32,17 +32,15 @@ public class PlayerMoveParameters {
 
     public Player getPlayer() { return model.getPlayer(playerID); }
 
-    public ArrayList<Die> getDraftPool() { return model.getDraftPool(); }
+    public List<Die> getDraftPool() { return model.getDraftPool(); }
 
-    public void setDraftPool(ArrayList<Die> draftPool) { model.setDraftPool(draftPool);}
+    public void setDraftPool(List<Die> draftPool) { model.setDraftPool(draftPool);}
 
-    public ArrayList<ArrayList<Die>> getRoundTrack() { return model.getRoundTrack(); }
+    public List<List<Die>> getRoundTrack() { return model.getRoundTrack(); }
 
-    public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack) { model.setRoundTrack(roundTrack); }
+    public void setRoundTrack(List<List<Die>> roundTrack) { model.setRoundTrack(roundTrack); }
 
-    public ArrayList<Die> getDiceBag () {return model.getDiceBag(); }
-
-    public void setDiceBag(ArrayList<Die> bag) { model.setDiceBag(bag); }
+    public List<Die> getDiceBag () {return model.getDiceBag(); }
 
     public int turnNumber(int playerID){ return model.turnNumber(playerID); }
 
@@ -50,17 +48,11 @@ public class PlayerMoveParameters {
 
     public int getParameter(int i){ return parameters.get(i); }
 
-    public ArrayList<Integer> getParameters() { return parameters; }
-
-    public Die getVacantDie() {return model.getFloatingDie(); }
+    public List<Integer> getParameters() { return parameters; }
 
     public boolean dieHasBeenPlayed() { return model.dieHasBeenPlayed(); }
 
     public int paramCount(){ return parameters.size(); }
-
-    public Die getFloatingDie(){ return model.getFloatingDie(); }
-
-    public void setFloatingDie(Die d){model.setFloatingDie(d); }
 
     public void setSkipTurn(int playerID, boolean skipTurn){
         model.setSkipTurn(playerID, skipTurn);

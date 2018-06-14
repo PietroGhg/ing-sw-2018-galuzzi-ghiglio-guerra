@@ -16,15 +16,13 @@ import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
     private ViewInterface view;
-    private ParameterGetter parametersGetter;
     private PGFactory pgFactory;
+    private ParameterGetter parametersGetter;
     private ModelRepresentation modelRep;
     private VCAbstractMessage message;
 
@@ -34,36 +32,15 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         this.view = view;
     }
 
+    /**
+     * Method that parses the command given by the user
+     * @param playerInput the string coming from the view
+     */
     private void parseString(String playerInput){
-        String error = "error while loading";
         if(playerInput.startsWith("toolcard" )){
             String[] temp = playerInput.split(" ");
             int toolCardID = Integer.parseInt(temp[1]);
-            //check che toolcardid è tra 1 e 12
-            if(toolCardID == 6){
-                message = new VCToolMessage(view.getPlayerID(), toolCardID);
-                view.getDraftPoolIndex();
-                int dpIndex = message.getParameters().get(0);
-                cardSixAction(dpIndex);
-                view.notifyController(message);
-            }
-            if(toolCardID == 11){
-                message = new VCToolMessage(view.getPlayerID(), toolCardID);
-                view.getDraftPoolIndex();
-                cardElevenAction();
-                view.notifyController(message);
-            }
-            else{
-                try {
-                    parametersGetter = pgFactory.get(toolCardID);
-                    message = new VCToolMessage(view.getPlayerID(), toolCardID);
-                    parametersGetter.getParameters(view);
-                    view.notifyController(message);
-                }
-                catch (InputNotValidException e){
-                    view.displayMessage(e.getMessage());
-                }
-            }
+            handleToolCard(toolCardID);
         }
 
         else if(playerInput.startsWith("dicemove")){
@@ -82,58 +59,89 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             String[] temp = playerInput.split(" ");
             String toShow = temp[1];
             toShow = toShow.trim();
-            if (toShow.equalsIgnoreCase("roundtrack")) {
-                view.showRoundTrack();
-            }
-            else if (toShow.equalsIgnoreCase("myboard")) {
-                view.showMyBoard();
-            } else if (toShow.equalsIgnoreCase("boards")) {
-                view.showBoards();
-
-            } else if (toShow.equalsIgnoreCase("toolcards")) {
-                List<String> toolCards = modelRep.getToolCards();
-                for (String tc : toolCards) {
-                    showFile(view, tc);
-                }
-            }
-            else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
-
-            else if(toShow.equalsIgnoreCase("objectivecards")) {
-                try (BufferedReader reader = new BufferedReader(new FileReader("objective cards"))) {
-                    String line = reader.readLine();
-                    while (line != null) {
-                        view.displayMessage(line);
-                        line = reader.readLine();
-                    }
-
-                } catch (IOException e) { view.displayMessage(error); }
-
-            }
-
-            else if(toShow.equalsIgnoreCase("myobjectivecard")){
-                try (BufferedReader reader = new BufferedReader(new FileReader("my objective card"))) {
-                String line = reader.readLine();
-                while (line != null) {
-                    view.displayMessage(line);
-                    line = reader.readLine();
-                }
-
-            } catch (IOException e) { view.displayMessage(error); }
-
-            }
-
-            else{view.displayMessage("Input not valid");}
-
-
-
+            handleShowRequest(toShow);
         }
         else {
             view.displayMessage("Input not valid");
         }
     }
 
-    private void showFile(ViewInterface view, String tc){
-        String path = System.getProperty("user.dir") + "/src/main/java/it/polimi/se2018/resourcescards/" + tc;
+    /**
+     * Method called by parseString to handle a toolcard request
+     * @param toolCardID the id of the toolcard
+     */
+    private void handleToolCard(int toolCardID){
+        if(toolCardID == 6){
+            message = new VCToolMessage(view.getPlayerID(), toolCardID);
+            view.getDraftPoolIndex();
+            int dpIndex = message.getParameters().get(0);
+            cardSixAction(dpIndex);
+            view.notifyController(message);
+        }
+        if(toolCardID == 11){
+            message = new VCToolMessage(view.getPlayerID(), toolCardID);
+            view.getDraftPoolIndex();
+            cardElevenAction();
+            view.notifyController(message);
+        }
+        else{
+            try {
+                parametersGetter = pgFactory.get(toolCardID);
+                message = new VCToolMessage(view.getPlayerID(), toolCardID);
+                parametersGetter.getParameters(view);
+                view.notifyController(message);
+            }
+            catch (InputNotValidException e){
+                view.displayMessage(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Method used to handle a "show something" request
+     * @param toShow the item requested to be shown
+     */
+    private void handleShowRequest(String toShow){
+
+        if (toShow.equalsIgnoreCase("roundtrack")) {
+            view.showRoundTrack();
+        }
+        else if (toShow.equalsIgnoreCase("myboard")) {
+            view.showMyBoard();
+        } else if (toShow.equalsIgnoreCase("boards")) {
+            view.showBoards();
+
+        } else if (toShow.equalsIgnoreCase("toolcards")) {
+            List<String> toolCards = modelRep.getToolCards();
+            for (String tc : toolCards) {
+                showFile(tc);
+            }
+        }
+        else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
+
+        else if(toShow.equalsIgnoreCase("objectivecards")) {
+            String[] puCards = modelRep.getPuCards();
+            for(String puCard: puCards){
+                showFile(puCard);
+            }
+
+        }
+
+        else if(toShow.equalsIgnoreCase("myobjectivecard")){
+            String prCard = modelRep.getPrCard();
+            showFile(prCard);
+        }
+
+        else{view.displayMessage("Input not valid");}
+
+    }
+
+    /**
+     * Method used to open, read, and show the content of a file
+     * @param name the name of the item
+     */
+    private void showFile(String name){
+        String path = System.getProperty("user.dir") + "/src/main/java/it/polimi/se2018/resourcescards/" + name;
         StringBuilder builder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line = reader.readLine();

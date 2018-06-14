@@ -2,7 +2,6 @@ package it.polimi.se2018.model.wpc;
 
 import it.polimi.se2018.controller.RestrictionChecker;
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
-import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 
 import java.io.Serializable;
@@ -31,7 +30,7 @@ public class WPC implements Serializable{ //WindowPatternCard
 
     /**
      * Copy constructor for wpc
-     * @param wpc
+     * @param wpc the wpc that will be copied
      */
     public WPC(WPC wpc){
         board = new Cell[NUMROW][NUMCOL];
@@ -94,7 +93,6 @@ public class WPC implements Serializable{ //WindowPatternCard
         for(int i = 0; i < NUMROW; i++){
 
             for(int j = 0; j < NUMCOL; j++){
-                //builder.append(i + "," + j +": " );
                 if(board[i][j].isEmpty()) {
                     if(board[i][j].getColourR() != null) builder.append(board[i][j].getColourR().letter());
                     else if(board[i][j].getValueR() != null) builder.append(prettyDie(board[i][j].getValueR()));

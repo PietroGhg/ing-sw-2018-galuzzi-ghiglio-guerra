@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -107,7 +108,7 @@ public class TestFluxBrush {
         wpc.setDie(3, 4, new Die(5, Colour.BLUE));
     }
 
-    private int[] countColoursDP(ArrayList<Die> dp) {
+    private int[] countColoursDP(List<Die> dp) {
         int i = 0;
         int temp = 0;
         int[] count = new int[5];

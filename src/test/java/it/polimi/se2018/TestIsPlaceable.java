@@ -57,7 +57,7 @@ public class TestIsPlaceable {
         expectedListOne.add(o1);
     }
 
-    public void fillerNo(WPC wpc){
+    private void fillerNo(WPC wpc){
         wpc.setDie(0, 0, new Die(1, Colour.PURPLE));
         wpc.setDie(0, 1, new Die(2, Colour.BLUE));
         wpc.setDie(0, 3, new Die(3, Colour.YELLOW));
@@ -67,7 +67,7 @@ public class TestIsPlaceable {
         wpc.setDie(3, 4, new Die(2, Colour.PURPLE));
     }
 
-    public void fillerOne(WPC wpc){
+    private void fillerOne(WPC wpc){
         wpc.setDie(0, 0, new Die(1, Colour.PURPLE));
         wpc.setDie(0, 1, new Die(2, Colour.BLUE));
         wpc.setDie(0, 3, new Die(3, Colour.YELLOW));
@@ -101,7 +101,7 @@ public class TestIsPlaceable {
         Die d = new Die(4, Colour.RED);
         List<int[]> l = noSpots.isPlaceable(d);
 
-        assertEquals(l.size(), 0);
+        assertEquals(0, l.size());
     }
 
     /**

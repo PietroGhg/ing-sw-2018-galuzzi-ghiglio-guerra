@@ -7,22 +7,22 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RestrictionChecker {
     public static final String ADJACENT_ERROR = "Error: die must be adjacent to another die.";
     public static final String NOTADJACENT_ERROR = "Error: die is adjacent to other dice.";
     public static final String FIRSTMOVE_ERROR = "Error: first move, die must be on the border.";
-    public static final String ENOUGHFAVORTOKENS_ERROR = "Error: not enough favor tokens.";
+    private static final String ENOUGHFAVORTOKENS_ERROR = "Error: not enough favor tokens.";
     public static final String COLOURRESTRICTION_ERROR = "Error: colour restriction violated.";
     public static final String VALUERESTRICTION_ERROR = "Error: value restriction violated.";
     public static final String SAMEDIE_ERROR = "Error: same die orthogonally adjacent.";
-    public static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
-    public static final String EMPTY_ERROR = "Error: cell not empty.";
-    public static final String RTCELLNOTEMPTY_ERROR = "Error: round track cell is empty.";
-    public static final String DPCELLNOTEMPTY_ERROR = "Error: draft pool cell is empty.";
-    public static final String DPNOTEMPTY_ERROR = "Error: draft pool is empty.";
-    public static final String MATCHINGCOLOUR_ERROR = "Error: die colour is different.";
+    private static final String CELLNOTEMPTY_ERROR = "Error: the cell is empty.";
+    private static final String EMPTY_ERROR = "Error: cell not empty.";
+    private static final String RTCELLNOTEMPTY_ERROR = "Error: round track cell is empty.";
+    private static final String DPCELLNOTEMPTY_ERROR = "Error: draft pool cell is empty.";
+    private static final String DPNOTEMPTY_ERROR = "Error: draft pool is empty.";
+    private static final String MATCHINGCOLOUR_ERROR = "Error: die colour is different.";
 
     /**
      * Checks that the player has enough favor tokens to play the tool card
@@ -103,7 +103,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the restriction is violated
      */
     public void checkFirstMove (WPC wpc, int row, int col) throws  MoveNotAllowedException{
-        if (!(!isEmpty(wpc) || row == 0 || row == WPC.NUMROW-1 || col == 0 || col == WPC.NUMCOL-1 ))
+        if(isEmpty(wpc) && row != 0 && row != WPC.NUMROW-1 && col != 0 && col != WPC.NUMCOL-1)
             throw new MoveNotAllowedException(FIRSTMOVE_ERROR);
     }
 
@@ -229,7 +229,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the cell is empty
      * @author Leonardo Guerra
      */
-    public void checkRTCellNotEmpty(ArrayList<ArrayList<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
+    public void checkRTCellNotEmpty(List<List<Die>> roundTrack, int turn, int index) throws MoveNotAllowedException{
         if (roundTrack.size()<=turn) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
         if (roundTrack.get(turn).size()<=index) throw new MoveNotAllowedException(RTCELLNOTEMPTY_ERROR);
     }
@@ -241,7 +241,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the draft pool cell is empty
      * @author Leonardo Guerra
      */
-    public void checkDPCellNotEmpty(ArrayList<Die> draftPool, int index) throws MoveNotAllowedException{
+    public void checkDPCellNotEmpty(List<Die> draftPool, int index) throws MoveNotAllowedException{
         if (draftPool.size() <= index) throw new MoveNotAllowedException(DPCELLNOTEMPTY_ERROR);
     }
 
@@ -251,7 +251,7 @@ public class RestrictionChecker {
      * @throws MoveNotAllowedException if the draft pool is empty
      * @author Leonardo Guerra
      */
-    public void checkDPNotEmpty(ArrayList<Die> draftPool) throws MoveNotAllowedException{
+    public void checkDPNotEmpty(List<Die> draftPool) throws MoveNotAllowedException{
         if(draftPool.isEmpty()) throw new MoveNotAllowedException(DPNOTEMPTY_ERROR);
     }
 

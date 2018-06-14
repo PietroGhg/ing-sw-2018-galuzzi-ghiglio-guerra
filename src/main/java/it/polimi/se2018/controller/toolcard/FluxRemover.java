@@ -5,10 +5,9 @@ import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard FluxRemover
@@ -41,8 +40,8 @@ public class FluxRemover extends ToolCard{ //Diluente per Pasta Salda
         int dbIndex = param.getParameter(1);
         int dieValue = param.getParameter(2);
 
-        ArrayList<Die> dp = param.getDraftPool();
-        ArrayList<Die> db = param.getDiceBag();
+        List<Die> dp = param.getDraftPool();
+        List<Die> db = param.getDiceBag();
         Die temp = new Die(dp.get(dpIndex));
         dp.remove(dpIndex);
 

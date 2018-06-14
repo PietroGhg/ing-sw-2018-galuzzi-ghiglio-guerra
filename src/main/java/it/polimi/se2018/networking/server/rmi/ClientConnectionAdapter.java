@@ -6,6 +6,9 @@ import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.MVAbstractMessage;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that adapts an RMIClientConnection to a ClientConnection:
@@ -16,9 +19,10 @@ import java.rmi.RemoteException;
  * @author Pietro Ghiglio
  */
 public class ClientConnectionAdapter implements ClientConnection{
+    private static final Logger LOGGER = Logger.getLogger(ClientConnectionAdapter.class.getName());
     private RMIClientConnection adaptee;
 
-    public ClientConnectionAdapter(RMIClientConnection adaptee){
+    ClientConnectionAdapter(RMIClientConnection adaptee){
         this.adaptee = adaptee;
     }
 
@@ -27,16 +31,18 @@ public class ClientConnectionAdapter implements ClientConnection{
             adaptee.send(message);
         }
         catch(RemoteException e){
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 
     public void register(Observer<VCAbstractMessage> observer){
         try {
-            adaptee.register(new SockToRMIObserverAdapter<VCAbstractMessage>(observer));
+            adaptee.register(new SockToRMIObserverAdapter<>(observer));
         }
         catch(RemoteException e){
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.se2018.controller.parametersgetter;
 
 import it.polimi.se2018.view.ViewInterface;
-import it.polimi.se2018.view.cli.View;
 
 public class ParameterGetterDie extends ParameterGetter {
 

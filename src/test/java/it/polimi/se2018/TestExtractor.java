@@ -32,7 +32,7 @@ public class TestExtractor {
     @Test
     public void test2(){
         Extractor extractor1 = Extractor.getInstance();
-        int[] ris = extractor1.extractWpcs(new Player(1));
+        int[] ris = extractor1.extractWpcs();
         assertEquals(Extractor.NUM_WPCS_EXTRACTED, ris.length);
 
         //Checks that the number of boards that can currently be extracted equals the total number of boards
@@ -61,6 +61,6 @@ public class TestExtractor {
     @Test
     public void test4(){
         Extractor extractor = Extractor.getInstance();
-        assertEquals(extractor.extractPuCards().size(), 3);
+        assertEquals(3, extractor.extractPuCards().size());
     }
 }

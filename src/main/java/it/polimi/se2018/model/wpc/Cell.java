@@ -23,7 +23,7 @@ public class Cell implements Serializable {
             colourRestriction = null;
         }
         try {
-            valueRestriction = new Integer(c.getValueR());
+            valueRestriction = c.getValueR();
         }
         catch (NullPointerException e){
             valueRestriction = null;

@@ -68,8 +68,8 @@ public class TestColourDiagonals {
         int result = c.getScore(wpc);
         int result2 = c2.getScore(wpc2);
         int result3 = c3.getScore(wpc3);
-        assertEquals(result, 4);
-        assertEquals(result2, 12);
-        assertEquals(result3, 0);
+        assertEquals(4, result);
+        assertEquals(12, result2);
+        assertEquals(0, result3);
     }
 }

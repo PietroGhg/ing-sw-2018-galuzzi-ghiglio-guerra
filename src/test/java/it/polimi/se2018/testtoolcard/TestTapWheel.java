@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -32,7 +33,7 @@ public class TestTapWheel {
     private WPC before;
     private WPC expected;
     private WPC expected2;
-    private ArrayList<ArrayList<Die>> roundTrack;
+    private List<List<Die>> roundTrack;
 
     @Before
     public void setUp(){
@@ -46,9 +47,9 @@ public class TestTapWheel {
         expected2 = gen.getWPC(3);
         fillerExpected2(expected2);
 
-        roundTrack = new ArrayList<ArrayList<Die>>(10);
+        roundTrack = new ArrayList<>(10);
         for(int i=0;i<=4;i++) {
-            roundTrack.add(new ArrayList<Die>());
+            roundTrack.add(new ArrayList<>());
         }
         roundTrack.get(0).add(new Die(2, Colour.RED));
         roundTrack.get(1).add(new Die(5, Colour.BLUE));

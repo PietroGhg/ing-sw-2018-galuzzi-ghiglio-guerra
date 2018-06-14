@@ -8,6 +8,7 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for ToolCard RunningPliers
@@ -43,7 +44,7 @@ public class RunningPliers extends ToolCard{   //Tenaglia a Rotelle
         int cellRow = param.getParameter(1);
         int cellCol = param.getParameter(2);
 
-        ArrayList<Die> dp = param.getDraftPool();
+        List<Die> dp = param.getDraftPool();
         rc.checkDPCellNotEmpty(dp,dpIndex);
         Die temp = new Die(dp.get(dpIndex));
         WPC wpc = player.getWpc();

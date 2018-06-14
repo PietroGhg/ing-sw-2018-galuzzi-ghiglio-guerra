@@ -6,11 +6,12 @@ import it.polimi.se2018.model.Die;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class DiceBag implements Serializable{
-    private ArrayList<Die> bag;
-    private final int DICETOTAL = 90;
+    private List<Die> bag;
+    private static final int DICETOTAL = 90;
     private static DiceBag instance;
 
     //instanzia i 90 dadi
@@ -23,16 +24,16 @@ public class DiceBag implements Serializable{
         }
     }
 
-    public ArrayList<Die> getDiceBag() { return bag; }
+    public List<Die> getDiceBag() { return bag; }
 
-    public void setDiceBag(ArrayList<Die> bag) { this.bag = bag; }
+    public void setDiceBag(List<Die> bag) { this.bag = bag; }
 
     public static DiceBag getInstance() {
         if(instance == null) instance = new DiceBag();
         return instance;
     }
 
-    public ArrayList<Die> extractDice(int nPlayers){
+    public List<Die> extractDice(int nPlayers){
         ArrayList<Die> result = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0; i < 2*nPlayers + 1; i++){
@@ -51,10 +52,6 @@ public class DiceBag implements Serializable{
     }
 
     public Die getDie(int index){ return bag.get(index); }
-
-    public void removeDie(int index){
-        bag.remove(index);
-    }
 
     public static void resetInstance(){
         instance = new DiceBag();

@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.table;
 
-import it.polimi.se2018.controller.toolcard.ToolCard;
 import it.polimi.se2018.controller.turntimer.TurnTimer;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.*;
@@ -20,19 +19,17 @@ public class Model extends Observable<MVAbstractMessage> {
 
     //essendo un ArrayList, per il get di un dado basta il metodo get(index)
     // e per settare un dado basta draftPool.add(index,die)
-    private Logger LOGGER = Logger.getLogger(Model.class.getName());
-    private ArrayList<Die> draftPool;
-    public ArrayList<Die> getDraftPool() { return draftPool; }
-    public void setDraftPool(ArrayList<Die> draftPool) { this.draftPool = draftPool;}
+    private static final Logger LOGGER = Logger.getLogger(Model.class.getName());
+    private List<Die> draftPool;
+    public List<Die> getDraftPool() { return draftPool; }
+    public void setDraftPool(List<Die> draftPool) { this.draftPool = draftPool;}
     public static final int MAX_PLAYERS = 4;
 
     private RoundTrack roundTrack;
     private List<String> toolCardsInUse;
-    private ArrayList<Player> players;
-    private ArrayList<PublicObjectiveCard> puCards;
+    private List<Player> players;
+    private List<PublicObjectiveCard> puCards;
     private DiceBag diceBag;
-    private Die floatingDie; //used for toolcards 6 and 11
-    private ChooseWinner chooseWinner;
     private Turn turn;
     private PlayerMoveParameters playerMoveParameters;
     private List<String> discPlayers;
@@ -49,17 +46,13 @@ public class Model extends Observable<MVAbstractMessage> {
         turn = new Turn();
     }
 
-    public Die getFloatingDie(){ return floatingDie; }
+    public void setRoundTrack(List<List<Die>> roundTrack){ this.roundTrack.setRT(roundTrack); }
 
-    public void setFloatingDie(Die d) { floatingDie = d; }
+    public List<List<Die>> getRoundTrack(){ return roundTrack.getRT(); }
 
-    public void setRoundTrack(ArrayList<ArrayList<Die>> roundTrack){ this.roundTrack.setRT(roundTrack); }
+    public List<Die> getDiceBag() { return diceBag.getDiceBag(); }
 
-    public ArrayList<ArrayList<Die>> getRoundTrack(){ return roundTrack.getRT(); }
-
-    public ArrayList<Die> getDiceBag() { return diceBag.getDiceBag(); }
-
-    public void setDiceBag(ArrayList<Die> bag) { diceBag.setDiceBag(bag); }
+    public void setDiceBag(List<Die> bag) { diceBag.setDiceBag(bag); }
 
     public int[][] getRoundMatrix() { return roundTrack.getRoundMatrix(); }
 
@@ -109,6 +102,7 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     private void chooseWinner(){
+        ChooseWinner chooseWinner;
         chooseWinner = new ChooseWinner(players, puCards, roundTrack);
         try {
             Player winner = chooseWinner.getWinner();
@@ -143,16 +137,6 @@ public class Model extends Observable<MVAbstractMessage> {
         return players.get(playerID - 1);
     }
 
-    private String getDraftPoolToString(){
-        StringBuilder builder = new StringBuilder();
-        Die temp;
-        for(int i = 0; i< draftPool.size(); i++){
-            temp = draftPool.get(i);
-            builder.append(Colour.RESET + temp.getDieColour().escape() + temp.getDieValue() +"\t" +Colour.RESET);
-        }
-        return builder.toString();
-    }
-
     /**
      * @return true if a card has already been played in the turn
      */
@@ -184,7 +168,8 @@ public class Model extends Observable<MVAbstractMessage> {
         Player p = new Player(players.size() + 1, playerName);
         players.add(p);
         playerNames.add(playerName);
-        System.out.println(playerName + " joined");
+        String s = playerName + " joined";
+        LOGGER.log(Level.INFO, s);
     }
 
 
@@ -218,7 +203,7 @@ public class Model extends Observable<MVAbstractMessage> {
             removePlayerName(playerName);
         }
         catch(UserNameNotFoundException e){
-            System.out.println("Error while handling disconnection");
+            LOGGER.log(Level.SEVERE, "Error while handling disconnection");
         }
     }
 
@@ -237,7 +222,7 @@ public class Model extends Observable<MVAbstractMessage> {
     public void startGame() {
         //for each player, extract the cards and send an ExtractedCardMessage
         Extractor extractor = Extractor.getInstance();
-        this.puCards = (ArrayList<PublicObjectiveCard>)extractor.extractPuCards();
+        this.puCards = extractor.extractPuCards();
 
         //Converts public objective cards to String
         String[] puCardsNames = new String[this.puCards.size()];
@@ -256,7 +241,7 @@ public class Model extends Observable<MVAbstractMessage> {
         //Extracts private obj cards and wpcs, sends MVSetUPMessages
         for(Player p: players){
             String prCard = extractor.extractPrCard(p);
-            int[] wpcsExtracted = extractor.extractWpcs(p);
+            int[] wpcsExtracted = extractor.extractWpcs();
             setSetupMessage(p.getName(), p.getPlayerID(), wpcsExtracted, prCard, puCardsNames);
         }
     }
@@ -275,7 +260,8 @@ public class Model extends Observable<MVAbstractMessage> {
      */
     private synchronized void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
         MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards, toolCardsInUse);
-        LOGGER.log(Level.INFO, "Sending to: " + players.get(playerID - 1).getPlayerID() + "\nMessage: " + message +"\n\n");
+        String s = "Sending to: " + players.get(playerID - 1).getPlayerID() + "\nMessage: " + message +"\n\n";
+        LOGGER.log(Level.INFO, s);
         notify(message);
     }
 
@@ -293,7 +279,7 @@ public class Model extends Observable<MVAbstractMessage> {
         notify(message);
     }
 
-    public void setNewTurnMessage(int playerID){
+    private void setNewTurnMessage(int playerID){
         MVNewTurnMessage message = new MVNewTurnMessage("It's tour turn!", playerID);
         setData(message);
         notify(message);

@@ -13,6 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,6 +30,7 @@ public class RMIServer {
     private Model model;
     private Controller controller;
     private static final Logger LOGGER = Logger.getLogger(RMIServer.class.getName());
+    private static final String BIND_NAME = "//localhost/sagradarmi";
     private RMIClientConnection serverInt;
     private RMIClientConnImpl serverImpl;
     private Map<String, RemoteView> remoteViewMap;
@@ -41,17 +43,18 @@ public class RMIServer {
             LocateRegistry.createRegistry(port);
         }
         catch(RemoteException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
 
         try {
             serverImpl = new RMIClientConnImpl(this);
             serverInt = (RMIClientConnection) UnicastRemoteObject.exportObject(serverImpl, 0);
-            Naming.rebind("//localhost/sagradarmi", serverInt);
+            Naming.rebind(BIND_NAME, serverInt);
         }
         catch(RemoteException|MalformedURLException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 
@@ -71,17 +74,17 @@ public class RMIServer {
             controller.welcomeBack(playerName);
         }
 
-        /**
-         * Rebinds the client connection implementation in order to have an unique communication canal between server and client
-         */
+
+         //Rebinds the client connection implementation in order to have an unique communication canal between server and client
         try {
-            Naming.unbind("//localhost/sagradarmi");
+            Naming.unbind(BIND_NAME);
             serverImpl = new RMIClientConnImpl(this);
             serverInt = (RMIClientConnection) UnicastRemoteObject.exportObject(serverImpl, 0);
-            Naming.rebind("//localhost/sagradarmi", serverInt);
+            Naming.rebind(BIND_NAME, serverInt);
         }
         catch(RemoteException|NotBoundException|MalformedURLException e){
-            e.printStackTrace();
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
         }
     }
 
