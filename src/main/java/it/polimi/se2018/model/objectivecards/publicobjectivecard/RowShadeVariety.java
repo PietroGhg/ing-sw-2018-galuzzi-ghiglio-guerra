@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class RowShadeVariety extends PublicObjectiveCard {  //Sfumature diverse - Riga
     public RowShadeVariety(){
-        super("Row Shade Varety");
+        super("RowShadeVarety");
     }
     @Override
     /**

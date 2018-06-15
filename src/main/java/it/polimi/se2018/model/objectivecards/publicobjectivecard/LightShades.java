@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class LightShades extends PublicObjectiveCard {  //Sfumature chiare
     public LightShades(){
-        super("Light Shades");
+        super("LightShades");
     }
     @Override
     /**

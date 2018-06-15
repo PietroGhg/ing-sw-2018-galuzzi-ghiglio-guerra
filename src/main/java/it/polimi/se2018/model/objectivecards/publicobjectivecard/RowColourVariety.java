@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class RowColourVariety extends PublicObjectiveCard { //Colori diversi - Riga
     public RowColourVariety(){
-        super("Row Colour Variety");
+        super("RowColourVariety");
     }
     @Override
     /**

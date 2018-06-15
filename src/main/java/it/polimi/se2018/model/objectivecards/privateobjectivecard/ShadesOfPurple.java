@@ -10,7 +10,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class ShadesOfPurple extends PrivateObjectiveCard {
     public ShadesOfPurple(){
-        super("Shades of Purple");
+        super("ShadesOfPurple");
     }
     @Override
     /**

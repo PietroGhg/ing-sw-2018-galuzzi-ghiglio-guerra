@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class MediumShades extends PublicObjectiveCard { //Sfumature medie
     public MediumShades(){
-        super("Medium Shades");
+        super("MediumShades");
     }
     @Override
     /**

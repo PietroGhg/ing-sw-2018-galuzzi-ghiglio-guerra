@@ -10,7 +10,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
     public ColourDiagonals(){
-        super("Colour Diagonals");
+        super("ColourDiagonals");
     }
 
     @Override

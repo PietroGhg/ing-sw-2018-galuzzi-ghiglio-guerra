@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class ColumnColourVariety extends PublicObjectiveCard {  //Colori diversi - Colonna
     public ColumnColourVariety(){
-        super("Column Colour Variety");
+        super("ColumnColourVariety");
     }
     @Override
     /**

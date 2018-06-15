@@ -10,7 +10,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class ColourVariety extends PublicObjectiveCard { //Colori diversi
     public ColourVariety(){
-        super("Colour Variety");
+        super("ColourVariety");
     }
     @Override
     /**

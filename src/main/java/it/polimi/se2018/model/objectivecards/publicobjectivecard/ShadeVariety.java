@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class ShadeVariety extends PublicObjectiveCard { //Sfumature diverse
     public ShadeVariety(){
-        super("Shade Variety");
+        super("ShadeVariety");
     }
     @Override
     /**

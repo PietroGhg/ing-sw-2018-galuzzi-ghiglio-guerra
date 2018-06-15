@@ -9,7 +9,7 @@ import it.polimi.se2018.model.wpc.WPC;
 
 public class DeepShades extends PublicObjectiveCard {   //Sfumature scure
     public DeepShades(){
-        super("Deep Shades");
+        super("DeepShades");
     }
     @Override
     /**
