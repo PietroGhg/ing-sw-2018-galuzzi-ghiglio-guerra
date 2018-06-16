@@ -21,7 +21,7 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
     private RMIServer rmiServer;
     private String playerName;
 
-    public RMIClientConnImpl(RMIServer rmiServer){
+    /*package private*/ RMIClientConnImpl(RMIServer rmiServer){
         this.rmiServer = rmiServer;
     }
 
@@ -57,13 +57,13 @@ public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implemen
             GameStartedException{
         this.clientService = clientService;
         this.playerName = playerName;
-        ServerPollingTimer pt = new ServerPollingTimer(clientService, rmiServer, playerName);
-        pt.startPolling();
         rmiServer.handleRequest(playerName);
 
     }
 
     public void checkEnoughPlayers(){
+        ServerPollingTimer pt = new ServerPollingTimer(clientService, rmiServer, playerName);
+        pt.startPolling();
         rmiServer.checkEnoughPlayers();
     }
 

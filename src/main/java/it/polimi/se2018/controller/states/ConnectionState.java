@@ -20,6 +20,10 @@ import java.util.logging.Logger;
  */
 public class ConnectionState implements State{
     private static final Logger LOGGER = Logger.getLogger(ConnectionState.class.getName());
+
+    public ConnectionState(){
+        LOGGER.log(Level.INFO, "Entered connection state.");
+    }
     public void handleRequest(String playerName, ModelFacade model) throws UserNameTakenException{
         ArrayList<String> playerNames = (ArrayList<String>)model.getPlayerNames();
 
