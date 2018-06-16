@@ -24,7 +24,7 @@ public class SockClient {
     private ServerConnection connection;
     private Socket socket;
 
-    private SockClient(){
+    public SockClient(){
         Scanner input = new Scanner(System.in);
         outToScreen.println("Insert Server IP Address.");
         String serverIP = input.nextLine();

@@ -89,6 +89,9 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
+            modelRepresentation.setToolCards(message.getTcInUse());
+            modelRepresentation.setPrCard(message.getPrCard());
+            modelRepresentation.setPuCards(message.getPuCards());
             updateMR(message);
             inputThread.start();
         } else {

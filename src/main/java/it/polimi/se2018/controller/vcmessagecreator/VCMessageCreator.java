@@ -14,9 +14,8 @@ import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.List;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
@@ -141,9 +140,10 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
      * @param name the name of the item
      */
     private void showFile(String name){
-        String path = System.getProperty("user.dir") + "/src/main/java/it/polimi/se2018/resourcescards/" + name;
+        String path = "/text/" + name;
         StringBuilder builder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        InputStream in = getClass().getResourceAsStream(path);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
             String line = reader.readLine();
             while (line != null) {
                 builder.append(line);

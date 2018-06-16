@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 public class WpcGenerator {
     private  WPC temp;
     private static final String VALUE = "value";
+    private static final String NUMWPC_DIR = "/wpcs/numWpcs.cfg";
     private static final Logger LOGGER = Logger.getLogger(WpcGenerator.class.getName());
 
     //The parser
@@ -67,8 +68,10 @@ public class WpcGenerator {
         temp = new WPC();
         try {
             //Opens the right file
-            String workingDir = System.getProperty("user.dir");
-            File in = new File(workingDir + "/src/main/java/it/polimi/se2018/model/wpc/wpcs/" + wpcID +".xml");
+
+            String path = "/wpcs/" + wpcID +".xml";
+
+            InputStream in = getClass().getResourceAsStream(path);
 
             //Standard instantation and use of a sax parser
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -83,18 +86,12 @@ public class WpcGenerator {
     }
 
     public int getNumWpcs(){
-        String workingDir = System.getProperty("user.dir");
+
         int numWpcs = 0;
-        File in = new File(workingDir + "/src/main/java/it/polimi/se2018/model/wpc/wpcs/numWpcs.cfg");
-        try(Scanner scanIn = new Scanner(in)) {
-            //Opens the right file
-           numWpcs = scanIn.nextInt();
 
-        }
-        catch(FileNotFoundException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }
-
+        InputStream in = getClass().getResourceAsStream(NUMWPC_DIR);
+        Scanner scanIn = new Scanner(in);
+        numWpcs = scanIn.nextInt();
         return numWpcs;
     }
 

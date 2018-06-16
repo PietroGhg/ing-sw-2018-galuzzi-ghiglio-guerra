@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.turntimer.TurnTimer;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.exceptions.*;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.objectivecards.privateobjectivecard.PrivateObjectiveCard;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjectiveCard;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
@@ -276,6 +277,17 @@ public class Model extends Observable<MVAbstractMessage> {
     public void setWelcomeBackMessage(int playerID, String playerName, String mex){
         MVWelcomeBackMessage message = new MVWelcomeBackMessage(playerID, playerName, mex);
         setData(message);
+        //sets public cards
+        String[] puNames = new String[3];
+        for(int i = 0; i < 3; i++){
+            puNames[i] = puCards.get(i).getName();
+        }
+        message.setPuCards(puNames);
+        //sets toolcards
+        message.setTcInUse(toolCardsInUse);
+        //sets private card
+        PrivateObjectiveCard card = players.get(playerID-1).getPrCard();
+        message.setPrCard(card.getName());
         notify(message);
     }
 

@@ -22,6 +22,10 @@ import java.util.logging.Logger;
 public class GameplayState implements State {
     private static final Logger LOGGER = Logger.getLogger(GameplayState.class.getName());
 
+    public GameplayState(){
+        LOGGER.log(Level.INFO, "Entered gameplay state.");
+    }
+
     public void handleRequest(String playerName, ModelFacade model)throws GameStartedException, ReconnectionException{
         ArrayList<String> discPlayers = (ArrayList<String>)model.getDiscPlayers();
 
