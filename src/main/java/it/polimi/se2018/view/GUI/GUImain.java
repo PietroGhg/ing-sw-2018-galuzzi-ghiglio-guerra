@@ -19,7 +19,7 @@ public class GUImain extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/loginGUI.fxml"));
         primarystage.setTitle("Sagrada");
-        primarystage.setScene(new Scene (root, 900, 600));
+        primarystage.setScene(new Scene (root, 1200, 800));
         primarystage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
         primarystage.setResizable(false);
         primarystage.show();
