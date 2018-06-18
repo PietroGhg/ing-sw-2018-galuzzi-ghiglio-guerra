@@ -3,12 +3,24 @@ package it.polimi.se2018.view.GUI;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
+import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.wpc.Cell;
+import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.RawInputObserver;
+import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.ViewInterface;
+import it.polimi.se2018.view.cli.ModelRepresentation;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,7 +28,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class GUIcontroller implements ViewInterface {
+public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
 
     public RadioButton connection1;
     public RadioButton connection2;
@@ -25,8 +37,12 @@ public class GUIcontroller implements ViewInterface {
     public RadioButton choice2;
     public RadioButton choice3;
     public RadioButton choice4;
-    private int playerID;
+    public Button Button00;
+    public Button Button01;
+    public GridPane myWindow;
+    public ModelRepresentation modelRepresentation;
     private List<RawInputObserver> rawObservers;
+    int playerID = 0;
 
 
 
@@ -106,7 +122,7 @@ public class GUIcontroller implements ViewInterface {
 
     public void showDraftPool(){
        try { FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(getClass().getResource("/fxml/draftPool"));
+           loader.setLocation(getClass().getResource("/fxml/draftPool.fxml"));
            Scene window = new Scene(loader.load(), 600, 400);
            Stage stage = new Stage();
            stage.setScene(window);
@@ -122,7 +138,7 @@ public class GUIcontroller implements ViewInterface {
 
     public void showPuCards() throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/puCards"));
+        loader.setLocation(getClass().getResource("/fxml/puCards.fxml"));
         Scene window = new Scene(loader.load(), 600, 400);
         Stage stage = new Stage();
         stage.setScene(window);
@@ -144,13 +160,40 @@ public class GUIcontroller implements ViewInterface {
     }
 
     public int getPlayerID(){
-        return playerID;
+        //return playerID;
+        return 0;
     }
 
-    public void getCoordinates(String m){
+    @FXML
+    public void selectCell(Event e){
+        Button b = (Button)e.getSource();
+        String s = b.getId();
+        switch (s){
+            case("Button00"): cellPressed(0,0); break;
+            case("Button01"): cellPressed(0,1); break;
 
-        int column = 0;
-        rawNotify(new RawRequestedMessage(column));
+
+
+        }
+        
+
+
+
+
+    }
+    public void cellPressed(int row, int col){
+       /* switch(stato){
+            case(...):
+            case(COORDINATES_REQUEST):
+                rawNotify(new RawRequestedMessage(row));
+                rawNotify(new RawRequestedMessage(col));
+                lacth.cuntdown();
+                break;
+        }*/
+    }
+    public void getCoordinates(String m){
+       /* stato = COORDINATES_REQUEST;
+        latch.await();*/
 
     }
 
@@ -251,15 +294,59 @@ public class GUIcontroller implements ViewInterface {
         for (RawInputObserver ob : rawObservers) {
             ob.rawUpdate(message);
         }
-
     }
 
+    private void updateMR(MVGameMessage message) {
+        modelRepresentation.setRoundTrack(message.getRoundTrack());
+        modelRepresentation.setDraftPool(message.getDraftPool());
+        modelRepresentation.setWpcs(message.getWpcs());
+        modelRepresentation.setDiceBag(message.getDiceBag());
+        WPC wpc = modelRepresentation.getWpc(playerID);
+        for (int row=0; row<4; row++){
+            for(int col=0; row<5; col++){
+                Cell cell = wpc.getCell(row, col);
+                if(cell.isEmpty()){
+                    if(cell.getColourR() != null)
+                        ;//mettici una cosa del colore giusto
+                    if(cell.getValueR() != null)
+                        ;//mettici il numero giusto
+                }
+                else{
+                    //mettere il dado giusto
+                    Die d = cell.getDie();
+                    int val = d.getDieValue();
+                    Colour c = d.getDieColour();
+                    Button b = (Button)getCellByCoordinates(row, col);
+                    BackgroundImage backgroundImage = new BackgroundImage( new Image(getClass().getResource("/pic3525224.jpg").toExternalForm())
+                    , BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+                    Background background = new Background(backgroundImage);
+                    b.setBackground(background);
+                }
+            }
+        }
 
 
+    }
+    private Node getCellByCoordinates(int row, int col){
+        Node result = null;
+        ObservableList<Node> children = myWindow.getChildren();
+        for (Node node : children){
+            if(myWindow.getRowIndex(node) == row && myWindow.getColumnIndex(node) == col){
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
 
+    public void visit(MVGameMessage message){
+        if (playerID == message.getPlayerID()) {
 
-
-
+            updateMR(message);
+        } else {
+            updateMR(message);
+        }
+    }
 
 
 }
