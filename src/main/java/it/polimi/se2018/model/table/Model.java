@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 public class Model extends Observable<MVAbstractMessage> {
 
-    //essendo un ArrayList, per il get di un dado basta il metodo get(index)
-    // e per settare un dado basta draftPool.add(index,die)
     private static final Logger LOGGER = Logger.getLogger(Model.class.getName());
     private List<Die> draftPool;
     public List<Die> getDraftPool() { return draftPool; }
@@ -154,11 +152,6 @@ public class Model extends Observable<MVAbstractMessage> {
      */
     public boolean dieHasBeenPlayed(){
         return turn.dieHasBeenPlayed();
-    }
-
-    public void addPlayer(int playerID){
-        Player p = new Player(playerID);
-        players.add(p);
     }
 
     public void addPlayer(Player p){

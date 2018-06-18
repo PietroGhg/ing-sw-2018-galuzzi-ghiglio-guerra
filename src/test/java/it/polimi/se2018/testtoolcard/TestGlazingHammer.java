@@ -149,6 +149,42 @@ public class TestGlazingHammer {
     }
 
     /**
+     * Player has already drafted a die -> throws exception
+     */
+    @Test
+    public void testPlayedDie() {
+        model = new Model();
+        player = new Player(1);
+        player.setFavorTokens(5);
+        model.addPlayer(player);
+        model.addPlayer(new Player(2));
+        model.addPlayer(new Player(3));
+        param = new PlayerMoveParameters(player.getPlayerID(), model);
+        DiceBag.resetInstance();
+        model.startGame();
+        model.nextTurn();
+        model.setToolCardUsed();
+        System.out.println(model.cardHasBeenPlayed());
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.nextTurn();
+        model.setDiePlaced();
+        System.out.println(model.dieHasBeenPlayed());
+        param.setDraftPool(beforeDP);
+        model.setParameters(param);
+
+        try{
+            card.cardAction(param);
+            fail();
+        }
+        catch(MoveNotAllowedException e){
+            System.out.println(e.getMessage());
+            assertEquals("Error: a die is already been drafted.", e.getMessage());
+        }
+    }
+
+    /**
      * The player hasn't enough favor tokens -> throws exception
      */
     @Test
