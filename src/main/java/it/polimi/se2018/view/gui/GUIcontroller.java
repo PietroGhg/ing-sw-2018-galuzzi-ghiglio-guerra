@@ -3,6 +3,7 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
+import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
@@ -114,11 +115,13 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
     }
 
     public void diceMove(){
-
+        rawNotify(new RawUnrequestedMessage("dicemove"));
 
     }
 
     public void toolCard(){
+
+        rawNotify(new RawUnrequestedMessage("toolcard 1"));
 
     }
 
