@@ -15,6 +15,7 @@ public class Login {
     public RadioButton connection1;
     public RadioButton connection2;
     public TextField user;
+    public TextField portnumber;
 
     public void handlePlay() throws IOException {
         ToggleGroup link = new ToggleGroup();
@@ -22,6 +23,8 @@ public class Login {
         connection2.setToggleGroup(link);
         connection1.setUserData("socket");
         connection2.setUserData("rmi");
+        String pn = portnumber.getText();
+        String username = user.getText();
         String s = link.getSelectedToggle().getUserData().toString();
         if(s.equals("socket")){
 
@@ -31,7 +34,7 @@ public class Login {
 
         }
 
-        if(user.getText().equals("")){
+        if(username.equals("")){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/missingUsername.fxml"));
             Scene window = new Scene(loader.load(), 463, 55);
