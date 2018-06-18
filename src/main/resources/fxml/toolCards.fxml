@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.se2018.view.GUI.GUIcontroller"
+            fx:controller="it.polimi.se2018.view.gui.GUIcontroller"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

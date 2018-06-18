@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.GUI;
+package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
@@ -7,7 +7,6 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
-import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.MVGameMessage;
 import it.polimi.se2018.view.ViewInterface;
@@ -46,43 +45,7 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
 
 
 
-    public void handlePlay() throws IOException {
-        ToggleGroup link = new ToggleGroup();
-        connection1.setToggleGroup(link);
-        connection2.setToggleGroup(link);
-        connection1.setUserData("socket");
-        connection2.setUserData("rmi");
-        String s = link.getSelectedToggle().getUserData().toString();
-        if(s.equals("socket")){
 
-        }
-        else {
-
-
-        }
-
-        if(user.getText().equals("")){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/missingUsername.fxml"));
-            Scene window = new Scene(loader.load(), 463, 55);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Error");
-            stage.setResizable(false);
-            stage.show();
-        }
-        else{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/choice.fxml"));
-            Scene window = new Scene(loader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Choice");
-            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
-            stage.setResizable(false);
-            stage.show();
-        }
-    }
 
     public void handleChoice() throws IOException{
         ToggleGroup choice = new ToggleGroup();
@@ -175,7 +138,7 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
 
 
         }
-        
+
 
 
 
