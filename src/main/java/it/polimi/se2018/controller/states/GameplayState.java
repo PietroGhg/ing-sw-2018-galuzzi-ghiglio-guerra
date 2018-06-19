@@ -58,7 +58,9 @@ public class GameplayState implements State {
             model.addDiscPlayer(playerName);
             String s = playerName + " disconnected.";
             LOGGER.log(Level.INFO, s);
-            if(model.whoIsPlaying() == p.getPlayerID()) model.nextTurn();
+            model.setDiscMessage(playerName);
+            if(model.numActivePlayers() == 1) model.setWinnerMessage(playerName);
+            else if(model.whoIsPlaying() == p.getPlayerID()) model.nextTurn();
         }
         catch (UserNameNotFoundException e){
             LOGGER.log(Level.SEVERE, "Error while handling player disconnection.");

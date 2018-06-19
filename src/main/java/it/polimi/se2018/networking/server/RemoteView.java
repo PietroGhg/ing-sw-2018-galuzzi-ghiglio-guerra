@@ -42,6 +42,8 @@ public class RemoteView extends AbstractView {
 
     public void visit(MVWinnerMessage message) { connection.send(message); }
 
+    public void visit(MVDiscMessage message){ connection.send(message); }
+
 
     /**
      * ConnectionObserver observes the ClientConnection, basically simulating the user's input to the View

@@ -53,6 +53,10 @@ public class ModelFacade {
         this.turnTimer = turnTimer;
     }
 
-    public void startGame(){ model.startGame(); }
+    public void setDiscMessage(String playerName){ model.setDiscMessage(playerName); }
+
+    public int numActivePlayers(){ return model.numActivePlayers(); }
+
+    public void setWinnerMessage(String playerName){ model.setWinnerMessage(playerName); }
 
 }

@@ -190,6 +190,8 @@ public class Model extends Observable<MVAbstractMessage> {
         playerNames.add(playerName);
     }
 
+    public int numActivePlayers(){ return playerNames.size(); }
+
     public void removePlayer(String playerName){
         try{
             Player p = getPlayer(playerName);
@@ -288,7 +290,16 @@ public class Model extends Observable<MVAbstractMessage> {
         MVNewTurnMessage message = new MVNewTurnMessage("It's tour turn!", playerID);
         setData(message);
         notify(message);
+    }
 
+    public void setWinnerMessage(String playerName){
+        try {
+            Player p = getPlayer(playerName);
+            notify(new MVWinnerMessage(p.getPlayerID(), "All the other players disconnected, you won."));
+        }
+        catch(UserNameNotFoundException e){
+            LOGGER.log(Level.SEVERE, "Error while notifing winner.");
+        }
     }
 
     /**
@@ -325,6 +336,10 @@ public class Model extends Observable<MVAbstractMessage> {
         WPC chosen = generator.getWPC(chosenWpc);
         Player player = players.get(playerID - 1);
         player.setWpc(chosen);
+    }
+
+    public void setDiscMessage(String playerName){
+        notify(new MVDiscMessage(playerName + " disconnected."));
     }
 
     public void setReady(int playerID){
