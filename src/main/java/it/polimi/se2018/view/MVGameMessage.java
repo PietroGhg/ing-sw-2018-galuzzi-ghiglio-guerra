@@ -15,6 +15,7 @@ public class MVGameMessage extends MVAbstractMessage {
     private List<Die> draftPool;
     private Map<Integer, WPC> wpcs;
     private DiceBag diceBag;
+    private int currPlayer;
 
     public MVGameMessage(String message, int playerID){
         this.message = message;
@@ -61,4 +62,8 @@ public class MVGameMessage extends MVAbstractMessage {
     public void setDiceBag(DiceBag diceBag) {
         this.diceBag = diceBag;
     }
+
+    public int getCurrPlayer(){ return currPlayer; }
+
+    public void setCurrPlayer(int currPlayer){ this.currPlayer = currPlayer; }
 }

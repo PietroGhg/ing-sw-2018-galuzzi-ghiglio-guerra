@@ -37,12 +37,20 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
      */
     private void parseString(String playerInput){
         if(playerInput.startsWith("toolcard" )){
+            if(!canMove()){
+                view.displayMessage("Not your turn.");
+                return;
+            }
             String[] temp = playerInput.split(" ");
             int toolCardID = Integer.parseInt(temp[1]);
             handleToolCard(toolCardID);
         }
 
         else if(playerInput.startsWith("dicemove")){
+            if(!canMove()){
+                view.displayMessage("Not your turn.");
+                return;
+            }
             parametersGetter = new ParameterGetterDie();
             message = new VCDieMessage(view.getPlayerID());
             parametersGetter.getParameters(view);
@@ -197,4 +205,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         view.getValidCoordinates(validCoordinates);
     }
 
+    private boolean canMove(){
+        return view.getPlayerID() == modelRep.getCurrPlayer();
+    }
 }

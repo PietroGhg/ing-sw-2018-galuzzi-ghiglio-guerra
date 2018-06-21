@@ -325,6 +325,8 @@ public class Model extends Observable<MVAbstractMessage> {
         message.setRoundTrack(roundTrack.toString());
 
         message.setDiceBag(diceBag);
+
+        message.setCurrPlayer(whoIsPlaying());
     }
 
     public void setMVTimesUpMessage(){

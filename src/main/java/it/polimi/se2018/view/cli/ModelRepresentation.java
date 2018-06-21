@@ -19,6 +19,7 @@ public class ModelRepresentation {
     private List<String> toolCards;
     private Map<Integer, WPC> wpcs;
     private DiceBag diceBag;
+    private int currPlayer;
 
     public ModelRepresentation(){
         wpcs = new HashMap<>();
@@ -77,5 +78,9 @@ public class ModelRepresentation {
     public Die getDieFromDBag(int index) { return diceBag.getDie(index); }
 
     public void setDiceBag(DiceBag diceBag){ this.diceBag = diceBag; }
+
+    public void setCurrPlayer(int currPlayer){ this.currPlayer = currPlayer; }
+
+    public int getCurrPlayer(){ return currPlayer; }
 
 }

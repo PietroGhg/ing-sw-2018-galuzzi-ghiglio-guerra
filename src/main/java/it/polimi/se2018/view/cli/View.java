@@ -67,6 +67,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         modelRepresentation.setDraftPool(message.getDraftPool());
         modelRepresentation.setWpcs(message.getWpcs());
         modelRepresentation.setDiceBag(message.getDiceBag());
+        modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
         synchronized (lock) {
             inputLoop = true;
