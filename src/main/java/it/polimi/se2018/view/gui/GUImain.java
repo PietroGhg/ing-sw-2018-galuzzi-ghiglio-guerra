@@ -17,7 +17,7 @@ public class GUImain extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loginGUI.fxml"));
 
         Parent root = loader.load();
-        Login l = loader.getController();
+
         primarystage.setTitle("Sagrada");
         primarystage.setScene(new Scene (root, 1200, 800));
         primarystage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));

@@ -1,6 +1,7 @@
 package it.polimi.se2018.networking.client.rmi;
 
 import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
+import it.polimi.se2018.view.ViewInterface;
 
 import java.rmi.RemoteException;
 import java.util.Timer;
@@ -15,11 +16,11 @@ import java.util.TimerTask;
 public class ClientPollingTimer {
     private Timer timer;
     private RMIClientConnection serverService;
-    private RMIClient rmiClient;
+    private ViewInterface view;
 
-    /*package-private*/ ClientPollingTimer(RMIClientConnection serverService, RMIClient rmiClient){
+    public ClientPollingTimer(RMIClientConnection serverService, ViewInterface view){
         this.serverService = serverService;
-        this.rmiClient = rmiClient;
+        this.view = view;
     }
 
     public void startPolling(){
@@ -39,7 +40,7 @@ public class ClientPollingTimer {
             catch(RemoteException e){
                 cancel();
                 timer.cancel();
-                rmiClient.getView().displayMessage("Problem reaching the server. ");
+                view.displayMessage("Problem reaching the server. ");
             }
         }
     }

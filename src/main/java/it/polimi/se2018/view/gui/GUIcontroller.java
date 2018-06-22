@@ -8,6 +8,7 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
@@ -23,12 +24,13 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
 
-public class GUIcontroller extends AbstractView implements ViewInterface  {
+public class GUIcontroller extends AbstractView implements ViewInterface{
 
     public RadioButton connection1;
     public RadioButton connection2;
@@ -45,7 +47,10 @@ public class GUIcontroller extends AbstractView implements ViewInterface  {
     private State state;
     private CountDownLatch latch;
 
-
+    public void init(ModelRepresentation modelRep){
+        rawObservers = new ArrayList<>();
+        this.modelRepresentation = modelRep;
+    }
 
 
 
@@ -127,8 +132,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface  {
     }
 
     public int getPlayerID(){
-        //return playerID;
-        return 0;
+        return playerID;
     }
 
     @FXML
@@ -278,7 +282,8 @@ public class GUIcontroller extends AbstractView implements ViewInterface  {
     }
 
     public void displayMessage(String message){
-
+        //Provvisorio
+        System.out.println(message);
     }
 
     public void showRoundTrack(){

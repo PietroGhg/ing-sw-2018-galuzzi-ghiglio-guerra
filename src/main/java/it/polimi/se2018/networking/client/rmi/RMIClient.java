@@ -46,7 +46,7 @@ public class RMIClient {
             view.register(new ServerConnectionAdapter(serverConnection));
             serverConnection.register(new SockToRMIObserverAdapter<>(view));
             serverService.checkEnoughPlayers();
-            timer = new ClientPollingTimer(serverService, this);
+            timer = new ClientPollingTimer(serverService, view);
             timer.startPolling();
         }
         catch(NotBoundException|MalformedURLException|RemoteException e){

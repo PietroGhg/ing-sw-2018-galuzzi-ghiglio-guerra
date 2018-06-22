@@ -19,7 +19,7 @@ public class ServerConnectionAdapter implements ServerConnection {
     private static final Logger LOGGER = Logger.getLogger(ServerConnectionAdapter.class.getName());
     private RMIServerConnection adaptee;
 
-    /*package-private*/ServerConnectionAdapter(RMIServerConnection adaptee){
+    public ServerConnectionAdapter(RMIServerConnection adaptee){
         this.adaptee = adaptee;
     }
 
