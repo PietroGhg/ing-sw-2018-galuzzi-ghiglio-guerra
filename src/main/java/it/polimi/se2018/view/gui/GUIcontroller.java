@@ -9,8 +9,7 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.RawInputObserver;
-import it.polimi.se2018.view.MVGameMessage;
-import it.polimi.se2018.view.ViewInterface;
+import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -26,9 +25,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 
-public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
+public class GUIcontroller extends AbstractView implements ViewInterface  {
 
     public RadioButton connection1;
     public RadioButton connection2;
@@ -42,7 +42,8 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
     public GridPane myWindow;
     public ModelRepresentation modelRepresentation;
     private List<RawInputObserver> rawObservers;
-    int playerID = 0;
+    private State state;
+    private CountDownLatch latch;
 
 
 
@@ -137,9 +138,35 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
         switch (s){
             case("Button00"): cellPressed(0,0); break;
             case("Button01"): cellPressed(0,1); break;
+            case("Button02"): cellPressed(0,2); break;
+            case("Button03"): cellPressed(0,3); break;
+            case("Button04"): cellPressed(0,4); break;
+            case("Button10"): cellPressed(1,0); break;
+            case("Button11"): cellPressed(1,1); break;
+            case("Button12"): cellPressed(1,2); break;
+            case("Button13"): cellPressed(1,3); break;
+            case("Button14"): cellPressed(1,4); break;
+            case("Button20"): cellPressed(2,0); break;
+            case("Button21"): cellPressed(2,1); break;
+            case("Button22"): cellPressed(2,2); break;
+            case("Button23"): cellPressed(2,3); break;
+            case("Button24"): cellPressed(2,4); break;
+            case("Button30"): cellPressed(3,0); break;
+            case("Button31"): cellPressed(3,1); break;
+            case("Button32"): cellPressed(3,2); break;
+            case("Button33"): cellPressed(3,3); break;
+            case("Button34"): cellPressed(3,4); break;
 
 
-
+            case("DP0"): dpSelected(0); break;
+            case("DP1"): dpSelected(1); break;
+            case("DP2"): dpSelected(2); break;
+            case("DP3"): dpSelected(3); break;
+            case("DP4"): dpSelected(4); break;
+            case("DP5"): dpSelected(5); break;
+            case("DP6"): dpSelected(6); break;
+            case("DP7"): dpSelected(7); break;
+            case("DP8"): dpSelected(8); break;
         }
 
 
@@ -147,20 +174,59 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
 
 
     }
+
+    private void dpSelected(int id){
+        switch(state){
+            case NOT_YOUR_TURN :
+                displayMessage("Not your turn");
+                break;
+            case COORDINATES_REQUEST:
+                displayMessage("Select draftpool die.");
+                break;
+            case DP_INDEX_REQUEST:
+                rawNotify(new RawRequestedMessage(id));
+                latch.countDown();
+                break;
+            case RT_POSITION_REQUEST:
+                displayMessage("Select draftpool die.");
+                break;
+            default:
+                displayMessage("Error.");
+                break;
+        }
+    }
+
     public void cellPressed(int row, int col){
-       /* switch(stato){
-            case(...):
-            case(COORDINATES_REQUEST):
+       switch(state){
+            case NOT_YOUR_TURN :
+                displayMessage("Not your turn");
+                break;
+           case COORDINATES_REQUEST:
                 rawNotify(new RawRequestedMessage(row));
                 rawNotify(new RawRequestedMessage(col));
-                lacth.cuntdown();
+                latch.countDown();
                 break;
-        }*/
+           case DP_INDEX_REQUEST:
+               displayMessage("Insert coordinates");
+               break;
+           case RT_POSITION_REQUEST:
+               displayMessage("Insert coordinates");
+               break;
+           default:
+               displayMessage("Error.");
+               break;
+        }
     }
-    public void getCoordinates(String m){
-       /* stato = COORDINATES_REQUEST;
-        latch.await();*/
 
+    public void getCoordinates(String m){
+        state = State.COORDINATES_REQUEST;
+        latch = new CountDownLatch(1);
+        try {
+            latch.await();
+        }
+        catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void getCoordinates2(){
@@ -193,7 +259,14 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
     }
 
     public void getDraftPoolIndex(){
-
+        state = State.DP_INDEX_REQUEST;
+        latch = new CountDownLatch(1);
+        try{
+            latch.await();
+        }
+        catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void getRoundTrackPosition(String s){
@@ -267,6 +340,8 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
         modelRepresentation.setDraftPool(message.getDraftPool());
         modelRepresentation.setWpcs(message.getWpcs());
         modelRepresentation.setDiceBag(message.getDiceBag());
+        modelRepresentation.setCurrPlayer(message.getCurrPlayer());
+
         WPC wpc = modelRepresentation.getWpc(playerID);
         for (int row=0; row<4; row++){
             for(int col=0; row<5; col++){
@@ -314,6 +389,13 @@ public class GUIcontroller /*extends AbstractView*/ implements ViewInterface  {
         }
     }
 
+    public void visit(MVSetUpMessage message){}
+    public void visit(MVWinnerMessage message){}
+    public void visit(MVDiscMessage message){}
+    public void visit(MVWelcomeBackMessage message){}
+    public void visit(MVStartGameMessage message){}
+    public void visit(MVNewTurnMessage message){}
+    public void visit(MVTimesUpMessage message){}
 
 }
 

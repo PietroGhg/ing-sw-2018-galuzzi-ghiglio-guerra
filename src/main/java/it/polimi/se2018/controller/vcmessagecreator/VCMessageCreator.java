@@ -25,7 +25,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
     private ModelRepresentation modelRep;
     private VCAbstractMessage message;
 
-    public VCMessageCreator(View view, ModelRepresentation modelRep){
+    public VCMessageCreator(ViewInterface view, ModelRepresentation modelRep){
         pgFactory = new PGFactory();
         this.modelRep = modelRep;
         this.view = view;

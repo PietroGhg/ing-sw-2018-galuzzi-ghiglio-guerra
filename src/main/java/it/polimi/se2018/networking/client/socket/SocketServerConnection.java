@@ -21,7 +21,7 @@ public class SocketServerConnection extends Observable<MVAbstractMessage> implem
 
     private static final Logger LOGGER = Logger.getLogger(SocketServerConnection.class.getName());
 
-    SocketServerConnection(Socket socket){
+    public SocketServerConnection(Socket socket){
         try{
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
