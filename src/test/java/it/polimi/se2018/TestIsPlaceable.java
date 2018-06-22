@@ -29,7 +29,7 @@ public class TestIsPlaceable {
 
     @Before
     public void setUp() {
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         empty = gen.getWPC(23); //Lux Mundi
 
         noSpots = gen.getWPC(23);

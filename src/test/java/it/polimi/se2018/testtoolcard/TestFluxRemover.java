@@ -43,7 +43,7 @@ public class TestFluxRemover {
 
     @Before
     public void setUp(){
-        WpcGenerator gen = new WpcGenerator() ;
+        WpcGenerator gen = WpcGenerator.getInstance() ;
         before = gen.getWPC(4); //Kaleidoscopic Dream
         filler(before);
 

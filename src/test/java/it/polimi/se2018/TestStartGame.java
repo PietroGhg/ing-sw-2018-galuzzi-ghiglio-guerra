@@ -29,7 +29,7 @@ public class TestStartGame {
     public void setup(){
         Extractor.resetInstance();
         model = new Model();
-        generator = new WpcGenerator();
+        generator = WpcGenerator.getInstance();
         player1 = new Player(1);
         player1.setWpc(generator.getWPC(1));
         player1.setFavorTokens(5);

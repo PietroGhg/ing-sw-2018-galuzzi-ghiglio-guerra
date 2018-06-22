@@ -39,7 +39,7 @@ public class TestFluxBrush {
 
     @Before
     public void setUp(){
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
 
         before = gen.getWPC(21); //Fulgor del Cielo
         filler(before);

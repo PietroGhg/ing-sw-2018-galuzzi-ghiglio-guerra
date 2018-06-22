@@ -33,7 +33,7 @@ public class Extractor {
         List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightEdge", "EglomiseBrush",
                 "FluxBrush", "FluxRemover", "GlazingHammer", "GrindingStone", "GrozingPliers", "Lathekin", "LensCutter", "RunningPliers",
                 "TapWheel");
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         prCards = new ArrayList<>(NUM_PR_CARDS);
         for(int i = 0; i < NUM_PR_CARDS; i++)  prCards.add(i);
 

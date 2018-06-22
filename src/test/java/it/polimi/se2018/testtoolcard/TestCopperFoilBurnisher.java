@@ -32,7 +32,7 @@ public class TestCopperFoilBurnisher {
 
     @Before
     public void setUp() {
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(3); //Bellesguard
         filler(before);
 

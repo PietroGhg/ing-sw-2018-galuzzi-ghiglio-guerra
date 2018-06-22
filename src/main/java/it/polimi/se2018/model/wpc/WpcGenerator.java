@@ -5,6 +5,8 @@ import it.polimi.se2018.model.Colour;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +24,19 @@ import java.util.logging.Logger;
 public class WpcGenerator {
     private  WPC temp;
     private static final String VALUE = "value";
-    private static final String NUMWPC_DIR = "/wpcs/numWpcs.cfg";
     private static final Logger LOGGER = Logger.getLogger(WpcGenerator.class.getName());
+    private List<WPC> extras;
+    private static WpcGenerator instance;
+
+    private WpcGenerator(){
+        extras = new ArrayList<>();
+        loadExtraWPCs();
+    }
+
+    public static WpcGenerator getInstance(){
+        if(instance == null) instance = new WpcGenerator();
+        return instance;
+    }
 
     //The parser
     private class MyParser extends DefaultHandler {
@@ -64,7 +77,12 @@ public class WpcGenerator {
     }
 
     //returns the wpc identified by the ID
-    public WPC getWPC (int wpcID) {
+    public WPC getWPC(int wpcID){
+        if(wpcID <= 24) return getStandardWPC(wpcID);
+        else return getExtraWpc(wpcID);
+    }
+
+    private WPC getStandardWPC (int wpcID) {
         temp = new WPC();
         try {
             //Opens the right file
@@ -78,6 +96,7 @@ public class WpcGenerator {
             SAXParser saxParser = factory.newSAXParser();
             MyParser par = new MyParser();
             saxParser.parse(in, par);
+            temp.setId(wpcID);
         }
         catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
@@ -85,14 +104,39 @@ public class WpcGenerator {
         return  temp;
     }
 
+    private WPC getExtraWpc(int wpcID){
+        return extras.get(wpcID-25);
+    }
+
+    private void loadExtraWPCs(){
+        try {
+            String path = "./schemas";
+            File wpcPath = new File(path);
+            File[] wpcs = wpcPath.listFiles();
+            for (int i = 0; i < wpcs.length; i++) {
+                File f = wpcs[i];
+                try {
+                    temp = new WPC();
+                    SAXParserFactory factory = SAXParserFactory.newInstance();
+                    SAXParser saxParser = factory.newSAXParser();
+                    MyParser par = new MyParser();
+                    saxParser.parse(f, par);
+                    temp.setId(24 + i);
+                    extras.add(new WPC(temp));
+                    String s = temp.getName() + " loaded.";
+                    LOGGER.log(Level.INFO, s);
+                } catch (SAXException | IOException | ParserConfigurationException e) {
+                    LOGGER.log(Level.SEVERE, e.getMessage());
+                }
+            }
+        }
+        catch(NullPointerException e){
+            LOGGER.log(Level.INFO, "No extra schemas loaded.");
+        }
+    }
+
     public int getNumWpcs(){
-
-        int numWpcs = 0;
-
-        InputStream in = getClass().getResourceAsStream(NUMWPC_DIR);
-        Scanner scanIn = new Scanner(in);
-        numWpcs = scanIn.nextInt();
-        return numWpcs;
+        return 24 + extras.size();
     }
 
 }

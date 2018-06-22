@@ -17,6 +17,7 @@ public class WPC implements Serializable{ //WindowPatternCard
     public static final int NUMCOL = 5;
     private Cell[][] board;
     private int favorTokens;
+    private int id;
     private String name;
 
     public WPC() {
@@ -89,6 +90,11 @@ public class WPC implements Serializable{ //WindowPatternCard
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
+        builder.append(name);
+        builder.append("\n");
+        builder.append("Favor tokens: ");
+        builder.append(favorTokens);
+        builder.append("\n");
 
         for(int i = 0; i < NUMROW; i++){
 
@@ -151,5 +157,13 @@ public class WPC implements Serializable{ //WindowPatternCard
         }
 
         return result;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

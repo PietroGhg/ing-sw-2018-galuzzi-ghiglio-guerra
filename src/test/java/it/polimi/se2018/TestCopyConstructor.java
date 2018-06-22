@@ -14,7 +14,7 @@ public class TestCopyConstructor {
     private WPC wpc2;
     @Before
     public void setup(){
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         wpc = gen.getWPC(1);
         filler(wpc);
     }

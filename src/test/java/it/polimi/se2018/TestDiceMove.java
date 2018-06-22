@@ -33,7 +33,7 @@ public class TestDiceMove {
         model = new Model();
         controller = new Controller(model, 10, 10);
         Extractor.resetInstance();
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         WPC wpc1 = gen.getWPC(1);
         WPC wpc2 = gen.getWPC(2);
         wpc1.setDie(0,0, new Die(4, Colour.YELLOW));

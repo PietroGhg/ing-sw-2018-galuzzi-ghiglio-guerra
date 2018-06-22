@@ -41,7 +41,7 @@ public class  TestChooseWinner {
 
     @Before
     public void setup(){
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         WPC wpc = gen.getWPC(1);
         WPC wpc2 = gen.getWPC(1);
         WPC wpc3 = gen.getWPC(1);

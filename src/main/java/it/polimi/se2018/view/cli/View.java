@@ -5,7 +5,6 @@ import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.model.wpc.WPC;
-import it.polimi.se2018.model.wpc.WpcGenerator;
 import it.polimi.se2018.utils.Printer;
 import it.polimi.se2018.utils.RawInputObservable;
 import it.polimi.se2018.utils.RawInputObserver;
@@ -83,7 +82,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             modelRepresentation.setPrCard(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
             modelRepresentation.setToolCards(message.getTcInUse());
-            chooseWpc(message.getIDs());
+            chooseWpc(message.getExtracted());
         }
     }
 
@@ -121,15 +120,13 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
     //the player has to choose his wpc for the game
 
-    private void chooseWpc(int[] possibleWPCs) {
+    private void chooseWpc(Map<Integer, WPC> extracted) {
         int i;
         int choice;
-        WpcGenerator wpcGenerator = new WpcGenerator();
-        WPC chosen;
         Scanner in = new Scanner(System.in);
 
         for (i = 0; i < 4; i++) {
-            WPC temp = wpcGenerator.getWPC(possibleWPCs[i]);
+            WPC temp = extracted.get(i+1);
             out.println(i + 1 + ":\n" + temp.toString());
         }
 
@@ -137,10 +134,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             out.println("Choose wpc number (Form 1 to 4)");
             choice = in.nextInt();
         } while (choice < 1 || choice > 4);
-        int chosenID = possibleWPCs[choice - 1];
-        chosen = wpcGenerator.getWPC(chosenID);
+
+        WPC chosen = extracted.get(choice);
         modelRepresentation.setWpcs(playerID, chosen);
-        notify(new VCSetUpMessage(playerID, chosenID));
+        notify(new VCSetUpMessage(playerID, chosen.getId()));
     }
 
 

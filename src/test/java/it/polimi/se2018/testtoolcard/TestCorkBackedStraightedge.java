@@ -54,7 +54,7 @@ public class TestCorkBackedStraightedge {
         expectedDP.add(new Die(1, Colour.YELLOW));
         expectedDP.add(new Die(4, Colour.BLUE));
 
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(22); //Water of Life
         filler(before);
 

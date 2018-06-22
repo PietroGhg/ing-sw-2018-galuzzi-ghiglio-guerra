@@ -32,7 +32,7 @@ public class TestEglomiseBrush {
 
     @Before
     public void setUp(){
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(2); //Via Lux
         filler(before);
 

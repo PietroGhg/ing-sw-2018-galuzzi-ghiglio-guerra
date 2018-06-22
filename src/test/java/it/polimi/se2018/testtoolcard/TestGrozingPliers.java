@@ -59,7 +59,7 @@ public class TestGrozingPliers {
 
         emptyDP = new ArrayList<Die>();
 
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(2); //Via Lux
         filler(before);
 

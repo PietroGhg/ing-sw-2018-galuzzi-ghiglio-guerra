@@ -23,7 +23,7 @@ public class TestRestrictionChecker {
 
     @Before
     public void setUp() {
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         wpc = gen.getWPC(1);
     }
 

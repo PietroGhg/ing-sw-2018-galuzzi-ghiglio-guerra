@@ -22,7 +22,7 @@ public class TestRestrictionChecker2 {
 
     @Before
     public void testSetup(){
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         wpc = gen.getWPC(1);
         wpc.getCell(0, 0).setDie(new Die(4, Colour.GREEN));
         wpc.getCell(2,2).setDie(new Die(4, Colour.GREEN));

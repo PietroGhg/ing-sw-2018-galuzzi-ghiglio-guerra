@@ -12,7 +12,9 @@ import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.view.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -255,7 +257,12 @@ public class Model extends Observable<MVAbstractMessage> {
      * @param indexes the indexes of the boards
      */
     private synchronized void setSetupMessage(String playerName, int playerID, int[] indexes, String prCards, String[] puCards){
-        MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, indexes, prCards, puCards, toolCardsInUse);
+        Map<Integer, WPC> extracted = new HashMap<>();
+        WpcGenerator generator = WpcGenerator.getInstance();
+        for(int i = 0; i < indexes.length; i++){
+            extracted.put(i+1, generator.getWPC(indexes[i]));
+        }
+        MVSetUpMessage message = new MVSetUpMessage(playerName, playerID, extracted, prCards, puCards, toolCardsInUse);
         String s = "Sending to: " + players.get(playerID - 1).getPlayerID() + "\nMessage: " + message +"\n\n";
         LOGGER.log(Level.INFO, s);
         notify(message);
@@ -334,7 +341,7 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     public void setWpc(int playerID, int chosenWpc){
-        WpcGenerator generator = new WpcGenerator();
+        WpcGenerator generator = WpcGenerator.getInstance();
         WPC chosen = generator.getWPC(chosenWpc);
         Player player = players.get(playerID - 1);
         player.setWpc(chosen);

@@ -53,7 +53,7 @@ public class TestRunningPliers {
         expectedDP.add(new Die(4, Colour.YELLOW));
         expectedDP.add(new Die(6, Colour.GREEN));
 
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(23); //Lux Mundi
         filler(before);
 

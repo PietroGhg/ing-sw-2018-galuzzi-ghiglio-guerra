@@ -1,22 +1,25 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.model.wpc.WPC;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Contains the strings representing the extracted boards and an array containing the IDs of the boards.
  * @author Pietro Ghiglio
  */
 public class MVSetUpMessage extends MVAbstractMessage {
-    private int[] wpcIDs;
+    private Map<Integer,WPC> extracted;
     private String playerName;
     private String prCard;
     private String[] puCards;
     private List<String> tcInUse;
 
-    public MVSetUpMessage(String playerName, int playerID, int[] indexes, String prCard, String[] puCards, List<String> tcInUse){
+    public MVSetUpMessage(String playerName, int playerID, Map<Integer, WPC> extracted, String prCard, String[] puCards, List<String> tcInUse){
         this.playerName = playerName;
         this.playerID = playerID;
-        this.wpcIDs = indexes;
+        this.extracted = extracted;
         this.prCard = prCard;
         this.puCards = puCards;
         this.tcInUse = tcInUse;
@@ -24,7 +27,9 @@ public class MVSetUpMessage extends MVAbstractMessage {
 
     public void accept(AbstractView view){ view.visit(this); }
 
-    public int[] getIDs(){ return wpcIDs; }
+    public Map<Integer, WPC> getExtracted() {
+        return extracted;
+    }
 
     public String getPrCard() {
         return prCard;

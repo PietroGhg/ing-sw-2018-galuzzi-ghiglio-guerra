@@ -55,7 +55,7 @@ public class TestGrindingStone {
 
         emptyDP = new ArrayList<Die>();
 
-        WpcGenerator gen = new WpcGenerator();
+        WpcGenerator gen = WpcGenerator.getInstance();
         before = gen.getWPC(11); //Aurora Sagradis
         filler(before);
 
