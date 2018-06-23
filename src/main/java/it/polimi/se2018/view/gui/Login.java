@@ -83,7 +83,7 @@ public class Login {
         the controler will register/be registered as observer
         */
         GUIcontroller guiController = loader.getController();
-
+        guiController.setPlayerName(username);
         if(s.equals("socket")){
             try {
                 socketConnect(username, pn, guiController);

@@ -8,7 +8,6 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
-import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
@@ -70,8 +69,9 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     public Button DP8;
 
     public GridPane myWindow;
-    public ModelRepresentation modelRepresentation;
+    private ModelRepresentation modelRepresentation;
     private List<RawInputObserver> rawObservers;
+    private String playerName;
     private State state;
     private CountDownLatch latch;
 
@@ -228,7 +228,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         }
     }
 
-    public void cellPressed(int row, int col){
+    private void cellPressed(int row, int col){
        switch(state){
             case NOT_YOUR_TURN :
                 displayMessage("Not your turn");
@@ -354,7 +354,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void notifyController(VCAbstractMessage message){
-
+        notify(message);
     }
 
     public void rawRegister(RawInputObserver observer){
@@ -377,7 +377,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
 
         WPC wpc = modelRepresentation.getWpc(playerID);
         for (int row=0; row<4; row++){
-            for(int col=0; row<5; col++){
+            for(int col=0; col<5; col++){
                 Cell cell = wpc.getCell(row, col);
                 if(cell.isEmpty()){
                     if(cell.getColourR() != null)
@@ -398,9 +398,8 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
                 }
             }
         }
-
-
     }
+
     private Node getCellByCoordinates(int row, int col){
         Node result = null;
         ObservableList<Node> children = myWindow.getChildren();
@@ -413,9 +412,13 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         return result;
     }
 
+    public void setPlayerName(String playerName){
+        this.playerName = playerName;
+    }
+
     public void visit(MVGameMessage message){
         if (playerID == message.getPlayerID()) {
-
+            displayMessage(message.getMessage());
             updateMR(message);
         } else {
             updateMR(message);
@@ -423,12 +426,50 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void visit(MVSetUpMessage message){}
-    public void visit(MVWinnerMessage message){}
-    public void visit(MVDiscMessage message){}
-    public void visit(MVWelcomeBackMessage message){}
-    public void visit(MVStartGameMessage message){}
-    public void visit(MVNewTurnMessage message){}
-    public void visit(MVTimesUpMessage message){}
+
+    public void visit(MVWinnerMessage message){
+        if(message.getPlayerID() == playerID){
+            displayMessage("Congratulations, you won!");
+        }
+        else{
+            displayMessage(message.getMessage());
+        }
+    }
+
+    public void visit(MVDiscMessage message){
+        displayMessage(message.getMessage());
+    }
+
+    public void visit(MVWelcomeBackMessage message){
+        if (playerName.equals(message.getPlayerName())) {
+            playerID = message.getPlayerID();
+            modelRepresentation.setToolCards(message.getTcInUse());
+            modelRepresentation.setPrCard(message.getPrCard());
+            modelRepresentation.setPuCards(message.getPuCards());
+            updateMR(message);
+        } else {
+            displayMessage(message.getMessage());
+        }
+    }
+
+    public void visit(MVStartGameMessage message){
+        if (playerID == message.getPlayerID())
+            displayMessage("It's your turn!");
+        updateMR(message);
+    }
+
+    public void visit(MVNewTurnMessage message){
+        if (playerID == message.getPlayerID())
+            displayMessage("It's your turn!");
+        else
+            state = State.NOT_YOUR_TURN;
+        updateMR(message);
+    }
+    public void visit(MVTimesUpMessage message){
+        if(message.getPlayerID() == playerID){
+            displayMessage("Time's up. End of your turn.");
+        }
+    }
 
 }
 
