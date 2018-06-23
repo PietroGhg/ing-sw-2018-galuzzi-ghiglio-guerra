@@ -1,4 +1,4 @@
-package it.polimi.se2018.controller.parametersgetter;
+package it.polimi.se2018.controller.vcmessagecreator.parametersgetter;
 
 import it.polimi.se2018.view.ViewInterface;
 

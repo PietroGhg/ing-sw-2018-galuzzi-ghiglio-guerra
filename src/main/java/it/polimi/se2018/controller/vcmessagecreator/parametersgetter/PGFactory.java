@@ -1,6 +1,6 @@
-package it.polimi.se2018.controller.parametersgetter;
+package it.polimi.se2018.controller.vcmessagecreator.parametersgetter;
 
-import it.polimi.se2018.controller.parametersgetter.decorators.*;
+import it.polimi.se2018.controller.vcmessagecreator.parametersgetter.decorators.*;
 import it.polimi.se2018.exceptions.InputNotValidException;
 
 //*
