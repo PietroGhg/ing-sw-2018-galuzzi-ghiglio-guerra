@@ -21,6 +21,8 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
      */
     public int getScore (WPC wpc){
         int score=0;
+
+        //matrix with 1 in place of adjacent same-colour dice in the corresponding cell
         int [][] diagMatrix = new int[WPC.NUMROW][WPC.NUMCOL];
         for(int i=0; i<WPC.NUMROW; i++){
             for(int j=0; j<WPC.NUMCOL; j++) {
@@ -28,6 +30,7 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
             }
         }
 
+        //scan from the top left to the bottom right
         for(int i=0; i<(WPC.NUMROW)-1; i++){
             for (int j=0; j<(WPC.NUMCOL)-1; j++){
                 if (!(wpc.getCell(i, j).isEmpty())) {
@@ -41,6 +44,7 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
             }
         }
 
+        //scan from the top right to the bottom left
         for(int k=0; k<(WPC.NUMROW)-1; k++){
             for(int z=WPC.NUMCOL-1; z>0; z--){
                 if (!(wpc.getCell(k, z).isEmpty())) {
@@ -54,39 +58,14 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
             }
         }
 
+        //score: count of 1s in the matrix
         for(int i=0; i<WPC.NUMROW; i++){
                 for(int j=0; j<WPC.NUMCOL; j++){
-                if(diagMatrix[i][j]==1)
-                    score++;
+                    if(diagMatrix[i][j]==1)
+                        score++;
             }
         }
 
         return score;
     }
-
-    /*
-    public static void main (String[] args) {
-        WpcGenerator gen = new WpcGenerator();
-        wpc wpc = gen.getWPC(1);
-        wpc.setDie(0, 1, new Die(4, Colour.GREEN));
-        wpc.setDie(0, 2, new Die(2, Colour.RED));
-        wpc.setDie(0, 3, new Die(5, Colour.YELLOW));
-        wpc.setDie(0, 4, new Die(6, Colour.PURPLE));
-        wpc.setDie(1, 0, new Die(3, Colour.RED));
-        wpc.setDie(1, 1, new Die(1, Colour.BLUE));
-        wpc.setDie(1, 3, new Die(1, Colour.GREEN));
-        wpc.setDie(1, 4, new Die(2, Colour.YELLOW));
-        wpc.setDie(2, 0, new Die(5, Colour.PURPLE));
-        wpc.setDie(2, 1, new Die(6, Colour.GREEN));
-        wpc.setDie(2, 3, new Die(6, Colour.PURPLE));
-        wpc.setDie(2, 4, new Die(3, Colour.RED));
-        wpc.setDie(3, 0, new Die(4, Colour.BLUE));
-        wpc.setDie(3, 1, new Die(3, Colour.YELLOW));
-        wpc.setDie(3, 2, new Die(4, Colour.GREEN));
-        wpc.setDie(3, 3, new Die(2, Colour.BLUE));
-        wpc.setDie(3, 4, new Die(4, Colour.GREEN));
-        ColourDiagonals cd = new ColourDiagonals();
-        System.out.println(cd.getScore(wpc));
-    }
-    */
 }

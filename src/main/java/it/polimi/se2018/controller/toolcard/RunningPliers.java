@@ -7,7 +7,6 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

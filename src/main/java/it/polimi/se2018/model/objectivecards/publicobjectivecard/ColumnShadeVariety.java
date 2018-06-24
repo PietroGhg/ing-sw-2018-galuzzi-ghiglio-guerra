@@ -32,7 +32,7 @@ public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature dive
             for(int i=0; i<WPC.NUMROW; i++){
                 if(wpc.getCell(i,j).isEmpty()) fullCol=false;
             }
-            if(fullCol==true){
+            if(fullCol){
                 allDifferent=true;
                 for(int i=0; i<(WPC.NUMROW)-1; i++){
                 /* till NUMROW-1: the check is done till the last with the second-last */
@@ -40,11 +40,11 @@ public class ColumnShadeVariety extends PublicObjectiveCard {   //Sfumature dive
                     /* check starts from the next element  */
                         if (wpc.getCell(i, j).getDie().getDieValue().equals(wpc.getCell(z, j).getDie().getDieValue()))
                             allDifferent = false;
-                        }
                     }
-                    if(allDifferent==true) score = score + 4;
                 }
+                if(allDifferent) score = score + 4;
             }
+        }
         return score;
     }
 }

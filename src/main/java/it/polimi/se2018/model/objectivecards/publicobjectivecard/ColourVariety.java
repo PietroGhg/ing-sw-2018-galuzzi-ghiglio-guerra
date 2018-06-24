@@ -34,6 +34,7 @@ public class ColourVariety extends PublicObjectiveCard { //Colori diversi
                     }
                 }
             }
+        //the number of complete sets is equals to the number of dice of the colour with the minor dice number
         if(count<sets) sets=count;
         }
         score = sets * 4;
