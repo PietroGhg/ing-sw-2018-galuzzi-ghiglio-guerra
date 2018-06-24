@@ -61,37 +61,11 @@ public class ColourDiagonals extends PublicObjectiveCard {  //Diagonali colorate
         //score: count of 1s in the matrix
         for(int i=0; i<WPC.NUMROW; i++){
                 for(int j=0; j<WPC.NUMCOL; j++){
-                if(diagMatrix[i][j]==1)
-                    score++;
+                    if(diagMatrix[i][j]==1)
+                        score++;
             }
         }
 
         return score;
     }
-
-    /*
-    public static void main (String[] args) {
-        WpcGenerator gen = new WpcGenerator();
-        wpc wpc = gen.getWPC(1);
-        wpc.setDie(0, 1, new Die(4, Colour.GREEN));
-        wpc.setDie(0, 2, new Die(2, Colour.RED));
-        wpc.setDie(0, 3, new Die(5, Colour.YELLOW));
-        wpc.setDie(0, 4, new Die(6, Colour.PURPLE));
-        wpc.setDie(1, 0, new Die(3, Colour.RED));
-        wpc.setDie(1, 1, new Die(1, Colour.BLUE));
-        wpc.setDie(1, 3, new Die(1, Colour.GREEN));
-        wpc.setDie(1, 4, new Die(2, Colour.YELLOW));
-        wpc.setDie(2, 0, new Die(5, Colour.PURPLE));
-        wpc.setDie(2, 1, new Die(6, Colour.GREEN));
-        wpc.setDie(2, 3, new Die(6, Colour.PURPLE));
-        wpc.setDie(2, 4, new Die(3, Colour.RED));
-        wpc.setDie(3, 0, new Die(4, Colour.BLUE));
-        wpc.setDie(3, 1, new Die(3, Colour.YELLOW));
-        wpc.setDie(3, 2, new Die(4, Colour.GREEN));
-        wpc.setDie(3, 3, new Die(2, Colour.BLUE));
-        wpc.setDie(3, 4, new Die(4, Colour.GREEN));
-        ColourDiagonals cd = new ColourDiagonals();
-        System.out.println(cd.getScore(wpc));
-    }
-    */
 }
