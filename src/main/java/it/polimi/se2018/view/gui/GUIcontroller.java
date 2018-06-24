@@ -69,14 +69,15 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     public Button DP8;
 
     public GridPane myWindow;
-    private ModelRepresentation modelRepresentation;
-    private List<RawInputObserver> rawObservers;
-    private String playerName;
-    private State state;
-    private CountDownLatch latch;
+    private static ModelRepresentation modelRepresentation;
+    private static List<RawInputObserver> rawObservers;
+    private static String playerName;
+    private static State state;
+    private static CountDownLatch latch;
 
     public void init(ModelRepresentation modelRep){
         rawObservers = new ArrayList<>();
+        state = State.NOT_YOUR_TURN;
         this.modelRepresentation = modelRep;
     }
 
@@ -199,6 +200,8 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
             case("DP6"): dpSelected(6); break;
             case("DP7"): dpSelected(7); break;
             case("DP8"): dpSelected(8); break;
+
+            default: displayMessage("Error");
         }
 
 

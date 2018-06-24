@@ -9,6 +9,11 @@ public class RawUnrequestedMessage implements RawInputMessage{
         c.visit(this);
     }
 
+    @Override
+    public void accept(VCGUIMessageCreator c) {
+        c.visit(this);
+    }
+
     public RawUnrequestedMessage(String input){
 
         this.input = input;

@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.controller.vcmessagecreator.VCGUIMessageCreator;
 import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
@@ -101,7 +102,7 @@ public class Login {
         //Instantiates model representation and vcmessagecreator, opens input and output stream
         socket = new Socket("localhost", port);
         ModelRepresentation modelRep = new ModelRepresentation();
-        VCMessageCreator vcMessageCreator = new VCMessageCreator(guiController, modelRep);
+        VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
         serverConnection = new SocketServerConnection(socket);
         PrintStream out = new PrintStream(socket.getOutputStream());
         Scanner in = new Scanner(socket.getInputStream());
@@ -127,7 +128,7 @@ public class Login {
     private void rmiConnect(String username, GUIcontroller guiController){
         RMIClientConnection serverService;
         ModelRepresentation modelRep;
-        VCMessageCreator vcMessageCreator;
+        VCGUIMessageCreator vcMessageCreator;
         ClientPollingTimer timer;
         RMIServerConnection rmiServerConnection;
         try {
@@ -141,7 +142,7 @@ public class Login {
             //instantiates modelrep and vcmessagecreator, registers observers
             modelRep = new ModelRepresentation();
             guiController.init(modelRep);
-            vcMessageCreator = new VCMessageCreator(guiController, modelRep);
+            vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
             guiController.rawRegister(vcMessageCreator);
             guiController.register(new ServerConnectionAdapter(rmiServerConnection));
             rmiServerConnection.register(new SockToRMIObserverAdapter<>(guiController));
