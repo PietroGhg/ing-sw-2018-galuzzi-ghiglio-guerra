@@ -32,19 +32,19 @@ public class ColumnColourVariety extends PublicObjectiveCard {  //Colori diversi
             for(int i=0; i<WPC.NUMROW; i++){
                 if(wpc.getCell(i,j).isEmpty()) fullCol=false;
             }
-            if(fullCol==true){
+            if(fullCol){
                 allDifferent=true;
                 for(int i=0; i<(WPC.NUMROW)-1; i++){
-                    /* till NUMROW-1: the check is done till the last with the second-last */
+                /* till NUMROW-1: the check is done till the last with the second-last */
                     for(int z=i+1; z<WPC.NUMROW; z++){
-                        /* check starts from the next element  */
+                    /* check starts from the next element */
                         if (wpc.getCell(i, j).getDie().getDieColour().equals(wpc.getCell(z, j).getDie().getDieColour()))
                             allDifferent = false;
                     }
                 }
-                if(allDifferent==true) score = score + 5;
+                if(allDifferent) score = score + 5;
             }
         }
-    return score;
+        return score;
     }
 }

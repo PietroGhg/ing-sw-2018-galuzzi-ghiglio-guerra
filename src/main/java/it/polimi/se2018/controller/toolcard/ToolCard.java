@@ -2,7 +2,6 @@ package it.polimi.se2018.controller.toolcard;
 
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
 import it.polimi.se2018.model.PlayerMoveParameters;
-import it.polimi.se2018.model.table.Model;
 
 public abstract class ToolCard {
     private String name;
@@ -10,10 +9,10 @@ public abstract class ToolCard {
     protected ToolCard(String name){
         this.name = name;
     }
+
     public abstract void cardAction(PlayerMoveParameters parameters) throws MoveNotAllowedException;
 
     public String getName(){ return name; }
-    //TODO: protected...
 }
 
 /*
@@ -25,10 +24,9 @@ public abstract class ToolCard {
     T               4: Lathekin -> 0: die1 row, 1: die1 col, 2: cell1 row, 3: cell1 col,
                                    4: die2 row, 5: die2 col, 6: cell2 row, 7: cell2 col
     T               5: LensCutter -> 0: DraftPool index, 1: RoundTrack number, 2: RoundTrack index
-    T               6: FluxBrush -> 0: DraftPool index;
-                                    (if isPlaceable): 1: cell row, 2: cell col
-    T               7: GlazingHammer -> (no parameters); check second turn
-    T               8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col;
+    T               6: FluxBrush -> 0: DraftPool index; (if isPlaceable): 1: cell row, 2: cell col
+    T               7: GlazingHammer -> no parameters, check second turn
+    T               8: RunningPliers -> 0: DraftPool index, 1: cell row, 2: cell col
     T               9: CorkBackedStraightedge -> 0: DraftPool index, 1: cell row, 2: cell col
     T               10: GrindingStone -> 0: DraftPool index, 1: die row, 2: die col
     T               11: FluxRemover -> 0: DraftPool index, 1: Dice Bag index, 2: dieValue
@@ -36,7 +34,4 @@ public abstract class ToolCard {
     T               12: TapWheel -> 0: RoundTrack number, 1: RoundTrack index,
                         2: die1 row, 3: die1 col, 4: cell1 row, 5: cell1 col
                         (if moves 2 dice): 6: die2 row, 7: die2 col, 8: cell2 row, 9: cell2 col
-
-    TODO: raggruppare effetti
-    TODO: controllare restrizioni all'inizio
 */

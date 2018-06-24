@@ -8,7 +8,6 @@ import it.polimi.se2018.model.PlayerMoveParameters;
 import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Class for ToolCard FluxBrush
