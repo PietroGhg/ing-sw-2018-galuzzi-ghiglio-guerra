@@ -24,61 +24,41 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GUIcontroller extends AbstractView implements ViewInterface{
 
-    public RadioButton connection1;
-    public RadioButton connection2;
-    public TextField user;
-    public RadioButton choice1;
-    public RadioButton choice2;
-    public RadioButton choice3;
-    public RadioButton choice4;
-    public Button Button00;
-    public Button Button01;
-    public Button Button02;
-    public Button Button03;
-    public Button Button04;
-    public Button Button10;
-    public Button Button11;
-    public Button Button12;
-    public Button Button13;
-    public Button Button14;
-    public Button Button20;
-    public Button Button21;
-    public Button Button22;
-    public Button Button23;
-    public Button Button24;
-    public Button Button30;
-    public Button Button31;
-    public Button Button32;
-    public Button Button33;
-    public Button Button34;
-    public Button DP0;
-    public Button DP1;
-    public Button DP2;
-    public Button DP3;
-    public Button DP4;
-    public Button DP5;
-    public Button DP6;
-    public Button DP7;
-    public Button DP8;
+    @FXML
+    private RadioButton choice1;
+    @FXML
+    private RadioButton choice2;
+    @FXML
+    private RadioButton choice3;
+    @FXML
+    private RadioButton choice4;
 
-    public GridPane myWindow;
+    @FXML
+    private GridPane myWindow;
     private static ModelRepresentation modelRepresentation;
     private static List<RawInputObserver> rawObservers;
     private static String playerName;
     private static State state;
-    private static CountDownLatch latch;
+    private static Latch latch;
+    private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
-    public void init(ModelRepresentation modelRep){
+    private static final String SELECT_DP = "Select a die from the draftpool.";
+    private static final String SELECT_CELL = "Select a cell.";
+    private static final String NOT_TURN = "Not your turn";
+
+    public static void init(ModelRepresentation modelRep){
+        latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
-        this.modelRepresentation = modelRep;
+        modelRepresentation = modelRep;
     }
 
 
@@ -93,7 +73,6 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         choice2.setUserData("2");
         choice3.setUserData("3");
         choice4.setUserData("4");
-        String n = choice.getSelectedToggle().getUserData().toString();
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
@@ -130,7 +109,9 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
            stage.setResizable(false);
            stage.show();
        }
-       catch (IOException e) { e.printStackTrace();
+       catch (IOException e) {
+           String m = Arrays.toString(e.getStackTrace());
+           LOGGER.log(Level.SEVERE, m);
        }
 
     }
@@ -213,10 +194,10 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     private void dpSelected(int id){
         switch(state){
             case NOT_YOUR_TURN :
-                displayMessage("Not your turn");
+                displayMessage(NOT_TURN);
                 break;
             case COORDINATES_REQUEST:
-                displayMessage("Select draftpool die.");
+                displayMessage(SELECT_CELL);
                 break;
             case DP_INDEX_REQUEST:
                 rawNotify(new RawRequestedMessage(id));
@@ -234,7 +215,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     private void cellPressed(int row, int col){
        switch(state){
             case NOT_YOUR_TURN :
-                displayMessage("Not your turn");
+                displayMessage(NOT_TURN);
                 break;
            case COORDINATES_REQUEST:
                 rawNotify(new RawRequestedMessage(row));
@@ -242,7 +223,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
                 latch.countDown();
                 break;
            case DP_INDEX_REQUEST:
-               displayMessage("Insert coordinates");
+               displayMessage(SELECT_DP);
                break;
            case RT_POSITION_REQUEST:
                displayMessage("Insert coordinates");
@@ -254,14 +235,10 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void getCoordinates(String m){
-        state = State.COORDINATES_REQUEST;
-        latch = new CountDownLatch(1);
-        try {
-            latch.await();
-        }
-        catch(InterruptedException e){
-            Thread.currentThread().interrupt();
-        }
+        setState(State.COORDINATES_REQUEST);
+        displayMessage(SELECT_CELL);
+        latch.reset();
+        latch.await();
     }
 
     public void getCoordinates2(){
@@ -270,38 +247,25 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void getValidCoordinates(List<int[]> validCoordinates){
-        Scanner in = new Scanner(System.in);
-        if(validCoordinates.isEmpty()){
 
+        if(validCoordinates.isEmpty()){
+            displayMessage("Die not placeable.");
         }
         else {
-
-            int chosen;
-            do {
-
-
-                chosen = in.nextInt();
-            }while(!(chosen>=1 && chosen <= validCoordinates.size()));
-            int[] temp = validCoordinates.get(chosen - 1);
-            rawNotify(new RawRequestedMessage(temp[0]));
-            rawNotify(new RawRequestedMessage(temp[1]));
+            //TODO: attivare solo i bottoni con coordinate valide
         }
 
     }
 
     public void getIncrement(){
-
+        //TODO: mostrare finestra per scelta (incrementare o diminuire)
     }
 
     public void getDraftPoolIndex(){
-        state = State.DP_INDEX_REQUEST;
-        latch = new CountDownLatch(1);
-        try{
-            latch.await();
-        }
-        catch(InterruptedException e){
-            Thread.currentThread().interrupt();
-        }
+        setState(State.DP_INDEX_REQUEST);
+        displayMessage(SELECT_DP);
+        latch.reset();
+        latch.await();
     }
 
     public void getRoundTrackPosition(String s){
@@ -309,11 +273,11 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void newDieValue(){
-
+        //TODO: mostrare finestra per inserimento nuovo valore
     }
 
     public void displayMessage(String message){
-        //Provvisorio
+        //TODO: Provvisorio, sostituire con finestra che mostra message o con label in finestra principale
         System.out.println(message);
     }
 
@@ -329,19 +293,22 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
             stage.setResizable(false);
             stage.show();
         }
-        catch (IOException e){e.printStackTrace();}
+        catch (IOException e){
+            String s = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, s);
+        }
 
     }
 
 
 
     public void showMyBoard(){
-
-
+        //empty method since the window is always shown
     }
 
     public void showBoards(){
         try {
+            //TODO: aggiornare grafica
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/windows.fxml"));
             Scene window = new Scene(loader.load(), 600, 400);
@@ -352,7 +319,10 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
             stage.setResizable(false);
             stage.show();
         }
-        catch (IOException e){e.printStackTrace();}
+        catch (IOException e){
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
+        }
 
     }
 
@@ -384,16 +354,16 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
                 Cell cell = wpc.getCell(row, col);
                 if(cell.isEmpty()){
                     if(cell.getColourR() != null)
-                        ;//mettici una cosa del colore giusto
+                        ;//TODO: mettici una cosa del colore giusto
                     if(cell.getValueR() != null)
-                        ;//mettici il numero giusto
+                        ;//TODO: mettici il numero giusto
                 }
                 else{
-                    //mettere il dado giusto
                     Die d = cell.getDie();
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
                     Button b = (Button)getCellByCoordinates(row, col);
+                    //TODO: aprire percorso giusto
                     BackgroundImage backgroundImage = new BackgroundImage( new Image(getClass().getResource("/pic3525224.jpg").toExternalForm())
                     , BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
                     Background background = new Background(backgroundImage);
@@ -407,7 +377,7 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         Node result = null;
         ObservableList<Node> children = myWindow.getChildren();
         for (Node node : children){
-            if(myWindow.getRowIndex(node) == row && myWindow.getColumnIndex(node) == col){
+            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col){
                 result = node;
                 break;
             }
@@ -415,8 +385,12 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         return result;
     }
 
-    public void setPlayerName(String playerName){
-        this.playerName = playerName;
+    public void setPlayerName(String pn){
+        setPN(pn);
+    }
+
+    private static synchronized void setPN(String pn){
+        playerName = pn;
     }
 
     public void visit(MVGameMessage message){
@@ -428,7 +402,9 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         }
     }
 
-    public void visit(MVSetUpMessage message){}
+    public void visit(MVSetUpMessage message){
+        //TODO: scelta delle board parte da qui
+    }
 
     public void visit(MVWinnerMessage message){
         if(message.getPlayerID() == playerID){
@@ -465,15 +441,19 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         if (playerID == message.getPlayerID())
             displayMessage("It's your turn!");
         else
-            state = State.NOT_YOUR_TURN;
+            setState(State.NOT_YOUR_TURN);
         updateMR(message);
     }
+
     public void visit(MVTimesUpMessage message){
         if(message.getPlayerID() == playerID){
             displayMessage("Time's up. End of your turn.");
         }
     }
 
+    private static synchronized void setState(State s){
+        state = s;
+    }
 }
 
 
