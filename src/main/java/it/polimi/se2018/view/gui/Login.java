@@ -89,7 +89,7 @@ public class Login {
             if(s.equals("socket")){
                 try {
                     int pn = Integer.valueOf(portnumber.getText());
-                    socketConnect(username, pn, guiController);
+                    socketConnect(username, ipadd, pn, guiController);
                 }
                 catch(GameStartedException e){ guiController.displayMessage("A game is already started.");}
                 catch(UserNameTakenException e){guiController.displayMessage("Username already taken.");}
@@ -98,7 +98,7 @@ public class Login {
                 }
             }
             else {
-                rmiConnect(username, guiController);
+                rmiConnect(username, ipadd, guiController);
 
             }
         }
@@ -107,11 +107,11 @@ public class Login {
 
     }
 
-    private void socketConnect(String username, int port, GUIcontroller guiController) throws GameStartedException, UserNameTakenException, IOException{
+    private void socketConnect(String username, String ip, int port, GUIcontroller guiController) throws GameStartedException, UserNameTakenException, IOException{
         ServerConnection serverConnection;
         Socket socket;
         //Instantiates model representation and vcmessagecreator, opens input and output stream
-        socket = new Socket("localhost", port);
+        socket = new Socket(ip, port);
         ModelRepresentation modelRep = new ModelRepresentation();
         VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
         serverConnection = new SocketServerConnection(socket);
@@ -137,7 +137,7 @@ public class Login {
 
     }
 
-    private void rmiConnect(String username, GUIcontroller guiController){
+    private void rmiConnect(String username, String ip, GUIcontroller guiController){
         RMIClientConnection serverService;
         ModelRepresentation modelRep;
         VCGUIMessageCreator vcMessageCreator;
@@ -145,7 +145,7 @@ public class Login {
         RMIServerConnection rmiServerConnection;
         try {
             //looks up for the rmiclientconnection and remote-calls the handleRequest() method
-            serverService = (RMIClientConnection) Naming.lookup("//localhost/sagradarmi");
+            serverService = (RMIClientConnection) Naming.lookup("//"+ ip + "/sagradarmi");
             rmiServerConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(rmiServerConnection,0);
             serverService.handleRequest(username
