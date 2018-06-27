@@ -17,6 +17,7 @@ import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
@@ -40,12 +41,14 @@ import java.util.logging.Logger;
 
 public class Login {
     private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
-    public RadioButton connection1;
-    public RadioButton connection2;
-    public TextField user;
-    public TextField portnumber;
-    private ServerConnection serverConnection;
-    private Socket socket;
+    @FXML
+    private RadioButton connection1;
+    @FXML
+    private RadioButton connection2;
+    @FXML
+    private TextField user;
+    @FXML
+    private TextField portnumber;
 
     public void handlePlay() throws IOException {
         ToggleGroup link = new ToggleGroup();
@@ -99,6 +102,8 @@ public class Login {
     }
 
     private void socketConnect(String username, int port, GUIcontroller guiController) throws GameStartedException, UserNameTakenException, IOException{
+        ServerConnection serverConnection;
+        Socket socket;
         //Instantiates model representation and vcmessagecreator, opens input and output stream
         socket = new Socket("localhost", port);
         ModelRepresentation modelRep = new ModelRepresentation();
@@ -108,7 +113,7 @@ public class Login {
         Scanner in = new Scanner(socket.getInputStream());
 
         //sends the username to the server, checks the response
-        System.out.println(in.nextLine());
+        in.nextLine();
         out.println(username);
         String response = in.nextLine();
         if(response.equals("A game is already started")) throw new GameStartedException();
@@ -117,7 +122,7 @@ public class Login {
         guiController.displayMessage("Welcome to Sagrada, wait for other players.");
 
         //registers observers and starts a connection thread
-        guiController.init(modelRep);
+        GUIcontroller.init(modelRep);
         guiController.register(serverConnection);
         serverConnection.register(guiController);
         guiController.rawRegister(vcMessageCreator);

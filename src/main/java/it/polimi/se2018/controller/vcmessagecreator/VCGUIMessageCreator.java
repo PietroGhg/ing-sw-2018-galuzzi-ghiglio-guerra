@@ -35,7 +35,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
      */
     private void parseString(String playerInput){
         if(playerInput.startsWith("toolcard" )){
-            if(!canMove()){
+            if(canNotMove()){
                 view.displayMessage("Not your turn.");
                 return;
             }
@@ -45,7 +45,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
         }
 
         else if(playerInput.startsWith("dicemove")){
-            if(!canMove()){
+            if(canNotMove()){
                 view.displayMessage("Not your turn.");
                 return;
             }
@@ -172,7 +172,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
         new Thread(() -> view.getValidCoordinates(validCoordinates)).start();
     }
 
-    private boolean canMove(){
-        return view.getPlayerID() == modelRep.getCurrPlayer();
+    private boolean canNotMove(){
+        return view.getPlayerID() != modelRep.getCurrPlayer();
     }
 }
