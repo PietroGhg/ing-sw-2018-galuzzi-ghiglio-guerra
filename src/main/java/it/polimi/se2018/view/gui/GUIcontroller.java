@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -520,6 +521,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                         case 4:
                             fillerWPC(modelRepresentation.getSelected().get(4), grid4);
                             break;
+                        default:
+                            LOGGER.log(Level.SEVERE, "Error while displaying choice.");
                     }
 
                     }
@@ -589,35 +592,32 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    public void fillerWPC(WPC wpc, GridPane grid) throws IOException {
+    private void fillerWPC(WPC wpc, GridPane grid) {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 5; col++) {
                 Cell cell = wpc.getCell(row, col);
                 if (cell.isEmpty()) {
                     if (cell.getColourR() != null) {
-                        FileInputStream imageStream = new FileInputStream("/dice/" + cell.getColourR() + "/0.jpg");
-                        Image image = new Image(imageStream);
+                        Image image = new Image("/dice/" + cell.getColourR() + "/0.jpg", 30, 30, false, false);
                         grid.add(new ImageView(image), row, col);
                     }
 
                     if (cell.getValueR() != null) {
-                        FileInputStream imageStream1 = new FileInputStream("/dice/grey/" + cell.getValueR()+ ".jpg");
-                        Image image = new Image(imageStream1);
+                        Image image = new Image("/dice/grey/" + cell.getValueR() + ".jpg", 30, 30, false, false);
                         grid.add(new ImageView(image), row, col);
-                    } else {
-                        Die d = cell.getDie();
-                        int val = d.getDieValue();
-                        Colour c = d.getDieColour();
-                        FileInputStream imageStream = new FileInputStream("/dice/" + c + "/" + val+ ".jpg");
-                        Image image = new Image(imageStream);
-                        grid.add(new ImageView(image), row, col);//prima qui mi diceva di ordinare row e col al contrario rispetto
-                                                                 //a come è adesso, io ho rispettato l'ordine che abbiamo usato fin ora
-                                                                 //ma se fa casino sappiamo perchè
                     }
                 }
+
+                else {
+                    Die d = cell.getDie();
+                    int val = d.getDieValue();
+                    Colour c = d.getDieColour();
+                    Image image = new Image("/dice/" + c + "/" + val+ ".jpg", 30, 30, false, false);
+                    grid.add(new ImageView(image), row, col);//prima qui mi diceva di ordinare row e col al contrario rispetto
+                    //a come è adesso, io ho rispettato l'ordine che abbiamo usato fin ora
+                    //ma se fa casino sappiamo perchè
+                }
             }
-
-
         }
     }
 }
