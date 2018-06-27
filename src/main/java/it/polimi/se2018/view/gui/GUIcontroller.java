@@ -21,9 +21,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>{
+public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage> {
 
     @FXML
     private RadioButton choice1;
@@ -46,20 +48,30 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     @FXML
     private GridPane myWindow;
-    private  ModelRepresentation modelRepresentation;
-    private  List<RawInputObserver> rawObservers;
-    private  String playerName;
-    private  State state;
-    private  Latch latch;
-    private  List<Observer<VCAbstractMessage>> observers;
-    private  int playerID;
+    @FXML
+    private GridPane grid1;
+    @FXML
+    private GridPane grid2;
+    @FXML
+    private GridPane grid3;
+    @FXML
+    private GridPane grid4;
+
+
+    private ModelRepresentation modelRepresentation;
+    private List<RawInputObserver> rawObservers;
+    private String playerName;
+    private State state;
+    private Latch latch;
+    private List<Observer<VCAbstractMessage>> observers;
+    private int playerID;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
     private static final String SELECT_CELL = "Select a cell.";
     private static final String NOT_TURN = "Not your turn";
 
-    public void init(ModelRepresentation modelRep){
+    public void init(ModelRepresentation modelRep) {
         latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
@@ -67,15 +79,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         observers = new ArrayList<>();
     }
 
-    public void update(MVAbstractMessage message){
+    public void update(MVAbstractMessage message) {
         message.accept(this);
     }
 
 
     @FXML
-    public void handleChoice(Event e){
+    public void handleChoice(Event e) {
         ToggleGroup choice = new ToggleGroup();
-        Button b = (Button)e.getSource();
+        Button b = (Button) e.getSource();
         choice1.setToggleGroup(choice);
         choice2.setToggleGroup(choice);
         choice3.setToggleGroup(choice);
@@ -86,10 +98,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         choice4.setUserData("4");
         Toggle selected = choice.getSelectedToggle();
         Integer i = Integer.valueOf(selected.getUserData().toString());
-        Map<Integer,WPC> extractedWPCs = modelRepresentation.getSelected();
+        Map<Integer, WPC> extractedWPCs = modelRepresentation.getSelected();
         WPC extracted = extractedWPCs.get(i);
 
-        Stage s = (Stage)b.getScene().getWindow();
+        Stage s = (Stage) b.getScene().getWindow();
         s.close();
         notifyController(new VCSetUpMessage(playerID, extracted.getId()));
 
@@ -104,13 +116,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }
 
-    public void showToolCards() throws IOException{
+    public void showToolCards() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/toolCards.fxml"));
@@ -118,32 +129,32 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         Stage stage = new Stage();
         stage.setScene(window);
         stage.setTitle("ToolCards");
-        stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
+        stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
         stage.show();
 
     }
 
-    public void showDraftPool(){
-       try { FXMLLoader loader = new FXMLLoader();
-           loader.setController(this);
-           loader.setLocation(getClass().getResource("/fxml/draftPool.fxml"));
-           Scene window = new Scene(loader.load(), 600, 400);
-           Stage stage = new Stage();
-           stage.setScene(window);
-           stage.setTitle("DraftPool");
-           stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
-           stage.setResizable(false);
-           stage.show();
-       }
-       catch (IOException e) {
-           String m = Arrays.toString(e.getStackTrace());
-           LOGGER.log(Level.SEVERE, m);
-       }
+    public void showDraftPool() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/fxml/draftPool.fxml"));
+            Scene window = new Scene(loader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("DraftPool");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            String m = Arrays.toString(e.getStackTrace());
+            LOGGER.log(Level.SEVERE, m);
+        }
 
     }
 
-    public void showPuCards() throws IOException{
+    public void showPuCards() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/puCards.fxml"));
@@ -151,77 +162,133 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         Stage stage = new Stage();
         stage.setScene(window);
         stage.setTitle("PuCards");
-        stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
+        stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
         stage.show();
 
 
     }
 
-    public void diceMove(){
+    public void diceMove() {
         rawNotify(new RawUnrequestedMessage("dicemove"));
 
     }
 
-    public void toolCard(){
+    public void toolCard() {
 
         rawNotify(new RawUnrequestedMessage("toolcard 1"));
 
     }
 
-    public int getPlayerID(){
+    public int getPlayerID() {
         return playerID;
     }
 
     @FXML
-    public void selectCell(Event e){
-        Button b = (Button)e.getSource();
+    public void selectCell(Event e) {
+        Button b = (Button) e.getSource();
         String s = b.getId();
-        switch (s){
-            case("Button00"): cellPressed(0,0); break;
-            case("Button01"): cellPressed(0,1); break;
-            case("Button02"): cellPressed(0,2); break;
-            case("Button03"): cellPressed(0,3); break;
-            case("Button04"): cellPressed(0,4); break;
-            case("Button10"): cellPressed(1,0); break;
-            case("Button11"): cellPressed(1,1); break;
-            case("Button12"): cellPressed(1,2); break;
-            case("Button13"): cellPressed(1,3); break;
-            case("Button14"): cellPressed(1,4); break;
-            case("Button20"): cellPressed(2,0); break;
-            case("Button21"): cellPressed(2,1); break;
-            case("Button22"): cellPressed(2,2); break;
-            case("Button23"): cellPressed(2,3); break;
-            case("Button24"): cellPressed(2,4); break;
-            case("Button30"): cellPressed(3,0); break;
-            case("Button31"): cellPressed(3,1); break;
-            case("Button32"): cellPressed(3,2); break;
-            case("Button33"): cellPressed(3,3); break;
-            case("Button34"): cellPressed(3,4); break;
+        switch (s) {
+            case ("Button00"):
+                cellPressed(0, 0);
+                break;
+            case ("Button01"):
+                cellPressed(0, 1);
+                break;
+            case ("Button02"):
+                cellPressed(0, 2);
+                break;
+            case ("Button03"):
+                cellPressed(0, 3);
+                break;
+            case ("Button04"):
+                cellPressed(0, 4);
+                break;
+            case ("Button10"):
+                cellPressed(1, 0);
+                break;
+            case ("Button11"):
+                cellPressed(1, 1);
+                break;
+            case ("Button12"):
+                cellPressed(1, 2);
+                break;
+            case ("Button13"):
+                cellPressed(1, 3);
+                break;
+            case ("Button14"):
+                cellPressed(1, 4);
+                break;
+            case ("Button20"):
+                cellPressed(2, 0);
+                break;
+            case ("Button21"):
+                cellPressed(2, 1);
+                break;
+            case ("Button22"):
+                cellPressed(2, 2);
+                break;
+            case ("Button23"):
+                cellPressed(2, 3);
+                break;
+            case ("Button24"):
+                cellPressed(2, 4);
+                break;
+            case ("Button30"):
+                cellPressed(3, 0);
+                break;
+            case ("Button31"):
+                cellPressed(3, 1);
+                break;
+            case ("Button32"):
+                cellPressed(3, 2);
+                break;
+            case ("Button33"):
+                cellPressed(3, 3);
+                break;
+            case ("Button34"):
+                cellPressed(3, 4);
+                break;
 
 
-            case("DP0"): dpSelected(0); break;
-            case("DP1"): dpSelected(1); break;
-            case("DP2"): dpSelected(2); break;
-            case("DP3"): dpSelected(3); break;
-            case("DP4"): dpSelected(4); break;
-            case("DP5"): dpSelected(5); break;
-            case("DP6"): dpSelected(6); break;
-            case("DP7"): dpSelected(7); break;
-            case("DP8"): dpSelected(8); break;
+            case ("DP0"):
+                dpSelected(0);
+                break;
+            case ("DP1"):
+                dpSelected(1);
+                break;
+            case ("DP2"):
+                dpSelected(2);
+                break;
+            case ("DP3"):
+                dpSelected(3);
+                break;
+            case ("DP4"):
+                dpSelected(4);
+                break;
+            case ("DP5"):
+                dpSelected(5);
+                break;
+            case ("DP6"):
+                dpSelected(6);
+                break;
+            case ("DP7"):
+                dpSelected(7);
+                break;
+            case ("DP8"):
+                dpSelected(8);
+                break;
 
-            default: displayMessage("Error");
+            default:
+                displayMessage("Error");
         }
-
-
-
 
 
     }
 
-    private void dpSelected(int id){
-        switch(state){
-            case NOT_YOUR_TURN :
+    private void dpSelected(int id) {
+        switch (state) {
+            case NOT_YOUR_TURN:
                 displayMessage(NOT_TURN);
                 break;
             case COORDINATES_REQUEST:
@@ -240,76 +307,75 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    private void cellPressed(int row, int col){
-       switch(state){
-            case NOT_YOUR_TURN :
+    private void cellPressed(int row, int col) {
+        switch (state) {
+            case NOT_YOUR_TURN:
                 displayMessage(NOT_TURN);
                 break;
-           case COORDINATES_REQUEST:
+            case COORDINATES_REQUEST:
                 rawNotify(new RawRequestedMessage(row));
                 rawNotify(new RawRequestedMessage(col));
                 latch.countDown();
                 break;
-           case DP_INDEX_REQUEST:
-               displayMessage(SELECT_DP);
-               break;
-           case RT_POSITION_REQUEST:
-               displayMessage("Insert coordinates");
-               break;
-           default:
-               displayMessage("Error.");
-               break;
+            case DP_INDEX_REQUEST:
+                displayMessage(SELECT_DP);
+                break;
+            case RT_POSITION_REQUEST:
+                displayMessage("Insert coordinates");
+                break;
+            default:
+                displayMessage("Error.");
+                break;
         }
     }
 
-    public void getCoordinates(String m){
+    public void getCoordinates(String m) {
         setState(State.COORDINATES_REQUEST);
         displayMessage(SELECT_CELL);
         latch.reset();
         latch.await();
     }
 
-    public void getCoordinates2(){
+    public void getCoordinates2() {
         int column = 0;
         rawNotify(new RawRequestedMessage(column));
     }
 
-    public void getValidCoordinates(List<int[]> validCoordinates){
+    public void getValidCoordinates(List<int[]> validCoordinates) {
 
-        if(validCoordinates.isEmpty()){
+        if (validCoordinates.isEmpty()) {
             displayMessage("Die not placeable.");
-        }
-        else {
+        } else {
             //TODO: attivare solo i bottoni con coordinate valide
         }
 
     }
 
-    public void getIncrement(){
+    public void getIncrement() {
         //TODO: mostrare finestra per scelta (incrementare o diminuire)
     }
 
-    public void getDraftPoolIndex(){
+    public void getDraftPoolIndex() {
         setState(State.DP_INDEX_REQUEST);
         displayMessage(SELECT_DP);
         latch.reset();
         latch.await();
     }
 
-    public void getRoundTrackPosition(String s){
+    public void getRoundTrackPosition(String s) {
 
     }
 
-    public void newDieValue(){
+    public void newDieValue() {
         //TODO: mostrare finestra per inserimento nuovo valore
     }
 
-    public void displayMessage(String message){
+    public void displayMessage(String message) {
         //TODO: Provvisorio, sostituire con finestra che mostra message o con label in finestra principale
         System.out.println(message);
     }
 
-    public void showRoundTrack(){
+    public void showRoundTrack() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
@@ -321,8 +387,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             String s = Arrays.toString(e.getStackTrace());
             LOGGER.log(Level.SEVERE, s);
         }
@@ -330,12 +395,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
 
-
-    public void showMyBoard(){
+    public void showMyBoard() {
         //empty method since the window is always shown
     }
 
-    public void showBoards(){
+    public void showBoards() {
         try {
             //TODO: aggiornare grafica
             FXMLLoader loader = new FXMLLoader();
@@ -348,24 +412,23 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             String m = Arrays.toString(e.getStackTrace());
             LOGGER.log(Level.SEVERE, m);
         }
 
     }
 
-    public void notifyController(VCAbstractMessage message){
+    public void notifyController(VCAbstractMessage message) {
         notify(message);
     }
 
-    public void rawRegister(RawInputObserver observer){
+    public void rawRegister(RawInputObserver observer) {
         rawObservers.add(observer);
 
     }
 
-    public void rawNotify(RawInputMessage message){
+    public void rawNotify(RawInputMessage message) {
         for (RawInputObserver ob : rawObservers) {
             ob.rawUpdate(message);
         }
@@ -379,23 +442,21 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
         WPC wpc = modelRepresentation.getWpc(playerID);
-        for (int row=0; row<4; row++){
-            for(int col=0; col<5; col++){
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 5; col++) {
                 Cell cell = wpc.getCell(row, col);
-                if(cell.isEmpty()){
-                    if(cell.getColourR() != null)
+                if (cell.isEmpty()) {
+                    if (cell.getColourR() != null)
                         ;//TODO: mettici una cosa del colore giusto
-                    if(cell.getValueR() != null)
+                    if (cell.getValueR() != null)
                         ;//TODO: mettici il numero giusto
-                }
-                else{
+                } else {
                     Die d = cell.getDie();
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
-                    Button b = (Button)getCellByCoordinates(row, col);
-                    //TODO: aprire percorso giusto
-                    BackgroundImage backgroundImage = new BackgroundImage( new Image(getClass().getResource("/pic3525224.jpg").toExternalForm())
-                    , BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+                    Button b = (Button) getCellByCoordinates(row, col);
+                    BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource("/dice/" + c + "/" + val + ".jpg").toExternalForm())
+                            , BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
                     Background background = new Background(backgroundImage);
                     b.setBackground(background);
                 }
@@ -403,11 +464,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    private Node getCellByCoordinates(int row, int col){
+    private Node getCellByCoordinates(int row, int col) {
         Node result = null;
         ObservableList<Node> children = myWindow.getChildren();
-        for (Node node : children){
-            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col){
+        for (Node node : children) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
                 result = node;
                 break;
             }
@@ -415,15 +476,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         return result;
     }
 
-    public void setPlayerName(String pn){
+    public void setPlayerName(String pn) {
         setPN(pn);
     }
 
-    private  synchronized void setPN(String pn){
+    private synchronized void setPN(String pn) {
         playerName = pn;
     }
 
-    public void visit(MVGameMessage message){
+    public void visit(MVGameMessage message) {
         if (playerID == message.getPlayerID()) {
             displayMessage(message.getMessage());
             updateMR(message);
@@ -432,8 +493,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    public void visit(MVSetUpMessage message){
-        if(playerName.equals(message.getPlayerName())) {
+    public void visit(MVSetUpMessage message) {
+        if (playerName.equals(message.getPlayerName())) {
             modelRepresentation.setSelected(message.getExtracted());
             playerID = message.getPlayerID();
             try {
@@ -445,27 +506,44 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 stage.setTitle("Choice");
                 stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
                 stage.setResizable(false);
+                for (int i = 1; i <= 4; i++){
+                    switch (i) { //è orribile lo so, ma era tardi.
+                        case 1:
+                            fillerWPC(modelRepresentation.getSelected().get(1), grid1);
+                            break;
+                        case 2:
+                            fillerWPC(modelRepresentation.getSelected().get(2), grid2);
+                            break;
+                        case 3:
+                            fillerWPC(modelRepresentation.getSelected().get(3), grid3);
+                            break;
+                        case 4:
+                            fillerWPC(modelRepresentation.getSelected().get(4), grid4);
+                            break;
+                    }
+
+                    }
                 stage.show();
+
             } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, e.getMessage());
             }
         }
     }
 
-    public void visit(MVWinnerMessage message){
-        if(message.getPlayerID() == playerID){
+    public void visit(MVWinnerMessage message) {
+        if (message.getPlayerID() == playerID) {
             displayMessage("Congratulations, you won!");
-        }
-        else{
+        } else {
             displayMessage(message.getMessage());
         }
     }
 
-    public void visit(MVDiscMessage message){
+    public void visit(MVDiscMessage message) {
         displayMessage(message.getMessage());
     }
 
-    public void visit(MVWelcomeBackMessage message){
+    public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
             modelRepresentation.setToolCards(message.getTcInUse());
@@ -477,13 +555,13 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    public void visit(MVStartGameMessage message){
+    public void visit(MVStartGameMessage message) {
         if (playerID == message.getPlayerID())
             displayMessage("It's your turn!");
         updateMR(message);
     }
 
-    public void visit(MVNewTurnMessage message){
+    public void visit(MVNewTurnMessage message) {
         if (playerID == message.getPlayerID())
             displayMessage("It's your turn!");
         else
@@ -491,25 +569,61 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         updateMR(message);
     }
 
-    public void visit(MVTimesUpMessage message){
-        if(message.getPlayerID() == playerID){
+    public void visit(MVTimesUpMessage message) {
+        if (message.getPlayerID() == playerID) {
             displayMessage("Time's up. End of your turn.");
         }
     }
 
-    private synchronized void setState(State s){
+    private synchronized void setState(State s) {
         state = s;
     }
 
-    public void register(Observer<VCAbstractMessage> o){
+    public void register(Observer<VCAbstractMessage> o) {
         observers.add(o);
     }
 
-    private void notify(VCAbstractMessage message){
-        for(Observer o: observers){
+    private void notify(VCAbstractMessage message) {
+        for (Observer o : observers) {
             o.update(message);
         }
     }
+
+    public void fillerWPC(WPC wpc, GridPane grid) throws IOException {
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 5; col++) {
+                Cell cell = wpc.getCell(row, col);
+                if (cell.isEmpty()) {
+                    if (cell.getColourR() != null) {
+                        FileInputStream imageStream = new FileInputStream("/dice/" + cell.getColourR() + "/0.jpg");
+                        Image image = new Image(imageStream);
+                        grid.add(new ImageView(image), row, col);
+                    }
+
+                    if (cell.getValueR() != null) {
+                        FileInputStream imageStream1 = new FileInputStream("/dice/grey/" + cell.getValueR()+ ".jpg");
+                        Image image = new Image(imageStream1);
+                        grid.add(new ImageView(image), row, col);
+                    } else {
+                        Die d = cell.getDie();
+                        int val = d.getDieValue();
+                        Colour c = d.getDieColour();
+                        FileInputStream imageStream = new FileInputStream("/dice/" + c + "/" + val+ ".jpg");
+                        Image image = new Image(imageStream);
+                        grid.add(new ImageView(image), row, col);//prima qui mi diceva di ordinare row e col al contrario rispetto
+                                                                 //a come è adesso, io ho rispettato l'ordine che abbiamo usato fin ora
+                                                                 //ma se fa casino sappiamo perchè
+                    }
+                }
+            }
+
+
+        }
+    }
 }
+
+
+
+
 
 

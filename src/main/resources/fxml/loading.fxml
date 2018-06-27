@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="318.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.GUIcontroller">
+<AnchorPane prefHeight="200" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.GUIcontroller">
    <children>
-      <ImageView fitHeight="261.0" fitWidth="600.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="200.0" fitWidth="300.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../Desktop/BA5o.gif" />
          </image>
