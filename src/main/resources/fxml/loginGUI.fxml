@@ -21,7 +21,7 @@
             <Font name="Times New Roman" size="32.0" />
          </font>
       </Button>
-      <TextField fx:id="user" layoutX="775.0" layoutY="195.0" prefHeight="51.0" prefWidth="244.0" promptText="username">
+      <TextField fx:id="user" layoutX="775.0" layoutY="104.0" prefHeight="51.0" prefWidth="244.0" promptText="username">
          <font>
             <Font name="Times New Roman" size="26.0" />
          </font>
@@ -32,6 +32,11 @@
          </toggleGroup></RadioButton>
       <RadioButton fx:id="connection2" layoutX="793.0" layoutY="403.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="269.0" selected="true" text="RMI" toggleGroup="$link" />
       <TextField fx:id="portnumber" layoutX="775.0" layoutY="352.0" prefHeight="51.0" prefWidth="244.0" promptText="socket port number">
+         <font>
+            <Font name="Times New Roman" size="26.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="ipaddress" layoutX="775.0" layoutY="202.0" prefHeight="51.0" prefWidth="244.0" promptText="IP address">
          <font>
             <Font name="Times New Roman" size="26.0" />
          </font>

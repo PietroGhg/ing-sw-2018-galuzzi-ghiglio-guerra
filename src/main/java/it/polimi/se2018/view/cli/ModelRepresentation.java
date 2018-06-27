@@ -18,6 +18,7 @@ public class ModelRepresentation {
     private String[] puCards;
     private List<String> toolCards;
     private Map<Integer, WPC> wpcs;
+    private Map<Integer, WPC> selected;
     private DiceBag diceBag;
     private int currPlayer;
 
@@ -83,4 +84,11 @@ public class ModelRepresentation {
 
     public int getCurrPlayer(){ return currPlayer; }
 
+    public Map<Integer, WPC> getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Map<Integer, WPC> selected) {
+        this.selected = selected;
+    }
 }

@@ -1,6 +1,8 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.view.gui.GUIcontroller;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,15 @@ public class MVSetUpMessage extends MVAbstractMessage {
     }
 
     public void accept(AbstractView view){ view.visit(this); }
+    public void accept(GUIcontroller gc){
+        MVSetUpMessage m = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                gc.visit(m);
+            }
+        });
+    }
 
     public Map<Integer, WPC> getExtracted() {
         return extracted;

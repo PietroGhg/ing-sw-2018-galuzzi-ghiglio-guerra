@@ -1,10 +1,8 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.controller.vcmessagecreator.VCGUIMessageCreator;
-import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
-import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.networking.client.ServerConnection;
 import it.polimi.se2018.networking.client.rmi.ClientPollingTimer;
 import it.polimi.se2018.networking.client.rmi.RMIServerConnImpl;
@@ -12,14 +10,12 @@ import it.polimi.se2018.networking.client.rmi.RMIServerConnection;
 import it.polimi.se2018.networking.client.rmi.ServerConnectionAdapter;
 import it.polimi.se2018.networking.client.socket.SocketServerConnection;
 import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
-import it.polimi.se2018.networking.server.socket.SocketClientConnection;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
-import it.polimi.se2018.view.MVAbstractMessage;
 import it.polimi.se2018.view.cli.ModelRepresentation;
-import it.polimi.se2018.view.cli.View;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -34,6 +30,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,56 +46,65 @@ public class Login {
     private TextField user;
     @FXML
     private TextField portnumber;
+    @FXML
+    private TextField ipaddress;
 
     public void handlePlay() throws IOException {
+        boolean isMissing = false;
+        String errorMessage = "";
         ToggleGroup link = new ToggleGroup();
         connection1.setToggleGroup(link);
         connection2.setToggleGroup(link);
         connection1.setUserData("socket");
         connection2.setUserData("rmi");
-        int pn = Integer.valueOf(portnumber.getText());
+
         String username = user.getText();
+        String ipadd = ipaddress.getText();
         String s = link.getSelectedToggle().getUserData().toString();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
         loader.load();
         if(username.equals("")){
-            FXMLLoader loader2 = new FXMLLoader();
-            loader2.setLocation(getClass().getResource("/fxml/missingUsername.fxml"));
-            Scene window = new Scene(loader2.load(), 463, 55);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Error");
-            stage.setResizable(false);
-            stage.show();
+            isMissing = true;
+            errorMessage = "Missing username.";
+        }
+        if(ipadd.equals("")){
+            if(isMissing) errorMessage = "Missing username.\nMissing IP address";
+            else {
+                isMissing = true;
+                errorMessage = "Missing IP address";
+            }
+        }
+        if(isMissing){
+            missing(errorMessage);
         }
         else{
-            //carica schermata di caricamento
-            /*Scene window = new Scene(loader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Choice");
-            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
-            stage.setResizable(false);
-            stage.show();*/
-        }
 
-        /*
-        gets a reference of the javafx controller
-        the controler will register/be registered as observer
-        */
-        GUIcontroller guiController = loader.getController();
-        guiController.setPlayerName(username);
-        if(s.equals("socket")){
-            try {
-                socketConnect(username, pn, guiController);
+
+            /*
+            gets a reference of the javafx controller
+            the controler will register/be registered as observer
+            */
+            GUIcontroller guiController = loader.getController();
+            guiController.setPlayerName(username);
+            if(s.equals("socket")){
+                try {
+                    int pn = Integer.valueOf(portnumber.getText());
+                    socketConnect(username, pn, guiController);
+                }
+                catch(GameStartedException e){ guiController.displayMessage("A game is already started.");}
+                catch(UserNameTakenException e){guiController.displayMessage("Username already taken.");}
+                catch(InputMismatchException|NumberFormatException e){
+                    missing("Missing port number.");
+                }
             }
-            catch(GameStartedException e){ guiController.displayMessage("A game is already started.");}
-            catch(UserNameTakenException e){guiController.displayMessage("Username already taken.");}
-        }
-        else {
-            rmiConnect(username, guiController);
+            else {
+                rmiConnect(username, guiController);
 
+            }
         }
+
+
+
     }
 
     private void socketConnect(String username, int port, GUIcontroller guiController) throws GameStartedException, UserNameTakenException, IOException{
@@ -126,6 +132,7 @@ public class Login {
         guiController.register(serverConnection);
         serverConnection.register(guiController);
         guiController.rawRegister(vcMessageCreator);
+        showLoading();
         new Thread((SocketServerConnection)serverConnection).start();
 
     }
@@ -157,16 +164,45 @@ public class Login {
 
             //starts the polling thread
             timer = new ClientPollingTimer(serverService, guiController);
+            showLoading();
             timer.startPolling();
         }
         catch(NotBoundException |MalformedURLException |RemoteException e){
             LOGGER.log(Level.SEVERE, e.toString());
         }
         catch(UserNameTakenException e){
-            guiController.displayMessage("Username already taken.");
+            missing("Username already taken.");
         }
         catch(GameStartedException e){
-            guiController.displayMessage("Game already started. ");
+            missing("Game already started. ");
+        }
+    }
+
+    private void missing(String errorM){
+
+            Scene window = new Scene(new Label(errorM), 463, 55);
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Error");
+            stage.setResizable(false);
+            stage.show();
+
+
+    }
+
+    private void showLoading() {
+        try {
+            FXMLLoader loader3 = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
+            Scene window = new Scene(loader3.load(), 300, 200);
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Loading");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch(IOException e){
+            LOGGER.log(Level.SEVERE,e.getMessage());
         }
     }
 }

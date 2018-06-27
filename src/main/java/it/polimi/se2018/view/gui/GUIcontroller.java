@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.controller.VCSetUpMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
@@ -8,6 +9,7 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
+import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
@@ -26,11 +28,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class GUIcontroller extends AbstractView implements ViewInterface{
+public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>{
 
     @FXML
     private RadioButton choice1;
@@ -48,6 +51,8 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     private static String playerName;
     private static State state;
     private static Latch latch;
+    private static List<Observer<VCAbstractMessage>> observers;
+    private static int playerID;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
@@ -59,6 +64,11 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
         modelRepresentation = modelRep;
+        observers = new ArrayList<>();
+    }
+
+    public void update(MVAbstractMessage message){
+        message.accept(this);
     }
 
 
@@ -73,7 +83,11 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
         choice2.setUserData("2");
         choice3.setUserData("3");
         choice4.setUserData("4");
-
+        Toggle selected = choice.getSelectedToggle();
+        Integer i = Integer.valueOf(selected.getUserData().toString());
+        Map<Integer,WPC> extractedWPCs = modelRepresentation.getSelected();
+        WPC extracted = extractedWPCs.get(i);
+        notifyController(new VCSetUpMessage(playerID, extracted.getId()));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
         Scene window = new Scene(loader.load(), 900, 600);
@@ -403,7 +417,21 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
     }
 
     public void visit(MVSetUpMessage message){
-        //TODO: scelta delle board parte da qui
+        modelRepresentation.setSelected(message.getExtracted());
+        playerID = message.getPlayerID();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
+            Scene w = new Scene(loader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(w);
+            stage.setTitle("Choice");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch (IOException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
     }
 
     public void visit(MVWinnerMessage message){
@@ -453,6 +481,16 @@ public class GUIcontroller extends AbstractView implements ViewInterface{
 
     private static synchronized void setState(State s){
         state = s;
+    }
+
+    public void register(Observer<VCAbstractMessage> o){
+        observers.add(o);
+    }
+
+    private void notify(VCAbstractMessage message){
+        for(Observer o: observers){
+            o.update(message);
+        }
     }
 }
 

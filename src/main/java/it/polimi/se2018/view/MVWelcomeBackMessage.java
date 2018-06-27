@@ -1,5 +1,8 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.view.gui.GUIcontroller;
+import javafx.application.Platform;
+
 import java.util.List;
 
 public class MVWelcomeBackMessage extends MVGameMessage {
@@ -15,6 +18,16 @@ public class MVWelcomeBackMessage extends MVGameMessage {
 
     @Override
     public void accept(AbstractView view){ view.visit(this); }
+
+    public void accept(GUIcontroller gc){
+        MVWelcomeBackMessage m = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                gc.visit(m);
+            }
+        });
+    }
 
     public String getPrCard() {
         return prCard;
