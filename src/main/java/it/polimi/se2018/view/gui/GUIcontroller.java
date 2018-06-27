@@ -433,21 +433,22 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     public void visit(MVSetUpMessage message){
-        modelRepresentation.setSelected(message.getExtracted());
-        playerID = message.getPlayerID();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
-            loader.setController(this);
-            Scene w = new Scene(loader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(w);
-            stage.setTitle("Choice");
-            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
-            stage.setResizable(false);
-            stage.show();
-        }
-        catch (IOException e){
-            LOGGER.log(Level.SEVERE, e.getMessage());
+        if(playerName.equals(message.getPlayerName())) {
+            modelRepresentation.setSelected(message.getExtracted());
+            playerID = message.getPlayerID();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
+                loader.setController(this);
+                Scene w = new Scene(loader.load(), 600, 400);
+                Stage stage = new Stage();
+                stage.setScene(w);
+                stage.setTitle("Choice");
+                stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, e.getMessage());
+            }
         }
     }
 

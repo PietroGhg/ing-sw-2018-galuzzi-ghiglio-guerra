@@ -131,6 +131,7 @@ public class Login {
         if(response.equals("Username already taken")) throw new UserNameTakenException();
 
         guiController.displayMessage("Welcome to Sagrada, wait for other players.");
+        guiController.setPlayerName(username);
 
         //registers observers and starts a connection thread
         guiController.init(modelRep);
@@ -160,6 +161,7 @@ public class Login {
 
             //instantiates modelrep and vcmessagecreator, registers observers
             modelRep = new ModelRepresentation();
+            guiController.setPlayerName(username);
             guiController.init(modelRep);
             vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
             guiController.rawRegister(vcMessageCreator);
