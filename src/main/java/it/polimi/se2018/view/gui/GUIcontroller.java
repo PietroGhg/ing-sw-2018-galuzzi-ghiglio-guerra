@@ -72,9 +72,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
 
-
-    public void handleChoice() throws IOException{
+    @FXML
+    public void handleChoice(Event e) throws IOException{
         ToggleGroup choice = new ToggleGroup();
+        Button b = (Button)e.getSource();
         choice1.setToggleGroup(choice);
         choice2.setToggleGroup(choice);
         choice3.setToggleGroup(choice);
@@ -87,7 +88,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         Integer i = Integer.valueOf(selected.getUserData().toString());
         Map<Integer,WPC> extractedWPCs = modelRepresentation.getSelected();
         WPC extracted = extractedWPCs.get(i);
+
+        Stage s = (Stage)b.getScene().getWindow();
+        s.close();
         notifyController(new VCSetUpMessage(playerID, extracted.getId()));
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
         Scene window = new Scene(loader.load(), 900, 600);
