@@ -46,20 +46,20 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     @FXML
     private GridPane myWindow;
-    private static ModelRepresentation modelRepresentation;
-    private static List<RawInputObserver> rawObservers;
-    private static String playerName;
-    private static State state;
-    private static Latch latch;
-    private static List<Observer<VCAbstractMessage>> observers;
-    private static int playerID;
+    private  ModelRepresentation modelRepresentation;
+    private  List<RawInputObserver> rawObservers;
+    private  String playerName;
+    private  State state;
+    private  Latch latch;
+    private  List<Observer<VCAbstractMessage>> observers;
+    private  int playerID;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
     private static final String SELECT_CELL = "Select a cell.";
     private static final String NOT_TURN = "Not your turn";
 
-    public static void init(ModelRepresentation modelRep){
+    public void init(ModelRepresentation modelRep){
         latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
@@ -73,7 +73,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
 
     @FXML
-    public void handleChoice(Event e) throws IOException{
+    public void handleChoice(Event e){
         ToggleGroup choice = new ToggleGroup();
         Button b = (Button)e.getSource();
         choice1.setToggleGroup(choice);
@@ -94,18 +94,25 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         notifyController(new VCSetUpMessage(playerID, extracted.getId()));
 
         FXMLLoader loader = new FXMLLoader();
+        loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
-        Scene window = new Scene(loader.load(), 900, 600);
-        Stage stage = new Stage();
-        stage.setScene(window);
-        stage.setTitle("Game");
-        stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png" ));
-        stage.setResizable(false);
-        stage.show();
+        try {
+            Scene window = new Scene(loader.load(), 900, 600);
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Game");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch(IOException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
     }
 
     public void showToolCards() throws IOException{
         FXMLLoader loader = new FXMLLoader();
+        loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/toolCards.fxml"));
         Scene window = new Scene(loader.load(), 600, 400);
         Stage stage = new Stage();
@@ -119,6 +126,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     public void showDraftPool(){
        try { FXMLLoader loader = new FXMLLoader();
+           loader.setController(this);
            loader.setLocation(getClass().getResource("/fxml/draftPool.fxml"));
            Scene window = new Scene(loader.load(), 600, 400);
            Stage stage = new Stage();
@@ -137,6 +145,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     public void showPuCards() throws IOException{
         FXMLLoader loader = new FXMLLoader();
+        loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/puCards.fxml"));
         Scene window = new Scene(loader.load(), 600, 400);
         Stage stage = new Stage();
@@ -303,6 +312,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void showRoundTrack(){
         try {
             FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
             loader.setLocation(getClass().getResource("/fxml/roundTrack.fxml"));
             Scene window = new Scene(loader.load(), 600, 400);
             Stage stage = new Stage();
@@ -329,6 +339,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         try {
             //TODO: aggiornare grafica
             FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
             loader.setLocation(getClass().getResource("/fxml/windows.fxml"));
             Scene window = new Scene(loader.load(), 600, 400);
             Stage stage = new Stage();
@@ -408,7 +419,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         setPN(pn);
     }
 
-    private static synchronized void setPN(String pn){
+    private  synchronized void setPN(String pn){
         playerName = pn;
     }
 
@@ -426,6 +437,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         playerID = message.getPlayerID();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
+            loader.setController(this);
             Scene w = new Scene(loader.load(), 600, 400);
             Stage stage = new Stage();
             stage.setScene(w);
@@ -484,7 +496,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
-    private static synchronized void setState(State s){
+    private synchronized void setState(State s){
         state = s;
     }
 

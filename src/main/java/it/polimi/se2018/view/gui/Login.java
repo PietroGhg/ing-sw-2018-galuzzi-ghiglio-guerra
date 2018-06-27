@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.controller.vcmessagecreator.VCGUIMessageCreator;
+import it.polimi.se2018.exceptions.GUIErrorException;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
 import it.polimi.se2018.networking.client.ServerConnection;
@@ -61,8 +62,7 @@ public class Login {
         String username = user.getText();
         String ipadd = ipaddress.getText();
         String s = link.getSelectedToggle().getUserData().toString();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
-        loader.load();
+
         if(username.equals("")){
             isMissing = true;
             errorMessage = "Missing username.";
@@ -80,25 +80,28 @@ public class Login {
         else{
 
 
-            /*
-            gets a reference of the javafx controller
-            the controler will register/be registered as observer
-            */
-            GUIcontroller guiController = loader.getController();
-            guiController.setPlayerName(username);
+
             if(s.equals("socket")){
                 try {
                     int pn = Integer.valueOf(portnumber.getText());
-                    socketConnect(username, ipadd, pn, guiController);
+                    socketConnect(username, ipadd, pn);
                 }
-                catch(GameStartedException e){ guiController.displayMessage("A game is already started.");}
-                catch(UserNameTakenException e){guiController.displayMessage("Username already taken.");}
+                catch(GameStartedException e){ missing("A game is already started.");}
+                catch(UserNameTakenException e){missing("Username already taken.");}
                 catch(InputMismatchException|NumberFormatException e){
                     missing("Missing port number.");
                 }
+                catch(GUIErrorException e){
+                    LOGGER.log(Level.SEVERE, e.getMessage());
+                }
             }
             else {
-                rmiConnect(username, ipadd, guiController);
+                try {
+                    rmiConnect(username, ipadd);
+                }
+                catch(GUIErrorException e){
+                    LOGGER.log(Level.SEVERE, e.getMessage());
+                }
 
             }
         }
@@ -107,10 +110,12 @@ public class Login {
 
     }
 
-    private void socketConnect(String username, String ip, int port, GUIcontroller guiController) throws GameStartedException, UserNameTakenException, IOException{
+    private void socketConnect(String username, String ip, int port) throws GUIErrorException, GameStartedException, UserNameTakenException, IOException{
         ServerConnection serverConnection;
         Socket socket;
         //Instantiates model representation and vcmessagecreator, opens input and output stream
+        FXMLLoader loader = showLoading(); //initializes loader
+        GUIcontroller guiController = loader.getController();
         socket = new Socket(ip, port);
         ModelRepresentation modelRep = new ModelRepresentation();
         VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
@@ -128,16 +133,15 @@ public class Login {
         guiController.displayMessage("Welcome to Sagrada, wait for other players.");
 
         //registers observers and starts a connection thread
-        GUIcontroller.init(modelRep);
+        guiController.init(modelRep);
         guiController.register(serverConnection);
         serverConnection.register(guiController);
         guiController.rawRegister(vcMessageCreator);
-        showLoading();
         new Thread((SocketServerConnection)serverConnection).start();
 
     }
 
-    private void rmiConnect(String username, String ip, GUIcontroller guiController){
+    private void rmiConnect(String username, String ip) throws GUIErrorException{
         RMIClientConnection serverService;
         ModelRepresentation modelRep;
         VCGUIMessageCreator vcMessageCreator;
@@ -145,6 +149,9 @@ public class Login {
         RMIServerConnection rmiServerConnection;
         try {
             //looks up for the rmiclientconnection and remote-calls the handleRequest() method
+
+            FXMLLoader loader = showLoading(); //initializes guiController
+            GUIcontroller guiController = loader.getController();
             serverService = (RMIClientConnection) Naming.lookup("//"+ ip + "/sagradarmi");
             rmiServerConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(rmiServerConnection,0);
@@ -164,7 +171,6 @@ public class Login {
 
             //starts the polling thread
             timer = new ClientPollingTimer(serverService, guiController);
-            showLoading();
             timer.startPolling();
         }
         catch(NotBoundException |MalformedURLException |RemoteException e){
@@ -190,19 +196,21 @@ public class Login {
 
     }
 
-    private void showLoading() {
+    private FXMLLoader showLoading() throws GUIErrorException{
         try {
-            FXMLLoader loader3 = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
-            Scene window = new Scene(loader3.load(), 300, 200);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
+            Scene window = new Scene(loader.load(), 300, 200);
             Stage stage = new Stage();
             stage.setScene(window);
             stage.setTitle("Loading");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            return loader;
         }
         catch(IOException e){
             LOGGER.log(Level.SEVERE,e.getMessage());
         }
+        throw new GUIErrorException();
     }
 }
