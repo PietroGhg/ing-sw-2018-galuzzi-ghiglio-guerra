@@ -36,7 +36,7 @@ public class ModelRepresentation {
 
     public Die getDieFromDraft(int i) { return draftPool.get(i); }
 
-    public Map<Integer, WPC> getWpc() {
+    public Map<Integer, WPC> getWpcs() {
         return wpcs;
     }
 

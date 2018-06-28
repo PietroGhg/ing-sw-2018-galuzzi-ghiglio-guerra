@@ -24,15 +24,15 @@ public class TestModel {
         model.addPlayer("andrea");
         model.startGame();
         model.nextTurn();
-        model.getDiscPlayers();
-        model.getPlayerNames();
-        model.addDiscPlayer("gio");
+        model.getDiscPlayers(); //controlla che sia vuota
+        model.getPlayerNames(); //controlla che sia uguale a [leo, pietro, andrea]
+        model.addDiscPlayer("gio"); //controlla che ci sia gio
         model.removeDiscPlayer("gio");
         model.addPlayerName("gigi");
         model.removePlayerName("gigi");
         assertEquals(3, model.numActivePlayers());
         try{
-            model.getPlayer("leo");
+            model.getPlayer("leo"); //controlla che ritorni un giocatore che si chiama leo
         }
         catch (UserNameNotFoundException e){
             fail();
@@ -51,9 +51,9 @@ public class TestModel {
         model.setWinnerMessage("leo");
 
         model.setMVTimesUpMessage();
-        model.setWpc(1,1);
+        model.setWpc(1,1); //controlla che il giocatore 1 abbia la wpc 1
         model.setDiscMessage("bye");
-        model.setReady(1);
+        model.setReady(1); //controlla che il giocatore 1 abbia flagReady a 1
         assertEquals(false, model.allReady());
         model.setReady(1);
         model.setReady(2);

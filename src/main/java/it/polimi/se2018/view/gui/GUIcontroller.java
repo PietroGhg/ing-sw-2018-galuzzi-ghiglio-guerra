@@ -5,6 +5,7 @@ import it.polimi.se2018.controller.VCSetUpMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
+import it.polimi.se2018.exceptions.GUIErrorException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.Cell;
@@ -28,14 +29,26 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Class for the javaFX controller, implements ViewInterface thus providing the methods called by VCGUIMessageCreator.
+ * When VCGUIMessageCreator calls a method, the corresponding state is setted in GUIController and latch.await() is called,
+ * putting the corresponding thread in waiting state. When the requested parameter is notified to VCGUIMessageCreator, latch.countdown() is called,
+ * awaking the thread, thus allowing the next call from VCGUIMessageCreator to GUIcontroller.
+ *
+ * In order to provide the same instance of GUIController to every window (Game window, draftpool, roundtrack ecc), we used the method
+ * loader.setController(this), therefore the fxcontroller is not specified in the corresponding fxml files, and that's the reson why many attributes are marked
+ * as "not assigned" by sonarqube.
+ *
+ * GUIController doesn't extend AbstractView because every accept() method of MVAbstractMessage needs to call Platform.runlater(), and this leads to another implementation of the
+ * accept() method.
+ *
+ * @author Pietro Ghiglio
+ * @author Andrea Galuzzi
+ */
 public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage> {
 
     @FXML
@@ -57,14 +70,23 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private GridPane grid3;
     @FXML
     private GridPane grid4;
+    @FXML
+    private GridPane mainWindow;
+    @FXML
+    private GridPane mainWindow1;
+    @FXML
+    private GridPane mainWindow2;
+
 
 
     private ModelRepresentation modelRepresentation;
+    private Map<Integer, GridPane> playerPanes; //map that associates every playerID with the corresponding gridpane
     private List<RawInputObserver> rawObservers;
+    private List<Observer<VCAbstractMessage>> observers;
+
     private String playerName;
     private State state;
     private Latch latch;
-    private List<Observer<VCAbstractMessage>> observers;
     private int playerID;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
@@ -72,6 +94,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private static final String SELECT_CELL = "Select a cell.";
     private static final String NOT_TURN = "Not your turn";
 
+    /**
+     * Method that initiates the attributes, called once (when the loading screen is showed)
+     * @param modelRep the ModelRepresentation instantiated while connecting
+     */
     public void init(ModelRepresentation modelRep) {
         latch = new Latch();
         rawObservers = new ArrayList<>();
@@ -84,7 +110,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         message.accept(this);
     }
 
-
+    /**
+     * Method called when a player confirms the chosen board at the beginning of the game.
+     * Notifies the appropriate VCSetUpMessage
+     * @param e the event corresponding to the pression of the Confirm button, the reference is used to close the choice window
+     */
     @FXML
     public void handleChoice(Event e) {
         ToggleGroup choice = new ToggleGroup();
@@ -170,13 +200,20 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     }
 
+    /**
+     * Method called when the button Dice Move is pressed.
+     * Notifies the "dicemove" string to VCGUIMessageCreator, initiating the appropriate parameters-getting sequence
+     */
     public void diceMove() {
         rawNotify(new RawUnrequestedMessage("dicemove"));
 
     }
 
+    /**
+     * Method called when a player selects a toolcard, notifies the appropriate "toolcard ID" string
+     */
     public void toolCard() {
-
+        //TODO: notificare id carta giusto
         rawNotify(new RawUnrequestedMessage("toolcard 1"));
 
     }
@@ -185,6 +222,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         return playerID;
     }
 
+    /**
+     * Method called when a button corresponding to a die is pressed.
+     * Dice are identified by the button's label.
+     * @param e the button-pressed event
+     */
     @FXML
     public void selectCell(Event e) {
         Button b = (Button) e.getSource();
@@ -287,6 +329,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     }
 
+    /**
+     * Method that, according to the state, either notifies the corresponding draftpool index or displays an error message
+     * @param id draftpool index
+     */
     private void dpSelected(int id) {
         switch (state) {
             case NOT_YOUR_TURN:
@@ -308,6 +354,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Method that, according to the state, either notifies the cell coordinates or displays an error message
+     * @param row cell coordinate
+     * @param col cell coordinate
+     */
     private void cellPressed(int row, int col) {
         switch (state) {
             case NOT_YOUR_TURN:
@@ -330,6 +381,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Method that sets the COORDINATE_REQUEST state and puts the parameter-getting thread in wait
+     */
     public void getCoordinates(String m) {
         setState(State.COORDINATES_REQUEST);
         displayMessage(SELECT_CELL);
@@ -337,11 +391,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         latch.await();
     }
 
+
     public void getCoordinates2() {
+        //TODO: richiede coordinate, mostra richiesta per eventuale altro inserimento, richiede ancora coordinate
+        //sets GET_COORD_2 state, in switch-case displayWindow(), onAction getCoordinates(). Mettere latch(2) ??
         int column = 0;
         rawNotify(new RawRequestedMessage(column));
     }
 
+    /**
+     * Method that, given a list of valid coordinates, activates only the appropriate buttons
+     * @param validCoordinates the list
+     */
     public void getValidCoordinates(List<int[]> validCoordinates) {
 
         if (validCoordinates.isEmpty()) {
@@ -352,10 +413,16 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     }
 
+    /**
+     * Sets the INCREMENT-REQUESTED state
+     */
     public void getIncrement() {
         //TODO: mostrare finestra per scelta (incrementare o diminuire)
     }
 
+    /**
+     * Sets the DP_INDEX_REQUEST state
+     */
     public void getDraftPoolIndex() {
         setState(State.DP_INDEX_REQUEST);
         displayMessage(SELECT_DP);
@@ -363,12 +430,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         latch.await();
     }
 
+    /**
+     * Sets the RT_POS_REQUEST
+     */
     public void getRoundTrackPosition(String s) {
 
     }
 
+    /**
+     * Sets the NEW_DIE_VALUE state
+     */
     public void newDieValue() {
-        //TODO: mostrare finestra per inserimento nuovo valore
+        //TODO: mostrare finestra per inserimento nuovo valore, meglio
     }
 
     public void displayMessage(String message) {
@@ -402,7 +475,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     public void showBoards() {
         try {
-            //TODO: aggiornare grafica
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
             loader.setLocation(getClass().getResource("/fxml/windows.fxml"));
@@ -413,9 +485,17 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            setGridPanes(modelRepresentation.getNumPlayers());
+            Map<Integer, WPC> wpcs = modelRepresentation.getWpcs();
+            for(Map.Entry<Integer, WPC> entry: wpcs.entrySet()){
+                WPC wpc = entry.getValue();
+                int i = entry.getKey();
+                if(i != playerID){
+                    fillerWPC(wpc, playerPanes.get(i));
+                }
+            }
         } catch (IOException e) {
-            String m = Arrays.toString(e.getStackTrace());
-            LOGGER.log(Level.SEVERE, m);
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
     }
@@ -435,6 +515,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Method that updates the ModelRepresentation and the player's board
+     * @param message the game message containing the data
+     */
     private void updateMR(MVGameMessage message) {
         modelRepresentation.setRoundTrack(message.getRoundTrack());
         modelRepresentation.setDraftPool(message.getDraftPool());
@@ -443,48 +527,37 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
         WPC wpc = modelRepresentation.getWpc(playerID);
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 5; col++) {
-                Cell cell = wpc.getCell(row, col);
-                if (cell.isEmpty()) {
-                    if (cell.getColourR() != null)
-                        ;//TODO: mettici una cosa del colore giusto
-                    if (cell.getValueR() != null)
-                        ;//TODO: mettici il numero giusto
-                } else {
-                    Die d = cell.getDie();
-                    int val = d.getDieValue();
-                    Colour c = d.getDieColour();
-                    Button b = (Button) getCellByCoordinates(row, col);
-                    BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource("/dice/" + c + "/" + val + ".jpg").toExternalForm())
-                            , BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-                    Background background = new Background(backgroundImage);
-                    b.setBackground(background);
-                }
-            }
-        }
+        fillerWPC(wpc, myWindow); //TODO: metodo apposta che setta immagini come sfondo
     }
 
-    private Node getCellByCoordinates(int row, int col) {
-        Node result = null;
+    /**
+     * Method used to get the button corresponding to the die in position (row, col) in the player's board
+     * @param row coordinates
+     * @param col coordinates
+     * @return the button
+     */
+    private Node getCellByCoordinates(int row, int col) throws GUIErrorException {
         ObservableList<Node> children = myWindow.getChildren();
         for (Node node : children) {
             if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
-                result = node;
-                break;
+                return node;
             }
         }
-        return result;
+        throw new GUIErrorException();
     }
 
+    /**
+     * Setter for the player name, called after the connection
+     * @param pn the playername
+     */
     public void setPlayerName(String pn) {
-        setPN(pn);
-    }
-
-    private synchronized void setPN(String pn) {
         playerName = pn;
     }
 
+    /**
+     * Visit method for MVGameMessage, displays the message and updates the ModelRepresentation
+     * @param message the message
+     */
     public void visit(MVGameMessage message) {
         if (playerID == message.getPlayerID()) {
             displayMessage(message.getMessage());
@@ -494,6 +567,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Loads the choose-wpc window
+     * @param message the MVSetUpMessage containing the extracted wpcs
+     */
     public void visit(MVSetUpMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             modelRepresentation.setSelected(message.getExtracted());
@@ -508,7 +585,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
                 stage.setResizable(false);
                 for (int i = 1; i <= 4; i++){
-                    switch (i) { //è orribile lo so, ma era tardi.
+                    switch (i) {
                         case 1:
                             fillerWPC(modelRepresentation.getSelected().get(1), grid1);
                             break;
@@ -534,6 +611,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Notifies who won
+     * @param message the MVWinnerMessage
+     */
     public void visit(MVWinnerMessage message) {
         if (message.getPlayerID() == playerID) {
             displayMessage("Congratulations, you won!");
@@ -542,10 +623,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Notifies a player disconnection
+     * @param message the MVDiscMessage
+     */
     public void visit(MVDiscMessage message) {
         displayMessage(message.getMessage());
     }
 
+    /**
+     * Notifies a player reconnection and or (in case of the reconnected player) resets the cards in the ModelRep
+     * @param message
+     */
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
@@ -557,6 +646,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             displayMessage(message.getMessage());
         }
     }
+
 
     public void visit(MVStartGameMessage message) {
         if (playerID == message.getPlayerID())
@@ -592,6 +682,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
     }
 
+    /**
+     * Method that fills a GridPane with a wpc
+     * @param wpc the wpc
+     * @param grid the gridpane
+     */
     private void fillerWPC(WPC wpc, GridPane grid) {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 5; col++) {
@@ -599,12 +694,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 if (cell.isEmpty()) {
                     if (cell.getColourR() != null) {
                         Image image = new Image("/dice/" + cell.getColourR() + "/0.jpg", 30, 30, false, false);
-                        grid.add(new ImageView(image), row, col);
+                        grid.add(new ImageView(image), col, row);
                     }
 
                     if (cell.getValueR() != null) {
                         Image image = new Image("/dice/grey/" + cell.getValueR() + ".jpg", 30, 30, false, false);
-                        grid.add(new ImageView(image), row, col);
+                        grid.add(new ImageView(image), col, row);
                     }
                 }
 
@@ -613,10 +708,22 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
                     Image image = new Image("/dice/" + c + "/" + val+ ".jpg", 30, 30, false, false);
-                    grid.add(new ImageView(image), row, col);//prima qui mi diceva di ordinare row e col al contrario rispetto
-                    //a come è adesso, io ho rispettato l'ordine che abbiamo usato fin ora
-                    //ma se fa casino sappiamo perchè
+                    grid.add(new ImageView(image), col, row);
                 }
+            }
+        }
+    }
+
+    private void setGridPanes(int nPlayers){
+        List<GridPane> panes = new ArrayList<>();
+        panes.add(mainWindow);
+        panes.add(mainWindow1);
+        panes.add(mainWindow2);
+        playerPanes = new HashMap<>();
+
+        for(int i = 1; i <= nPlayers; i++){
+            if(i != playerID){
+                playerPanes.put(i, panes.get(i));
             }
         }
     }

@@ -115,6 +115,15 @@ public class WPC implements Serializable{ //WindowPatternCard
         return builder.toString();
     }
 
+    public boolean isEmpty(){
+        for(Cell[] row: board){
+            for(Cell c: row){
+                if(!c.isEmpty()) return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public int hashCode() {
