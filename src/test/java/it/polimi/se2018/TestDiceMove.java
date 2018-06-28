@@ -2,10 +2,7 @@ package it.polimi.se2018;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.controller.VCDieMessage;
-import it.polimi.se2018.model.Colour;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Extractor;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.table.Model;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.model.wpc.WpcGenerator;
@@ -66,6 +63,5 @@ public class TestDiceMove {
 
         assertEquals(expected, p1.getWpc());
     }
-
 
 }
