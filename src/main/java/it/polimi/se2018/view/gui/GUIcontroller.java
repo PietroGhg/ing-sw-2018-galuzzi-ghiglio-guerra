@@ -76,11 +76,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private GridPane mainWindow1;
     @FXML
     private GridPane mainWindow2;
+    @FXML
+    private ImageView TCV0;
+    @FXML
+    private ImageView TCV1;
+    @FXML
+    private ImageView TCV2;
 
 
 
     private ModelRepresentation modelRepresentation;
     private Map<Integer, GridPane> playerPanes; //map that associates every playerID with the corresponding gridpane
+    private Map<String, Integer> fromTCnameToID;
     private List<RawInputObserver> rawObservers;
     private List<Observer<VCAbstractMessage>> observers;
 
@@ -104,6 +111,23 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         state = State.NOT_YOUR_TURN;
         modelRepresentation = modelRep;
         observers = new ArrayList<>();
+        setTCname();
+    }
+
+    private void setTCname(){
+        fromTCnameToID = new HashMap<>();
+        fromTCnameToID.put("GrozingPliers", 1);
+        fromTCnameToID.put("EglomiseBrush", 2);
+        fromTCnameToID.put("CopperFoilBurnisher", 3);
+        fromTCnameToID.put("Lathekin", 4);
+        fromTCnameToID.put("LensCutter", 5);
+        fromTCnameToID.put("FluxBrush",6);
+        fromTCnameToID.put("GlazingHammer", 7);
+        fromTCnameToID.put("RunningPliers", 8);
+        fromTCnameToID.put("CorkBackedStraightedge", 9);
+        fromTCnameToID.put("GrindingStone", 10);
+        fromTCnameToID.put("FluxRemover", 11);
+        fromTCnameToID.put("TapWheel", 12);
     }
 
     public void update(MVAbstractMessage message) {
@@ -162,6 +186,14 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         stage.setTitle("ToolCards");
         stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
+        List<String> tcInUse = modelRepresentation.getToolCards();
+        Image tci0 = new Image("/ToolCards/" + tcInUse.get(0));
+        Image tci1 = new Image("/ToolCards/" + tcInUse.get(1));
+        Image tci2 = new Image("/ToolCards/" + tcInUse.get(2));
+
+        TCV0.setImage(tci0);
+        TCV1.setImage(tci1);
+        TCV2.setImage(tci2);
         stage.show();
 
     }
@@ -212,9 +244,20 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     /**
      * Method called when a player selects a toolcard, notifies the appropriate "toolcard ID" string
      */
-    public void toolCard() {
-        //TODO: notificare id carta giusto
-        rawNotify(new RawUnrequestedMessage("toolcard 1"));
+    @FXML
+    public void toolCard(Event event) {
+        List<String> tcInUse = modelRepresentation.getToolCards();
+        String tcName;
+        Button b = (Button)event.getSource();
+        String label = b.getId();
+        switch(label){
+            case("TC0"): tcName = tcInUse.get(0); break;
+            case("TC1"): tcName = tcInUse.get(1); break;
+            case("TC2"): tcName = tcInUse.get(2); break;
+            default: tcName = "";
+        }
+        int id = fromTCnameToID.get(tcName);
+        rawNotify(new RawUnrequestedMessage("toolcard " + id));
 
     }
 

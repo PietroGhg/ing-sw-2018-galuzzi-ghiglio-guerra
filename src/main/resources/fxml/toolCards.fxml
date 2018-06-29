@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.se2018.view.gui.GUIcontroller"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="TCV0" fitHeight="176.0" fitWidth="132.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="TCV1" fitHeight="176.0" fitWidth="132.0" layoutX="234.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="TCV2" fitHeight="176.0" fitWidth="132.0" layoutX="454.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="TC0" layoutX="68.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="1" />
+      <Button fx:id="TC1" layoutX="287.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="2" />
+      <Button fx:id="TC2" layoutX="507.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="3" />
+   </children>
 </AnchorPane>
