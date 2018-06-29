@@ -45,8 +45,8 @@ import java.util.logging.Logger;
  * loader.setController(this), therefore the fxcontroller is not specified in the corresponding fxml files, and that's the reson why many attributes are marked
  * as "not assigned" by sonarqube.
  *
- * GUIController doesn't extend AbstractView because every accept() method of MVAbstractMessage needs to call Platform.runlater(), and this leads to another implementation of the
- * accept() method.
+ * GUIController doesn't extend AbstractView because every accept() method of MVAbstractMessage needs to call Platform.runlater(),
+ * and this leads to another implementation of the accept() method.
  *
  * @author Pietro Ghiglio
  * @author Andrea Galuzzi
@@ -469,16 +469,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      */
     public void getIncrement(){
         state = State.INCREMENT_REQUEST;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                openIncrement();
-            }
-        });
+        Platform.runLater(this::openIncrement);
         latch.reset();
         latch.await();
-
-        //TODO: mostrare finestra per scelta (incrementare o diminuire)
     }
 
     private void openIncrement(){
@@ -486,14 +479,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
             loader.setLocation(getClass().getResource("/fxml/increment.fxml"));
-            Scene window = new Scene(loader.load(), 300, 200);
+            Scene window = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(window);
             stage.setTitle("Increment");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
-            stage.setWidth(300);
-            stage.setHeight(200);
             stage.show();}
         catch (IOException e){
             LOGGER.log(Level.SEVERE, e.getMessage());
@@ -506,9 +497,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         String label = b.getId();
         if(label.equals("increment")){
             rawNotify(new RawRequestedMessage(1));
+            latch.countDown();
         }
         else{
             rawNotify(new RawRequestedMessage(-1));
+            latch.countDown();
         }
     }
 

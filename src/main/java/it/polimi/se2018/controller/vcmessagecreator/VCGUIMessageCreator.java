@@ -97,7 +97,6 @@ public class VCGUIMessageCreator implements RawInputObserver {
                 parametersGetter = pgFactory.get(toolCardID);
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
 
-                message = new VCDieMessage(view.getPlayerID());
                 new Thread(() -> {
                     parametersGetter.getParameters(view);
                     view.notifyController(message);
