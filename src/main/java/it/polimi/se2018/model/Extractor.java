@@ -127,6 +127,12 @@ public class Extractor {
             ris.add(  toolCards.get(randomIndex) );
             toolCards.remove(randomIndex);
         }
+        //return ris;
+        //TODO: togliere
+        ris = new ArrayList<>();
+        ris.add("GrozingPliers");
+        ris.add("FluxBrush");
+        ris.add("TapWheel");
         return ris;
     }
 

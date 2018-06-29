@@ -15,6 +15,7 @@ import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -190,9 +191,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
         List<String> tcInUse = modelRepresentation.getToolCards();
-        Image tci0 = new Image("/ToolCards/" + tcInUse.get(0));
-        Image tci1 = new Image("/ToolCards/" + tcInUse.get(1));
-        Image tci2 = new Image("/ToolCards/" + tcInUse.get(2));
+        Image tci0 = new Image("/ToolCards/" + tcInUse.get(0) + ".jpg");
+        Image tci1 = new Image("/ToolCards/" + tcInUse.get(1) + ".jpg");
+        Image tci2 = new Image("/ToolCards/" + tcInUse.get(2) + ".jpg");
 
         TCV0.setImage(tci0);
         TCV1.setImage(tci1);
@@ -466,8 +467,49 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     /**
      * Sets the INCREMENT-REQUESTED state
      */
-    public void getIncrement() {
+    public void getIncrement(){
+        state = State.INCREMENT_REQUEST;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                openIncrement();
+            }
+        });
+        latch.reset();
+        latch.await();
+
         //TODO: mostrare finestra per scelta (incrementare o diminuire)
+    }
+
+    private void openIncrement(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/fxml/increment.fxml"));
+            Scene window = new Scene(loader.load(), 300, 200);
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Increment");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.setWidth(300);
+            stage.setHeight(200);
+            stage.show();}
+        catch (IOException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @FXML
+    public void increment(Event event){
+        Button b = (Button) event.getSource();
+        String label = b.getId();
+        if(label.equals("increment")){
+            rawNotify(new RawRequestedMessage(1));
+        }
+        else{
+            rawNotify(new RawRequestedMessage(-1));
+        }
     }
 
     /**
@@ -635,6 +677,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void visit(MVSetUpMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             modelRepresentation.setSelected(message.getExtracted());
+            modelRepresentation.setPrCard(message.getPrCard());
+            modelRepresentation.setPuCards(message.getPuCards());
+            modelRepresentation.setToolCards(message.getTcInUse());
             playerID = message.getPlayerID();
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choice.fxml"));
