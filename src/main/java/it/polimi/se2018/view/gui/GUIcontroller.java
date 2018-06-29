@@ -96,6 +96,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private State state;
     private Latch latch;
     private int playerID;
+    private boolean isShowingBoards;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
@@ -107,6 +108,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * @param modelRep the ModelRepresentation instantiated while connecting
      */
     public void init(ModelRepresentation modelRep) {
+        isShowingBoards = false;
         latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
@@ -522,30 +524,40 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     public void showBoards() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(this);
-            loader.setLocation(getClass().getResource("/fxml/windows.fxml"));
-            Scene window = new Scene(loader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Windows");
-            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
-            stage.setResizable(false);
-            stage.show();
-            setGridPanes(modelRepresentation.getNumPlayers());
-            Map<Integer, WPC> wpcs = modelRepresentation.getWpcs();
-            for(Map.Entry<Integer, WPC> entry: wpcs.entrySet()){
-                WPC wpc = entry.getValue();
-                int i = entry.getKey();
-                if(i != playerID){
-                    fillerWPC(wpc, playerPanes.get(i));
-                }
+        if(!isShowingBoards) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setController(this);
+                loader.setLocation(getClass().getResource("/fxml/windows.fxml"));
+                Scene window = new Scene(loader.load(), 600, 400);
+                Stage stage = new Stage();
+                stage.setScene(window);
+                stage.setTitle("Windows");
+                stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+                stage.setResizable(false);
+                stage.setOnCloseRequest(event -> isShowingBoards = false );
+                stage.show();
+                isShowingBoards = true;
+                updateBoards();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, e.getMessage());
             }
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
         }
+        else{
+            updateBoards();
+        }
+    }
 
+    private void updateBoards(){
+        setGridPanes(modelRepresentation.getNumPlayers());
+        Map<Integer, WPC> wpcs = modelRepresentation.getWpcs();
+        for(Map.Entry<Integer, WPC> entry: wpcs.entrySet()){
+            WPC wpc = entry.getValue();
+            int i = entry.getKey();
+            if(i != playerID){
+                fillerWPC(wpc, playerPanes.get(i));
+            }
+        }
     }
 
     public void notifyController(VCAbstractMessage message) {
@@ -612,6 +624,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             updateMR(message);
         } else {
             updateMR(message);
+            showBoards();
         }
     }
 
