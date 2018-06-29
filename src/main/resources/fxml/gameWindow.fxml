@@ -49,10 +49,11 @@
       </GridPane>
       <Button fx:id="showwindows" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#showBoards" prefHeight="27.0" prefWidth="135.0" text="Show Windows" />
       <Button fx:id="showdraftpool" layoutX="21.0" layoutY="68.0" mnemonicParsing="false" onAction="#showDraftPool" prefHeight="27.0" prefWidth="135.0" text="Show DraftPool" />
-      <Button fx:id="dicemove" layoutX="240.0" layoutY="340.0" mnemonicParsing="false" onAction="#diceMove" prefHeight="27.0" prefWidth="121.0" text="Dice Move" />
-      <Button fx:id="toolCard" layoutX="382.0" layoutY="340.0" mnemonicParsing="false" onAction="#showToolCard" prefHeight="27.0" prefWidth="121.0" text="ToolCard" />
+      <Button fx:id="dicemove" layoutX="205.0" layoutY="340.0" mnemonicParsing="false" onAction="#diceMove" prefHeight="27.0" prefWidth="121.0" text="Dice Move" />
+      <Button fx:id="toolCard" layoutX="326.0" layoutY="340.0" mnemonicParsing="false" onAction="#showToolCard" prefHeight="27.0" prefWidth="111.0" text="ToolCard" />
       <ImageView fitHeight="198.0" fitWidth="150.0" layoutX="14.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="showpucards" layoutX="21.0" layoutY="95.0" mnemonicParsing="false" onAction="#showPuCards" prefHeight="27.0" prefWidth="135.0" text="Show Public Cards" />
       <Button fx:id="showroundtrack" layoutX="22.0" layoutY="41.0" mnemonicParsing="false" onAction="#showRoundTrack" prefHeight="27.0" prefWidth="135.0" text="Show Round Track" />
+      <Button fx:id="endTurn" layoutX="437.0" layoutY="340.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="27.0" prefWidth="103.0" text="EndTurn" />
    </children>
 </AnchorPane>

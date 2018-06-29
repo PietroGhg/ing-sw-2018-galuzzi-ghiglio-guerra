@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.controller.VCAbstractMessage;
+import it.polimi.se2018.controller.VCEndTurnMessage;
 import it.polimi.se2018.controller.VCSetUpMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawInputMessage;
 import it.polimi.se2018.controller.vcmessagecreator.RawRequestedMessage;
@@ -196,6 +197,10 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         TCV2.setImage(tci2);
         stage.show();
 
+    }
+
+    public void endTurn(){
+        notify(new VCEndTurnMessage(playerID));
     }
 
     public void showDraftPool() {
