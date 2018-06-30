@@ -13,8 +13,10 @@ import it.polimi.se2018.networking.client.socket.SocketServerConnection;
 import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.cli.ModelRepresentation;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -84,6 +86,7 @@ public class Login {
             if(s.equals("socket")){
                 try {
                     int pn = Integer.valueOf(portnumber.getText());
+
                     socketConnect(username, ipadd, pn);
                 }
                 catch(GameStartedException e){ missing("A game is already started.");}
@@ -105,9 +108,6 @@ public class Login {
 
             }
         }
-
-
-
     }
 
     private void socketConnect(String username, String ip, int port) throws GUIErrorException, GameStartedException, UserNameTakenException, IOException{
@@ -209,10 +209,12 @@ public class Login {
             stage.setResizable(false);
             stage.show();
             return loader;
+
         }
         catch(IOException e){
             LOGGER.log(Level.SEVERE,e.getMessage());
         }
         throw new GUIErrorException();
+
     }
 }

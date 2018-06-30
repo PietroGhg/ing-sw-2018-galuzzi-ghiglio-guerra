@@ -84,6 +84,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private ImageView TCV1;
     @FXML
     private ImageView TCV2;
+    @FXML
+    private Label displayMessage;
 
 
 
@@ -530,8 +532,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     public void displayMessage(String message) {
-        //TODO: Provvisorio, sostituire con finestra che mostra message o con label in finestra principale
-        System.out.println(message);
+        displayMessage.setText(message);
     }
 
     public void showRoundTrack() {
