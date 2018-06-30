@@ -532,7 +532,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     public void displayMessage(String message) {
-        displayMessage.setText(message);
+        Platform.runLater(() -> displayMessage.setText(message));
     }
 
     public void showRoundTrack() {
