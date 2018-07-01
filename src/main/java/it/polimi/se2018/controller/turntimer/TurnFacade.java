@@ -2,6 +2,9 @@ package it.polimi.se2018.controller.turntimer;
 
 import it.polimi.se2018.model.table.Model;
 
+/**
+ * Wraps the model: only the methods to handle the turn
+ */
 public class TurnFacade {
     private Model model;
 
