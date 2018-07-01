@@ -321,11 +321,13 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             default: tcName = "";
         }
         int id = fromTCnameToID.get(tcName);
+        Stage stage = (Stage) b.getScene().getWindow();
+        stage.close();
+
         if(state == State.WAIT_MOVE)
             rawNotify(new RawUnrequestedMessage("toolcard " + id));
 
-        Stage stage = (Stage) b.getScene().getWindow();
-        stage.close();
+
     }
 
     public int getPlayerID() {
@@ -749,10 +751,13 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void visit(MVGameMessage message) {
         updateMR(message);
         if (playerID == message.getPlayerID()) {
+            setState(State.WAIT_MOVE);
             displayMessage(message.getMessage());
         }
-        else if(playerID != message.getPlayerID() && message.getMessage().equalsIgnoreCase("Success."))
+        else if(playerID != message.getPlayerID() && message.getMessage().equalsIgnoreCase("Success.")) {
             showBoards();
+            setState(State.NOT_YOUR_TURN);
+        }
     }
 
     /**

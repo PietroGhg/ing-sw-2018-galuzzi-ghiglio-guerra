@@ -80,17 +80,24 @@ public class VCGUIMessageCreator implements RawInputObserver {
      */
     private void handleToolCard(int toolCardID){
         if(toolCardID == 6){
-            message = new VCToolMessage(view.getPlayerID(), toolCardID);
-            view.getDraftPoolIndex();
-            int dpIndex = message.getParameters().get(0);
-            cardSixAction(dpIndex);
-            view.notifyController(message);
+            new Thread(() -> {
+                message = new VCToolMessage(view.getPlayerID(), toolCardID);
+                view.displayMessage("Select a die from the draftpool.");
+                view.getDraftPoolIndex();
+                int dpIndex = message.getParameters().get(0);
+                cardSixAction(dpIndex);
+                view.notifyController(message);
+            }).start();
+
         }
         if(toolCardID == 11){
-            message = new VCToolMessage(view.getPlayerID(), toolCardID);
-            view.getDraftPoolIndex();
-            cardElevenAction();
-            view.notifyController(message);
+            new Thread(() -> {
+                message = new VCToolMessage(view.getPlayerID(), toolCardID);
+                view.displayMessage("Select a die from the draftpool.");
+                view.getDraftPoolIndex();
+                cardElevenAction();
+                view.notifyController(message);
+            }).start();
         }
         else{
             try {
