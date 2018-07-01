@@ -1,7 +1,5 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.controller.turntimer.TurnTimer;
-import it.polimi.se2018.exceptions.GameEndedException;
 import it.polimi.se2018.exceptions.UserNameNotFoundException;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.table.Model;

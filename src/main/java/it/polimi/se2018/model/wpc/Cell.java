@@ -47,6 +47,11 @@ public class Cell implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(die, colourRestriction, valueRestriction);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -54,11 +59,5 @@ public class Cell implements Serializable {
         return  getDie().equals(cell.getDie()) &&
                 colourRestriction == cell.colourRestriction &&
                 Objects.equals(valueRestriction, cell.valueRestriction);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(getDie(), colourRestriction, valueRestriction);
     }
 }
