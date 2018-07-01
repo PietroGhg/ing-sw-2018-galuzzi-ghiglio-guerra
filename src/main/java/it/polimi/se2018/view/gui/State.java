@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 public enum State {
+    WAIT_MOVE,
     NOT_YOUR_TURN,
     INCREMENT_REQUEST,
     COORDINATES_REQUEST,

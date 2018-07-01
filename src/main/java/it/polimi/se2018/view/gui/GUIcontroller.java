@@ -257,7 +257,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     public void endTurn(){
-        notify(new VCEndTurnMessage(playerID));
+        if(state == State.WAIT_MOVE)
+            notify(new VCEndTurnMessage(playerID));
     }
 
     public void showDraftPool() {
@@ -299,6 +300,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * Notifies the "dicemove" string to VCGUIMessageCreator, initiating the appropriate parameters-getting sequence
      */
     public void diceMove() {
+        if(state == State.WAIT_MOVE)
         rawNotify(new RawUnrequestedMessage("dicemove"));
 
     }
@@ -319,7 +321,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             default: tcName = "";
         }
         int id = fromTCnameToID.get(tcName);
-        rawNotify(new RawUnrequestedMessage("toolcard " + id));
+        if(state == State.WAIT_MOVE)
+            rawNotify(new RawUnrequestedMessage("toolcard " + id));
+
         Stage stage = (Stage) b.getScene().getWindow();
         stage.close();
     }
@@ -738,17 +742,17 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     /**
-     * Visit method for MVGameMessage, displays the message and updates the ModelRepresentation
+     * Visit method for MVGameMessage, displays the message, updates the ModelRepresentation
+     * and show the other's players boards if the move was succesfull
      * @param message the message
      */
     public void visit(MVGameMessage message) {
+        updateMR(message);
         if (playerID == message.getPlayerID()) {
             displayMessage(message.getMessage());
-            updateMR(message);
-        } else {
-            updateMR(message);
-            showBoards();
         }
+        else if(playerID != message.getPlayerID() && message.getMessage().equalsIgnoreCase("Success."))
+            showBoards();
     }
 
     /**
@@ -820,7 +824,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     /**
      * Notifies a player reconnection and or (in case of the reconnected player) resets the cards in the ModelRep
-     * @param message
+     * @param message the welcome back message
      */
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
@@ -836,16 +840,26 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
 
     public void visit(MVStartGameMessage message) {
-        if (playerID == message.getPlayerID())
+        if (playerID == message.getPlayerID()) {
             displayMessage("It's your turn!");
+            setState(State.WAIT_MOVE);
+        }
+        else{
+            displayMessage(NOT_TURN);
+            setState(State.NOT_YOUR_TURN);
+        }
         updateMR(message);
     }
 
     public void visit(MVNewTurnMessage message) {
-        if (playerID == message.getPlayerID())
+        if (playerID == message.getPlayerID()) {
             displayMessage("It's your turn!");
-        else
+            setState(State.WAIT_MOVE);
+        }
+        else {
             setState(State.NOT_YOUR_TURN);
+            displayMessage(NOT_TURN);
+        }
         updateMR(message);
     }
 

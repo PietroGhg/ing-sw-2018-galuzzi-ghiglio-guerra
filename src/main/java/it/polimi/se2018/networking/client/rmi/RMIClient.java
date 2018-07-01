@@ -31,11 +31,13 @@ public class RMIClient {
     public RMIClient(){
         Scanner in = new Scanner(System.in);
         out = new Printer();
+        out.println("Insert server IP address.");
+        String ipaddr = in.nextLine();
         out.println("Insert player name. ");
         String playerName = in.nextLine();
 
         try {
-            serverService = (RMIClientConnection)Naming.lookup("//localhost/sagradarmi");
+            serverService = (RMIClientConnection)Naming.lookup("//" + ipaddr + "/sagradarmi");
             RMIServerConnection serverConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(serverConnection,0);
             serverService.handleRequest(playerName, serverConnInt); //throws exceptions

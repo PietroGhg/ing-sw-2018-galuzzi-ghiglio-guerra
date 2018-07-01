@@ -14,6 +14,7 @@ import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -211,6 +213,7 @@ public class Login {
             stage.setTitle("Loading");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
+            stage.setOnCloseRequest(confirmCloseEventHandler );
             stage.show();
             return loader;
 
@@ -221,4 +224,22 @@ public class Login {
         throw new GUIErrorException();
 
     }
+
+    private EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/exitConfirmation.fxml"));
+            Scene window = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Exit");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            event.consume();
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+
+    };
 }
