@@ -3,6 +3,9 @@ package it.polimi.se2018.controller.turntimer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Timer for the turn
+ */
 public class TurnTimer {
     private TimerTask task;
     private Timer timer;

@@ -63,7 +63,7 @@ public class Model extends Observable<MVAbstractMessage> {
 
     public void nextTurn(TurnTimer turnTimer){
         try {
-            boolean newTurn = true;//Variable used to avoid multiple notifications in case there's a disc player.
+            boolean newTurn = true; //Used to avoid multiple notifications in case there's a disconnected player
             draftPool = roundTrack.nextTurn(draftPool);
             turn.clear();
             turnTimer.reset(); //resets a turn timer
@@ -89,7 +89,7 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     /**
-     * Used in testing
+     * Method used in testing
      */
     public void nextTurn(){
         try {
@@ -102,6 +102,9 @@ public class Model extends Observable<MVAbstractMessage> {
         }
     }
 
+    /**
+     * Method used the find the winner
+     */
     private void chooseWinner(){
         ChooseWinner chooseWinner;
         chooseWinner = new ChooseWinner(players, puCards, roundTrack);
@@ -160,6 +163,10 @@ public class Model extends Observable<MVAbstractMessage> {
         players.add(p);
     }
 
+    /**
+     * Add a player, basing on his name
+     * @param playerName the player name
+     */
     public void addPlayer(String playerName) {
         Player p = new Player(players.size() + 1, playerName);
         players.add(p);
@@ -174,12 +181,19 @@ public class Model extends Observable<MVAbstractMessage> {
         return playerNames;
     }
 
+    /**
+     * @return a list of the disconnected players
+     */
     public List<String> getDiscPlayers(){ return discPlayers; }
 
     public void addDiscPlayer(String playerName){
         discPlayers.add(playerName);
     }
 
+    /**
+     * remove a player from the disconnected players list
+     * @param playerName the player to remove from the list
+     */
     public void removeDiscPlayer(String playerName) {
         discPlayers.remove(playerName);
     }
@@ -192,6 +206,9 @@ public class Model extends Observable<MVAbstractMessage> {
         playerNames.add(playerName);
     }
 
+    /**
+     * @return the number of the current active players
+     */
     public int numActivePlayers(){ return playerNames.size(); }
 
     public void removePlayer(String playerName){
@@ -214,8 +231,8 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     /**
-     * Method that starts a game, extracting public, private a tool cards and notifying the
-     * players.
+     * Method that starts a game, extracting public objective cards, private objective cards and tool cards
+     * and notifies the players
      */
     public void startGame() {
         //for each player, extract the cards and send an ExtractedCardMessage
@@ -247,8 +264,6 @@ public class Model extends Observable<MVAbstractMessage> {
     public void isInUse(String toolCard) throws MoveNotAllowedException{
         if(!toolCardsInUse.contains(toolCard)) throw new MoveNotAllowedException("Toolcard not in use");
     }
-
-
 
     /**
      * Creates a MVSetupMessage that notifies the player that he's been allowed into the game, asking him tho choose between
@@ -355,6 +370,10 @@ public class Model extends Observable<MVAbstractMessage> {
         players.get(playerID - 1).setReady();
     }
 
+    /**
+     * Checks if all the players are ready to start
+     * @return true if all the players are ready, otherwise return false
+     */
     public boolean allReady() {
         boolean ris = true;
 

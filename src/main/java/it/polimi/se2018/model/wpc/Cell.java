@@ -14,6 +14,7 @@ public class Cell implements Serializable {
     public Cell() {
         die = new Die();
     }
+
     public Cell(Cell c){
         die = new Die(c.getDie());
         try {
@@ -39,11 +40,18 @@ public class Cell implements Serializable {
     public Colour getColourR() { return colourRestriction; }
 
     public void setValueR(Integer v) { this.valueRestriction = v; }
-
     public Integer  getValueR() { return valueRestriction; }
 
+    /**
+     * @return true if the cell is empty
+     */
     public boolean isEmpty() {
         return die.getDieValue() == null && die.getDieColour() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(die, colourRestriction, valueRestriction);
     }
 
     @Override
@@ -54,11 +62,5 @@ public class Cell implements Serializable {
         return  getDie().equals(cell.getDie()) &&
                 colourRestriction == cell.colourRestriction &&
                 Objects.equals(valueRestriction, cell.valueRestriction);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(getDie(), colourRestriction, valueRestriction);
     }
 }

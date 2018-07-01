@@ -30,8 +30,8 @@ public class ModelRepresentation {
         return roundTrack;
     }
 
-    public String getDraftPool() {
-        return draftPool.toString();
+    public List<Die> getDraftPool() {
+        return draftPool;
     }
 
     public Die getDieFromDraft(int i) { return draftPool.get(i); }

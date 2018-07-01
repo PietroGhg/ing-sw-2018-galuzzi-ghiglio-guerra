@@ -15,8 +15,22 @@ import it.polimi.se2018.view.*;
 import java.util.*;
 
 
-/* Manages interrogation to be asked the user
+/**
+ * Class for the command line interface.
+ *
+ * Command are asked in a loop and notified to VCMessageCreator, VCMessageCreator either shows the requested elements (toolcard, objective cards, game boards ...) or
+ * starts a ParameterGetter input sequence. When the sequence is completed the server is notified with the message representing the PlayerMove.
+ *
+ * This class contains two private classes that extends the Thread class: InputThread and AskingThread.
+ * InputThread handles the loop that requires command to the user, it's put to wait when a VCMessage is notified to the controller, and it's woken up when an answer
+ * (a MVmessage) is received.
+ * AskingThread polls every .5 second that no ParameterGetter request is being performed and, if InputThread is in waiting state, wakes it up.
+ * This is done in order to handle the situation where a player is inserting data during a ParamerGetter request, and the turn timer runs out: the player will finish
+ * to complete the request, but will receive a MVMessage stating that it's not his turn. This prevents overlapping between a command request by InputThread and a value request
+ * by a ParameterGetter.
+ *
  *@author Andrea Galuzzi
+ * @author Pietro Ghiglio
  */
 
 public class View extends AbstractView implements RawInputObservable, ViewInterface {
@@ -27,7 +41,9 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     private boolean inputLoop;
     private final Object lock = new Object();
     private InputThread inputThread;
+    private AskingThread askingThread;
     private List<RawInputObserver> rawObservers;
+    private boolean isAsking; //flag set to true when VCMessageCreator is performing a series of request
 
     public View(String playerName, ModelRepresentation modelRepresentation) {
         this.modelRepresentation = modelRepresentation;
@@ -36,6 +52,8 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         rawObservers = new ArrayList<>();
         gameLoop = true;
         inputLoop = true;
+        isAsking = false;
+        askingThread = new AskingThread();
         inputThread = new InputThread(this, lock);
     }
 
@@ -53,6 +71,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             out.println("It's your turn!");
         updateMR(message);
         inputThread.start();
+        askingThread.start();
     }
 
     public void visit(MVNewTurnMessage message) {
@@ -61,6 +80,11 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         updateMR(message);
     }
 
+    /**
+     * Method that updates the ModelRepresentation and, if no ParameterRequest is being performed, wakes up the InputThread
+     * (otherwise it will be awakened by the AskingThread)
+     * @param message the MVGameMessage containing the data
+     */
     private void updateMR(MVGameMessage message) {
         modelRepresentation.setRoundTrack(message.getRoundTrack());
         modelRepresentation.setDraftPool(message.getDraftPool());
@@ -68,13 +92,19 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
-        synchronized (lock) {
-            inputLoop = true;
-            lock.notifyAll();
+        if(!isAsking) {
+            synchronized (lock) {
+                inputLoop = true;
+                lock.notifyAll();
+            }
         }
     }
 
-
+    /**
+     * Method that sets the Private, Public and ToolCards in the ModelRepresentation and calls chooseWPC(), asking the player to choose
+     * one of the extracted schema cards
+     * @param message the MVSetUpMessage
+     */
     public void visit(MVSetUpMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
@@ -86,6 +116,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         }
     }
 
+    /**
+     * Method called when a player re-joins the game, resets the cards in ModelRepresentation and updates the ModelRep
+     * @param message A welcome back message containing both the cards and the game data
+     */
     public void visit(MVWelcomeBackMessage message) {
         if (playerName.equals(message.getPlayerName())) {
             playerID = message.getPlayerID();
@@ -94,11 +128,16 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             modelRepresentation.setPuCards(message.getPuCards());
             updateMR(message);
             inputThread.start();
+            askingThread.start();
         } else {
             out.println(message.getMessage());
         }
     }
 
+    /**
+     * Notifies the player that the turn timer run out.
+     * @param message the MVTimerUpMessage
+     */
     public void visit(MVTimesUpMessage message) {
         if(message.getPlayerID() == playerID){
             out.println("Time's up. End of your turn.");
@@ -118,8 +157,11 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         out.println(message.getMessage());
     }
 
-    //the player has to choose his wpc for the game
 
+    /**
+     * Method that displays the extracted schema cards and ask a player to choose one of them.
+     * @param extracted the extracted cards
+     */
     private void chooseWpc(Map<Integer, WPC> extracted) {
         int i;
         int choice;
@@ -140,24 +182,49 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         notify(new VCSetUpMessage(playerID, chosen.getId()));
     }
 
-
+    /**
+     * Method that asks for coodinates in a cell
+     * @param s A string that will be displayed
+     */
     public void getCoordinates(String s) {
         out.println(s);
         out.println("Insert row number");
         Scanner input = new Scanner(System.in);
-        int row = input.nextInt();
+        int row;
+        do {
+            try {
+                row = input.nextInt();
+            }
+            catch(InputMismatchException e){
+                row = -1;
+            }
+        }while(!(row >= 0 && row <= 3));
         rawNotify(new RawRequestedMessage(row));
 
         out.println("Insert column number ");
-        int column = input.nextInt();
+        int column;
+        do {
+            try {
+                column = input.nextInt();
+            }
+            catch(InputMismatchException e){
+                column = -1;
+            }
+        }while(!(column >= 0 && column <= 4));
         rawNotify(new RawRequestedMessage(column));
     }
 
+    /**
+     * Method that asks the coordinates of a cell after asking a confirmation, used for ToolCard 12
+     */
     public void getCoordinates2() {
 
         out.println("Insert another die? [yes/no]");
         Scanner input = new Scanner(System.in);
-        String answer = input.nextLine();
+        String answer;
+        do {
+            answer = input.nextLine();
+        }while(!(answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("no")));
 
         if (answer.equalsIgnoreCase("yes")) {
             getCoordinates("Insert the coordinates of the Die to move. ");
@@ -166,6 +233,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         }
     }
 
+    /**
+     * Method that, given a list of valid coordinates, asks for the player to choose one between them, used for ToolCard 6  and 11.
+     * @param validCoordinates the list of valid coordinates
+     */
     public void getValidCoordinates(List<int[]> validCoordinates){
         Scanner in = new Scanner(System.in);
         for(int i = 0; i < validCoordinates.size(); i++) {
@@ -187,10 +258,21 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         }
     }
 
+    /**
+     * Method that asks if a player wants to increase or decrease the value of a die, used for ToolCard 1
+     */
     public void getIncrement() {
         out.println("Increas or decrease? \n[Increase: 1, Decrease: -1]");
         Scanner input = new Scanner(System.in);
-        int value = input.nextInt();
+        int value;
+        do{
+            try {
+                value = input.nextInt();
+            }
+            catch(InputMismatchException e){
+                value = 0;
+            }
+        }while(!(value == -1 || value == 1));
         rawNotify(new RawRequestedMessage(value));
     }
 
@@ -198,7 +280,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     public void getDraftPoolIndex() {
         out.println("Insert DraftPool Index");
         Scanner input = new Scanner(System.in);
-        int index = input.nextInt();
+        int index;
+        do {
+            index = input.nextInt();
+        }while(!(index >= 0 && index < modelRepresentation.getDraftPool().size()));
         rawNotify(new RawRequestedMessage(index));
 
 
@@ -217,6 +302,9 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
     }
 
+    /**
+     * Method that asks for a new die value
+     */
     public void newDieValue() {
         out.println("Insert new Value");
         Scanner input = new Scanner(System.in);
@@ -233,8 +321,14 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
     public int getPlayerID(){ return playerID; }
 
+    /**
+     * Method that notifies the server and sets inputLoop and isAsking to false: the InputThread enteres the waiting state and no ParameterGetter sequence is
+     * being performed.
+     * @param message the message that gets notifed
+     */
     public void notifyController(VCAbstractMessage message) {
         inputLoop = false;
+        isAsking = false;
         inputThread.notifyController(message);
     }
 
@@ -269,8 +363,11 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     }
 
     public void showDraftPool(){
-        out.println(modelRepresentation.getDraftPool());
+        out.println(modelRepresentation.getDraftPool().toString());
+    }
 
+    public void setAsking(){
+        isAsking = true;
     }
 
     /**
@@ -311,6 +408,34 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             Scanner input = new Scanner(System.in);
             String move = input.nextLine();
             rawNotify(new RawUnrequestedMessage(move));
+        }
+    }
+
+    /**
+     * Thread used to periodically check if InputThread must be woke up
+     */
+    private class AskingThread extends Thread{
+        private Timer timer;
+        private TimerTask timerTask;
+
+        AskingThread(){
+            timer = new Timer();
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if(!isAsking && inputThread.getState() == State.TIMED_WAITING){
+                        inputLoop = true;
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
+                }
+            };
+        }
+
+        @Override
+        public void run(){
+            timer.scheduleAtFixedRate(timerTask, 5000, 5000);
         }
     }
 

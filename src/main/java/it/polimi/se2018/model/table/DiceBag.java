@@ -14,7 +14,9 @@ public class DiceBag implements Serializable{
     private static final int DICETOTAL = 90;
     private static DiceBag instance;
 
-    //instanzia i 90 dadi
+    /**
+     * Instantiates 90 dice
+     */
     private DiceBag(){
         bag = new ArrayList<>();
         for(Colour c : Colour.values()){
@@ -33,6 +35,11 @@ public class DiceBag implements Serializable{
         return instance;
     }
 
+    /**
+     * Extract a number of dice based on the number of players
+     * @param nPlayers number of players
+     * @return a list which contains the extracted dice
+     */
     public List<Die> extractDice(int nPlayers){
         ArrayList<Die> result = new ArrayList<>();
         Random rand = new Random();

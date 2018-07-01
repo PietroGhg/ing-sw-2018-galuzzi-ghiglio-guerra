@@ -11,20 +11,20 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.RawInputObserver;
-import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.view.cli.ModelRepresentation;
+import it.polimi.se2018.view.cli.View;
 
 import java.io.*;
 import java.util.List;
 
 public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
-    private ViewInterface view;
+    private View view;
     private PGFactory pgFactory;
     private ParameterGetter parametersGetter;
     private ModelRepresentation modelRep;
     private VCAbstractMessage message;
 
-    public VCMessageCreator(ViewInterface view, ModelRepresentation modelRep){
+    public VCMessageCreator(View view, ModelRepresentation modelRep){
         pgFactory = new PGFactory();
         this.modelRep = modelRep;
         this.view = view;
@@ -50,6 +50,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
                 view.displayMessage("Not your turn.");
                 return;
             }
+            view.setAsking();
             parametersGetter = new ParameterGetterDie();
             message = new VCDieMessage(view.getPlayerID());
             parametersGetter.getParameters(view);
@@ -80,12 +81,14 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         if(toolCardID == 6){
             message = new VCToolMessage(view.getPlayerID(), toolCardID);
             view.getDraftPoolIndex();
+            view.setAsking();
             int dpIndex = message.getParameters().get(0);
             cardSixAction(dpIndex);
             view.notifyController(message);
         }
-        if(toolCardID == 11){
+        else if(toolCardID == 11){
             message = new VCToolMessage(view.getPlayerID(), toolCardID);
+            view.setAsking();
             view.getDraftPoolIndex();
             cardElevenAction();
             view.notifyController(message);
@@ -94,6 +97,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             try {
                 parametersGetter = pgFactory.get(toolCardID);
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
+                view.setAsking();
                 parametersGetter.getParameters(view);
                 view.notifyController(message);
             }
