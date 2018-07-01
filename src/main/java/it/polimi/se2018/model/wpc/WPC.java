@@ -48,6 +48,9 @@ public class WPC implements Serializable{ //WindowPatternCard
         return board[row][col];
     }
 
+    public int getFavorTokens() {
+        return favorTokens;
+    }
     public void setFavorTokens(int favorTokens) {
         this.favorTokens = favorTokens;
     }
@@ -61,13 +64,15 @@ public class WPC implements Serializable{ //WindowPatternCard
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getFavorTokens() {
-        return favorTokens;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
 
@@ -166,13 +171,5 @@ public class WPC implements Serializable{ //WindowPatternCard
         }
 
         return result;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

@@ -42,14 +42,14 @@ public class RoundTrack {
     private int[][] matrixFiller(int nPlayers){
         int[][] temp = new int[NUM_ROUND][2*nPlayers];
 
-        //fills left half of the matrix
+        //fills the left half of the matrix
         for(int col = 0; col < nPlayers; col++){
             for(int row = 0; row < NUM_ROUND; row++){
                 temp[row][col] = ((row+col) % nPlayers)  + 1;
             }
         }
 
-        //fills right half of the matrix, it's the opposite of the left side
+        //fills the right half of the matrix, which it's the opposite of the left side
         for(int row = 0; row < NUM_ROUND; row++){
             for(int j = 0; j < nPlayers; j++){
                 temp[row][j + nPlayers] = temp[row][nPlayers - 1 - j];
@@ -79,15 +79,7 @@ public class RoundTrack {
 
     public void setRT(List<List<Die>> roundTrack) {this.roundTrack = roundTrack;}
 
-    public Die getRoundTrackCell(int turn, int index){
-        return roundTrack.get(turn).get(index);
-    }
-
-    public void setRoundTrackCell(int turn, int index, Die die){
-        roundTrack.get(turn).add(index, die);
-    }
     /**
-     *
      * @return the ID of the current player
      */
     public int whoIsPlaying(){
@@ -95,8 +87,7 @@ public class RoundTrack {
     }
 
     /**
-     * Method called by the model when a player finishes his turn.
-     *
+     * Method called by the model when a player finishes his turn
      * @param draftPool the draftpool
      * @throws GameEndedException if the 10th round is complete
      */
@@ -142,14 +133,12 @@ public class RoundTrack {
         return roundMatrix;
     }
 
-
     /**
-     * Method used to calculate the winner
+     * Method used to calculate who's the winner player
      * @return the last row of the matrix (the order of the players in the last round)
      */
     public int[] getLastRound() {
         int[] ris = new int[2*nPlayers];
-        //TODO: fix this
         for(int i = 0; i < 2*nPlayers; i++) ris[i] = roundMatrix[NUM_ROUND - 1][i];
         return ris;
     }

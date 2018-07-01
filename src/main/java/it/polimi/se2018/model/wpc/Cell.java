@@ -14,6 +14,7 @@ public class Cell implements Serializable {
     public Cell() {
         die = new Die();
     }
+
     public Cell(Cell c){
         die = new Die(c.getDie());
         try {
@@ -39,9 +40,11 @@ public class Cell implements Serializable {
     public Colour getColourR() { return colourRestriction; }
 
     public void setValueR(Integer v) { this.valueRestriction = v; }
-
     public Integer  getValueR() { return valueRestriction; }
 
+    /**
+     * @return true if the cell is empty
+     */
     public boolean isEmpty() {
         return die.getDieValue() == null && die.getDieColour() == null;
     }

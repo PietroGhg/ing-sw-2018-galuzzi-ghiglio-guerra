@@ -12,14 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * WPCGenerator generates a wpc given its numberID; the 24 standard wpcs are placed in the server jar
+ * the extra wpcs have to be placed in the same directory of the server jar
  * @author Pietro Ghiglio
- *WPCGenerator generates a wpc given its numberID.
- *WPCs are stored as xml files in the directory /src/main/java/it.polimi.se2018/model/wpc/wpcs
- *xml format is
- *<wpc>
- *   <restriction type = "colour" or "value" row = "0,..,3" col = "0,..,4" value = "colour or number"></restriction>
- *  ... tags for name and favor token
- *</wpc>
  */
 public class WpcGenerator {
     private  WPC temp;
@@ -38,7 +33,7 @@ public class WpcGenerator {
         return instance;
     }
 
-    //The parser
+    // The Parser
     private class MyParser extends DefaultHandler {
 
         //This method is called with every opening tag in the xml file
@@ -76,7 +71,10 @@ public class WpcGenerator {
 
     }
 
-    //returns the wpc identified by the ID
+    /**
+     * @param wpcID the Id of the WPC
+     * @return the wpc identified by the ID
+     */
     public WPC getWPC(int wpcID){
         if(wpcID <= 24) return getStandardWPC(wpcID);
         else return getExtraWpc(wpcID);
@@ -85,8 +83,8 @@ public class WpcGenerator {
     private WPC getStandardWPC (int wpcID) {
         temp = new WPC();
         try {
-            //Opens the right file
 
+            //Opens the right file
             String path = "/wpcs/" + wpcID +".xml";
 
             InputStream in = getClass().getResourceAsStream(path);
