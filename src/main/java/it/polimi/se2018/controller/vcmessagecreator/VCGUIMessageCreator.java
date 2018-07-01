@@ -90,7 +90,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
             }).start();
 
         }
-        if(toolCardID == 11){
+        else if(toolCardID == 11){
             new Thread(() -> {
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
                 view.displayMessage("Select a die from the draftpool.");
@@ -155,7 +155,6 @@ public class VCGUIMessageCreator implements RawInputObserver {
         d.roll();
         message.addParameter(d.getDieValue());
         view.displayMessage("New value: " + d.getDieValue());
-        //checks placeability
         checkPlaceability(d);
     }
 
@@ -164,7 +163,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
         message.addParameter(index);
         Die d = modelRep.getDieFromDBag(index);
         view.displayMessage("Extracted a " + d.getDieColour().letter() + " die: ");
-        new Thread(() -> view.newDieValue()).start();
+        view.newDieValue();
 
         d.setDieValue(message.getParameters().get(2));
         //checks placeability
@@ -175,7 +174,7 @@ public class VCGUIMessageCreator implements RawInputObserver {
         WPC wpc = modelRep.getWpc(view.getPlayerID());
         List<int[]> validCoordinates = wpc.isPlaceable(d);
 
-        new Thread(() -> view.getValidCoordinates(validCoordinates)).start();
+        view.getValidCoordinates(validCoordinates);
     }
 
     private boolean canNotMove(){

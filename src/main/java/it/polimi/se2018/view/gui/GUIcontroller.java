@@ -481,6 +481,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 rawNotify(new RawRequestedMessage(col));
                 latch.countDown();
                 break;
+            case VALID_REQUEST:
+                rawNotify(new RawRequestedMessage(row));
+                rawNotify(new RawRequestedMessage(col));
+                reEnableBoard();
+                latch.countDown();
+                break;
             case DP_INDEX_REQUEST:
                 displayMessage(SELECT_DP);
                 break;
@@ -516,13 +522,59 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * @param validCoordinates the list
      */
     public void getValidCoordinates(List<int[]> validCoordinates) {
-
+        setState(State.VALID_REQUEST);
         if (validCoordinates.isEmpty()) {
             displayMessage("Die not placeable.");
         } else {
-            //TODO: attivare solo i bottoni con coordinate valide
+            disableBoard(validCoordinates);
         }
+        latch.reset();
+        latch.await();
+    }
 
+    /**
+     * Method that, given a list of valid coordinates, disables the non valid buttons
+     * @param validCoordinates the list of valid coordinates
+     */
+    private void disableBoard(List<int[]> validCoordinates){
+        for(int row = 0; row < WPC.NUMROW; row++){
+            for(int col = 0; col < WPC.NUMCOL; col++){
+                int[] temp = new int[2];
+                temp[0] = row;
+                temp[1] = col;
+                if(!isValid(temp, validCoordinates)){
+                    //if the button is not valid, disables the button
+                    try{
+                        Button b = (Button)getCellByCoordinates(row, col);
+                        b.setDisable(true);
+                    }
+                    catch(GUIErrorException e){
+                        LOGGER.log(Level.SEVERE, "Error while retrieving button from player board.");
+                    }
+                }
+            }
+        }
+    }
+
+    private void reEnableBoard(){
+        for(int row = 0; row < WPC.NUMROW; row++){
+            for(int col = 0; col < WPC.NUMCOL; col++){
+                try{
+                    Button b = (Button) getCellByCoordinates(row, col);
+                    b.setDisable(false);
+                }
+                catch(GUIErrorException e){
+                    LOGGER.log(Level.SEVERE, "Error while re-enabling buttons.");
+                }
+            }
+        }
+    }
+
+    private boolean isValid(int[] couple, List<int[]> validList){
+        for(int[] temp: validList){
+            if(temp[0] == couple[0] && temp[1]==couple[1])return true;
+        }
+        return false;
     }
 
     /**
@@ -715,8 +767,54 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
+        fillerMainBoard();
+    }
+
+    private void fillerMainBoard(){
         WPC wpc = modelRepresentation.getWpc(playerID);
-        fillerWPC(wpc, myWindow); //TODO: metodo apposta che setta immagini come sfondo
+        List<Node> children = myWindow.getChildren();
+        for(Node node: children){
+                if(node instanceof Button){
+                int row = GridPane.getRowIndex(node);
+                int col = GridPane.getColumnIndex(node);
+                Cell cell = wpc.getCell(row, col);
+                setBackGround(node, cell);
+            }
+        }
+    }
+
+    private void setBackGround(Node node, Cell cell){
+        Button b = (Button)node;
+        String path = "";
+
+        if (cell.isEmpty()) {
+            if (cell.getColourR() != null) {
+                path = "/dice/" + cell.getColourR() + "/0.jpg";
+            }
+
+            else if (cell.getValueR() != null) {
+                path = "/dice/grey/" + cell.getValueR() + ".jpg";
+            }
+        }
+
+        else {
+            Die d = cell.getDie();
+            int val = d.getDieValue();
+            Colour c = d.getDieColour();
+            path = "/dice/" + c + "/" + val+ ".jpg";
+        }
+
+        if(!path.equals("")) {
+            BackgroundSize bgs = new BackgroundSize(100,100,true,true,true,false);
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(getClass().getResource(path).toExternalForm()),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
+            Background background = new Background(backgroundImage);
+            b.setBackground(background);
+        }
+
+
+
     }
 
     /**
@@ -728,7 +826,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private Node getCellByCoordinates(int row, int col) throws GUIErrorException {
         ObservableList<Node> children = myWindow.getChildren();
         for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
+            int buttonRow = GridPane.getRowIndex(node);
+            int buttonCol = GridPane.getColumnIndex(node);
+            if (buttonRow == row && buttonCol == col) {
                 return node;
             }
         }
