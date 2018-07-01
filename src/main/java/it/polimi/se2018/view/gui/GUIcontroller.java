@@ -218,7 +218,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setController(this);
             loader.setLocation(getClass().getResource("/fxml/exitConfirmation.fxml"));
             Scene window = new Scene(loader.load());
             Stage stage = new Stage();
@@ -226,6 +225,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.setTitle("Exit");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
+            event.consume();
             stage.show();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
@@ -233,19 +233,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     };
 
-    @FXML
-   public void exitChoice(Event event){
-        Button button = (Button)event.getSource();
-        String choice = button.getText();
-        switch (choice){
-            case("yes"): System.exit(1); break;
-            case("no"):
-                Stage stage = (Stage) button.getScene().getWindow();
-                stage.close(); break;
-        }
-
-
-    };
 
     public void showToolCards() throws IOException {
         FXMLLoader loader = new FXMLLoader();
