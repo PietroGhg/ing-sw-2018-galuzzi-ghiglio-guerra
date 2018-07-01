@@ -18,10 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -51,6 +48,8 @@ public class Login {
     private TextField portnumber;
     @FXML
     private TextField ipaddress;
+    @FXML
+    private Button play;
 
     public void handlePlay() throws IOException {
         boolean isMissing = false;
@@ -138,6 +137,8 @@ public class Login {
         guiController.register(serverConnection);
         serverConnection.register(guiController);
         guiController.rawRegister(vcMessageCreator);
+        Stage stage = (Stage) play.getScene().getWindow();
+        stage.close();
         new Thread((SocketServerConnection)serverConnection).start();
 
     }
@@ -172,6 +173,9 @@ public class Login {
             serverService.checkEnoughPlayers();
 
             //starts the polling thread
+            Stage stage = (Stage) play.getScene().getWindow();
+            stage.close();
+
             timer = new ClientPollingTimer(serverService, guiController);
             timer.startPolling();
         }
@@ -201,7 +205,7 @@ public class Login {
     private FXMLLoader showLoading() throws GUIErrorException{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
-            Scene window = new Scene(loader.load(), 300, 200);
+            Scene window = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(window);
             stage.setTitle("Loading");

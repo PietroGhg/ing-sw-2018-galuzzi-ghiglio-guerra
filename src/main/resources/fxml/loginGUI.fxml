@@ -16,7 +16,7 @@
             <Image url="@../pic3525224.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="816.0" layoutY="647.0" mnemonicParsing="false" onAction="#handlePlay" prefHeight="63.0" prefWidth="177.0" style="-fx-background-color: fff179;" text="Play">
+      <Button fx:id="play" layoutX="816.0" layoutY="647.0" mnemonicParsing="false" onAction="#handlePlay" prefHeight="63.0" prefWidth="177.0" style="-fx-background-color: fff179;" text="Play">
          <font>
             <Font name="Times New Roman" size="32.0" />
          </font>

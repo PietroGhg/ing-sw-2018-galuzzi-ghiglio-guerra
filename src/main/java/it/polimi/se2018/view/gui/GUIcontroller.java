@@ -17,7 +17,9 @@ import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -86,6 +89,30 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private ImageView TCV2;
     @FXML
     private Label displayMessage;
+    @FXML
+    private Button value1;
+    @FXML
+    private Button value2;
+    @FXML
+    private Button value3;
+    @FXML
+    private Button value4;
+    @FXML
+    private Button value5;
+    @FXML
+    private Button value6;
+    @FXML
+    private ImageView image;
+    @FXML
+    private Button yes;
+    @FXML
+    private Button no;
+
+
+
+
+
+
 
 
 
@@ -170,17 +197,55 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
         try {
-            Scene window = new Scene(loader.load(), 900, 600);
+            Scene window = new Scene(loader.load(), 600, 400);
             Stage stage = new Stage();
             stage.setScene(window);
             stage.setTitle("Game");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            Stage st = (Stage)image.getScene().getWindow();
+            st.close();
+            stage.setOnCloseRequest(confirmCloseEventHandler );
+
+
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
+
     }
+
+    private EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/fxml/exitConfirmation.fxml"));
+            Scene window = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Exit");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+
+    };
+
+    @FXML
+   public void exitChoice(Event event){
+        Button button = (Button)event.getSource();
+        String choice = button.getText();
+        switch (choice){
+            case("yes"): System.exit(1); break;
+            case("no"):
+                Stage stage = (Stage) button.getScene().getWindow();
+                stage.close(); break;
+        }
+
+
+    };
 
     public void showToolCards() throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -268,7 +333,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         }
         int id = fromTCnameToID.get(tcName);
         rawNotify(new RawUnrequestedMessage("toolcard " + id));
-
+        Stage stage = (Stage) b.getScene().getWindow();
+        stage.close();
     }
 
     public int getPlayerID() {
@@ -528,7 +594,41 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * Sets the NEW_DIE_VALUE state
      */
     public void newDieValue() {
-        //TODO: mostrare finestra per inserimento nuovo valore, meglio
+            state = State.NEW_VALUE_REQUEST;
+            Platform.runLater(this::openNewValue);
+            latch.reset();
+            latch.await();
+
+
+    }
+
+    private void openNewValue(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/fxml/newValue.fxml"));
+            Scene window = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("NewDieValue");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch (IOException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+    }
+    @FXML
+    public void chosenValue(ActionEvent event){
+        Button button = (Button) event.getSource();
+        String s = button.getText();
+        int value = Integer.parseInt(s);
+        rawNotify(new RawRequestedMessage(value));
+        latch.countDown();
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+
     }
 
     public void displayMessage(String message) {
