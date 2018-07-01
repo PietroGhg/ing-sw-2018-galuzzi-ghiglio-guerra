@@ -68,6 +68,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     @FXML
     private GridPane myWindow;
     @FXML
+    private GridPane draftpoolPane;
+    @FXML
     private GridPane grid1;
     @FXML
     private GridPane grid2;
@@ -273,9 +275,31 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            fillerDraftPool();
         } catch (IOException e) {
             String m = Arrays.toString(e.getStackTrace());
             LOGGER.log(Level.SEVERE, m);
+        }
+    }
+
+    private void fillerDraftPool(){
+        List<Die> draftPool = modelRepresentation.getDraftPool();
+        List<Node> children = draftpoolPane.getChildren();
+        for(int i = 0; i < draftPool.size(); i++){
+            Die d = draftPool.get(i);
+            Button b = (Button)children.get(i);
+
+            int val = d.getDieValue();
+            Colour c = d.getDieColour();
+            String path = "/dice/" + c + "/" + val+ ".jpg";
+
+            BackgroundSize bgs = new BackgroundSize(100,100,true,true,true,false);
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(getClass().getResource(path).toExternalForm()),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
+            Background background = new Background(backgroundImage);
+            b.setBackground(background);
+
         }
 
     }
