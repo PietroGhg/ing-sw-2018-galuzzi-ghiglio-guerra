@@ -136,7 +136,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
     /**
      * Notifies the player that the turn timer run out.
-     * @param message the MVTimerUpMessage 
+     * @param message the MVTimerUpMessage
      */
     public void visit(MVTimesUpMessage message) {
         if(message.getPlayerID() == playerID){
