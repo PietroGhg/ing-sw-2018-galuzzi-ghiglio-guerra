@@ -161,8 +161,7 @@ public class Login {
             serverService = (RMIClientConnection) Naming.lookup("//"+ ip + "/sagradarmi");
             rmiServerConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(rmiServerConnection,0);
-            serverService.handleRequest(username
-                    , serverConnInt); //throws exceptions
+
 
             //instantiates modelrep and vcmessagecreator, registers observers
             modelRep = new ModelRepresentation();
@@ -176,6 +175,7 @@ public class Login {
             rmiServerConnection.register(new SockToRMIObserverAdapter<>(guiController));
 
             //remote call for checkEnoughPlayers()
+            serverService.handleRequest(username, serverConnInt); //throws exceptions
             serverService.checkEnoughPlayers();
 
             //starts the polling thread

@@ -31,7 +31,7 @@ public class ConnectionState implements State{
         else model.addPlayer(playerName);
     }
 
-    public void handleDisconnection(String playerName, ModelFacade model, Timer timer, ConnectionTimer connectionTimer){
+    public void handleDisconnection(String playerName, Controller c, ModelFacade model, Timer timer, ConnectionTimer connectionTimer){
 
         if(model.getPlayersNumber() - 1 < 2 && connectionTimer.isScheduled()){
             connectionTimer.cancel();

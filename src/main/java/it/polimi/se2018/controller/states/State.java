@@ -16,6 +16,6 @@ import java.util.Timer;
  */
 public interface State {
     void handleRequest(String playerName, ModelFacade modelFacade) throws UserNameTakenException, GameStartedException, ReconnectionException;
-    void handleDisconnection(String playerName, ModelFacade modelFacade, Timer timer, ConnectionTimer connectionTimer);
+    void handleDisconnection(String playerName, Controller c, ModelFacade modelFacade, Timer timer, ConnectionTimer connectionTimer);
     State checkEnoughPlayers(ModelFacade modelFacade, Controller controller, Timer timer, ConnectionTimer connectionTimer);
 }

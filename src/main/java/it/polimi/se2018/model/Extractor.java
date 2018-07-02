@@ -75,6 +75,14 @@ public class Extractor {
         return ris;
     }
 
+    public int extractOneWpc(){
+        Random random = new Random();
+        int randIndex = random.nextInt(wpcs.size());
+        int ris = wpcs.get(randIndex);
+        wpcs.remove(randIndex);
+        return ris;
+    }
+
     /**
      * Extracts a PrivateObjectiveCard, sets it into the corresponding player
      * @param p the player
