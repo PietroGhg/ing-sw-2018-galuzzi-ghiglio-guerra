@@ -1,8 +1,8 @@
 package it.polimi.se2018.networking.client;
 
-import it.polimi.se2018.networking.client.rmi.RMIClient;
-import it.polimi.se2018.networking.client.socket.SockClient;
 import it.polimi.se2018.utils.Printer;
+import it.polimi.se2018.view.cli.ClientCLI;
+import it.polimi.se2018.view.gui.GUImain;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,20 +10,21 @@ import java.util.Scanner;
 public class Client {
 
     public static void main(String[] args){
-        Printer printer = new Printer();
-        Scanner scanner = new Scanner(System.in);
-        int srChoice;
-        printer.println("Choose between socket or rmi connection. [1: socket, 2: rmi]");
+        Printer out = new Printer();
+        Scanner in = new Scanner(System.in);
+        int choice;
+
         do{
-            try {
-                srChoice = scanner.nextInt();
+            out.println("Choose between CLI or GUI. [1 cli, 2 gui]");
+            try{
+                choice = in.nextInt();
             }
             catch(InputMismatchException e){
-                srChoice = 0;
+                choice = 0;
             }
-        }while(!(srChoice == 1 || srChoice == 2));
+        }while(!(choice == 1 || choice == 2));
 
-        if(srChoice == 1) new SockClient();
-        if(srChoice == 2) new RMIClient();
+        if(choice == 1) new ClientCLI();
+        else GUImain.main(null);
     }
 }
