@@ -109,7 +109,7 @@ public class TestLensCutter {
     }
 
     /**
-     * Draft pool cell empty -> throws exception
+     * Draft pool cell empty - throws exception
      */
     @Test
     public void test2(){
@@ -136,7 +136,7 @@ public class TestLensCutter {
     }
 
     /**
-     * Round track cell empty -> throws exception
+     * Round track cell empty - throws exception
      */
     @Test
     public void test3(){

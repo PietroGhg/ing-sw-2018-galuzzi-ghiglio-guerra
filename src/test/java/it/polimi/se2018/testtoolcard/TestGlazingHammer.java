@@ -116,7 +116,7 @@ public class TestGlazingHammer {
     }
 
     /**
-     * Not player's turn -> throws exception
+     * Not player's turn - throws exception
      */
     @Test
     public void testWrongTurn(){
@@ -149,7 +149,7 @@ public class TestGlazingHammer {
     }
 
     /**
-     * Player has already drafted a die -> throws exception
+     * Player has already drafted a die - throws exception
      */
     @Test
     public void testPlayedDie() {
@@ -185,7 +185,7 @@ public class TestGlazingHammer {
     }
 
     /**
-     * The player hasn't enough favor tokens -> throws exception
+     * The player hasn't enough favor tokens - throws exception
      */
     @Test
     public void testEnoughFT(){
@@ -226,7 +226,7 @@ public class TestGlazingHammer {
         }
 
         param3 = new PlayerMoveParameters(player.getPlayerID(), model);
-        //Third time: not enough favour tokens -> throws exception
+        //Third time: not enough favour tokens - throws exception
         try{
             card.cardAction(param3);
             fail();

@@ -138,7 +138,7 @@ public class TestRestrictionChecker2 {
 
     /**
      * Test for the method that checks that a die is not adjacent to any other dice.
-     * The new die is placed in a cell that has no adjacent dice -> no exception should be thorwn
+     * The new die is placed in a cell that has no adjacent dice - no exception should be thorwn
      */
     @Test
     public void testNotAdj1(){

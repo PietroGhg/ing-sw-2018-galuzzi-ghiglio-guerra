@@ -109,7 +109,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * Draft pool cell empty -> throws exception
+     * Draft pool cell empty - throws exception
      */
     @Test
     public void test2(){
@@ -135,7 +135,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * Recipient cell is not empty -> throws exception
+     * Recipient cell is not empty - throws exception
      */
     @Test
     public void test3(){
@@ -161,7 +161,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * First move, but die not placed on the border -> throws exception
+     * First move, but die not placed on the border - throws exception
      */
     @Test
     public void test4(){
@@ -187,7 +187,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * Value restriction violated -> throws exception
+     * Value restriction violated - throws exception
      */
     @Test
     public void test5(){
@@ -213,7 +213,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * Colour restriction violated -> throws exception
+     * Colour restriction violated - throws exception
      */
     @Test
     public void test6(){
@@ -239,7 +239,7 @@ public class TestCorkBackedStraightedge {
     }
 
     /**
-     * Die adjacent to another die, but it shouldn't -> throws exception
+     * Die adjacent to another die, but it shouldn't - throws exception
      * If it can't be adjacent to another die, of course there isn't the same die orthogonally adjacent
      */
     @Test
