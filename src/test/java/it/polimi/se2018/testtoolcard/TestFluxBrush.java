@@ -61,7 +61,7 @@ public class TestFluxBrush {
         expectedDPno.add(new Die(4, Colour.YELLOW));
         expectedDPno.add(new Die(5, Colour.BLUE));
         expectedDPno.add(new Die(6, Colour.GREEN));
-        expectedDPno.add(new Die(1, Colour.YELLOW)); //random value
+        expectedDPno.add(new Die(6, Colour.YELLOW));
 
         expectedDPok = new ArrayList<Die>();
         expectedDPok.add(new Die(1, Colour.YELLOW));
@@ -92,7 +92,7 @@ public class TestFluxBrush {
 
     public void fillerExpected(WPC wpc){
         wpc.setDie(0, 0, new Die(4, Colour.YELLOW));
-        wpc.setDie(0, 1, new Die(1, Colour.BLUE)); //random value
+        wpc.setDie(0, 1, new Die(1, Colour.BLUE));
         wpc.setDie(0, 3, new Die(1, Colour.YELLOW));
         wpc.setDie(0, 4, new Die(1, Colour.PURPLE));
         wpc.setDie(1, 0, new Die(3, Colour.YELLOW));
@@ -106,38 +106,6 @@ public class TestFluxBrush {
         wpc.setDie(3, 2, new Die(3, Colour.RED));
         wpc.setDie(3, 3, new Die(6, Colour.RED));
         wpc.setDie(3, 4, new Die(5, Colour.BLUE));
-    }
-
-    private int[] countColoursDP(List<Die> dp) {
-        int i = 0;
-        int temp = 0;
-        int[] count = new int[5];
-        for (Colour c : Colour.values()) {
-            for (Die d : dp) {
-                if (d.getDieColour() == c) temp++;
-            }
-            count[i] = temp;
-            i++;
-            temp = 0;
-        }
-        return count;
-    }
-
-    private int[] countColoursWPC(WPC wpc) {
-        int i=0;
-        int temp=0;
-        int[]count = new int[5];
-        for(Colour c : Colour.values()){
-            for(int j=0; j<4; j++){
-                for(int k=0; k<5; k++){
-                    if(wpc.getCell(j,k).getDie().getDieColour() == c) temp++;
-                }
-            }
-            count[i] = temp;
-            i++;
-            temp = 0;
-        }
-        return count;
     }
 
     /**
@@ -154,22 +122,14 @@ public class TestFluxBrush {
         model.setParameters(param);
 
         param.addParameter(4);
+        param.addParameter(1);
         param.addParameter(0);
         param.addParameter(1);
 
         try {
             card.cardAction(param);
-            int[] actualColorsDP = countColoursDP(param.getDraftPool());
-            int[] expectedColorsDP = countColoursDP(expectedDPok);
-            //checks colour by colour
-            for(int i = 0; i< actualColorsDP.length; i++)
-                assertEquals(expectedColorsDP[i], actualColorsDP[i]);
-
-            int[] actualColorsWPC = countColoursWPC(player.getWpc());
-            int[] expectedColorsWPC = countColoursWPC(expected);
-            //checks colour by colour
-            for(int i = 0; i< actualColorsWPC.length; i++)
-                assertEquals(expectedColorsWPC[i], actualColorsWPC[i]);
+            assertEquals(expectedDPok, param.getDraftPool());
+            assertEquals(expected, player.getWpc());
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
@@ -191,16 +151,13 @@ public class TestFluxBrush {
         model.setParameters(param);
 
         param.addParameter(0);
+        param.addParameter(6);
 
         try {
             card.cardAction(param);
-            int[] actualColorsDP = countColoursDP(param.getDraftPool());
-            int[] expectedColorsDP = countColoursDP(expectedDPno);
-            //checks colour by colour
-            for(int i = 0; i< actualColorsDP.length; i++)
-                assertEquals(expectedColorsDP[i], actualColorsDP[i]);
+            assertEquals(expectedDPno, param.getDraftPool());
 
-            assertEquals(player.getWpc(),before); //player's board has not been changed
+            assertEquals(before, player.getWpc()); //player's board has not been changed
         }
         catch (MoveNotAllowedException e){
             System.out.println(e.getMessage());
@@ -223,6 +180,9 @@ public class TestFluxBrush {
         model.setParameters(param);
 
         param.addParameter(0);
+        param.addParameter(1);
+        param.addParameter(0);
+        param.addParameter(1);
 
         try {
             card.cardAction(param);
@@ -233,6 +193,7 @@ public class TestFluxBrush {
         }
 
         param2 = new PlayerMoveParameters(player.getPlayerID(), model);
+        param2.addParameter(5);
         param2.addParameter(5);
         try {
             card.cardAction(param2);
