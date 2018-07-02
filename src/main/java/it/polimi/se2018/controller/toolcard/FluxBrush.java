@@ -37,7 +37,7 @@ public class FluxBrush extends ToolCard{   //Pennello per Pasta Salda
 
         int dpIndex = param.getParameter(0);
 
-        //Generation of a random value
+        //Simulation of the generation of a random value
 
         Die temp = param.getDraftPool().get(dpIndex);
         int newDieValue = param.getParameter(1);
