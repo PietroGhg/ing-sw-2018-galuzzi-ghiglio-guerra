@@ -129,6 +129,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private Latch latch;
     private int playerID;
     private boolean isShowingBoards;
+    private boolean isShowingDP;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
@@ -141,6 +142,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      */
     public void init(ModelRepresentation modelRep) {
         isShowingBoards = false;
+        isShowingDP = false;
         latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
@@ -274,8 +276,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.setTitle("DraftPool");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
+            isShowingDP = true;
+            stage.setOnCloseRequest(event -> isShowingDP = false);
             stage.show();
             fillerDraftPool();
+
+
         } catch (IOException e) {
             String m = Arrays.toString(e.getStackTrace());
             LOGGER.log(Level.SEVERE, m);
@@ -285,21 +291,34 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private void fillerDraftPool(){
         List<Die> draftPool = modelRepresentation.getDraftPool();
         List<Node> children = draftpoolPane.getChildren();
-        for(int i = 0; i < draftPool.size(); i++){
-            Die d = draftPool.get(i);
-            Button b = (Button)children.get(i);
 
-            int val = d.getDieValue();
-            Colour c = d.getDieColour();
-            String path = "/dice/" + c.toString().toLowerCase() + "/" + val+ ".jpg";
 
-            BackgroundSize bgs = new BackgroundSize(100,100,true,true,true,false);
-            BackgroundImage backgroundImage = new BackgroundImage(
-                    new Image(getClass().getResource(path).toExternalForm()),
-                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
-            Background background = new Background(backgroundImage);
-            b.setBackground(background);
+        int i = 0;
+        for(Node n: children) {
+            try {
+                Button b = (Button) n;
+                b.setBackground(null);
+                if (i < draftPool.size()) {
+                    Die d = draftPool.get(i);
+                    int val = d.getDieValue();
+                    Colour c = d.getDieColour();
+                    String path = "/dice/" + c.toString().toLowerCase() + "/" + val + ".jpg";
 
+                    BackgroundSize bgs = new BackgroundSize(100, 100, true, true, true, false);
+                    BackgroundImage backgroundImage = new BackgroundImage(
+                            new Image(getClass().getResource(path).toExternalForm()),
+                            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
+                    Background background = new Background(backgroundImage);
+                    b.setBackground(background);
+                } else {
+                    b.setBackground(null);
+
+                }
+                i++;
+            }
+            catch(RuntimeException e){
+                //exception thrown when trying to cast a Node to Button, or setting background to null
+            }
         }
 
     }
@@ -791,7 +810,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
-        fillerMainBoard();
+        if(isShowingDP) Platform.runLater(this::fillerDraftPool);
+        Platform.runLater(this::fillerMainBoard);
     }
 
     private void fillerMainBoard(){

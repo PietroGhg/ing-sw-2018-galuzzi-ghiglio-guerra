@@ -114,12 +114,9 @@ public class Login {
     private void socketConnect(String username, String ip, int port) throws GUIErrorException, GameStartedException, UserNameTakenException, IOException{
         ServerConnection serverConnection;
         Socket socket;
-        //Instantiates model representation and vcmessagecreator, opens input and output stream
-        FXMLLoader loader = showLoading(); //initializes loader
-        GUIcontroller guiController = loader.getController();
+        //Opens socket and streams
+
         socket = new Socket(ip, port);
-        ModelRepresentation modelRep = new ModelRepresentation();
-        VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
         serverConnection = new SocketServerConnection(socket);
         PrintStream out = new PrintStream(socket.getOutputStream());
         Scanner in = new Scanner(socket.getInputStream());
@@ -131,6 +128,13 @@ public class Login {
         if(response.equals("A game is already started")) throw new GameStartedException();
         if(response.equals("Username already taken")) throw new UserNameTakenException();
 
+
+        //Initiates controller, modelrep, vcguimessagecreator
+        FXMLLoader loader = showLoading(); //initializes loader
+        GUIcontroller guiController = loader.getController();
+
+        ModelRepresentation modelRep = new ModelRepresentation();
+        VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
         guiController.displayMessage("Welcome to Sagrada, wait for other players.");
         guiController.setPlayerName(username);
 
@@ -154,8 +158,6 @@ public class Login {
         try {
             //looks up for the rmiclientconnection and remote-calls the handleRequest() method
 
-            FXMLLoader loader = showLoading(); //initializes guiController
-            GUIcontroller guiController = loader.getController();
             serverService = (RMIClientConnection) Naming.lookup("//"+ ip + "/sagradarmi");
             rmiServerConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(rmiServerConnection,0);
@@ -164,6 +166,8 @@ public class Login {
 
             //instantiates modelrep and vcmessagecreator, registers observers
             modelRep = new ModelRepresentation();
+            FXMLLoader loader = showLoading(); //initializes guiController
+            GUIcontroller guiController = loader.getController();
             guiController.setPlayerName(username);
             guiController.init(modelRep);
             vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
