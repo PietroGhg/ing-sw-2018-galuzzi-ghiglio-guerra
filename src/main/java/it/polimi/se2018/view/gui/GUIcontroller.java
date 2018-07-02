@@ -247,9 +247,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
         List<String> tcInUse = modelRepresentation.getToolCards();
-        Image tci0 = new Image("/ToolCards/" + tcInUse.get(0) + ".jpg");
-        Image tci1 = new Image("/ToolCards/" + tcInUse.get(1) + ".jpg");
-        Image tci2 = new Image("/ToolCards/" + tcInUse.get(2) + ".jpg");
+        Image tci0 = new Image(getClass().getResourceAsStream("/ToolCards/" + tcInUse.get(0) + ".jpg"));
+        Image tci1 = new Image(getClass().getResourceAsStream("/ToolCards/" + tcInUse.get(1) + ".jpg"));
+        Image tci2 = new Image(getClass().getResourceAsStream("/ToolCards/" + tcInUse.get(2) + ".jpg"));
 
         TCV0.setImage(tci0);
         TCV1.setImage(tci1);
@@ -291,7 +291,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
             int val = d.getDieValue();
             Colour c = d.getDieColour();
-            String path = "/dice/" + c + "/" + val+ ".jpg";
+            String path = "/dice/" + c.toString().toLowerCase() + "/" + val+ ".jpg";
 
             BackgroundSize bgs = new BackgroundSize(100,100,true,true,true,false);
             BackgroundImage backgroundImage = new BackgroundImage(
@@ -813,11 +813,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
         if (cell.isEmpty()) {
             if (cell.getColourR() != null) {
-                path = "/dice/" + cell.getColourR() + "/0.jpg";
+                path = "/dice/" + cell.getColourR().toString().toLowerCase() + "/0.jpg";
             }
 
             else if (cell.getValueR() != null) {
-                path = "/dice/grey/" + cell.getValueR() + ".jpg";
+                path = "/dice/grey/" + cell.getValueR().toString().toLowerCase() + ".jpg";
             }
         }
 
@@ -825,7 +825,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             Die d = cell.getDie();
             int val = d.getDieValue();
             Colour c = d.getDieColour();
-            path = "/dice/" + c + "/" + val+ ".jpg";
+            path = "/dice/" + c.toString().toLowerCase() + "/" + val+ ".jpg";
         }
 
         if(!path.equals("")) {
@@ -1023,13 +1023,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 Cell cell = wpc.getCell(row, col);
                 if (cell.isEmpty()) {
                     if (cell.getColourR() != null) {
-                        Image image = new Image("/dice/" + cell.getColourR() + "/0.jpg", 30, 30, false, false);
-                        grid.add(new ImageView(image), col, row);
+                        String path = "/dice/" + cell.getColourR().toString().toLowerCase() + "/0.jpg";
+                        Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
+                        grid.add(new ImageView(imageCell), col, row);
                     }
 
                     if (cell.getValueR() != null) {
-                        Image image = new Image("/dice/grey/" + cell.getValueR() + ".jpg", 30, 30, false, false);
-                        grid.add(new ImageView(image), col, row);
+                        String path = "/dice/grey/" + cell.getValueR().toString().toLowerCase() + ".jpg";
+                        Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
+                        grid.add(new ImageView(imageCell), col, row);
                     }
                 }
 
@@ -1037,8 +1039,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                     Die d = cell.getDie();
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
-                    Image image = new Image("/dice/" + c + "/" + val+ ".jpg", 30, 30, false, false);
-                    grid.add(new ImageView(image), col, row);
+                    String path = "/dice/" + c + "/" + val + ".jpg";
+                    Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
+                    grid.add(new ImageView(imageCell), col, row);
                 }
             }
         }
