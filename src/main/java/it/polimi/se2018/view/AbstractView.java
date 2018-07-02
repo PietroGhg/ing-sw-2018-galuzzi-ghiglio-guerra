@@ -4,6 +4,9 @@ import it.polimi.se2018.controller.VCAbstractMessage;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.Observer;
 
+/**
+ * Class for the abstract view
+ */
 public abstract class AbstractView extends Observable<VCAbstractMessage> implements Observer<MVAbstractMessage> {
     protected int playerID;
 

@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class that implements the remote interface for the Server.
+ * Class that implements the remote interface for the server
  * @author Pietro Ghiglio
  */
 public class RMIClientConnImpl extends RMIObservable<VCAbstractMessage> implements RMIClientConnection {

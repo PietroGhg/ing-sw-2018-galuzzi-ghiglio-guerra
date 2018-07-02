@@ -3,6 +3,9 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
+/**
+ * Class for the messages from the Model to the View, concerning the end of the timer
+ */
 public class MVTimesUpMessage extends MVAbstractMessage{
 
     public MVTimesUpMessage(int playerID){

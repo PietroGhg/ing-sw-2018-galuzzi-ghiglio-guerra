@@ -1,5 +1,8 @@
 package it.polimi.se2018.view.gui;
 
+/**
+ * Enumeration for the GUI states
+ */
 public enum State {
     WAIT_MOVE,
     NOT_YOUR_TURN,

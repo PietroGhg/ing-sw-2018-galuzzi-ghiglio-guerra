@@ -4,6 +4,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for the RMI Observable
+ */
 public class RMIObservable<T> {
     private final List<RMIObserver<T>> observers = new ArrayList<>();
 

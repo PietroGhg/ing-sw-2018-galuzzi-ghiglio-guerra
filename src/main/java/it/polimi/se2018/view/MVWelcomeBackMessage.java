@@ -5,6 +5,9 @@ import javafx.application.Platform;
 
 import java.util.List;
 
+/**
+ * Class for the messages from the Model to the View, sent when a player reconnects
+ */
 public class MVWelcomeBackMessage extends MVGameMessage {
     String playerName;
     private String prCard;

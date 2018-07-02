@@ -7,6 +7,9 @@ import it.polimi.se2018.view.gui.GUImain;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class for the client main method
+ */
 public class Client {
 
     public static void main(String[] args){

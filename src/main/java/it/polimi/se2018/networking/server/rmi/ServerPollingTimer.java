@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * The ServerPollingTimer check every 0.5 seconds that a player is connected by remote calling the poll() method
+ * The ServerPollingTimer checks every 0.5 seconds that a player is connected by remote calling the poll() method
  * If a player is disconnected, calls the appropriate method from the server in order to handle the disconnection
  * @author Pietro Ghiglio
  */

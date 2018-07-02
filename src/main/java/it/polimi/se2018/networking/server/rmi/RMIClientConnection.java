@@ -10,6 +10,9 @@ import it.polimi.se2018.view.MVAbstractMessage;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Class for RMI client connection
+ */
 public interface RMIClientConnection extends Remote{
 
     void send(MVAbstractMessage message) throws RemoteException;

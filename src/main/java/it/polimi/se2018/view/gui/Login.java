@@ -37,7 +37,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Controller for the login window
+ */
 public class Login {
     private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
     @FXML

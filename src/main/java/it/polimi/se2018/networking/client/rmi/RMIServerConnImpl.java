@@ -11,6 +11,9 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Implements client remote interface
+ */
 public class RMIServerConnImpl extends RMIObservable<MVAbstractMessage> implements RMIServerConnection {
     private RMIClientConnection serverService;
     private static final Logger LOGGER = Logger.getLogger(RMIServerConnImpl.class.getName());
@@ -19,6 +22,10 @@ public class RMIServerConnImpl extends RMIObservable<MVAbstractMessage> implemen
         this.serverService = serverService;
     }
 
+    /**
+     * Remote calls the server notify() method
+     * @param message the VCAbstractMessage
+     */
     public void send(VCAbstractMessage message){
         try{
             serverService.notify(message);
@@ -41,8 +48,11 @@ public class RMIServerConnImpl extends RMIObservable<MVAbstractMessage> implemen
         }
     }
 
+    /**
+     * method called to check the connection
+     */
     public void poll(){
-        //the method doesn't anything, it's just called to check the connection.
+
     }
 
 }

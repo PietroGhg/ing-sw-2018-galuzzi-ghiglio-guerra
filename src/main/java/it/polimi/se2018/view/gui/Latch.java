@@ -2,6 +2,9 @@ package it.polimi.se2018.view.gui;
 
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Wraps a CountDownLatch for the input of the user's requested values
+ */
 public class Latch {
     private CountDownLatch cdl;
 

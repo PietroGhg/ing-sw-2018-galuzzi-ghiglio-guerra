@@ -12,6 +12,9 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class for the board selection State
+ */
 public class BoardSelectionState implements State {
     private static final Logger LOGGER = Logger.getLogger(BoardSelectionState.class.getName());
 
