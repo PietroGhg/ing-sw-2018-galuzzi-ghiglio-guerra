@@ -40,14 +40,17 @@ public class RMIClient {
             serverService = (RMIClientConnection)Naming.lookup("//" + ipaddr + "/sagradarmi");
             RMIServerConnection serverConnection = new RMIServerConnImpl(serverService);
             RMIServerConnection serverConnInt = (RMIServerConnection) UnicastRemoteObject.exportObject(serverConnection,0);
-            serverService.handleRequest(playerName, serverConnInt); //throws exceptions
+
             modelRep = new ModelRepresentation();
             view = new View(playerName, modelRep);
             vcMessageCreator = new VCMessageCreator(view, modelRep);
             view.rawRegister(vcMessageCreator);
             view.register(new ServerConnectionAdapter(serverConnection));
             serverConnection.register(new SockToRMIObserverAdapter<>(view));
+
+            serverService.handleRequest(playerName, serverConnInt); //throws exceptions
             serverService.checkEnoughPlayers();
+
             timer = new ClientPollingTimer(serverService, view);
             timer.startPolling();
         }

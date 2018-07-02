@@ -197,6 +197,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         s.close();
         notifyController(new VCSetUpMessage(playerID, extracted.getId()));
 
+        loadMainWindow();
+
+    }
+
+    private void loadMainWindow(){
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
         loader.setLocation(getClass().getResource("/fxml/gameWindow.fxml"));
@@ -216,7 +221,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
-
     }
 
     private EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
@@ -923,6 +927,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 stage.setScene(w);
                 stage.setTitle("Choice");
                 stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+                stage.setOnCloseRequest(event-> System.exit(0));
                 stage.setResizable(false);
                 for (int i = 1; i <= 4; i++){
                     switch (i) {
@@ -981,6 +986,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             modelRepresentation.setToolCards(message.getTcInUse());
             modelRepresentation.setPrCard(message.getPrCard());
             modelRepresentation.setPuCards(message.getPuCards());
+            loadMainWindow();
             updateMR(message);
         } else {
             displayMessage(message.getMessage());

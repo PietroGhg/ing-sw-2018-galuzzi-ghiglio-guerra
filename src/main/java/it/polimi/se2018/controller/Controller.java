@@ -43,7 +43,7 @@ public class Controller implements Observer<VCAbstractMessage> {
     }
 
     public void startGame() {
-        state = new GameplayState();
+        state = new BoardSelectionState();
         LOGGER.log(Level.INFO, "Game starting.");
         timer.cancel(); //cancels the connection timer
         turnTimer.reset(); //starts the turn timer
@@ -106,10 +106,16 @@ public class Controller implements Observer<VCAbstractMessage> {
         LOGGER.log(Level.INFO, s);
         model.setWpc(playerID, message.getChosenWpc());
         model.setReady(playerID);
+        checkAllReady();
+    }
 
-        //if all the players have chosen a board, a game can start
+    /**
+     * Method that checks if all the players have chosen a board, a game can start
+     */
+    public void checkAllReady(){
         if(model.allReady()){
             LOGGER.log(Level.INFO, "All ready.");
+            state = new GameplayState();
             model.setStartGameMessage("Game start", model.whoIsPlaying());
         }
     }
@@ -176,7 +182,7 @@ public class Controller implements Observer<VCAbstractMessage> {
     public void handleDisconnection(String playerName) {
         ModelFacade mf = new ModelFacade(model, timerDuration);
         mf.setTurnTimer(turnTimer);
-        state.handleDisconnection(playerName, mf,timer, connectionTimer);
+        state.handleDisconnection(playerName,this, mf,timer, connectionTimer);
     }
 
 

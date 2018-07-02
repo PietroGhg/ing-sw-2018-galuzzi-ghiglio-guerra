@@ -50,7 +50,7 @@ public class GameplayState implements State {
         }
     }
 
-    public void handleDisconnection(String playerName, ModelFacade model, Timer timer, ConnectionTimer connectionTimer){
+    public void handleDisconnection(String playerName, Controller c, ModelFacade model, Timer timer, ConnectionTimer connectionTimer){
         try {
             Player p = model.getPlayer(playerName);
             p.setDisconnected(true);
