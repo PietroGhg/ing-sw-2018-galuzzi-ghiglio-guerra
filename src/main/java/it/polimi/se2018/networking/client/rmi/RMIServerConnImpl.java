@@ -42,7 +42,7 @@ public class RMIServerConnImpl extends RMIObservable<MVAbstractMessage> implemen
     }
 
     public void poll(){
-        //the method does nothing, it's just called the check the connection.
+        //the method doesn't anything, it's just called to check the connection.
     }
 
 }

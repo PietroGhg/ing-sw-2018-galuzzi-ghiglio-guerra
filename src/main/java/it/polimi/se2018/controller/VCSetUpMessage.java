@@ -1,5 +1,8 @@
 package it.polimi.se2018.controller;
 
+/**
+ * Class for the messages from the View to the Controller, concerning set up
+ */
 public class VCSetUpMessage extends VCAbstractMessage {
     private int chosenWpc;
 

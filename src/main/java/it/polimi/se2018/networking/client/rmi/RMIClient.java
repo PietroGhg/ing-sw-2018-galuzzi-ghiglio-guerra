@@ -18,6 +18,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class for the RMI Client
+ */
 public class RMIClient {
     private static final Logger LOGGER = Logger.getLogger(RMIClient.class.getName());
     private RMIClientConnection serverService;

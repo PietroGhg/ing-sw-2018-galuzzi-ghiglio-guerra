@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for the parameters required by a toolcard.cardAction() or diceMove() method in order to modify the model according to the
- * player's input.
+ * Class for the parameters required by a toolcard.cardAction() or diceMove() method in order to modify the
+ * model according to the player's input.
  * Contains an attribute wpc (the player's board) and an ArrayList of Integer values.
  * The values are sorted in a predefined way, so that in the method cardAction() it's possible to associate each
  * value with the corresponding user input.
