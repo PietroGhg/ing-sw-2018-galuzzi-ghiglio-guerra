@@ -9,6 +9,7 @@ import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.exceptions.GUIErrorException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.Observer;
@@ -551,10 +552,41 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
 
     public void getCoordinates2() {
-        //TODO: richiede coordinate, mostra richiesta per eventuale altro inserimento, richiede ancora coordinate
-        //sets GET_COORD_2 state, in switch-case displayWindow(), onAction getCoordinates(). Mettere latch(2) ??
-        int column = 0;
-        rawNotify(new RawRequestedMessage(column));
+        Platform.runLater(this::displayAnotherDie);
+        setState(State.ANOTHER_DIE);
+        latch.reset();
+        latch.await();
+    }
+
+    private void displayAnotherDie(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/fxml/anotherDie.fxml"));
+            Scene window = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(window);
+            stage.setTitle("Sagrada");
+            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch(IOException e){
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @FXML
+    public void anotherAction(Event e){
+        Button b =(Button)e.getSource();
+        String label = b.getId();
+        if(label.equals("yes")) {
+            latch.countDown();
+            getCoordinates(null);
+        }
+        else{
+            latch.countDown();
+        }
     }
 
     /**
@@ -672,7 +704,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * Sets the RT_POS_REQUEST
      */
     public void getRoundTrackPosition(String s) {
-
+        System.out.println(modelRepresentation.getRoundTrackString());
+        Scanner in = new Scanner(System.in);
+        int round = in.nextInt();
+        int pos = in.nextInt();
+        rawNotify(new RawRequestedMessage(round));
+        rawNotify(new RawRequestedMessage(pos));
     }
 
     /**

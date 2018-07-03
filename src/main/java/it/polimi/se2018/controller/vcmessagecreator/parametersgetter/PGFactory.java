@@ -52,7 +52,7 @@ public class PGFactory{
             case(11):
                 return pg;
             case(12):
-                pg = new AskCoordinates(pg, "Insert the RoundTrack position");
+                pg = new AskRTPosition(pg);
                 pg2 = new AskCoordinates(pg, GET_DIE_COORD);
                 pg3 = new AskCoordinates(pg2, GET_CELL_COORD);
                 pg4 = new AskCoordinates2(pg3);
