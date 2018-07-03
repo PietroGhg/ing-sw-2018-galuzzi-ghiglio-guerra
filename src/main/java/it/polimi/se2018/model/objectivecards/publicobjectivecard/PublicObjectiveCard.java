@@ -3,6 +3,9 @@ package it.polimi.se2018.model.objectivecards.publicobjectivecard;
 import it.polimi.se2018.model.objectivecards.ObjectiveCard;
 import it.polimi.se2018.model.wpc.WPC;
 
+/**
+ * Abstract class for public objective card
+ */
 public abstract class PublicObjectiveCard implements ObjectiveCard {
     private String name;
 

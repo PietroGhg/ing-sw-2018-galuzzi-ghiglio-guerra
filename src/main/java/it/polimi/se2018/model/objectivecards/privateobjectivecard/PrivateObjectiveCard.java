@@ -4,6 +4,9 @@ import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.objectivecards.ObjectiveCard;
 import it.polimi.se2018.model.wpc.WPC;
 
+/**
+ * Abstract class for private objective card
+ */
 public abstract class PrivateObjectiveCard implements ObjectiveCard {
     private String name;
     public PrivateObjectiveCard(String name){
@@ -12,6 +15,13 @@ public abstract class PrivateObjectiveCard implements ObjectiveCard {
     public String getName(){
         return name;
     }
+
+    /**
+     * Private objective card method privateScore
+     * @param wpc player's board
+     * @param c the colour the consider
+     * @return the private objective card score
+     */
     /*package-private*/int privateScore(WPC wpc, Colour c){
         int score=0;
         for (int i=0; i<WPC.NUMROW; i++) {

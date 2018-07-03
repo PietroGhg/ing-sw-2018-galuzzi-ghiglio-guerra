@@ -1,5 +1,8 @@
 package it.polimi.se2018.model;
 
+/**
+ * Class for the game turn
+ */
 public class Turn {
     private boolean playedCard;
     private boolean playedDie;
