@@ -966,6 +966,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         } else {
             displayMessage(message.getMessage());
         }
+        setState(State.GAME_ENDED);
     }
 
     /**

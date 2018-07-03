@@ -34,6 +34,7 @@ import java.util.*;
  */
 
 public class View extends AbstractView implements RawInputObservable, ViewInterface {
+    private static final String START_GAME = "Game starting. Type \"help\" for a list of commands";
     private Printer out = new Printer();
     private String playerName;
     private ModelRepresentation modelRepresentation;
@@ -67,8 +68,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     }
 
     public void visit(MVStartGameMessage message) {
-        if (playerID == message.getPlayerID())
+        if (playerID == message.getPlayerID()) {
             out.println("It's your turn!");
+            out.println(START_GAME);
+        }
         updateMR(message);
         inputThread.start();
         askingThread.start();
@@ -151,6 +154,9 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         else{
             out.println(message.getMessage());
         }
+        out.println("Press enter to close Sagrada.");
+        new Scanner(System.in).nextLine();
+        System.exit(0);
     }
 
     public void visit(MVDiscMessage message){

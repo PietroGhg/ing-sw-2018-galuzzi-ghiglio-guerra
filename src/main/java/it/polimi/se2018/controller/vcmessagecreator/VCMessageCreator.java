@@ -68,6 +68,9 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
             toShow = toShow.trim();
             handleShowRequest(toShow);
         }
+        else if(playerInput.equalsIgnoreCase("help")){
+            showFile("help");
+        }
         else {
             view.displayMessage("Input not valid");
         }
@@ -129,7 +132,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
         }
         else if(toShow.equalsIgnoreCase("draftpool")){ view.showDraftPool();}
 
-        else if(toShow.equalsIgnoreCase("objectivecards")) {
+        else if(toShow.equalsIgnoreCase("pucards")) {
             String[] puCards = modelRep.getPuCards();
             for(String puCard: puCards){
                 showFile(puCard);
@@ -137,7 +140,7 @@ public class VCMessageCreator implements RawInputObserver { //no system.out, chi
 
         }
 
-        else if(toShow.equalsIgnoreCase("myobjectivecard")){
+        else if(toShow.equalsIgnoreCase("prcard")){
             String prCard = modelRep.getPrCard();
             showFile(prCard);
         }

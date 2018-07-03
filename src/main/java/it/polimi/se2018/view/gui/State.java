@@ -8,5 +8,6 @@ public enum State {
     VALID_REQUEST,
     DP_INDEX_REQUEST,
     RT_POSITION_REQUEST,
+    GAME_ENDED,
     NEW_VALUE_REQUEST;
 }

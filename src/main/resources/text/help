@@ -1,0 +1,12 @@
+Commands:
+help: displays this message
+toolcard #id: uses toolcard #id (ex. "toolcard 1" uses toolcard number 1)
+dicemove: places a die
+endturn: end your turn
+show roundtrack: displays the roundtrack
+show draftpool: displays the draftpool
+show pucards: displays public cards
+show prcard: displays private card
+show toolcards: displays toolcards in use
+show myboard: displays your board
+show boards: displays the other player's boards
