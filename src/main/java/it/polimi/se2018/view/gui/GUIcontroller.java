@@ -121,6 +121,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private String playerName;
     private State state;
     private Latch latch;
+    private Latch latch2;
     private int playerID;
     private boolean isShowingBoards;
     private boolean isShowingDP;
@@ -554,8 +555,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void getCoordinates2() {
         Platform.runLater(this::displayAnotherDie);
         setState(State.ANOTHER_DIE);
-        latch.reset();
-        latch.await();
+        latch2 = new Latch();
+        latch2.reset();
+        latch2.await();
     }
 
     private void displayAnotherDie(){
@@ -580,13 +582,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void anotherAction(Event e){
         Button b =(Button)e.getSource();
         String label = b.getId();
-        if(label.equals("yes")) {
-            latch.countDown();
-            getCoordinates(null);
+        if(label.equals("yesOD")) {
+            new Thread((() -> {
+                getCoordinates(null);
+                getCoordinates(null);
+                latch2.countDown();
+            })).start();
         }
         else{
-            latch.countDown();
+            latch2.countDown();
         }
+        Stage s = (Stage)b.getScene().getWindow();
+        s.close();
     }
 
     /**
@@ -872,6 +879,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
             else if (cell.getValueR() != null) {
                 path = "/dice/grey/" + cell.getValueR().toString().toLowerCase() + ".jpg";
+            }
+
+            else{
+                try{
+                    b.setBackground(null);
+                }
+                catch(RuntimeException e){
+                    //empty background
+                }
             }
         }
 

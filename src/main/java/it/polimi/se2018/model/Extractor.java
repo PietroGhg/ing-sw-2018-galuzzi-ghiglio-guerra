@@ -135,8 +135,6 @@ public class Extractor {
             ris.add(  toolCards.get(randomIndex) );
             toolCards.remove(randomIndex);
         }
-        ris.remove(2);
-        ris.add("TapWheel");
         return ris;
 
 
