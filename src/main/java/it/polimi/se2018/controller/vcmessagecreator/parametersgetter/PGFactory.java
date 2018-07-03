@@ -3,8 +3,9 @@ package it.polimi.se2018.controller.vcmessagecreator.parametersgetter;
 import it.polimi.se2018.controller.vcmessagecreator.parametersgetter.decorators.*;
 import it.polimi.se2018.exceptions.InputNotValidException;
 
-//*
-
+/**
+ * Class for the parameter getter factory, basing on tool card number
+ */
 
 public class PGFactory{
     private static final String GET_CELL_COORD = "Insert the coordinates of the recipient cell. ";

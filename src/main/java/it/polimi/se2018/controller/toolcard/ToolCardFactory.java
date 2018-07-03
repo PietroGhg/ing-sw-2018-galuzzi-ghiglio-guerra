@@ -3,7 +3,7 @@ package it.polimi.se2018.controller.toolcard;
 import it.polimi.se2018.exceptions.InputNotValidException;
 
 /**
- * Class for the tool cards factory, usable based on toll card number o name
+ * Class for the tool card factory, usable basing on tool card number or name
  */
 public class ToolCardFactory {
     public ToolCard get(int id) throws InputNotValidException{
