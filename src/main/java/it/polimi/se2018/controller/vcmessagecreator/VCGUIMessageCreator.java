@@ -16,6 +16,9 @@ import it.polimi.se2018.view.cli.ModelRepresentation;
 
 import java.util.List;
 
+/**
+ * Class for the GUI message creator from View to Controller
+ */
 public class VCGUIMessageCreator implements RawInputObserver {
     private ViewInterface view;
     private PGFactory pgFactory;

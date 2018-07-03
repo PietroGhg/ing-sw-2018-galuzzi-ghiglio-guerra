@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class for the dice bag
+ */
 public class DiceBag implements Serializable{
     private List<Die> bag;
     private static final int DICETOTAL = 90;

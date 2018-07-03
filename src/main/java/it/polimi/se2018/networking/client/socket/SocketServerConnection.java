@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Implementation of the ServerConnection class
+ * Class for the implementation of the ServerConnection
  * @author Pietro Ghiglio
  */
 public class SocketServerConnection extends Observable<MVAbstractMessage> implements ServerConnection,Runnable{

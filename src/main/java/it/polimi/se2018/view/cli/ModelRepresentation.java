@@ -6,11 +6,10 @@ import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.*;
 
-/*Representation of Model in the View
- *@author Andrea Galuzzi
+/**
+ * Class for the representation of Model in the View
+ * @author Andrea Galuzzi
  */
-
-
 public class ModelRepresentation {
     private String roundTrack;
     private ArrayList<Die> draftPool;

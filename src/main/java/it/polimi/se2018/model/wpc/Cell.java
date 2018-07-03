@@ -6,6 +6,9 @@ import it.polimi.se2018.model.Die;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Class for the cell
+ */
 public class Cell implements Serializable {
     private Die die;
     private Colour colourRestriction;

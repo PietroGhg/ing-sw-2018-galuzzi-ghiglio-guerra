@@ -4,6 +4,9 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
+/**
+ * Class for the messages from the Model to the View, concerning the game starting
+ */
 public class MVStartGameMessage extends MVGameMessage {
 
     public MVStartGameMessage(String message, int playerID){

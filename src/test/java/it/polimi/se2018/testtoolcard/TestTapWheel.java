@@ -126,7 +126,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Round track cell empty -> throws exception
+     * Round track cell empty - throws exception
      */
     @Test
     public void testOne2() {
@@ -155,7 +155,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Chosen die colour is different from the chosen round track die colour -> throws exception
+     * Chosen die colour is different from the chosen round track die colour - throws exception
      */
     @Test
     public void testOne3() {
@@ -184,7 +184,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Starting cell is empty -> throws exception
+     * Starting cell is empty - throws exception
      */
     @Test
     public void testOne4() {
@@ -213,7 +213,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell is not empty -> throws exception
+     * Recipient cell is not empty - throws exception
      */
     @Test
     public void testOne5() {
@@ -242,7 +242,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Value restriction violated -> throws exception
+     * Value restriction violated - throws exception
      */
     @Test
     public void testOne6() {
@@ -271,7 +271,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Colour restriction violated -> throws exception
+     * Colour restriction violated - throws exception
      */
     @Test
     public void testOne7() {
@@ -300,7 +300,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell is not adjacent to other dice -> throws exception
+     * Recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void testOne8() {
@@ -329,7 +329,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell has the same orthogonally adjacent die -> throws exception
+     * Recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void testOne9() {
@@ -396,7 +396,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Chosen die colour is different from the chosen round track die colour -> throws exception
+     * Chosen die colour is different from the chosen round track die colour - throws exception
      */
     @Test
     public void testTwo2() {
@@ -430,7 +430,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Starting cell is empty -> throws exception
+     * Starting cell is empty - throws exception
      */
     @Test
     public void testTwo3() {
@@ -464,7 +464,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell is not empty -> throws exception
+     * Recipient cell is not empty - throws exception
      */
     @Test
     public void testTwo4() {
@@ -498,7 +498,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Value restriction violated -> throws exception
+     * Value restriction violated - throws exception
      */
     @Test
     public void testTwo5() {
@@ -532,7 +532,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Colour restriction violated -> throws exception
+     * Colour restriction violated - throws exception
      */
     @Test
     public void testTwo6() {
@@ -566,7 +566,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell is not adjacent to other dice -> throws exception
+     * Recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void testTwo7() {
@@ -600,7 +600,7 @@ public class TestTapWheel {
     }
 
     /**
-     * Recipient cell has the same orthogonally adjacent die -> throws exception
+     * Recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void testTwo8() {

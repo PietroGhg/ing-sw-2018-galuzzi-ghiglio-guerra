@@ -12,6 +12,9 @@ import java.util.Objects;
 
 import static it.polimi.se2018.model.Die.prettyDie;
 
+/**
+ * Class for the Window Pattern Card (WPC)
+ */
 public class WPC implements Serializable{ //WindowPatternCard
     public static final int NUMROW = 4;
     public static final int NUMCOL = 5;

@@ -17,7 +17,11 @@ import it.polimi.se2018.view.cli.View;
 import java.io.*;
 import java.util.List;
 
-public class VCMessageCreator implements RawInputObserver { //no system.out, chiamo input dalla view
+/**
+ * Class for the message creator from View to Controller
+ * no System.Out used, input from View is called
+ */
+public class VCMessageCreator implements RawInputObserver {
     private View view;
     private PGFactory pgFactory;
     private ParameterGetter parametersGetter;

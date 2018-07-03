@@ -9,6 +9,9 @@ import it.polimi.se2018.model.wpc.WPC;
 
 import java.util.List;
 
+/**
+ * Class for the restriction checkers, used in the tool cards and in the die placement
+ */
 public class RestrictionChecker {
     public static final String ADJACENT_ERROR = "Error: die must be adjacent to another die.";
     public static final String NOTADJACENT_ERROR = "Error: die is adjacent to other dice.";

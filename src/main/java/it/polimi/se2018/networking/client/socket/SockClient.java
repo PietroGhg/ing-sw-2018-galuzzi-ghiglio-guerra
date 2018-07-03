@@ -15,6 +15,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class for the Socket client
+ */
 public class SockClient {
     private View view;
     private Printer outToScreen = new Printer();

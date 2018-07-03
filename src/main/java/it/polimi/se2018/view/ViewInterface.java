@@ -6,6 +6,9 @@ import it.polimi.se2018.utils.RawInputObserver;
 
 import java.util.List;
 
+/**
+ * Interface for the view
+ */
 public interface ViewInterface {
     int getPlayerID();
     void getCoordinates(String m);

@@ -18,6 +18,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class for the model
+ */
 public class Model extends Observable<MVAbstractMessage> {
 
     private static final Logger LOGGER = Logger.getLogger(Model.class.getName());

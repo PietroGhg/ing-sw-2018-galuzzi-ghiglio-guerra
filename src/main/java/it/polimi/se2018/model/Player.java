@@ -5,6 +5,9 @@ import it.polimi.se2018.model.objectivecards.publicobjectivecard.PublicObjective
 import it.polimi.se2018.model.wpc.WPC;
 import java.util.List;
 
+/**
+ * Class for the player
+ */
 public class Player {
     private int playerID;
     private String name;
@@ -38,6 +41,10 @@ public class Player {
         this.playerID = playerID;
     }
 
+    /**
+     * Sets board and favor tokens
+     * @param wpc window pattern card to set
+     */
     public void setWpc(WPC wpc) {
         this.favorTokens = wpc.getFavorTokens();
         this.wpc = wpc;
@@ -49,12 +56,23 @@ public class Player {
         this.favorTokens = favorTokens;
     }
 
+    /**
+     * Only sets the board
+     * @param wpc window pattern card to set
+     */
     public void setWpcOnly(WPC wpc){ this.wpc = wpc; }
 
+    /**
+     * Adds the player's private objective card for the game
+     * @param card the private objective card to set
+     */
     public void addPrCard(PrivateObjectiveCard card){
         prCard = card;
     }
 
+    /**
+     * @return player's private objective card
+     */
     public PrivateObjectiveCard getPrCard() { return prCard; }
 
     public int getPrivateScore(){
@@ -69,6 +87,9 @@ public class Player {
         return ris + getPrivateScore() - numEmptyCells() + favorTokens;
     }
 
+    /**
+     * @return the number of empty cells in the player's board
+     */
     private int numEmptyCells(){
         int tot = 0;
         for(int i = 0; i < WPC.NUMROW; i++){

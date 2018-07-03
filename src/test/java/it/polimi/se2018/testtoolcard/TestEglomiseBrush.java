@@ -87,7 +87,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Starting cell is empty -> throws exception
+     * Starting cell is empty - throws exception
      */
     @Test
     public void test2(){
@@ -112,7 +112,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Recipient cell is not adjacent to other dice -> throws exception
+     * Recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void test3(){
@@ -136,7 +136,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Recipient cell has the same orthogonally adjacent die -> throws exception
+     * Recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void test4(){
@@ -160,7 +160,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Value restriction violated -> throws exception
+     * Value restriction violated - throws exception
      */
     @Test
     public void test5(){
@@ -184,7 +184,7 @@ public class TestEglomiseBrush {
     }
 
     /**
-     * Recipient cell is not empty -> throws exception
+     * Recipient cell is not empty - throws exception
      */
     @Test
     public void test6(){

@@ -111,13 +111,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private Button no;
 
 
-
-
-
-
-
-
-
     private ModelRepresentation modelRepresentation;
     private Map<Integer, GridPane> playerPanes; //map that associates every playerID with the corresponding gridpane
     private Map<String, Integer> fromTCnameToID;

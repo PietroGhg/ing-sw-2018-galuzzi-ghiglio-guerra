@@ -3,6 +3,9 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
+/**
+ * Class for the messages from the Model to the View, concerning the disconnection
+ */
 public class MVDiscMessage extends MVAbstractMessage {
     private String message;
 

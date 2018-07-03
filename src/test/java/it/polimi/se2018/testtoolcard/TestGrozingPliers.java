@@ -157,7 +157,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Decreasing 1 -> throws exception
+     * Decreasing 1 - throws exception
      */
     @Test
     public void test3(){
@@ -184,7 +184,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Increasing 6 -> throws exception
+     * Increasing 6 - throws exception
      */
     @Test
     public void test4() {
@@ -211,7 +211,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Draft pool cell empty -> throws exception
+     * Draft pool cell empty - throws exception
      */
     @Test
     public void test5() {
@@ -238,7 +238,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Recipient cell is not empty -> throws exception
+     * Recipient cell is not empty - throws exception
      */
     @Test
     public void test6() {
@@ -265,7 +265,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * First move, but die not placed on the border -> throws exception
+     * First move, but die not placed on the border - throws exception
      */
     @Test
     public void test7() {
@@ -292,7 +292,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Recipient cell is not adjacent to other dice -> throws exception
+     * Recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void test8() {
@@ -319,7 +319,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Value restriction violated -> throws exception
+     * Value restriction violated - throws exception
      */
     @Test
     public void test9() {
@@ -346,7 +346,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Colour restriction violated -> throws exception
+     * Colour restriction violated - throws exception
      */
     @Test
     public void test10() {
@@ -373,7 +373,7 @@ public class TestGrozingPliers {
     }
 
     /**
-     * Recipient cell has the same orthogonally adjacent die -> throws exception
+     * Recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void test11() {

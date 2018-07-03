@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for the messages from the Model to the View, concerning the proper game play
+ */
 public class MVGameMessage extends MVAbstractMessage {
     private String message;
     private String roundTrack;

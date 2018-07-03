@@ -7,6 +7,9 @@ import it.polimi.se2018.utils.Printer;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class for the Command Line Interface Client
+ */
 public class ClientCLI {
     public ClientCLI(){
         Printer printer = new Printer();

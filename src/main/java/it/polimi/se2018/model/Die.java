@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Class for the die
+ */
 public class Die implements Serializable {
     private Integer value;
     private Colour colour;

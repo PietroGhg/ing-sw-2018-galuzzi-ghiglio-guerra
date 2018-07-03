@@ -20,7 +20,9 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Class for the controller
+ */
 public class Controller implements Observer<VCAbstractMessage> {
     private static final Logger LOGGER = Logger.getLogger(Controller.class.getName());
     private Model model;

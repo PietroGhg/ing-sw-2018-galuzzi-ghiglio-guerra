@@ -95,7 +95,7 @@ public class TestLathekin {
     }
 
     /**
-     * First die starting cell is empty -> throws exception
+     * First die starting cell is empty - throws exception
      */
     @Test
     public void test2(){
@@ -124,7 +124,7 @@ public class TestLathekin {
     }
 
     /**
-     * First recipient cell is not empty -> throws exception
+     * First recipient cell is not empty - throws exception
      */
     @Test
     public void test3(){
@@ -153,7 +153,7 @@ public class TestLathekin {
     }
 
     /**
-     * Colour restriction violated for the first die -> throws exception
+     * Colour restriction violated for the first die - throws exception
      */
     @Test
     public void test4(){
@@ -182,7 +182,7 @@ public class TestLathekin {
     }
 
     /**
-     * Value restriction violated for the first die -> throws exception
+     * Value restriction violated for the first die - throws exception
      */
     @Test
     public void test5(){
@@ -211,7 +211,7 @@ public class TestLathekin {
     }
 
     /**
-     * First recipient cell is not adjacent to other dice -> throws exception
+     * First recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void test6(){
@@ -240,7 +240,7 @@ public class TestLathekin {
     }
 
     /**
-     * First recipient cell has the same orthogonally adjacent die -> throws exception
+     * First recipient cell has the same orthogonally adjacent die - throws exception
      */
     //Non trova l'infrazione della restrizione (anche per il test13)
     @Test
@@ -270,7 +270,7 @@ public class TestLathekin {
     }
 
     /**
-     * Second die starting cell is empty -> throws exception
+     * Second die starting cell is empty - throws exception
      */
     @Test
     public void test8(){
@@ -299,7 +299,7 @@ public class TestLathekin {
     }
 
     /**
-     * Second recipient cell is not empty -> throws exception
+     * Second recipient cell is not empty - throws exception
      */
     @Test
     public void test9(){
@@ -328,7 +328,7 @@ public class TestLathekin {
     }
 
     /**
-     * Colour restriction violated for the second die -> throws exception
+     * Colour restriction violated for the second die - throws exception
      */
     @Test
     public void test10(){
@@ -357,7 +357,7 @@ public class TestLathekin {
     }
 
     /**
-     * Value restriction violated for the second die -> throws exception
+     * Value restriction violated for the second die - throws exception
      */
     @Test
     public void test11(){
@@ -386,7 +386,7 @@ public class TestLathekin {
     }
 
     /**
-     * First recipient cell is not adjacent to other dice -> throws exception
+     * First recipient cell is not adjacent to other dice - throws exception
      */
     @Test
     public void test12(){
@@ -415,7 +415,7 @@ public class TestLathekin {
     }
 
     /**
-     * First recipient cell has the same orthogonally adjacent die -> throws exception
+     * First recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void test13(){
@@ -444,7 +444,7 @@ public class TestLathekin {
     }
 
     /**
-     * Second recipient cell has the same orthogonally adjacent die -> throws exception
+     * Second recipient cell has the same orthogonally adjacent die - throws exception
      */
     @Test
     public void test14(){
@@ -474,7 +474,7 @@ public class TestLathekin {
 
     /**
      * Second recipient cell has the same orthogonally
-     * adjacent die (the first one moved) -> throws exception
+     * adjacent die (the first one moved) - throws exception
      */
     @Test
     public void test15(){

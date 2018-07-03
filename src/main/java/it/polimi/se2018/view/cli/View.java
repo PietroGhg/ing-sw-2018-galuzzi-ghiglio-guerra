@@ -18,18 +18,20 @@ import java.util.*;
 /**
  * Class for the command line interface.
  *
- * Command are asked in a loop and notified to VCMessageCreator, VCMessageCreator either shows the requested elements (toolcard, objective cards, game boards ...) or
- * starts a ParameterGetter input sequence. When the sequence is completed the server is notified with the message representing the PlayerMove.
+ * Command are asked in a loop and notified to VCMessageCreator; VCMessageCreator either shows the
+ * requested elements (toolcard, objective cards, game boards, and so on) or starts a ParameterGetter input sequence.
+ * When the sequence is completed the server is notified with the message representing the player move.
  *
- * This class contains two private classes that extends the Thread class: InputThread and AskingThread.
- * InputThread handles the loop that requires command to the user, it's put to wait when a VCMessage is notified to the controller, and it's woken up when an answer
- * (a MVmessage) is received.
- * AskingThread polls every .5 second that no ParameterGetter request is being performed and, if InputThread is in waiting state, wakes it up.
- * This is done in order to handle the situation where a player is inserting data during a ParamerGetter request, and the turn timer runs out: the player will finish
- * to complete the request, but will receive a MVMessage stating that it's not his turn. This prevents overlapping between a command request by InputThread and a value request
- * by a ParameterGetter.
+ * This class contains two private classes that extend the Thread class: InputThread and AskingThread.
+ * InputThread handles the loop that requires command from the user, put on wait when a VCMessage is notified
+ * to the controller, and woken up when an answer (a MVmessage) is received.
+ * AskingThread polls every 0.5 second that no ParameterGetter request is being performed and, if InputThread
+ * is in waiting state, wakes it up. This is done in order to handle the situation where a player enters
+ * data during a ParamerGetter request, and the turn timer runs out: the player will finish to complete the request,
+ * but will receive a MVMessage reporting that it is not his turn. This prevents overlapping between a command request
+ * by InputThread and a value request by a ParameterGetter.
  *
- *@author Andrea Galuzzi
+ * @author Andrea Galuzzi
  * @author Pietro Ghiglio
  */
 

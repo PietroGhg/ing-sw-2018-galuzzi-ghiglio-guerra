@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class containing the main method used to start the server, instantiates a new SocketServer and a new RMIServer
+ * Class which contains the main method used to start the server, instantiates a new SocketServer and a new RMIServer
  * @author Pietro Ghiglio
  */
 public class Server {

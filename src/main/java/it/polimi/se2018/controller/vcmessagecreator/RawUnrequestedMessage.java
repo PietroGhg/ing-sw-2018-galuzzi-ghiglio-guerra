@@ -1,5 +1,8 @@
 package it.polimi.se2018.controller.vcmessagecreator;
 
+/**
+ * Class for the unrequested message
+ */
 public class RawUnrequestedMessage implements RawInputMessage{
 
     private String input;

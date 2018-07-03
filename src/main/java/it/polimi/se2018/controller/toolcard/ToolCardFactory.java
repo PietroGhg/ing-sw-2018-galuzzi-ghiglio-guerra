@@ -2,6 +2,9 @@ package it.polimi.se2018.controller.toolcard;
 
 import it.polimi.se2018.exceptions.InputNotValidException;
 
+/**
+ * Class for the tool card factory, usable basing on tool card number or name
+ */
 public class ToolCardFactory {
     public ToolCard get(int id) throws InputNotValidException{
         switch(id) {
@@ -26,7 +29,7 @@ public class ToolCardFactory {
             case("Grozing Pliers"): return GrozingPliers.getInstance();
             case("Eglomise Brush"): return EglomiseBrush.getInstance();
             case("Copper Foil Burnisher"): return CopperFoilBurnisher.getInstance();
-            case("Lthekin"): return Lathekin.getInstance();
+            case("Lathekin"): return Lathekin.getInstance();
             case("Lens Cutter"): return LensCutter.getInstance();
             case("Flux Brush"): return FluxBrush.getInstance();
             case("Glazing Hammer"): return GlazingHammer.getInstance();
