@@ -1112,7 +1112,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                     Die d = cell.getDie();
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
-                    String path = "/dice/" + c + "/" + val + ".jpg";
+                    String path = "/dice/" + c.toString().toLowerCase() + "/" + val + ".jpg";
                     Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
                     grid.add(new ImageView(imageCell), col, row);
                 }
