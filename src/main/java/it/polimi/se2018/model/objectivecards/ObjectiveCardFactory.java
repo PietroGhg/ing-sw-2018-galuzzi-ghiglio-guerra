@@ -4,6 +4,9 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.model.objectivecards.privateobjectivecard.*;
 import it.polimi.se2018.model.objectivecards.publicobjectivecard.*;
 
+/**
+ * Class for the objective card factory, public and private, basing on card number
+ */
 public class ObjectiveCardFactory {
     public PrivateObjectiveCard getPrivateObjectiveCard(int id) throws InputNotValidException{
         switch(id){

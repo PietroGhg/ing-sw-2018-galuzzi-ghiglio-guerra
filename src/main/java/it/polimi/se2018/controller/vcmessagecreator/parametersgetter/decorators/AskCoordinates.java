@@ -4,7 +4,7 @@ import it.polimi.se2018.controller.vcmessagecreator.parametersgetter.ParameterGe
 import it.polimi.se2018.view.ViewInterface;
 
 /**
- *
+ * Class which extends the parameter getter decorator for the coordinates request
  */
 public class AskCoordinates extends PGDecorator {
     public AskCoordinates(ParameterGetter pg, String s){
