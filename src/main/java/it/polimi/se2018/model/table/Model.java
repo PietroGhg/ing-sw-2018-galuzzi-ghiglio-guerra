@@ -116,7 +116,7 @@ public class Model extends Observable<MVAbstractMessage> {
             notify(new MVWinnerMessage(winner.getPlayerID(), winner.getName() + " won the game!"));
         }
         catch (NoWinnerException e){
-            //notify users that something went really wrong
+            LOGGER.log(Level.SEVERE,"Error while choosing a winner");
         }
     }
 
@@ -312,7 +312,7 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     private void setNewTurnMessage(int playerID){
-        MVNewTurnMessage message = new MVNewTurnMessage("It's tour turn!", playerID);
+        MVNewTurnMessage message = new MVNewTurnMessage("Round: " + (roundTrack.getRoundCounter() + 1) + ", Turn: " + (roundTrack.getTurnCounter() + 1), playerID);
         setData(message);
         notify(message);
     }

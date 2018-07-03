@@ -79,6 +79,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     }
 
     public void visit(MVNewTurnMessage message) {
+        out.println(message.getMessage());
         if (playerID == message.getPlayerID())
             out.println("It's your turn!");
         updateMR(message);

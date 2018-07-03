@@ -37,7 +37,7 @@ public class ChooseWinner {
      */
     private void calcTotScore(){
         int i = 0;
-        int maxScore = 0;
+        int maxScore = possibleW.get(0).getTotalScore(puCard);
 
         while(i < possibleW.size()){
             int score = possibleW.get(i).getTotalScore(puCard);
@@ -54,7 +54,7 @@ public class ChooseWinner {
 
     private void calcPrScore() {
         int i = 0;
-        int maxScore = 0;
+        int maxScore = possibleW.get(0).getPrivateScore();
 
         while(i < possibleW.size()){
             int score = possibleW.get(i).getPrivateScore();
@@ -71,7 +71,7 @@ public class ChooseWinner {
 
     private void calcFTokens(){
         int i = 0;
-        int maxScore = 0;
+        int maxScore = possibleW.get(0).getFavorTokens();
 
         while(i < possibleW.size()){
             int score = possibleW.get(i).getFavorTokens();

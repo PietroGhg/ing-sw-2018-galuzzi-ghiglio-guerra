@@ -1055,10 +1055,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
     public void visit(MVNewTurnMessage message) {
         if (playerID == message.getPlayerID()) {
-            displayMessage("It's your turn!");
+            displayMessage("It's your turn! " + message.getMessage());
             setState(State.WAIT_MOVE);
         }
         else {
+            displayMessage(message.getMessage());
             setState(State.NOT_YOUR_TURN);
             displayMessage(NOT_TURN);
         }

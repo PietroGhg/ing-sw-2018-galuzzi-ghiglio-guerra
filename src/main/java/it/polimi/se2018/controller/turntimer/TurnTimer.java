@@ -2,11 +2,14 @@ package it.polimi.se2018.controller.turntimer;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Timer for the turn
  */
 public class TurnTimer {
+    private static final Logger LOGGER = Logger.getLogger(TurnTimer.class.getName());
     private TimerTask task;
     private Timer timer;
     private TurnFacade model;
@@ -27,7 +30,12 @@ public class TurnTimer {
     }
 
     public void cancel(){
-        timer.cancel();
+        try {
+            timer.cancel();
+        }
+        catch(IllegalStateException e){
+            LOGGER.log(Level.SEVERE, "Trying to cancel an already canceled turntimer");
+        }
     }
 
     private class MyTask extends TimerTask {

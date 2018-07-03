@@ -34,6 +34,10 @@ public class RoundTrack {
         roundMatrix = matrixFiller(nPlayers);
     }
 
+    public int getRoundCounter(){ return roundCounter; }
+
+    public int getTurnCounter(){return turnCounter; }
+
     /**
      * Method that fills the round matrix at the beginning of the game
      * @param nPlayers the number of players
