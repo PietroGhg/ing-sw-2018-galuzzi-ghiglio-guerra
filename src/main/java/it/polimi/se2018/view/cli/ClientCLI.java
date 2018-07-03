@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class ClientCLI {
     public ClientCLI(){
-        Printer printer = new Printer();
+        Printer printer = Printer.getInstance();
         Scanner scanner = new Scanner(System.in);
         int srChoice;
         printer.println("Choose between socket or rmi connection. [1: socket, 2: rmi]");

@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Client {
 
     public static void main(String[] args){
-        Printer out = new Printer();
+        Printer out = Printer.getInstance();
         Scanner in = new Scanner(System.in);
         int choice;
 

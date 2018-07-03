@@ -11,7 +11,6 @@ import it.polimi.se2018.utils.RawInputObserver;
 import it.polimi.se2018.view.*;
 
 
-
 import java.util.*;
 
 
@@ -37,7 +36,7 @@ import java.util.*;
 
 public class View extends AbstractView implements RawInputObservable, ViewInterface {
     private static final String START_GAME = "Game starting. Type \"help\" for a list of commands";
-    private Printer out = new Printer();
+    private Printer out = Printer.getInstance();
     private String playerName;
     private ModelRepresentation modelRepresentation;
     private boolean gameLoop;
@@ -156,8 +155,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         else{
             out.println(message.getMessage());
         }
-        out.println("Press enter to close Sagrada.");
-        new Scanner(System.in).nextLine();
+        out.println("Closing Sagrada.");
         System.exit(0);
     }
 
@@ -181,7 +179,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         }
 
         do {
-            out.println("Choose wpc number (Form 1 to 4)");
+            out.println("Choose wpc number (From 1 to 4)");
             choice = in.nextInt();
         } while (choice < 1 || choice > 4);
 
@@ -351,7 +349,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     }
 
     public void showRoundTrack(){
-        out.println(modelRepresentation.getRoundTrack());
+        out.println(modelRepresentation.getRoundTrackString());
     }
 
     public void showMyBoard(){

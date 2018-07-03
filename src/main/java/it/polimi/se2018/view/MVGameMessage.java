@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class MVGameMessage extends MVAbstractMessage {
     private String message;
-    private String roundTrack;
+    private List<List<Die>> roundTrack;
     private List<Die> draftPool;
     private Map<Integer, WPC> wpcs;
     private DiceBag diceBag;
@@ -31,19 +31,14 @@ public class MVGameMessage extends MVAbstractMessage {
     public void accept(AbstractView view){ view.visit(this); }
     public void accept(GUIcontroller gc){
         MVGameMessage m = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gc.visit(m);
-            }
-        });
+        Platform.runLater(() -> gc.visit(m));
     }
 
     public String getMessage() {
         return message;
     }
 
-    public String getRoundTrack() {
+    public List<List<Die>> getRoundTrack() {
         return roundTrack;
     }
 
@@ -63,7 +58,7 @@ public class MVGameMessage extends MVAbstractMessage {
         this.draftPool = draftPool;
     }
 
-    public void setRoundTrack(String roundTrack){
+    public void setRoundTrack(List<List<Die>> roundTrack){
         this.roundTrack = roundTrack;
     }
 

@@ -347,7 +347,7 @@ public class Model extends Observable<MVAbstractMessage> {
         //set up draftpool
         message.setDraftPool(draftPool);
         //set up roundtrack
-        message.setRoundTrack(roundTrack.toString());
+        message.setRoundTrack(roundTrack.getRT());
 
         message.setDiceBag(diceBag);
 

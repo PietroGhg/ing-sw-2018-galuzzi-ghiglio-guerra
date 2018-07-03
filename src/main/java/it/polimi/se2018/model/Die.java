@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.exceptions.MoveNotAllowedException;
+import it.polimi.se2018.utils.Printer;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -103,6 +104,7 @@ public class Die implements Serializable {
     }
 
     public static String prettyDie(int n){
+        if(Printer.isjAnsiActive()) return String.valueOf(n);
         switch (n){
             case(1): return "\u2680";
             case(2): return "\u2681";

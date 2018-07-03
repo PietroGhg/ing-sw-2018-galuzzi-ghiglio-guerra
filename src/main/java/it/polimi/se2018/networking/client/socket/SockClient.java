@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class SockClient {
     private View view;
-    private Printer outToScreen = new Printer();
+    private Printer outToScreen = Printer.getInstance();
     private static final Logger LOGGER = Logger.getLogger(SockClient.class.getName());
     private VCMessageCreator vcMessageCreator;
     private ModelRepresentation modelRep;

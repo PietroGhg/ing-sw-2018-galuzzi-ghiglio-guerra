@@ -33,7 +33,7 @@ public class RMIClient {
 
     public RMIClient(){
         Scanner in = new Scanner(System.in);
-        out = new Printer();
+        out = Printer.getInstance();
         out.println("Insert server IP address.");
         String ipaddr = in.nextLine();
         out.println("Insert player name. ");

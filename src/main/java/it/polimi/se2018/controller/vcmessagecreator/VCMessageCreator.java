@@ -67,10 +67,15 @@ public class VCMessageCreator implements RawInputObserver {
         }
 
         else if(playerInput.startsWith("show")) {
-            String[] temp = playerInput.split(" ");
-            String toShow = temp[1];
-            toShow = toShow.trim();
-            handleShowRequest(toShow);
+            try {
+                String[] temp = playerInput.split(" ");
+                String toShow = temp[1];
+                toShow = toShow.trim();
+                handleShowRequest(toShow);
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+                view.displayMessage("Input not valid");
+            }
         }
         else if(playerInput.equalsIgnoreCase("help")){
             showFile("help");

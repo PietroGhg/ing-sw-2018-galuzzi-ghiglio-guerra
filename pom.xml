@@ -40,6 +40,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>1.8</version>
+    </dependency>
+
   </dependencies>
 
   <build>

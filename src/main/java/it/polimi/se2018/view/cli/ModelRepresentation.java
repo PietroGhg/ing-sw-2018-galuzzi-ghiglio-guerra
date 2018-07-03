@@ -11,7 +11,7 @@ import java.util.*;
  * @author Andrea Galuzzi
  */
 public class ModelRepresentation {
-    private String roundTrack;
+    private List<List<Die>> roundTrack;
     private ArrayList<Die> draftPool;
     private String prCard;
     private String[] puCards;
@@ -25,9 +25,16 @@ public class ModelRepresentation {
         wpcs = new HashMap<>();
     }
 
-    public String getRoundTrack() {
-        return roundTrack;
+    public String getRoundTrackString() {
+        StringBuilder builder = new StringBuilder();
+        for(List<Die> round : roundTrack){
+            builder.append(round.toString());
+            builder.append("\n");
+        }
+        return builder.toString();
     }
+
+    public List<List<Die>> getRoundTrack(){ return roundTrack; }
 
     public List<Die> getDraftPool() {
         return draftPool;
@@ -41,7 +48,7 @@ public class ModelRepresentation {
 
     public WPC getWpc(int playerID) {return wpcs.get(playerID); }
 
-    public void setRoundTrack(String roundTrack) {
+    public void setRoundTrack(List<List<Die>> roundTrack) {
         this.roundTrack = roundTrack;
     }
 
