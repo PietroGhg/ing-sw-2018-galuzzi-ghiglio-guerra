@@ -730,18 +730,16 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * Sets the RT_POS_REQUEST
      */
     public void getRoundTrackPosition(String s) {
-        /*System.out.println(modelRepresentation.getRoundTrackString());
-        Scanner in = new Scanner(System.in);
-        int round = in.nextInt();
-        int pos = in.nextInt();
-        rawNotify(new RawRequestedMessage(round));
-        rawNotify(new RawRequestedMessage(pos));*/
         displayMessage(s);
         setState(State.RT_POSITION_REQUEST);
         latch.reset();
         latch.await();
     }
 
+    /**
+     * Method called when a RoundTrack cell is selected
+     * @param e the event
+     */
     @FXML
     private void rtSelected(Event e){
         if(state == State.RT_POSITION_REQUEST) {

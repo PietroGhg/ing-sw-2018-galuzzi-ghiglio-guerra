@@ -11,7 +11,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Class for RMI client connection
+ * Class for RMI client connection, provides the remote interface of the server, used by the client
+ * @author Pietro Ghiglio
  */
 public interface RMIClientConnection extends Remote{
 
@@ -21,10 +22,24 @@ public interface RMIClientConnection extends Remote{
 
     void notify(VCAbstractMessage message) throws RemoteException;
 
+    /**
+     * Method that gets remote-called by the client in order to try to add a player to the game
+     * @param playerName the name of the player
+     * @param client the remote-object for the client
+     * @throws UserNameTakenException when the username is already taken
+     * @throws GameStartedException when a game is already started
+     */
     void handleRequest(String playerName, RMIServerConnection client) throws RemoteException, UserNameTakenException,
     GameStartedException;
 
+    /**
+     * Method remote-called by the client in order in order to check if, after it's own addition, there are enough players to start a game
+     */
     void checkEnoughPlayers() throws RemoteException;
 
+    /**
+     * Method used to periodically check if the connection is working
+     * @throws RemoteException when there are connection problems
+     */
     void poll() throws RemoteException;
 }
