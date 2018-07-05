@@ -110,6 +110,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private Button yes;
     @FXML
     private Button no;
+    @FXML
+    private ImageView PUV0;
+    @FXML
+    private ImageView PUV1;
+    @FXML
+    private ImageView PUV2;
+    @FXML
+    private ImageView PRV;
+
 
 
     private ModelRepresentation modelRepresentation;
@@ -207,6 +216,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.setTitle("Game");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
+            String prInUse = modelRepresentation.getPrCard();
+            Image pri = new Image(getClass().getResourceAsStream("/ToolCards/" + prInUse + ".jpg"));
+            PRV = new ImageView(pri); 
             stage.show();
             Stage st = (Stage)image.getScene().getWindow();
             st.close();
@@ -332,6 +344,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         stage.setTitle("PuCards");
         stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
         stage.setResizable(false);
+        String[] pbInUse = modelRepresentation.getPuCards();
+        Image pbi0 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[0] + ".jpg"));
+        Image pbi1 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[1] + ".jpg"));
+        Image pbi2 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[2] + ".jpg"));
+
+        PUV0.setImage(pbi0);
+        PUV1.setImage(pbi1);
+        PUV2.setImage(pbi2);
+
         stage.show();
 
 
