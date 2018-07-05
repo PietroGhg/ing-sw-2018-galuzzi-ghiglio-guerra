@@ -133,6 +133,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private int playerID;
     private boolean isShowingBoards;
     private boolean isShowingDP;
+    private boolean isShowingRT;
     private static final Logger LOGGER = Logger.getLogger(GUIcontroller.class.getName());
 
     private static final String SELECT_DP = "Select a die from the draftpool.";
@@ -146,6 +147,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void init(ModelRepresentation modelRep) {
         isShowingBoards = false;
         isShowingDP = false;
+        isShowingRT = false;
         latch = new Latch();
         rawObservers = new ArrayList<>();
         state = State.NOT_YOUR_TURN;
@@ -301,7 +303,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private void fillerDraftPool(){
         List<Die> draftPool = modelRepresentation.getDraftPool();
         List<Node> children = draftpoolPane.getChildren();
-
+        String path;
 
         int i = 0;
         for(Node n: children) {
@@ -312,18 +314,16 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                     Die d = draftPool.get(i);
                     int val = d.getDieValue();
                     Colour c = d.getDieColour();
-                    String path = "/dice/" + c.toString().toLowerCase() + "/" + val + ".jpg";
-
-                    BackgroundSize bgs = new BackgroundSize(100, 100, true, true, true, false);
-                    BackgroundImage backgroundImage = new BackgroundImage(
-                            new Image(getClass().getResource(path).toExternalForm()),
-                            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
-                    Background background = new Background(backgroundImage);
-                    b.setBackground(background);
+                    path = "/dice/" + c.toString().toLowerCase() + "/" + val + ".jpg";
                 } else {
-                    b.setBackground(null);
-
+                    path = "/dice/white.jpg";
                 }
+                BackgroundSize bgs = new BackgroundSize(100, 100, true, true, true, false);
+                BackgroundImage backgroundImage = new BackgroundImage(
+                        new Image(getClass().getResource(path).toExternalForm()),
+                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
+                Background background = new Background(backgroundImage);
+                b.setBackground(background);
                 i++;
             }
             catch(RuntimeException e){
@@ -814,6 +814,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            stage.setOnCloseRequest(event->isShowingRT=false);
+            isShowingRT = true;
             fillerRoundTrack();
         } catch (IOException e) {
             String s = Arrays.toString(e.getStackTrace());
@@ -823,18 +825,19 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     }
 
     private void fillerRoundTrack(){
-        List<List<Die>> rt = modelRepresentation.getRoundTrack();
-        List<Node> children = roundTrack.getChildren();
+        try {
+            List<List<Die>> rt = modelRepresentation.getRoundTrack();
+            List<Node> children = roundTrack.getChildren();
 
-        for (Node n : children) {
-            children.remove(n);
-        }
+            int counter = 0;
+            while(counter < children.size()) {
+                children.remove(counter);
+            }
 
-        for(int i = 0; i < rt.size(); i++){
-            VBox vBox = new VBox();
-            children.add(vBox);
-            for(int j = 0; j < rt.get(i).size(); j++){
-                try {
+            for (int i = 0; i < rt.size(); i++) {
+                VBox vBox = new VBox();
+                children.add(vBox);
+                for (int j = 0; j < rt.get(i).size(); j++) {
                     Button b = new Button();
                     String s = String.valueOf(i) + String.valueOf(j);
                     b.setId(s);
@@ -854,10 +857,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
                     vBox.getChildren().add(b);
                 }
-                catch(NullPointerException e){
-                    LOGGER.log(Level.INFO, "Trying to display null roudntrack");
-                }
+
             }
+        }
+        catch(NullPointerException e){
+            LOGGER.log(Level.INFO, "Trying to display null roudntrack");
         }
     }
 
@@ -930,6 +934,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
         if(isShowingDP) Platform.runLater(this::fillerDraftPool);
+        if(isShowingRT) Platform.runLater(this::fillerRoundTrack);
         Platform.runLater(this::fillerMainBoard);
     }
 
@@ -960,12 +965,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             }
 
             else{
-                try{
-                    b.setBackground(null);
-                }
-                catch(RuntimeException e){
-                    //empty background
-                }
+                path = "/dice/white.jpg";
             }
         }
 
@@ -1182,6 +1182,11 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
 
                     if (cell.getValueR() != null) {
                         String path = "/dice/grey/" + cell.getValueR().toString().toLowerCase() + ".jpg";
+                        Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
+                        grid.add(new ImageView(imageCell), col, row);
+                    }
+                    else{
+                        String path = "/dice/white.jpg";
                         Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
                         grid.add(new ImageView(imageCell), col, row);
                     }
