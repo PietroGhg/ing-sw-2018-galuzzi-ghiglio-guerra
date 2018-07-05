@@ -748,10 +748,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             Button b = (Button) e.getSource();
             String s = b.getId();
             int round = Integer.valueOf(s.charAt(0)) - 48; //48 because ASCII
-            System.out.println(round);
             rawNotify(new RawRequestedMessage(round));
             int die = Integer.valueOf(s.charAt(1)) - 48;
-            System.out.println(die);
             rawNotify(new RawRequestedMessage(die));
             latch.countDown();
         }
@@ -1180,7 +1178,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                         grid.add(new ImageView(imageCell), col, row);
                     }
 
-                    if (cell.getValueR() != null) {
+                    else if (cell.getValueR() != null) {
                         String path = "/dice/grey/" + cell.getValueR().toString().toLowerCase() + ".jpg";
                         Image imageCell = new Image(getClass().getResourceAsStream(path), 30, 30, false, false);
                         grid.add(new ImageView(imageCell), col, row);

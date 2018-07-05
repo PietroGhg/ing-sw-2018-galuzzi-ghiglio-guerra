@@ -135,7 +135,7 @@ public class Extractor {
             ris.add(  toolCards.get(randomIndex) );
             toolCards.remove(randomIndex);
         }
-        
+
         return ris;
 
 

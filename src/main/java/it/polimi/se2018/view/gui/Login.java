@@ -54,6 +54,7 @@ public class Login {
     private TextField ipaddress;
     @FXML
     private Button play;
+    private Stage stage;
 
     public void handlePlay() throws IOException {
         boolean isMissing = false;
@@ -133,6 +134,7 @@ public class Login {
 
         //Initiates controller, modelrep, vcguimessagecreator
         FXMLLoader loader = showLoading(); //initializes loader
+        stage.show();
         GUIcontroller guiController = loader.getController();
 
         ModelRepresentation modelRep = new ModelRepresentation();
@@ -181,9 +183,9 @@ public class Login {
             serverService.checkEnoughPlayers();
 
             //starts the polling thread
-            Stage stage = (Stage) play.getScene().getWindow();
-            stage.close();
-
+            Stage stage1 = (Stage) play.getScene().getWindow();
+            stage1.close();
+            stage.show();
             timer = new ClientPollingTimer(serverService, guiController);
             timer.startPolling();
         }
@@ -201,28 +203,25 @@ public class Login {
     private void missing(String errorM){
 
             Scene window = new Scene(new Label(errorM), 463, 55);
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Error");
-            stage.setResizable(false);
-            stage.show();
-
-
+            Stage stage1 = new Stage();
+            stage1.setScene(window);
+            stage1.setTitle("Error");
+            stage1.setResizable(false);
+            stage1.show();
     }
 
     private FXMLLoader showLoading() throws GUIErrorException{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
             Scene window = new Scene(loader.load());
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setScene(window);
             stage.setTitle("Loading");
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.setOnCloseRequest(confirmCloseEventHandler );
-            stage.show();
-            return loader;
 
+            return loader;
         }
         catch(IOException e){
             LOGGER.log(Level.SEVERE,e.getMessage());
