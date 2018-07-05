@@ -54,7 +54,6 @@ public class VCMessageCreator implements RawInputObserver {
                 view.displayMessage("Not your turn.");
                 return;
             }
-            view.setAsking();
             parametersGetter = new ParameterGetterDie();
             message = new VCDieMessage(view.getPlayerID());
             parametersGetter.getParameters(view);
@@ -93,14 +92,12 @@ public class VCMessageCreator implements RawInputObserver {
         if(toolCardID == 6){
             message = new VCToolMessage(view.getPlayerID(), toolCardID);
             view.getDraftPoolIndex();
-            view.setAsking();
             int dpIndex = message.getParameters().get(0);
             cardSixAction(dpIndex);
             view.notifyController(message);
         }
         else if(toolCardID == 11){
             message = new VCToolMessage(view.getPlayerID(), toolCardID);
-            view.setAsking();
             view.getDraftPoolIndex();
             cardElevenAction();
             view.notifyController(message);
@@ -109,7 +106,6 @@ public class VCMessageCreator implements RawInputObserver {
             try {
                 parametersGetter = pgFactory.get(toolCardID);
                 message = new VCToolMessage(view.getPlayerID(), toolCardID);
-                view.setAsking();
                 parametersGetter.getParameters(view);
                 view.notifyController(message);
             }

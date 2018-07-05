@@ -43,10 +43,9 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     private boolean inputLoop;
     private final Object lock = new Object();
     private InputThread inputThread;
-    private AskingThread askingThread;
     private List<RawInputObserver> rawObservers;
-    private boolean isAsking; //flag set to true when VCMessageCreator is performing a series of request
-
+    //private boolean isAsking; //flag set to true when VCMessageCreator is performing a series of request
+    private boolean timedOut;
     public View(String playerName, ModelRepresentation modelRepresentation) {
         this.modelRepresentation = modelRepresentation;
         playerID = 0;
@@ -54,8 +53,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         rawObservers = new ArrayList<>();
         gameLoop = true;
         inputLoop = true;
-        isAsking = false;
-        askingThread = new AskingThread();
+        timedOut = false;
         inputThread = new InputThread(this, lock);
     }
 
@@ -75,7 +73,6 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         }
         updateMR(message);
         inputThread.start();
-        askingThread.start();
     }
 
     public void visit(MVNewTurnMessage message) {
@@ -97,11 +94,10 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
 
-        if(!isAsking) {
-            synchronized (lock) {
-                inputLoop = true;
-                lock.notifyAll();
-            }
+
+        synchronized (lock) {
+            inputLoop = true;
+            lock.notifyAll();
         }
     }
 
@@ -133,7 +129,6 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             modelRepresentation.setPuCards(message.getPuCards());
             updateMR(message);
             inputThread.start();
-            askingThread.start();
         } else {
             out.println(message.getMessage());
         }
@@ -146,6 +141,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
     public void visit(MVTimesUpMessage message) {
         if(message.getPlayerID() == playerID){
             out.println("Time's up. End of your turn.");
+            timedOut = true;
         }
     }
 
@@ -335,8 +331,12 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
      */
     public void notifyController(VCAbstractMessage message) {
         inputLoop = false;
-        isAsking = false;
-        inputThread.notifyController(message);
+        if(!timedOut)
+            inputThread.notifyController(message);
+        else {
+            displayMessage("Turn timed out.");
+            timedOut = false;
+        }
     }
 
     public void rawRegister(RawInputObserver observer) {
@@ -373,9 +373,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         out.println(modelRepresentation.getDraftPool().toString());
     }
 
-    public void setAsking(){
-        isAsking = true;
-    }
+
 
     /**
      * Thread used to prevent overlays of user requested and unrequested input
@@ -417,35 +415,6 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             rawNotify(new RawUnrequestedMessage(move));
         }
     }
-
-    /**
-     * Thread used to periodically check if InputThread must be woke up
-     */
-    private class AskingThread extends Thread{
-        private Timer timer;
-        private TimerTask timerTask;
-
-        AskingThread(){
-            timer = new Timer();
-            timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    if(!isAsking && inputThread.getState() == State.TIMED_WAITING){
-                        inputLoop = true;
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
-                    }
-                }
-            };
-        }
-
-        @Override
-        public void run(){
-            timer.scheduleAtFixedRate(timerTask, 5000, 5000);
-        }
-    }
-
 
 
 }
