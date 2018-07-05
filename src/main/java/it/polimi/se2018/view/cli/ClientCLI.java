@@ -22,6 +22,7 @@ public class ClientCLI {
             }
             catch(InputMismatchException e){
                 srChoice = 0;
+                scanner.next();
             }
         }while(!(srChoice == 1 || srChoice == 2));
 

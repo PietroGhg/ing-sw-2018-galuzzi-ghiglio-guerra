@@ -177,8 +177,14 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
         do {
             out.println("Choose wpc number (From 1 to 4)");
-            choice = in.nextInt();
-        } while (choice < 1 || choice > 4);
+            try {
+                choice = in.nextInt();
+            }
+            catch(InputMismatchException e){
+                choice = 0;
+                in.next();
+            }
+        } while (!(choice >= 1 && choice <= 4));
 
         WPC chosen = extracted.get(choice);
         modelRepresentation.setWpcs(playerID, chosen);
@@ -200,6 +206,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             }
             catch(InputMismatchException e){
                 row = -1;
+                input.next();
             }
         }while(!(row >= 0 && row <= 3));
         rawNotify(new RawRequestedMessage(row));
@@ -212,6 +219,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             }
             catch(InputMismatchException e){
                 column = -1;
+                input.next();
             }
         }while(!(column >= 0 && column <= 4));
         rawNotify(new RawRequestedMessage(column));
@@ -274,6 +282,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
             }
             catch(InputMismatchException e){
                 value = 0;
+                input.next();
             }
         }while(!(value == -1 || value == 1));
         rawNotify(new RawRequestedMessage(value));
@@ -281,11 +290,17 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
 
 
     public void getDraftPoolIndex() {
-        out.println("Insert DraftPool Index");
         Scanner input = new Scanner(System.in);
         int index;
         do {
-            index = input.nextInt();
+            out.println("Insert DraftPool Index");
+            try {
+                index = input.nextInt();
+            }
+            catch(InputMismatchException e){
+                index = -1;
+                input.next();
+            }
         }while(!(index >= 0 && index < modelRepresentation.getDraftPool().size()));
         rawNotify(new RawRequestedMessage(index));
 

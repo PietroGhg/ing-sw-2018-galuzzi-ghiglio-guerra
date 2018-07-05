@@ -9,7 +9,6 @@ import it.polimi.se2018.controller.vcmessagecreator.RawUnrequestedMessage;
 import it.polimi.se2018.exceptions.GUIErrorException;
 import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.wpc.Cell;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.Observer;
@@ -32,9 +31,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,6 +115,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private ImageView PUV2;
     @FXML
     private ImageView PRV;
+    @FXML
+    private HBox roundTrack;
 
 
 
@@ -217,8 +216,8 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             String prInUse = modelRepresentation.getPrCard();
-            Image pri = new Image(getClass().getResourceAsStream("/ToolCards/" + prInUse + ".jpg"));
-            PRV = new ImageView(pri); 
+            Image pri = new Image(getClass().getResourceAsStream("/PrCards/" + prInUse + ".jpg"));
+            PRV.setImage(pri);
             stage.show();
             Stage st = (Stage)image.getScene().getWindow();
             st.close();
@@ -337,7 +336,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void showPuCards() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
-        loader.setLocation(getClass().getResource("/fxml/puCards.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/ObjCards.fxml"));
         Scene window = new Scene(loader.load(), 600, 400);
         Stage stage = new Stage();
         stage.setScene(window);
@@ -348,7 +347,6 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         Image pbi0 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[0] + ".jpg"));
         Image pbi1 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[1] + ".jpg"));
         Image pbi2 = new Image(getClass().getResourceAsStream("/PuCards/" + pbInUse[2] + ".jpg"));
-
         PUV0.setImage(pbi0);
         PUV1.setImage(pbi1);
         PUV2.setImage(pbi2);
@@ -732,12 +730,31 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      * Sets the RT_POS_REQUEST
      */
     public void getRoundTrackPosition(String s) {
-        System.out.println(modelRepresentation.getRoundTrackString());
+        /*System.out.println(modelRepresentation.getRoundTrackString());
         Scanner in = new Scanner(System.in);
         int round = in.nextInt();
         int pos = in.nextInt();
         rawNotify(new RawRequestedMessage(round));
-        rawNotify(new RawRequestedMessage(pos));
+        rawNotify(new RawRequestedMessage(pos));*/
+        displayMessage(s);
+        setState(State.RT_POSITION_REQUEST);
+        latch.reset();
+        latch.await();
+    }
+
+    @FXML
+    private void rtSelected(Event e){
+        if(state == State.RT_POSITION_REQUEST) {
+            Button b = (Button) e.getSource();
+            String s = b.getId();
+            int round = Integer.valueOf(s.charAt(0)) - 48; //48 because ASCII
+            System.out.println(round);
+            rawNotify(new RawRequestedMessage(round));
+            int die = Integer.valueOf(s.charAt(1)) - 48;
+            System.out.println(die);
+            rawNotify(new RawRequestedMessage(die));
+            latch.countDown();
+        }
     }
 
     /**
@@ -797,11 +814,51 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
             stage.setResizable(false);
             stage.show();
+            fillerRoundTrack();
         } catch (IOException e) {
             String s = Arrays.toString(e.getStackTrace());
             LOGGER.log(Level.SEVERE, s);
         }
 
+    }
+
+    private void fillerRoundTrack(){
+        List<List<Die>> rt = modelRepresentation.getRoundTrack();
+        List<Node> children = roundTrack.getChildren();
+
+        for (Node n : children) {
+            children.remove(n);
+        }
+
+        for(int i = 0; i < rt.size(); i++){
+            VBox vBox = new VBox();
+            children.add(vBox);
+            for(int j = 0; j < rt.get(i).size(); j++){
+                try {
+                    Button b = new Button();
+                    String s = String.valueOf(i) + String.valueOf(j);
+                    b.setId(s);
+                    b.setOnAction(this::rtSelected);
+
+                    Die d = rt.get(i).get(j);
+                    int val = d.getDieValue();
+                    Colour c = d.getDieColour();
+                    String path = "/dice/" + c.toString().toLowerCase() + "/" + val + ".jpg";
+
+                    BackgroundSize bgs = new BackgroundSize(100, 100, true, true, true, false);
+                    BackgroundImage backgroundImage = new BackgroundImage(
+                            new Image(getClass().getResource(path).toExternalForm()),
+                            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, bgs);
+                    Background background = new Background(backgroundImage);
+                    b.setBackground(background);
+
+                    vBox.getChildren().add(b);
+                }
+                catch(NullPointerException e){
+                    LOGGER.log(Level.INFO, "Trying to display null roudntrack");
+                }
+            }
+        }
     }
 
 

@@ -24,6 +24,7 @@ public class Client {
             }
             catch(InputMismatchException e){
                 choice = 0;
+                in.next();
             }
         }while(!(choice == 1 || choice == 2));
 
