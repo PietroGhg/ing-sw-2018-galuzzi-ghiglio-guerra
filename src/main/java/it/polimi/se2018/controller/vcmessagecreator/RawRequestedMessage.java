@@ -12,11 +12,6 @@ public class RawRequestedMessage implements RawInputMessage{
         c.visit(this);
     }
 
-    @Override
-    public void accept(VCGUIMessageCreator c) {
-        c.visit(this);
-    }
-
     public RawRequestedMessage(int input){
         this.value = input;
     }

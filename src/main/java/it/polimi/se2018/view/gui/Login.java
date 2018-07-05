@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.controller.vcmessagecreator.VCGUIMessageCreator;
+
+import it.polimi.se2018.controller.vcmessagecreator.VCMessageCreator;
 import it.polimi.se2018.exceptions.GUIErrorException;
 import it.polimi.se2018.exceptions.GameStartedException;
 import it.polimi.se2018.exceptions.UserNameTakenException;
@@ -13,11 +14,9 @@ import it.polimi.se2018.networking.client.socket.SocketServerConnection;
 import it.polimi.se2018.networking.server.rmi.RMIClientConnection;
 import it.polimi.se2018.utils.rmi.SockToRMIObserverAdapter;
 import it.polimi.se2018.view.cli.ModelRepresentation;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -84,9 +83,6 @@ public class Login {
             missing(errorMessage);
         }
         else{
-
-
-
             if(s.equals("socket")){
                 try {
                     int pn = Integer.valueOf(portnumber.getText());
@@ -133,12 +129,12 @@ public class Login {
 
 
         //Initiates controller, modelrep, vcguimessagecreator
-        FXMLLoader loader = showLoading(); //initializes loader
+        FXMLLoader loader = prepareLoadingScreen(); //initializes loader
         stage.show();
         GUIcontroller guiController = loader.getController();
 
         ModelRepresentation modelRep = new ModelRepresentation();
-        VCGUIMessageCreator vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
+        VCMessageCreator vcMessageCreator = new VCMessageCreator(guiController, modelRep);
         guiController.displayMessage("Welcome to Sagrada, wait for other players.");
         guiController.setPlayerName(username);
 
@@ -147,8 +143,8 @@ public class Login {
         guiController.register(serverConnection);
         serverConnection.register(guiController);
         guiController.rawRegister(vcMessageCreator);
-        Stage stage = (Stage) play.getScene().getWindow();
-        stage.close();
+        Stage stage1 = (Stage) play.getScene().getWindow();
+        stage1.close();
         new Thread((SocketServerConnection)serverConnection).start();
 
     }
@@ -156,7 +152,7 @@ public class Login {
     private void rmiConnect(String username, String ip) throws GUIErrorException{
         RMIClientConnection serverService;
         ModelRepresentation modelRep;
-        VCGUIMessageCreator vcMessageCreator;
+        VCMessageCreator vcMessageCreator;
         ClientPollingTimer timer;
         RMIServerConnection rmiServerConnection;
         try {
@@ -169,11 +165,11 @@ public class Login {
 
             //instantiates modelrep and vcmessagecreator, registers observers
             modelRep = new ModelRepresentation();
-            FXMLLoader loader = showLoading(); //initializes guiController
+            FXMLLoader loader = prepareLoadingScreen(); //initializes guiController
             GUIcontroller guiController = loader.getController();
             guiController.setPlayerName(username);
             guiController.init(modelRep);
-            vcMessageCreator = new VCGUIMessageCreator(guiController, modelRep);
+            vcMessageCreator = new VCMessageCreator(guiController, modelRep);
             guiController.rawRegister(vcMessageCreator);
             guiController.register(new ServerConnectionAdapter(rmiServerConnection));
             rmiServerConnection.register(new SockToRMIObserverAdapter<>(guiController));
@@ -210,7 +206,7 @@ public class Login {
             stage1.show();
     }
 
-    private FXMLLoader showLoading() throws GUIErrorException{
+    private FXMLLoader prepareLoadingScreen() throws GUIErrorException{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
             Scene window = new Scene(loader.load());
@@ -235,13 +231,13 @@ public class Login {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/exitConfirmation.fxml"));
             Scene window = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setScene(window);
-            stage.setTitle("Exit");
-            stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
-            stage.setResizable(false);
+            Stage stage1 = new Stage();
+            stage1.setScene(window);
+            stage1.setTitle("Exit");
+            stage1.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
+            stage1.setResizable(false);
             event.consume();
-            stage.show();
+            stage1.show();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
         }

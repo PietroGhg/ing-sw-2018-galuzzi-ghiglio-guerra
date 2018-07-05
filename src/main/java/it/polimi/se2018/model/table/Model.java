@@ -340,10 +340,13 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     private void setData(MVGameMessage message){
-        //set up wpcs
+        Map<String, Integer> favourT = new HashMap();
+        //set up wpcs and favor tokens
         for(Player p: players){
             message.setWpc(p.getPlayerID(), p.getWpc());
+            favourT.put(p.getName(), p.getFavorTokens());
         }
+        message.setFavourT(favourT);
         //set up draftpool
         message.setDraftPool(draftPool);
         //set up roundtrack

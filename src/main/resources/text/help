@@ -10,3 +10,4 @@ show prcard: displays private card
 show toolcards: displays toolcards in use
 show myboard: displays your board
 show boards: displays the other player's boards
+show favortokens: displays favor tokens

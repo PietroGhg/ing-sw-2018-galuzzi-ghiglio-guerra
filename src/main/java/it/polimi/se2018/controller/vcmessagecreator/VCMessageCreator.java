@@ -11,24 +11,26 @@ import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.wpc.WPC;
 import it.polimi.se2018.utils.RawInputObserver;
+import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.view.cli.ModelRepresentation;
 import it.polimi.se2018.view.cli.View;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class for the message creator from View to Controller
  * no System.Out used, input from View is called
  */
 public class VCMessageCreator implements RawInputObserver {
-    private View view;
+    private ViewInterface view;
     private PGFactory pgFactory;
     private ParameterGetter parametersGetter;
     private ModelRepresentation modelRep;
     private VCAbstractMessage message;
 
-    public VCMessageCreator(View view, ModelRepresentation modelRep){
+    public VCMessageCreator(ViewInterface view, ModelRepresentation modelRep){
         pgFactory = new PGFactory();
         this.modelRep = modelRep;
         this.view = view;
@@ -142,9 +144,10 @@ public class VCMessageCreator implements RawInputObserver {
             for(String puCard: puCards){
                 showFile(puCard);
             }
-
         }
-
+        else if(toShow.equalsIgnoreCase("favortokens")){
+            showFavorTokens();
+        }
         else if(toShow.equalsIgnoreCase("prcard")){
             String prCard = modelRep.getPrCard();
             showFile(prCard);
@@ -152,6 +155,18 @@ public class VCMessageCreator implements RawInputObserver {
 
         else{view.displayMessage("Input not valid");}
 
+    }
+
+    private void showFavorTokens(){
+        Map<String, Integer> favourT = modelRep.getFavourT();
+        StringBuilder builder = new StringBuilder();
+        for(Map.Entry<String, Integer> entry: favourT.entrySet()){
+            builder.append(entry.getKey());
+            builder.append(": ");
+            builder.append(entry.getValue());
+            builder.append("\n");
+        }
+        view.displayMessage(builder.toString());
     }
 
     /**

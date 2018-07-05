@@ -362,7 +362,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
      */
     public void diceMove() {
         if(state == State.WAIT_MOVE)
-        rawNotify(new RawUnrequestedMessage("dicemove"));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    rawNotify(new RawUnrequestedMessage("dicemove"));
+                }
+            }).start();
 
     }
 
@@ -386,7 +391,12 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         stage.close();
 
         if(state == State.WAIT_MOVE)
-            rawNotify(new RawUnrequestedMessage("toolcard " + id));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    rawNotify(new RawUnrequestedMessage("toolcard " + id));
+                }
+            }).start();
 
 
     }
@@ -928,6 +938,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setWpcs(message.getWpcs());
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
+        modelRepresentation.setFavourT(message.getFavourT());
 
         if(isShowingDP) Platform.runLater(this::fillerDraftPool);
         if(isShowingRT) Platform.runLater(this::fillerRoundTrack);
