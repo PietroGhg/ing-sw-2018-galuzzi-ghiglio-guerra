@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.PuCards">
+   <children>
+      <ImageView fx:id="PUV0" fitHeight="185.0" fitWidth="149.0" layoutX="14.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="PUV1" fitHeight="185.0" fitWidth="149.0" layoutX="226.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="PUV2" fitHeight="185.0" fitWidth="149.0" layoutX="437.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
