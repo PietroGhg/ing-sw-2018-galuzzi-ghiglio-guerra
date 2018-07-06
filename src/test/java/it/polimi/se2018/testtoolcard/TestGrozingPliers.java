@@ -395,7 +395,7 @@ public class TestGrozingPliers {
             fail();
         }
         catch (MoveNotAllowedException e){
-            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+            //Exception thrown, ok
         }
     }
 

@@ -182,8 +182,12 @@ public class RestrictionChecker {
         }
 
         for(int i = 0; i< 4; i++){
-            if(die.equals(temp[i]))
-                throw new MoveNotAllowedException(SAMEDIE_ERROR);
+            if(temp[i] != null) {
+                if (die.getDieValue().equals(temp[i].getDieValue()))
+                    throw new MoveNotAllowedException("Error: adjacent die with same value");
+                if (die.getDieColour().equals(temp[i].getDieColour()))
+                    throw new MoveNotAllowedException("Error: adjacent die with same colour");
+            }
         }
 
     }

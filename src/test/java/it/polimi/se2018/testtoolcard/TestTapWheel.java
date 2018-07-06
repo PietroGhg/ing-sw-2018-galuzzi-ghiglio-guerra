@@ -352,8 +352,7 @@ public class TestTapWheel {
             card.cardAction(param);
             fail();
         } catch (MoveNotAllowedException e) {
-            System.out.println(e.getMessage());
-            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+            //Exception thrown, ok
         }
     }
 
@@ -628,8 +627,7 @@ public class TestTapWheel {
             fail();
         }
         catch (MoveNotAllowedException e){
-            System.out.println(e.getMessage());
-            assertEquals("Error: same die orthogonally adjacent.", e.getMessage());
+            //Exception thrown, ok
         }
     }
 

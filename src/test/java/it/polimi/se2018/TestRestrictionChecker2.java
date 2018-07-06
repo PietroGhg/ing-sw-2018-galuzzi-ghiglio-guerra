@@ -74,7 +74,7 @@ public class TestRestrictionChecker2 {
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+            assertEquals("Error: adjacent die with same value", e.getMessage());
         }
 
         try {
@@ -82,28 +82,69 @@ public class TestRestrictionChecker2 {
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+            assertEquals("Error: adjacent die with same value", e.getMessage());
         }
         try {
             restr.checkSameDie(wpc, 2, 3, new Die(4, Colour.GREEN));
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+            assertEquals("Error: adjacent die with same value", e.getMessage());
         }
         try {
             restr.checkSameDie(wpc, 1, 2, new Die(4, Colour.GREEN));
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+            assertEquals("Error: adjacent die with same value", e.getMessage());
         }
         try {
             restr.checkSameDie(wpc, 3, 2, new Die(4, Colour.GREEN));
             fail("Expected exception");
         }
         catch(MoveNotAllowedException e){
-            assertEquals(RestrictionChecker.SAMEDIE_ERROR, e.getMessage());
+            assertEquals("Error: adjacent die with same value", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSame1b(){
+        RestrictionChecker restr = new RestrictionChecker();
+        try {
+            restr.checkSameDie(wpc, 1, 0, new Die(5, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: adjacent die with same colour", e.getMessage());
+        }
+
+        try {
+            restr.checkSameDie(wpc, 2, 1, new Die(5, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: adjacent die with same colour", e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 2, 3, new Die(5, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: adjacent die with same colour", e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 1, 2, new Die(5, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: adjacent die with same colour", e.getMessage());
+        }
+        try {
+            restr.checkSameDie(wpc, 3, 2, new Die(5, Colour.GREEN));
+            fail("Expected exception");
+        }
+        catch(MoveNotAllowedException e){
+            assertEquals("Error: adjacent die with same colour", e.getMessage());
         }
     }
 
@@ -113,7 +154,7 @@ public class TestRestrictionChecker2 {
         RestrictionChecker restr = new RestrictionChecker();
         try{
             //adjacent die, different value
-            restr.checkSameDie(wpc, 0, 1, new Die(2, Colour.GREEN));
+            restr.checkSameDie(wpc, 0, 1, new Die(2, Colour.YELLOW));
         }
         catch (MoveNotAllowedException e) {
             fail();
