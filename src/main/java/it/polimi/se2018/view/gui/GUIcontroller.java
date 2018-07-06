@@ -658,9 +658,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             displayMessage("Die not placeable.");
         } else {
             disableBoard(validCoordinates);
+            latch.reset();
+            latch.await();
         }
-        latch.reset();
-        latch.await();
     }
 
     /**
@@ -739,14 +739,15 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     public void increment(Event event){
         Button b = (Button) event.getSource();
         String label = b.getId();
-        if(label.equals("increment")){
+        if(label.equals("increase")){
             rawNotify(new RawRequestedMessage(1));
-            latch.countDown();
         }
         else{
             rawNotify(new RawRequestedMessage(-1));
-            latch.countDown();
         }
+        Stage s = (Stage)b.getScene().getWindow();
+        s.close();
+        latch.countDown();
     }
 
     /**

@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.toolcard.FluxBrush;
+import it.polimi.se2018.controller.toolcard.GrozingPliers;
 import it.polimi.se2018.exceptions.InputNotValidException;
 import it.polimi.se2018.model.objectivecards.ObjectiveCardFactory;
 import it.polimi.se2018.model.objectivecards.privateobjectivecard.PrivateObjectiveCard;
@@ -135,7 +137,6 @@ public class Extractor {
             ris.add(  toolCards.get(randomIndex) );
             toolCards.remove(randomIndex);
         }
-
         return ris;
 
 
