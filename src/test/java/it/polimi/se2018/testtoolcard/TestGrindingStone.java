@@ -311,7 +311,7 @@ public class TestGrindingStone {
         player.setWpc(before);
         player.setFavorTokens(4);
         model.addPlayer(player);
-        param.addParameter(1);
+        param.addParameter(2);
         param.addParameter(0);
         param.addParameter(0);
         param.setDraftPool(beforeDP);
@@ -339,7 +339,7 @@ public class TestGrindingStone {
         param3 = new PlayerMoveParameters(player.getPlayerID(), model);
         param3.addParameter(3);
         param3.addParameter(2);
-        param3.addParameter(2);
+        param3.addParameter(0);
         try {
             card.cardAction(param3);
             fail();

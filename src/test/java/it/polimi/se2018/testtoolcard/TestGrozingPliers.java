@@ -410,7 +410,7 @@ public class TestGrozingPliers {
         player.setWpc(before);
         player.setFavorTokens(4);
         model.addPlayer(player);
-        param.addParameter(1);
+        param.addParameter(3);
         param.addParameter(+1);
         param.addParameter(0);
         param.addParameter(4);
@@ -427,7 +427,7 @@ public class TestGrozingPliers {
         param2 = new PlayerMoveParameters(player.getPlayerID(), model);
         param2.addParameter(0);
         param2.addParameter(+1);
-        param2.addParameter(1);
+        param2.addParameter(3);
         param2.addParameter(0);
         try {
             card.cardAction(param2);

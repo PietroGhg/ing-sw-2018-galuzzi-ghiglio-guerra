@@ -1,6 +1,6 @@
 package it.polimi.se2018.utils;
 
-import org.fusesource.jansi.AnsiConsole;
+//import org.fusesource.jansi.AnsiConsole;
 
 import java.util.Scanner;
 
@@ -27,7 +27,7 @@ public class Printer{
 
     public void println(String s){
         if(jAnsiActive){
-            AnsiConsole.out.println(s);
+            //AnsiConsole.out.println(s);
         }
         else System.out.println(s);
     }

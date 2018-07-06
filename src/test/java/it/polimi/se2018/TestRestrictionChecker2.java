@@ -162,7 +162,7 @@ public class TestRestrictionChecker2 {
 
         try {
             //adjacent die, different colour
-            restr.checkSameDie(wpc, 0, 1, new Die(4, Colour.RED));
+            restr.checkSameDie(wpc, 0, 1, new Die(6, Colour.RED));
         }
         catch (MoveNotAllowedException e){
             fail();
