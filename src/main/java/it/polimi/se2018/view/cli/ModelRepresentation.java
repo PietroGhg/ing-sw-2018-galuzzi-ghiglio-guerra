@@ -18,6 +18,7 @@ public class ModelRepresentation {
     private List<String> toolCards;
     private Map<Integer, WPC> wpcs;
     private Map<Integer, WPC> selected;
+    private Map<Integer, String> playerNames;
     private Map<String, Integer> favourT;
     private DiceBag diceBag;
     private int currPlayer;
@@ -105,5 +106,13 @@ public class ModelRepresentation {
 
     public void setFavourT(Map<String, Integer> favourT) {
         this.favourT = favourT;
+    }
+
+    public Map<Integer, String> getPlayerNames() {
+        return playerNames;
+    }
+
+    public void setPlayerNames(Map<Integer, String> playerNames) {
+        this.playerNames = playerNames;
     }
 }

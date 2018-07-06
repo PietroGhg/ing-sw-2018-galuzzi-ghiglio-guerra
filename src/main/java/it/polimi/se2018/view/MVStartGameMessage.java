@@ -5,7 +5,7 @@ import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
 /**
- * Class for the messages from the Model to the View, concerning the game starting
+ * Class for the messages from the Model to the View, notifies the beginning of the actual game
  */
 public class MVStartGameMessage extends MVGameMessage {
 

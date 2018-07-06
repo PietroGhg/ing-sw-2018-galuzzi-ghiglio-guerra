@@ -4,7 +4,7 @@ import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
 /**
- * Class for the messages from the Model to the View, concerning the disconnection
+ * Class for the messages from the Model to the View, notifies the players that another player disconnected
  */
 public class MVDiscMessage extends MVAbstractMessage {
     private String message;

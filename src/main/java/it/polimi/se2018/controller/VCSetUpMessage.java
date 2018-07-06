@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller;
 
 /**
- * Class for the messages from the View to the Controller, concerning set up
+ * Class for the messages from the View to the Controller, contains the id of the chosen window pattern card
  */
 public class VCSetUpMessage extends VCAbstractMessage {
     private int chosenWpc;

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class for the messages from the Model to the View, which contains the strings representing
- * the extracted boards and an array containing the IDs of the boards.
+ * Class for the messages from the Model to the View, contains a Map with the extracted boards and
+ * the strings with the names of the extracted objective and tool cards
  * @author Pietro Ghiglio
  */
 public class MVSetUpMessage extends MVAbstractMessage {

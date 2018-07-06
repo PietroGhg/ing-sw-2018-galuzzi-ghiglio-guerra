@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller;
 
 /**
- * Class for the messages from the View to the Controller, concerning dice
+ * Class for the messages from the View to the Controller, signals that a player performed a dice placement
  */
 public class VCDieMessage extends VCAbstractMessage {
     public VCDieMessage(int playerID){

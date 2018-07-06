@@ -6,10 +6,11 @@ import javafx.application.Platform;
 import java.util.List;
 
 /**
- * Class for the messages from the Model to the View, sent when a player reconnects
+ * Class for the messages from the Model to the View, sent when a player reconnects.
+ * Contains also the string representing the extracted cards.
  */
 public class MVWelcomeBackMessage extends MVGameMessage {
-    String playerName;
+    private String playerName;
     private String prCard;
     private String[] puCards;
     private List<String> tcInUse;
@@ -22,14 +23,10 @@ public class MVWelcomeBackMessage extends MVGameMessage {
     @Override
     public void accept(AbstractView view){ view.visit(this); }
 
+    @Override
     public void accept(GUIcontroller gc){
         MVWelcomeBackMessage m = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gc.visit(m);
-            }
-        });
+        Platform.runLater(() -> gc.visit(m));
     }
 
     public String getPrCard() {

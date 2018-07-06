@@ -94,6 +94,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
         modelRepresentation.setFavourT(message.getFavourT());
+        modelRepresentation.setPlayerNames(message.getPlayerNames());
 
         synchronized (lock) {
             inputLoop = true;
@@ -378,7 +379,8 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         for(id=1; id <= modelRepresentation.getNumPlayers(); id++){
             if(id!=playerID){
                 String board = modelRepresentation.getWpc(id).toString();
-                out.println(board);
+                String name = modelRepresentation.getPlayerNames().get(id);
+                out.println(name + ":\n" + board);
             }
         }
 
