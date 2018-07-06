@@ -30,7 +30,7 @@ public class Extractor {
     private static Extractor instance;
 
     private Extractor(){
-        List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightEdge", "EglomiseBrush",
+        List<String> staticToolCards = Arrays.asList("CopperFoilBurnisher", "CorkBackedStraightedge", "EglomiseBrush",
                 "FluxBrush", "FluxRemover", "GlazingHammer", "GrindingStone", "GrozingPliers", "Lathekin", "LensCutter", "RunningPliers",
                 "TapWheel");
         WpcGenerator gen = WpcGenerator.getInstance();
