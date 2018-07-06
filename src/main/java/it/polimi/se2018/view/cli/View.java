@@ -153,8 +153,7 @@ public class View extends AbstractView implements RawInputObservable, ViewInterf
         else{
             out.println(message.getMessage());
         }
-        out.println("Closing Sagrada.");
-        System.exit(0);
+        out.println("Write \"close\" to close sagrada.");
     }
 
     public void visit(MVDiscMessage message){

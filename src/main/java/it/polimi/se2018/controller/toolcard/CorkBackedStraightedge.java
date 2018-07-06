@@ -52,7 +52,7 @@ public class CorkBackedStraightedge extends ToolCard{  //Riga in Sughero
         rc.checkNotAdjacent(wpc,cellRow,cellCol);
 
         wpc.setDie(cellRow,cellCol,temp);
-        param.getDraftPool().get(dpIndex).remove();
+        param.getDraftPool().remove(dpIndex);
 
         player.setFavorTokens(player.getFavorTokens() - favorTokensNeeded);
         if (favorTokensNeeded == 1){

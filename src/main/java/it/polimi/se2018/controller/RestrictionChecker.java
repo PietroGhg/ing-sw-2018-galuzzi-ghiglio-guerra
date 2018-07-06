@@ -72,6 +72,7 @@ public class RestrictionChecker {
      * @author Leonardo Guerra, Pietro Ghiglio
      */
     public void checkNotAdjacent(WPC wpc, int row, int col) throws MoveNotAllowedException{
+        if(isEmpty(wpc)) return;
         try{
             checkAdjacent(wpc, row, col);
         }

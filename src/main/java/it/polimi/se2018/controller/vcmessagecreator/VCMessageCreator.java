@@ -67,6 +67,9 @@ public class VCMessageCreator implements RawInputObserver {
             view.notifyController(message);
         }
 
+        else if(playerInput.startsWith("close")){
+            System.exit(0);
+        }
         else if(playerInput.startsWith("show")) {
             try {
                 String[] temp = playerInput.split(" ");
