@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract class extended by the other messages from View to Controller
+ * Abstract class extended by the other messages from View to Controller.
+ * Contains the id of the player and the parameters of the performed move
  */
 public abstract class VCAbstractMessage implements Serializable {
     private int playerID;

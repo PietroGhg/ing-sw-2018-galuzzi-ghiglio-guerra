@@ -4,7 +4,7 @@ import it.polimi.se2018.view.gui.GUIcontroller;
 import javafx.application.Platform;
 
 /**
- * Class for the messages from the Model to the View, concerning the winner
+ * Class for the messages from the Model to the View, notifies the winner
  */
 public class MVWinnerMessage extends MVAbstractMessage {
     private String message;
@@ -20,12 +20,7 @@ public class MVWinnerMessage extends MVAbstractMessage {
 
     public void accept(GUIcontroller gc){
         MVWinnerMessage m = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gc.visit(m);
-            }
-        });
+        Platform.runLater(() -> gc.visit(m));
     }
 
     public String getMessage(){ return message; }

@@ -19,6 +19,7 @@ public class MVGameMessage extends MVAbstractMessage {
     private List<List<Die>> roundTrack;
     private List<Die> draftPool;
     private Map<Integer, WPC> wpcs;
+    private Map<Integer, String> playerNames;
     private Map<String, Integer> favourT;
     private DiceBag diceBag;
     private int currPlayer;
@@ -81,5 +82,13 @@ public class MVGameMessage extends MVAbstractMessage {
 
     public void setFavourT(Map<String, Integer> favourT){
         this.favourT = favourT;
+    }
+
+    public Map<Integer, String> getPlayerNames() {
+        return playerNames;
+    }
+
+    public void setPlayerNames(Map<Integer, String> playerNames) {
+        this.playerNames = playerNames;
     }
 }

@@ -1,7 +1,8 @@
 package it.polimi.se2018.controller;
 
 /**
- * Class for the messages from the View to the Controller, concerning tool cards
+ * Class for the messages from the View to the Controller, signals that a player used a toolcard.
+ * Contains the id of the toolcard.
  */
 public class VCToolMessage extends VCAbstractMessage {
     private int toolCardID;

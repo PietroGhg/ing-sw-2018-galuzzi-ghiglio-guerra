@@ -340,11 +340,13 @@ public class Model extends Observable<MVAbstractMessage> {
     }
 
     private void setData(MVGameMessage message){
-        Map<String, Integer> favourT = new HashMap();
+        Map<String, Integer> favourT = new HashMap<>();
+        Map<Integer, String> playerNamesMap = new HashMap<>();
         //set up wpcs and favor tokens
         for(Player p: players){
             message.setWpc(p.getPlayerID(), p.getWpc());
             favourT.put(p.getName(), p.getFavorTokens());
+            playerNamesMap.put(p.getPlayerID(), p.getName());
         }
         message.setFavourT(favourT);
         //set up draftpool
@@ -355,6 +357,8 @@ public class Model extends Observable<MVAbstractMessage> {
         message.setDiceBag(diceBag);
 
         message.setCurrPlayer(whoIsPlaying());
+
+        message.setPlayerNames(playerNamesMap);
     }
 
     public void setMVTimesUpMessage(){

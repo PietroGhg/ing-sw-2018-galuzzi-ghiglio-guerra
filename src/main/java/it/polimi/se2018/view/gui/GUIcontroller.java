@@ -133,11 +133,18 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private Label fav3;
     @FXML
     private Label fav4;
+    @FXML
+    private Label playerName1;
+    @FXML
+    private Label playerName2;
+    @FXML
+    private Label playerName3;
 
 
 
     private ModelRepresentation modelRepresentation;
     private Map<Integer, GridPane> playerPanes; //map that associates every playerID with the corresponding gridpane
+    private Map<Integer, Label> playerNames;
     private Map<String, Integer> fromTCnameToID;
     private List<RawInputObserver> rawObservers;
     private List<Observer<VCAbstractMessage>> observers;
@@ -924,6 +931,9 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
             WPC wpc = entry.getValue();
             int i = entry.getKey();
             if(i != playerID){
+                String name = modelRepresentation.getPlayerNames().get(i);
+                int favorT = modelRepresentation.getFavourT().get(name);
+                playerNames.get(i).setText("Name: " + name + " Favor tokens: " + favorT);
                 fillerWPC(wpc, playerPanes.get(i));
             }
         }
@@ -955,6 +965,7 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         modelRepresentation.setDiceBag(message.getDiceBag());
         modelRepresentation.setCurrPlayer(message.getCurrPlayer());
         modelRepresentation.setFavourT(message.getFavourT());
+        modelRepresentation.setPlayerNames(message.getPlayerNames());
 
         if(isShowingDP) Platform.runLater(this::fillerDraftPool);
         if(isShowingRT) Platform.runLater(this::fillerRoundTrack);
@@ -1245,11 +1256,19 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
         panes.add(mainWindow);
         panes.add(mainWindow1);
         panes.add(mainWindow2);
+        List<Label> labels = new ArrayList<>();
+        labels.add(playerName1);
+        labels.add(playerName2);
+        labels.add(playerName3);
         playerPanes = new HashMap<>();
+        playerNames = new HashMap<>();
 
+        int j = 0;
         for(int i = 1; i <= nPlayers; i++){
             if(i != playerID){
-                playerPanes.put(i, panes.get(i));
+                playerPanes.put(i, panes.get(j));
+                playerNames.put(i, labels.get(j));
+                j++;
             }
         }
     }
