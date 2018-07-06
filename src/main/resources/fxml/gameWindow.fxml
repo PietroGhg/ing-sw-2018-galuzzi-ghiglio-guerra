@@ -55,7 +55,7 @@
       <Button fx:id="showpucards" layoutX="21.0" layoutY="95.0" mnemonicParsing="false" onAction="#showPuCards" prefHeight="27.0" prefWidth="135.0" text="Show Public Cards" />
       <Button fx:id="showroundtrack" layoutX="22.0" layoutY="41.0" mnemonicParsing="false" onAction="#showRoundTrack" prefHeight="27.0" prefWidth="135.0" text="Show Round Track" />
       <Button fx:id="endTurn" layoutX="437.0" layoutY="340.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="27.0" prefWidth="103.0" text="EndTurn" />
-      <Label fx:id="displayMessage" layoutX="266.0" layoutY="19.0" prefHeight="17.0" prefWidth="208.0" text="Message">
+      <Label fx:id="displayMessage" layoutX="205.0" layoutY="19.0" prefHeight="17.0" prefWidth="334.0" text="Message">
          <font>
             <Font name="Arial Narrow Italic" size="13.0" />
          </font>
