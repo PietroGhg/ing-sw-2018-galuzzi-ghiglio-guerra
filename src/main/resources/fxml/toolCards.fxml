@@ -6,11 +6,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="TCV0" fitHeight="176.0" fitWidth="132.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="TCV1" fitHeight="176.0" fitWidth="132.0" layoutX="234.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="TCV2" fitHeight="176.0" fitWidth="132.0" layoutX="454.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="TC0" layoutX="68.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="1" />
-      <Button fx:id="TC1" layoutX="287.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="2" />
-      <Button fx:id="TC2" layoutX="507.0" layoutY="200.0" mnemonicParsing="false" onAction="#toolCard" text="3" />
+      <ImageView fx:id="TCV0" fitHeight="226.0" fitWidth="174.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="TCV1" fitHeight="226.0" fitWidth="174.0" layoutX="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="TCV2" fitHeight="226.0" fitWidth="174.0" layoutX="412.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="TC0" layoutX="68.0" layoutY="269.0" mnemonicParsing="false" onAction="#toolCard" text="1" />
+      <Button fx:id="TC1" layoutX="287.0" layoutY="269.0" mnemonicParsing="false" onAction="#toolCard" text="2" />
+      <Button fx:id="TC2" layoutX="507.0" layoutY="269.0" mnemonicParsing="false" onAction="#toolCard" text="3" />
    </children>
 </AnchorPane>

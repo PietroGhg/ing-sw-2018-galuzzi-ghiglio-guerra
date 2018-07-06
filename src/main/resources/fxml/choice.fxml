@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -70,14 +71,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <RadioButton fx:id="choice1" layoutX="68.0" layoutY="175.0" mnemonicParsing="false" selected="true" text="1">
+      <RadioButton fx:id="choice1" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" selected="true" text="1">
          <toggleGroup>
             <ToggleGroup fx:id="choice" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="choice2" layoutX="432.0" layoutY="175.0" mnemonicParsing="false" selected="true" text="2" toggleGroup="$choice" />
-      <RadioButton fx:id="choice3" layoutX="68.0" layoutY="368.0" mnemonicParsing="false" selected="true" text="3" toggleGroup="$choice" />
-      <RadioButton fx:id="choice4" layoutX="432.0" layoutY="368.0" mnemonicParsing="false" text="4" toggleGroup="$choice" />
+      <RadioButton fx:id="choice2" layoutX="386.0" layoutY="176.0" mnemonicParsing="false" selected="true" text="2" toggleGroup="$choice" />
+      <RadioButton fx:id="choice3" layoutX="13.0" layoutY="368.0" mnemonicParsing="false" selected="true" text="3" toggleGroup="$choice" />
+      <RadioButton fx:id="choice4" layoutX="386.0" layoutY="369.0" mnemonicParsing="false" text="4" toggleGroup="$choice" />
       <Button fx:id="confirm" layoutX="271.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleChoice" text="Confirm" />
+      <Label fx:id="name1" layoutX="46.0" layoutY="176.0" prefHeight="17.0" prefWidth="167.0" />
+      <Label fx:id="name3" layoutX="46.0" layoutY="369.0" prefHeight="17.0" prefWidth="167.0" />
+      <Label fx:id="name2" layoutX="418.0" layoutY="177.0" prefHeight="17.0" prefWidth="167.0" />
+      <Label fx:id="name4" layoutX="418.0" layoutY="370.0" prefHeight="17.0" prefWidth="167.0" />
+      <Label fx:id="fav1" layoutX="222.0" layoutY="83.0" />
+      <Label fx:id="fav2" layoutX="338.0" layoutY="83.0" />
+      <Label fx:id="fav3" layoutX="222.0" layoutY="269.0" />
+      <Label fx:id="fav4" layoutX="338.0" layoutY="269.0" />
    </children>
 </AnchorPane>

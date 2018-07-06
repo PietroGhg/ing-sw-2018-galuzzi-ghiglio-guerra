@@ -117,6 +117,22 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
     private ImageView PRV;
     @FXML
     private HBox roundTrack;
+    @FXML
+    private Label name1;
+    @FXML
+    private Label name2;
+    @FXML
+    private Label name3;
+    @FXML
+    private Label name4;
+    @FXML
+    private Label fav1;
+    @FXML
+    private Label fav2;
+    @FXML
+    private Label fav3;
+    @FXML
+    private Label fav4;
 
 
 
@@ -1060,19 +1076,32 @@ public class GUIcontroller implements ViewInterface, Observer<MVAbstractMessage>
                 stage.getIcons().add(new Image("https://d30y9cdsu7xlg0.cloudfront.net/png/14169-200.png"));
                 stage.setOnCloseRequest(event-> System.exit(0));
                 stage.setResizable(false);
+                WPC wpc = new WPC();
                 for (int i = 1; i <= 4; i++){
                     switch (i) {
                         case 1:
                             fillerWPC(modelRepresentation.getSelected().get(1), grid1);
+                            wpc=modelRepresentation.getSelected().get(1);
+                            fav1.setText(String.valueOf(wpc.getFavorTokens()));
+                            name1.setText(wpc.getName());
                             break;
                         case 2:
                             fillerWPC(modelRepresentation.getSelected().get(2), grid2);
+                            wpc=modelRepresentation.getSelected().get(2);
+                            fav2.setText(String.valueOf(wpc.getFavorTokens()));
+                            name2.setText(wpc.getName());
                             break;
                         case 3:
                             fillerWPC(modelRepresentation.getSelected().get(3), grid3);
+                            wpc=modelRepresentation.getSelected().get(3);
+                            fav3.setText(String.valueOf(wpc.getFavorTokens()));
+                            name3.setText(wpc.getName());
                             break;
                         case 4:
                             fillerWPC(modelRepresentation.getSelected().get(4), grid4);
+                            wpc=modelRepresentation.getSelected().get(4);
+                            fav4.setText(String.valueOf(wpc.getFavorTokens()));
+                            name4.setText(wpc.getName());
                             break;
                         default:
                             LOGGER.log(Level.SEVERE, "Error while displaying choice.");
